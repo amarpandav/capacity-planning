@@ -1,27 +1,33 @@
 package com.ubs.tools.cpt.shared.jpa;
 
 import com.ubs.tools.cpt.shared.sql.SelectQuery;
+import com.ubs.tools.cpt.shared.sql.SqlDialect;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class JpaQueryBuilder {
-    private final SelectQuery selectQuery;
+    private final Function<SqlDialect, String> selectQuerySupplier;
 
-    private JpaQueryBuilder(SelectQuery selectQuery) {
-        this.selectQuery = selectQuery;
+    private JpaQueryBuilder(Function<SqlDialect, String> selectQuerySupplier) {
+        this.selectQuerySupplier = selectQuerySupplier;
     }
 
     public static JpaQueryBuilder jpaQuery(SelectQuery selectQuery) {
-        return new JpaQueryBuilder(selectQuery);
+        return new JpaQueryBuilder(selectQuery::sql);
+    }
+
+    public static JpaQueryBuilder jpaQuery(String sqlQuery) {
+        return new JpaQueryBuilder(dialect -> sqlQuery);
     }
 
     public JpaQuery jpaParams(JpaQuery.Param... params) {
         if (params == null || params.length == 0) {
-            return new JpaQuery(selectQuery, Collections.emptySet());
+            return new JpaQuery(selectQuerySupplier, Collections.emptySet());
         }
 
-        return new JpaQuery(selectQuery, List.of(params));
+        return new JpaQuery(selectQuerySupplier, List.of(params));
     }
 
     public static JpaQuery.Param optionalParam(String name, Object value) {

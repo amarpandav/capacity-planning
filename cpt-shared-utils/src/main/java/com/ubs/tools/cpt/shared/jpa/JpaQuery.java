@@ -1,6 +1,5 @@
 package com.ubs.tools.cpt.shared.jpa;
 
-import com.ubs.tools.cpt.shared.sql.SelectQuery;
 import com.ubs.tools.cpt.shared.sql.SqlDialect;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
@@ -8,9 +7,10 @@ import jakarta.persistence.Tuple;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
-public record JpaQuery(SelectQuery selectQuery, Collection<Param> params) {
+public record JpaQuery(Function<SqlDialect, String> selectQuerySupplier, Collection<Param> params) {
     public record Param(String name, Object value, IncludeType includeType) {
         enum IncludeType {
             ALWAYS,
@@ -20,7 +20,7 @@ public record JpaQuery(SelectQuery selectQuery, Collection<Param> params) {
 
     @SuppressWarnings("SqlSourceToSinkFlow")
     public Query build(EntityManager em, SqlDialect dialect) {
-        var query = em.createNativeQuery(selectQuery.sql(dialect), Tuple.class);
+        var query = em.createNativeQuery(selectQuerySupplier.apply(dialect), Tuple.class);
 
         params.forEach(param -> {
             boolean notNullAndSet = param.includeType() == Param.IncludeType.NOT_NULL && param.value() != null;
@@ -35,25 +35,31 @@ public record JpaQuery(SelectQuery selectQuery, Collection<Param> params) {
     }
 
     public Query build(EntityManager em) {
-        return build(em, SqlDialect.GENERIC);
+        return build(em, SqlDialect.fromEntityManager(em));
     }
 
     @SuppressWarnings("unchecked")
-    public Stream<Tuple> getResultStream(EntityManager em, SqlDialect dialect) {
-        return build(em, dialect).getResultStream();
+    public Stream<Tuple> getResultStream(EntityManager em, OffsetLimit offsetLimit, SqlDialect dialect) {
+        return build(em, dialect)
+            .setFirstResult(offsetLimit.offset().orElse(0))
+            .setMaxResults(offsetLimit.limit().orElse(Integer.MAX_VALUE))
+            .getResultStream();
     }
 
     public Stream<Tuple> getResultStream(EntityManager em) {
-        return getResultStream(em, SqlDialect.GENERIC);
+        return getResultStream(em, OffsetLimit.none(), SqlDialect.fromEntityManager(em));
     }
 
     @SuppressWarnings("unchecked")
-    public List<Tuple> getResultList(EntityManager em, SqlDialect dialect) {
+    public List<Tuple> getResultList(EntityManager em, OffsetLimit offsetLimit, SqlDialect dialect) {
         return build(em, dialect).getResultList();
     }
 
     public List<Tuple> getResultList(EntityManager em) {
-        return getResultList(em, SqlDialect.GENERIC);
+        return getResultList(em, OffsetLimit.none(), SqlDialect.fromEntityManager(em));
     }
 
+    public Object getSingleResult(EntityManager em) {
+        return build(em).getSingleResult();
+    }
 }

@@ -22,7 +22,7 @@ import java.util.List;
 import static com.ubs.tools.cpt.web.data.AuraDataSourceConfiguration.AURA_PERSISTENCE_UNIT;
 
 @ContextConfiguration(initializers = AuraCorePostgresqlTestContextInitializer.class)
-@TestPropertySource("classpath:application.yml")
+@TestPropertySource("classpath:application-test.yml")
 public class AuraTestBase {
     private static final Logger LOG = LoggerFactory.getLogger(AuraTestBase.class);
 

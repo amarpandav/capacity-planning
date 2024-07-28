@@ -1,25 +1,24 @@
 package com.ubs.tools.cpt.shared.sql;
 
+import com.ubs.tools.cpt.shared.util.CollectionsUtil;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
-import java.util.stream.Stream;
+
+import static com.ubs.tools.cpt.shared.util.CollectionsUtil.listWithoutNulls;
 
 public class SqlQueryFunctions {
-
-    private static <T> List<T> toList(T[] args) {
-        if (arrayEmpty(args)) {
-            return Collections.emptyList();
-        }
-
-        return Stream.of(args).filter(Objects::nonNull).toList();
-    }
 
     public static <T extends SqlFragment> IncludeBuilder<T> include(T fragment) {
         return new IncludeBuilder<>(fragment);
     }
+
+    public static IncludeBuilder<RawFragment> include(String fragment) {
+        return new IncludeBuilder<>(raw(fragment));
+    }
+
 
     public static class IncludeBuilder<T extends SqlFragment> {
         private final T fragment;
@@ -45,10 +44,6 @@ public class SqlQueryFunctions {
 
     public static SqlFragment nullValue() {
         return raw("null");
-    }
-
-    private static <T> boolean arrayEmpty(T[] args) {
-        return args == null || args.length == 0;
     }
 
     public static SqlFragment param(String name) {
@@ -85,16 +80,16 @@ public class SqlQueryFunctions {
         return new JoinClauseBuilder(table, alias, JoinClause.JoinType.LEFT);
     }
 
-    public static SqlFragment raw(String sql) {
+    public static RawFragment raw(String sql) {
         return new RawFragment(sql);
     }
 
     public static AndClause and(SqlFragment... sqlFragments) {
-        return new AndClause(toList(sqlFragments));
+        return new AndClause(listWithoutNulls(sqlFragments));
     }
 
     public static OrClause or(SqlFragment... sqlFragments) {
-        return new OrClause(toList(sqlFragments));
+        return new OrClause(listWithoutNulls(sqlFragments));
     }
 
     public static NotClause not(SqlFragment fragment) {
@@ -102,7 +97,7 @@ public class SqlQueryFunctions {
     }
 
     public static SelectBuilder fromTables(AliasClause... clauses) {
-        if (arrayEmpty(clauses)) {
+        if (CollectionsUtil.arrayEmpty(clauses)) {
             throw new IllegalArgumentException("You must have at least one selected alias");
         }
 
@@ -110,7 +105,7 @@ public class SqlQueryFunctions {
     }
 
     public static FunctionCall func(String functionName, SqlFragment... args) {
-        return new FunctionCall(functionName, toList(args));
+        return new FunctionCall(functionName, listWithoutNulls(args));
     }
 
     public static SelectExpression expr(SqlFragment fragment) {
@@ -125,7 +120,7 @@ public class SqlQueryFunctions {
         private final List<AliasClause> aliasClauses;
 
         public SelectBuilder(AliasClause[] clauses) {
-            this.aliasClauses = toList(clauses);
+            this.aliasClauses = listWithoutNulls(clauses);
         }
 
         public WhereBuilder where(ConditionalClause conditionalClause) {
@@ -148,11 +143,11 @@ public class SqlQueryFunctions {
             }
 
             public SelectQuery selectFields(Selectable... selectables) {
-                return new SelectQuery(toList(selectables), aliasClauses, conditionalClause, Collections.emptySet());
+                return new SelectQuery(listWithoutNulls(selectables), aliasClauses, conditionalClause, Collections.emptySet());
             }
 
             public OrderByBuilder orderBy(Orderable... orderables) {
-                return new OrderByBuilder(toList(orderables));
+                return new OrderByBuilder(listWithoutNulls(orderables));
             }
 
             public class OrderByBuilder {
@@ -163,7 +158,7 @@ public class SqlQueryFunctions {
                 }
 
                 public SelectQuery selectFields(Selectable... selectables) {
-                    return new SelectQuery(toList(selectables), aliasClauses, conditionalClause, orderByClauses);
+                    return new SelectQuery(listWithoutNulls(selectables), aliasClauses, conditionalClause, orderByClauses);
                 }
             }
 

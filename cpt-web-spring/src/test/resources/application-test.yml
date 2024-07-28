@@ -1,0 +1,8 @@
+aura:
+  datasource:
+    type: org.springframework.jdbc.datasource.SimpleDriverDataSource
+spring:
+  jpa:
+    generate-ddl: on
+    hibernate:
+      ddl-auto: create-drop

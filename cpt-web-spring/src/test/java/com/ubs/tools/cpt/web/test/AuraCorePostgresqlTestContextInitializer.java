@@ -29,10 +29,13 @@ public class AuraCorePostgresqlTestContextInitializer implements ApplicationCont
 
     private static void setProperties() {
         Map.of(
-            "aura.datasource.url", container.getJdbcUrl(),
-            "aura.datasource.username", container.getUsername(),
-            "aura.datasource.password", container.getPassword(),
-            "aura.datasource.driver-class-name", container.getDriverClassName()
+            aura("url"), container.getJdbcUrl(),
+            aura("username"), container.getUsername(),
+            aura("password"), container.getPassword(),
+            aura("driver-class-name"), container.getDriverClassName()
         ).forEach(System::setProperty);
+    }
+    private static String aura(String key) {
+        return "aura.datasource." + key;
     }
 }

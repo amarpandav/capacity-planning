@@ -1,3 +1,0 @@
-aura:
-  datasource:
-    type: org.springframework.jdbc.datasource.SimpleDriverDataSource
