@@ -23,8 +23,9 @@ import static com.ubs.tools.cpt.web.data.AuraDataSourceConfiguration.AURA_TRANSA
 
 @Configuration
 @EnableTransactionManagement
+@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
 @EnableJpaRepositories(
-    basePackages = "com.ubs.tools.cpt.web.data.aura",
+    basePackageClasses = AuraTransactional.class,
     entityManagerFactoryRef = AURA_ENTITY_MANAGER_FACTORY,
     transactionManagerRef = AURA_TRANSACTION_MANAGER
 )
@@ -35,36 +36,28 @@ public class AuraDataSourceConfiguration {
     public static final String AURA_DATA_SOURCE = "auraDataSource";
     public static final String AURA_PERSISTENCE_UNIT = "auraPersistenceUnit";
 
-    @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
-    @EnableJpaRepositories(
-        basePackageClasses = AuraTransactional.class,
-        entityManagerFactoryRef = AURA_ENTITY_MANAGER_FACTORY,
-        transactionManagerRef = AURA_TRANSACTION_MANAGER
-    )
-    public class TestAuraDataSourceConfiguration {
-        @Bean(name = AURA_DATA_SOURCE_PROPERTIES)
-        @ConfigurationProperties(prefix = "aura.datasource")
-        public DataSourceProperties auraDataSourceProperties() {
-            return new DataSourceProperties();
-        }
+    @Bean(name = AURA_DATA_SOURCE_PROPERTIES)
+    @ConfigurationProperties(prefix = "aura.datasource")
+    public DataSourceProperties auraDataSourceProperties() {
+        return new DataSourceProperties();
+    }
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        @Bean(AURA_DATA_SOURCE)
-        public DataSource dataSource(@Qualifier(AURA_DATA_SOURCE_PROPERTIES) DataSourceProperties properties) {
-            return properties.initializeDataSourceBuilder().build();
-        }
+    @Bean(AURA_DATA_SOURCE)
+    public DataSource dataSource(@Qualifier(AURA_DATA_SOURCE_PROPERTIES) DataSourceProperties properties) {
+        return properties.initializeDataSourceBuilder().build();
+    }
 
-        @Bean(AURA_ENTITY_MANAGER_FACTORY)
-        public LocalContainerEntityManagerFactoryBean auraEntityManagerFactory(@Qualifier(AURA_DATA_SOURCE) DataSource dataSource, EntityManagerFactoryBuilder builder) {
-            return builder.dataSource(dataSource)
-                          .persistenceUnit(AURA_PERSISTENCE_UNIT)
-                          .packages(AuraTransactional.class)
-                          .build();
-        }
+    @Bean(AURA_ENTITY_MANAGER_FACTORY)
+    public LocalContainerEntityManagerFactoryBean auraEntityManagerFactory(@Qualifier(AURA_DATA_SOURCE) DataSource dataSource, EntityManagerFactoryBuilder builder) {
+        return builder.dataSource(dataSource)
+                      .persistenceUnit(AURA_PERSISTENCE_UNIT)
+                      .packages(AuraTransactional.class)
+                      .build();
+    }
 
-        @Bean(name = AURA_TRANSACTION_MANAGER)
-        public PlatformTransactionManager auraTransactionManager(@Qualifier(AURA_ENTITY_MANAGER_FACTORY) EntityManagerFactory auraEntityManagerFactory) {
-            return new JpaTransactionManager(auraEntityManagerFactory);
-        }
+    @Bean(name = AURA_TRANSACTION_MANAGER)
+    public PlatformTransactionManager auraTransactionManager(@Qualifier(AURA_ENTITY_MANAGER_FACTORY) EntityManagerFactory auraEntityManagerFactory) {
+        return new JpaTransactionManager(auraEntityManagerFactory);
     }
 }
+
