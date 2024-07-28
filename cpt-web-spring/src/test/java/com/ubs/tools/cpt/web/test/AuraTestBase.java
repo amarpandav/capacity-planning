@@ -1,5 +1,6 @@
 package com.ubs.tools.cpt.web.test;
 
+import com.ubs.tools.cpt.shared.test.generator.TestDataCreator;
 import com.ubs.tools.cpt.web.data.aura.AuraTransactional;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -23,7 +24,7 @@ import static com.ubs.tools.cpt.web.data.AuraDataSourceConfiguration.AURA_PERSIS
 
 @ContextConfiguration(initializers = AuraCorePostgresqlTestContextInitializer.class)
 @TestPropertySource("classpath:application-test.yml")
-public class AuraTestBase {
+public abstract class AuraTestBase {
     private static final Logger LOG = LoggerFactory.getLogger(AuraTestBase.class);
 
     private static final Collection<String> SCRIPTS_TO_EXECUTE = List.of(
@@ -34,17 +35,23 @@ public class AuraTestBase {
     @PersistenceContext(unitName = AURA_PERSISTENCE_UNIT)
     protected EntityManager auraEntityManager;
 
+    protected final TestDataCreator testDataCreator = new TestDataCreator();
+
     @AuraTransactional
     protected void clearAuraSchema() {
         auraEntityManager.createNativeQuery("DROP SCHEMA public").executeUpdate();
         auraEntityManager.createNativeQuery("CREATE SCHEMA public").executeUpdate();
     }
 
+    protected abstract void loadTestData();
+
     @BeforeEach
     @Transactional
     protected void beforeEach() throws IOException {
+        testDataCreator.clear();
         clearAuraSchema();
         executeScripts();
+        loadTestData();
     }
 
     protected void executeScripts() throws IOException {
