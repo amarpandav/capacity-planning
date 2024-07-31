@@ -1,8 +1,9 @@
 aura:
   datasource:
-    type: org.springframework.jdbc.datasource.SimpleDriverDataSource
-spring:
+    url: jdbc:hsqldb:mem:AURA;sql.syntax_ora=true
+    username: sa
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
   jpa:
-    generate-ddl: on
-    hibernate:
-      ddl-auto: create-drop
+    ddl-auto: drop-and-create
+
+

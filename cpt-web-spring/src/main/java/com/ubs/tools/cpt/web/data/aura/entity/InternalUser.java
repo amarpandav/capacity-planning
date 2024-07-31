@@ -19,6 +19,7 @@ public class InternalUser {
 
     public static final class Columns {
         public static final String UUID = "UUID";
+        public static final String PID = "PID";
         public static final String FULL_NAME = "FULL_NAME";
         public static final String EMAIL = "EMAIL";
     }
@@ -27,9 +28,12 @@ public class InternalUser {
     @Column(name = Columns.UUID)
     private String uuid;
 
+    @Column(name = Columns.PID, unique = true, nullable = false)
+    private String pid;
+
     @Column(name = Columns.FULL_NAME, nullable = false)
     private String fullName;
 
-    @Column(name = Columns.EMAIL, nullable = false)
+    @Column(name = Columns.EMAIL, nullable = false, unique = true)
     private String email;
 }

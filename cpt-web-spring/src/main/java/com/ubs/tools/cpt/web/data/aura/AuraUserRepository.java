@@ -29,8 +29,8 @@ public class AuraUserRepository {
                     """
             ).where(
                 include("iu.uuid = :uuid").whenNotNull(uuid),
-                include("to_upper(iu.FULL_NAME) LIKE :fullNameLike").whenNotNull(fullName),
-                include("to_upper(iu.EMAIL) LIKE :emailLike").whenNotNull(email)
+                include("upper(iu.FULL_NAME) LIKE :fullNameLike").whenNotNull(fullName),
+                include("upper(iu.EMAIL) LIKE :emailLike").whenNotNull(email)
             ).build().sql(em)
         ).jpaParams(
              optionalParam("uuid", uuid),
