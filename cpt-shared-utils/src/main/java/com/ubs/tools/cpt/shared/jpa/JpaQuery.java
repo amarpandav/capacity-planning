@@ -2,6 +2,7 @@ package com.ubs.tools.cpt.shared.jpa;
 
 import com.ubs.tools.cpt.shared.sql.SqlDialect;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import jakarta.persistence.Tuple;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+@SuppressWarnings({"rawtypes", "unchecked", "SqlSourceToSinkFlow"})
 public record JpaQuery(Function<SqlDialect, String> selectQuerySupplier, Collection<Param> params) {
     public record Param(String name, Object value, IncludeType includeType) {
         enum IncludeType {
@@ -18,10 +20,41 @@ public record JpaQuery(Function<SqlDialect, String> selectQuerySupplier, Collect
         }
     }
 
-    @SuppressWarnings("SqlSourceToSinkFlow")
-    public Query build(EntityManager em, SqlDialect dialect) {
-        var query = em.createNativeQuery(selectQuerySupplier.apply(dialect), Tuple.class);
+    public static final class QueryResult<T> {
+        private final Query query;
 
+        public QueryResult(Query query) {
+            this.query = query;
+        }
+
+        public Stream<T> getResultStream(OffsetLimit offsetLimit) {
+            return OffsetLimit.applyTo(query, offsetLimit).getResultStream();
+        }
+
+        public Stream<T> getResultStream() {
+            return getResultStream(null);
+        }
+
+        public List<T> getResultList(OffsetLimit offsetLimit) {
+            return OffsetLimit.applyTo(query, offsetLimit).getResultList();
+        }
+        public List<T> getResultList() {
+            return getResultList(null);
+        }
+
+        public T getSingleResult(OffsetLimit offsetLimit) {
+            try {
+                return (T) OffsetLimit.applyTo(query, offsetLimit).getSingleResult();
+            } catch (NoResultException ex) {
+                return null;
+            }
+        }
+        public T getSingleResult() {
+            return getSingleResult(null);
+        }
+    }
+
+    private QueryResult build(Query query) {
         params.forEach(param -> {
             boolean notNullAndSet = param.includeType() == Param.IncludeType.NOT_NULL && param.value() != null;
             boolean alwaysInclude = param.includeType() == Param.IncludeType.ALWAYS;
@@ -31,35 +64,22 @@ public record JpaQuery(Function<SqlDialect, String> selectQuerySupplier, Collect
             }
         });
 
-        return query;
+        return new QueryResult(query);
     }
 
-    public Query build(EntityManager em) {
-        return build(em, SqlDialect.fromEntityManager(em));
+    public QueryResult<Tuple> buildNativeQuery(EntityManager em, SqlDialect dialect) {
+        return build(em.createNativeQuery(selectQuerySupplier.apply(dialect), Tuple.class));
     }
 
-    @SuppressWarnings("unchecked")
-    public Stream<Tuple> getResultStream(EntityManager em, OffsetLimit offsetLimit, SqlDialect dialect) {
-        return build(em, dialect)
-            .setFirstResult(offsetLimit.offset().orElse(0))
-            .setMaxResults(offsetLimit.limit().orElse(Integer.MAX_VALUE))
-            .getResultStream();
+    public QueryResult<Tuple> buildNativeQuery(EntityManager em) {
+        return buildNativeQuery(em, SqlDialect.fromEntityManager(em));
     }
 
-    public Stream<Tuple> getResultStream(EntityManager em) {
-        return getResultStream(em, OffsetLimit.none(), SqlDialect.fromEntityManager(em));
+    public <T> QueryResult<T> buildJpaQuery(EntityManager em) {
+        return build(em.createQuery(selectQuerySupplier().apply(SqlDialect.GENERIC)));
     }
 
-    @SuppressWarnings("unchecked")
-    public List<Tuple> getResultList(EntityManager em, OffsetLimit offsetLimit, SqlDialect dialect) {
-        return build(em, dialect).getResultList();
-    }
-
-    public List<Tuple> getResultList(EntityManager em) {
-        return getResultList(em, OffsetLimit.none(), SqlDialect.fromEntityManager(em));
-    }
-
-    public Object getSingleResult(EntityManager em) {
-        return build(em).getSingleResult();
+    public <T> QueryResult<T> buildJpaQuery(EntityManager em, Class<T> resultClass) {
+        return build(em.createQuery(selectQuerySupplier().apply(SqlDialect.GENERIC), resultClass));
     }
 }

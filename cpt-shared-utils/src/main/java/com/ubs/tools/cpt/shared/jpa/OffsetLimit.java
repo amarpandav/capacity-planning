@@ -1,5 +1,7 @@
 package com.ubs.tools.cpt.shared.jpa;
 
+import jakarta.persistence.Query;
+
 import java.util.OptionalInt;
 
 public class OffsetLimit {
@@ -34,5 +36,17 @@ public class OffsetLimit {
 
     public static OffsetLimit none() {
         return EMPTY;
+    }
+
+    public Query applyTo(Query query) {
+        return query.setMaxResults(limit).setFirstResult(offset);
+    }
+
+    public static Query applyTo(Query query, OffsetLimit offsetLimit) {
+        if (offsetLimit != null) {
+            return offsetLimit.applyTo(query);
+        }
+
+        return query;
     }
 }

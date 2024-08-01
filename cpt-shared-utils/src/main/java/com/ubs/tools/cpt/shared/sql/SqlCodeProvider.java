@@ -1,6 +1,6 @@
 package com.ubs.tools.cpt.shared.sql;
 
-public interface SelectQuery extends SqlFragment {
-    @Override
+@FunctionalInterface
+public interface SqlCodeProvider {
     String sql(SqlDialect dialect);
 }

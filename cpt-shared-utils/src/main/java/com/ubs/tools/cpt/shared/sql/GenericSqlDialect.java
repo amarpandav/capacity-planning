@@ -11,11 +11,6 @@ public class GenericSqlDialect implements SqlDialect {
     }
 
     @Override
-    public String likeClause(String leftPart, String rightPart) {
-        return leftPart + " LIKE " + rightPart;
-    }
-
-    @Override
     public String fromClause(FromClause fromClause) {
         return fromClause.tableName() + " " + fromClause.alias();
     }

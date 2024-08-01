@@ -143,7 +143,7 @@ public class SqlQueryFunctions {
             }
 
             public SelectQuery selectFields(Selectable... selectables) {
-                return new SelectQuery(listWithoutNulls(selectables), aliasClauses, conditionalClause, Collections.emptySet());
+                return new GeneratedSelectQuery(listWithoutNulls(selectables), aliasClauses, conditionalClause, Collections.emptySet());
             }
 
             public OrderByBuilder orderBy(Orderable... orderables) {
@@ -158,7 +158,7 @@ public class SqlQueryFunctions {
                 }
 
                 public SelectQuery selectFields(Selectable... selectables) {
-                    return new SelectQuery(listWithoutNulls(selectables), aliasClauses, conditionalClause, orderByClauses);
+                    return new GeneratedSelectQuery(listWithoutNulls(selectables), aliasClauses, conditionalClause, orderByClauses);
                 }
             }
 

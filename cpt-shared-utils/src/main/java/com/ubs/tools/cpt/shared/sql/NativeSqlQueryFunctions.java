@@ -1,10 +1,5 @@
 package com.ubs.tools.cpt.shared.sql;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-
-import java.util.function.Function;
-
 import static com.ubs.tools.cpt.shared.util.CollectionsUtil.listWithoutNulls;
 
 public class NativeSqlQueryFunctions {
@@ -40,9 +35,9 @@ public class NativeSqlQueryFunctions {
         }
 
         public class WhereBuilder {
-            private final Function<SqlDialect, String> whereSupplier;
+            private final SqlCodeProvider whereSupplier;
 
-            public WhereBuilder(Function<SqlDialect, String> whereSupplier) {
+            public WhereBuilder(SqlCodeProvider whereSupplier) {
                 this.whereSupplier = whereSupplier;
             }
 
@@ -54,28 +49,23 @@ public class NativeSqlQueryFunctions {
                 return new OrderByBuilder(dialect -> dialect.orderByBlock(listWithoutNulls(orderables)));
             }
 
-            public OrderByBuilder build() {
-                return orderBy();
+            public NativeSelectQuery build() {
+                return orderBy().build();
             }
 
             public class OrderByBuilder {
-                private final Function<SqlDialect, String> orderBySupplier;
+                private final SqlCodeProvider orderBySupplier;
 
-                public OrderByBuilder(Function<SqlDialect, String> orderBySupplier) {
+                public OrderByBuilder(SqlCodeProvider orderBySupplier) {
                     this.orderBySupplier = orderBySupplier;
                 }
-
-                public String sql(SqlDialect dialect) {
-                    return selectFromSql + '\n' + whereSupplier.apply(dialect) + orderBySupplier.apply(dialect);
-                }
-
-                public String sql(EntityManager em) {
-                    return sql(SqlDialect.fromEntityManager(em));
-                }
-
-                @SuppressWarnings("SqlSourceToSinkFlow")
-                public Query build(EntityManager em) {
-                    return em.createNativeQuery(sql(SqlDialect.fromEntityManager(em)));
+                
+                public NativeSelectQuery build() {
+                    return new NativeSelectQuery(
+                        d -> selectFromSql,
+                        whereSupplier,
+                        orderBySupplier
+                    );
                 }
             }
         }

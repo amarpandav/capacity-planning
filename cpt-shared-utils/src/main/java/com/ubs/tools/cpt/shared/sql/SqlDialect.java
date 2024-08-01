@@ -14,7 +14,6 @@ public interface SqlDialect {
     }
 
     String fieldReference(String tableName, String field);
-    String likeClause(String leftPart, String rightPart);
 
     String fromClause(FromClause fromClause);
 

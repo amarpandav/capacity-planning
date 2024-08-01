@@ -1,9 +1,7 @@
 package com.ubs.tools.cpt.shared.sql;
 
 @FunctionalInterface
-public interface SqlFragment {
-    String sql(SqlDialect dialect);
-
+public interface SqlFragment extends SqlCodeProvider {
     default OperatorClause eq(SqlFragment other) {
         return new OperatorClause(this, other, "=");
     }
