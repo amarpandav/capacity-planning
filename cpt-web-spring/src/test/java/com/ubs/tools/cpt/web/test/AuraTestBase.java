@@ -1,13 +1,11 @@
 package com.ubs.tools.cpt.web.test;
 
 import com.ubs.tools.cpt.shared.test.generator.TestDataCreator;
+import com.ubs.tools.cpt.web.data.aura.AuraTransactional;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
 
 import static com.ubs.tools.cpt.web.data.AuraDataSourceConfiguration.AURA_PERSISTENCE_UNIT;
 
@@ -18,11 +16,11 @@ public abstract class AuraTestBase {
 
     protected final TestDataCreator testDataCreator = new TestDataCreator();
 
-    protected abstract void loadTestData();
+    protected abstract void loadTestData() throws Exception;
 
     @BeforeEach
-    @Transactional
-    protected void beforeEach() throws IOException {
+    @AuraTransactional
+    protected void beforeEach() throws Exception {
         testDataCreator.clear();
         loadTestData();
     }
