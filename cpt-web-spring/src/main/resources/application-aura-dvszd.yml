@@ -1,6 +1,8 @@
 aura:
   datasource:
-    url=jdbc:oracle:thin:@//localhost:11521/ORCLPDB1
-    username=books
-    password=books
-    driver-class-name=oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@//localhost:11521/ORCLPDB1
+    username: xxx
+    password: xxx
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    ddl-auto: validate

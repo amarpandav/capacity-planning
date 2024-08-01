@@ -15,6 +15,8 @@ public record GeneratedSelectQuery(
             + dialect.fromBlock(aliasClauses)
             + dialect.whereBlock(conditionalClause)
             + dialect.orderByBlock(orderByClauses)
-        ).replaceAll("\\n+", "\n").trim();
+        ).replaceAll("\\n+", "\n")
+         .replaceAll("\\s+\\n", "\n")
+         .trim();
     }
 }

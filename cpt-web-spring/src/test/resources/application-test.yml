@@ -6,4 +6,11 @@ aura:
   jpa:
     ddl-auto: drop-and-create
 
+cpt:
+  datasource:
+    url: jdbc:hsqldb:mem:CPT;sql.syntax_ora=true
+    username: sa
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+  jpa:
+    ddl-auto: drop-and-create
 

@@ -1,6 +1,5 @@
 package com.ubs.tools.cpt.web.data.aura;
 
-import com.ubs.tools.cpt.web.data.AuraDataSourceConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.annotation.ElementType;

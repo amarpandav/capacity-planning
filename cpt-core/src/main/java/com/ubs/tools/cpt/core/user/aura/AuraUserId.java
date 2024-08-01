@@ -1,4 +1,4 @@
-package com.ubs.tools.cpt.web.user;
+package com.ubs.tools.cpt.core.user.aura;
 
 import com.ubs.tools.cpt.core.user.SystemUserId;
 import com.ubs.tools.cpt.core.user.UserSystem;

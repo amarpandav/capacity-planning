@@ -1,6 +1,6 @@
 package com.ubs.tools.cpt.web.data.aura;
 
-import com.ubs.tools.cpt.web.data.aura.entity.InternalUser;
+import com.ubs.tools.cpt.web.data.aura.entity.AuraInternalUser;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -12,7 +12,7 @@ import static com.ubs.tools.cpt.shared.jpa.JpaQueryBuilder.optionalParam;
 import static com.ubs.tools.cpt.shared.sql.NativeSqlQueryFunctions.nativeSqlQuery;
 import static com.ubs.tools.cpt.shared.sql.SqlQueryFunctions.include;
 import static com.ubs.tools.cpt.shared.util.SqlUtil.likeUppercaseArgument;
-import static com.ubs.tools.cpt.web.data.AuraDataSourceConfiguration.AURA_PERSISTENCE_UNIT;
+import static com.ubs.tools.cpt.web.data.aura.AuraDataSourceConfiguration.AURA_PERSISTENCE_UNIT;
 
 @Repository
 public class AuraUserRepository {
@@ -34,10 +34,11 @@ public class AuraUserRepository {
              optionalParam("fullNameLike", likeUppercaseArgument(fullName)),
              optionalParam("emailLike", likeUppercaseArgument(email))
          )
-         .buildJpaQuery(em, InternalUser.class)
+         .buildJpaQuery(em, AuraInternalUser.class)
          .getResultStream()
          .map(iu -> new AuraUserVO(
              iu.getUuid(),
+             iu.getPid(),
              iu.getFullName(),
              iu.getEmail()
          ));

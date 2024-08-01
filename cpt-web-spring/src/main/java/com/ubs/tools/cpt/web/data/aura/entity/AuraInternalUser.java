@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
-import static com.ubs.tools.cpt.web.data.aura.entity.InternalUser.TABLE_NAME;
+import static com.ubs.tools.cpt.web.data.aura.entity.AuraInternalUser.TABLE_NAME;
 
 @Entity
 @Table(name = TABLE_NAME)
@@ -14,7 +14,7 @@ import static com.ubs.tools.cpt.web.data.aura.entity.InternalUser.TABLE_NAME;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class InternalUser {
+public class AuraInternalUser {
     public static final String TABLE_NAME = "INTERNAL_USER";
 
     public static final class Columns {

@@ -1,7 +1,6 @@
-package com.ubs.tools.cpt.web.data;
+package com.ubs.tools.cpt.web.data.aura;
 
-import com.ubs.tools.cpt.web.data.aura.AuraJpaConfig;
-import com.ubs.tools.cpt.web.data.aura.AuraTransactional;
+import com.ubs.tools.cpt.web.data.JpaConfig;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -11,7 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -20,8 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
-import static com.ubs.tools.cpt.web.data.AuraDataSourceConfiguration.AURA_ENTITY_MANAGER_FACTORY;
-import static com.ubs.tools.cpt.web.data.AuraDataSourceConfiguration.AURA_TRANSACTION_MANAGER;
+import static com.ubs.tools.cpt.web.data.aura.AuraDataSourceConfiguration.AURA_ENTITY_MANAGER_FACTORY;
+import static com.ubs.tools.cpt.web.data.aura.AuraDataSourceConfiguration.AURA_TRANSACTION_MANAGER;
 
 @Configuration
 @EnableTransactionManagement
@@ -37,13 +35,7 @@ public class AuraDataSourceConfiguration {
     public static final String AURA_TRANSACTION_MANAGER = "auraTransactionManager" ;
     public static final String AURA_DATA_SOURCE = "auraDataSource" ;
     public static final String AURA_PERSISTENCE_UNIT = "auraPersistenceUnit" ;
-    public static final String AURA_JPA_PROPERTIES = "auraJpaProperties" ;
-
-    private final Environment environment;
-
-    public AuraDataSourceConfiguration(Environment environment) {
-        this.environment = environment;
-    }
+    public static final String AURA_JPA_CONFIG = "auraJpaConfig" ;
 
     @Bean(AURA_DATA_SOURCE_PROPERTIES)
     @ConfigurationProperties(prefix = "aura.datasource")
@@ -56,16 +48,22 @@ public class AuraDataSourceConfiguration {
         return properties.initializeDataSourceBuilder().build();
     }
 
+    @ConfigurationProperties("aura.jpa")
+    @Bean(AURA_JPA_CONFIG)
+    public JpaConfig auraJpaProperties() {
+        return new JpaConfig();
+    }
+
     @Bean(AURA_ENTITY_MANAGER_FACTORY)
     public LocalContainerEntityManagerFactoryBean auraEntityManagerFactory(
         @Qualifier(AURA_DATA_SOURCE) DataSource dataSource,
-        AuraJpaConfig auraJpaConfig,
+        @Qualifier(AURA_JPA_CONFIG) JpaConfig auraJpaConfig,
         EntityManagerFactoryBuilder builder
     ) {
         var emfBuilder = builder.dataSource(dataSource)
                                 .persistenceUnit(AURA_PERSISTENCE_UNIT)
                                 .packages(AuraTransactional.class)
-                                .properties(auraJpaConfig.emfProperties())
+                                .properties(auraJpaConfig.dataSourceProperties())
                                 .mappingResources(auraJpaConfig.getMappingResources());
 
         return emfBuilder.build();

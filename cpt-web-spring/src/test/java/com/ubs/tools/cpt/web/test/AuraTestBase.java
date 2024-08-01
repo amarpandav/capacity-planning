@@ -7,7 +7,7 @@ import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.test.context.ActiveProfiles;
 
-import static com.ubs.tools.cpt.web.data.AuraDataSourceConfiguration.AURA_PERSISTENCE_UNIT;
+import static com.ubs.tools.cpt.web.data.aura.AuraDataSourceConfiguration.AURA_PERSISTENCE_UNIT;
 
 @ActiveProfiles(profiles = "test")
 public abstract class AuraTestBase {

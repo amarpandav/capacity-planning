@@ -1,7 +1,6 @@
 package com.ubs.tools.cpt.core.user;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -22,7 +21,7 @@ public class UserSource {
 
         var sources = getSourcesForQuery(query);
 
-        return sources.stream().flatMap(s -> s.findUsers(query));
+        return sources.flatMap(s -> s.findUsers(query));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -34,16 +33,14 @@ public class UserSource {
         return systemUserSource.findUser(systemUserId);
     }
 
-    private Collection<SystemUserSource<?>> getSourcesForQuery(FindUsersQuery query) {
-        Optional<UserSystem> system = query.system();
+    private Stream<SystemUserSource<?>> getSourcesForQuery(FindUsersQuery query) {
+        var systems = query.systems();
 
-        if (system.isEmpty()) {
-            return systemUserSources;
+        if (systems.isEmpty()) {
+            return systemUserSources.stream();
         }
 
-        return Collections.singleton(
-            findSourceBySystem(system.get())
-        );
+        return systems.stream().map(this::findSourceBySystem);
     }
 
     private SystemUserSource<?> findSourceBySystem(UserSystem system) {

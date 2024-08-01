@@ -1,7 +1,13 @@
 package com.ubs.tools.cpt.core.user;
 
-public record SystemUser(
-    SystemUserId id,
-    String fullName,
-    String email
-) {}
+/**
+ * This interface represents a user imported from a given system.
+ */
+public interface SystemUser {
+    UserSystem sourceSystem();
+
+    SystemUserId id();
+    String fullName();
+    String email();
+    SystemSpecificAttributes systemSpecificAttributes();
+}

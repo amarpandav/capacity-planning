@@ -4,7 +4,9 @@ import com.ubs.tools.cpt.core.user.FindUsersQuery;
 import com.ubs.tools.cpt.core.user.SystemUser;
 import com.ubs.tools.cpt.core.user.SystemUserSource;
 import com.ubs.tools.cpt.core.user.UserSystem;
-import com.ubs.tools.cpt.web.user.AuraUserId;
+import com.ubs.tools.cpt.core.user.aura.AuraSpecificAttributes;
+import com.ubs.tools.cpt.core.user.aura.AuraUser;
+import com.ubs.tools.cpt.core.user.aura.AuraUserId;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -33,10 +35,11 @@ public class AuraSystemUserSource implements SystemUserSource<AuraUserId> {
     }
 
     private static SystemUser convertVo(AuraUserVO vo) {
-        return new SystemUser(
+        return new AuraUser(
             new AuraUserId(vo.uuid()),
             vo.fullName(),
-            vo.email()
+            vo.email(),
+            new AuraSpecificAttributes(vo.pid())
         );
     }
 

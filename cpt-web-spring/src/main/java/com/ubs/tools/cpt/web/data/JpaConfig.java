@@ -1,22 +1,18 @@
-package com.ubs.tools.cpt.web.data.aura;
+package com.ubs.tools.cpt.web.data;
 
 import lombok.Data;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Configuration
-@ConfigurationProperties("aura.jpa")
 @Data
-public class AuraJpaConfig {
+public class JpaConfig {
     private String ddlAuto;
     private String[] mappingResources;
 
-    public Map<String, ?> emfProperties() {
+    public Map<String, ?> dataSourceProperties() {
         return Stream
             .of(
                 Pair.of("jakarta.persistence.schema-generation.database.action", ddlAuto)

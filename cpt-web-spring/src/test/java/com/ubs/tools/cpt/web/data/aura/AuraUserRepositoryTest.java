@@ -1,6 +1,6 @@
 package com.ubs.tools.cpt.web.data.aura;
 
-import com.ubs.tools.cpt.web.data.aura.entity.InternalUser;
+import com.ubs.tools.cpt.web.data.aura.entity.AuraInternalUser;
 import com.ubs.tools.cpt.web.test.AuraTestBase;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
@@ -22,8 +22,8 @@ class AuraUserRepositoryTest extends AuraTestBase {
     @Test
     @AuraTransactional
     void findUsers_byUuid() {
-        InternalUser jordanHammond = internalUserSuiteGeneric.JORDAN_HAMMOND;
-        InternalUser peterDiamond = internalUserSuiteGeneric.PETER_DIAMOND;
+        AuraInternalUser jordanHammond = internalUserSuiteGeneric.JORDAN_HAMMOND;
+        AuraInternalUser peterDiamond = internalUserSuiteGeneric.PETER_DIAMOND;
 
         auraUserRepository.findUsers(jordanHammond.getUuid(), null, null)
                           .findFirst()
@@ -52,9 +52,9 @@ class AuraUserRepositoryTest extends AuraTestBase {
     @Test
     @AuraTransactional
     void findUsers_by_FullName() {
-        InternalUser jordanHammond = internalUserSuiteGeneric.JORDAN_HAMMOND;
-        InternalUser peterDiamond = internalUserSuiteGeneric.PETER_DIAMOND;
-        InternalUser gustavVolker = internalUserSuiteGeneric.GUSTAV_VOLKER;
+        AuraInternalUser jordanHammond = internalUserSuiteGeneric.JORDAN_HAMMOND;
+        AuraInternalUser peterDiamond = internalUserSuiteGeneric.PETER_DIAMOND;
+        AuraInternalUser gustavVolker = internalUserSuiteGeneric.GUSTAV_VOLKER;
 
         var users = auraUserRepository.findUsers(null, "moNd", null).toList();
 
@@ -66,9 +66,9 @@ class AuraUserRepositoryTest extends AuraTestBase {
     @Test
     @AuraTransactional
     void findUsers_by_Email() {
-        InternalUser jordanHammond = internalUserSuiteGeneric.JORDAN_HAMMOND;
-        InternalUser peterDiamond = internalUserSuiteGeneric.PETER_DIAMOND;
-        InternalUser gustavVolker = internalUserSuiteGeneric.GUSTAV_VOLKER;
+        AuraInternalUser jordanHammond = internalUserSuiteGeneric.JORDAN_HAMMOND;
+        AuraInternalUser peterDiamond = internalUserSuiteGeneric.PETER_DIAMOND;
+        AuraInternalUser gustavVolker = internalUserSuiteGeneric.GUSTAV_VOLKER;
 
         var users = auraUserRepository.findUsers(null, null, "nd@ubs").toList();
 
@@ -80,9 +80,9 @@ class AuraUserRepositoryTest extends AuraTestBase {
     @Test
     @AuraTransactional
     void findUsers_by_Email_and_FullName() {
-        InternalUser jordanHammond = internalUserSuiteGeneric.JORDAN_HAMMOND;
-        InternalUser peterDiamond = internalUserSuiteGeneric.PETER_DIAMOND;
-        InternalUser gustavVolker = internalUserSuiteGeneric.GUSTAV_VOLKER;
+        AuraInternalUser jordanHammond = internalUserSuiteGeneric.JORDAN_HAMMOND;
+        AuraInternalUser peterDiamond = internalUserSuiteGeneric.PETER_DIAMOND;
+        AuraInternalUser gustavVolker = internalUserSuiteGeneric.GUSTAV_VOLKER;
 
         var users = auraUserRepository.findUsers(null, "av", "O").toList();
 
