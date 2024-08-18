@@ -10,15 +10,15 @@ export const POD_WATCHER_TEST_DATA = [
     },
     pods: [//PodDto
       {
-        uuid: 'InternationalSpaceStationPodUuid',
-        podName: 'International Space Station',
-        podDescription:'This pod is for International Space Station USA',
+        uuid: 'AURAPodUuid',
+        podName: 'AURA',
+        podDescription:'This pod is for AURA',
         podStyleClass: 'podStyleClass1'
       },
       {
-        uuid: 'GotthardTunnelPodUuid',
-        podName: 'Gotthard tunnel',
-        podDescription:'This pod is for Gotthard tunnel Switzerland',
+        uuid: 'GIMPodUuid',
+        podName: 'Global Identity Management',
+        podDescription:'This pod is for Global Identity Management',
         podStyleClass: 'podStyleClass2'
       }
     ]
@@ -33,15 +33,15 @@ export const POD_WATCHER_TEST_DATA = [
     },
     pods: [//PodDto
       {
-        uuid: 'InternationalSpaceStationPodUuid',
-        podName: 'International Space Station',
-        podDescription:'This pod is for International Space Station USA',
+        uuid: 'AURAPodUuid',
+        podName: 'AURA',
+        podDescription:'This pod is for AURA',
         podStyleClass: 'podStyleClass1'
       },
       {
-        uuid: 'GotthardTunnelPodUuid',
-        podName: 'Gotthard tunnel',
-        podDescription:'This pod is for Gotthard tunnel Switzerland',
+        uuid: 'GIMPodUuid',
+        podName: 'Global Identity Management',
+        podDescription:'This pod is for Global Identity Management',
         podStyleClass: 'podStyleClass2'
       }
     ]
@@ -56,9 +56,9 @@ export const POD_WATCHER_TEST_DATA = [
     },
     pods: [//PodDto
       {
-        uuid: 'GotthardTunnelPodUuid',
-        podName: 'Gotthard tunnel',
-        podDescription:'This pod is for Gotthard tunnel Switzerland',
+        uuid: 'GIMPodUuid',
+        podName: 'Global Identity Management',
+        podDescription:'This pod is for Global Identity Management',
         podStyleClass: 'podStyleClass2'
       }
     ]

@@ -3,7 +3,7 @@ import {PodMemberRole} from "../../models/pod/pom-member-role.enum";
 
 export const POD_MEMBER_TEST_DATA = [
   {
-    uuid: 'podMemberNiteshShriyanAndInternationalSpaceStationPodUuid',
+    uuid: 'podMemberNiteshShriyanAndAURAPodUuid',
     user: {//UserDto
       uuid: 'NiteshShriyanUuid',
       gpin: 'NiteshShriyanGPIN',
@@ -11,14 +11,14 @@ export const POD_MEMBER_TEST_DATA = [
     },
     podMemberRole: PodMemberRole.POD_LEAD,
     pod:{//PodDto
-      uuid: 'InternationalSpaceStationPodUuid',
-      podName: 'International Space Station',
+      uuid: 'AURAPodUuid',
+      podName: 'AURA',
       podStyleClass: 'podStyleClass1',
-      podDescription: 'This pod is for International Space Station USA'
+      podDescription: 'This pod is for AURA'
     }
   },
   {
-    uuid: 'podMemberAmarPandavAndInternationalSpaceStationPodUuid',
+    uuid: 'podMemberAmarPandavAndAURAPodUuid',
     user: {//UserDto
       uuid: 'AmarPandavUuid',
       gpin: 'AmarPandavGPIN',
@@ -26,14 +26,14 @@ export const POD_MEMBER_TEST_DATA = [
     },
     podMemberRole: PodMemberRole.SOLUTIONS_ARCHITECT,
     pod: {//PodDto
-      uuid: 'InternationalSpaceStationPodUuid',
-      podName: 'International Space Station',
+      uuid: 'AURAPodUuid',
+      podName: 'AURA',
       podStyleClass: 'podStyleClass1',
-      podDescription: 'This pod is for International Space Station USA'
+      podDescription: 'This pod is for AURA'
     }
   },
   {
-    uuid: 'podMemberThomasDoblerAndInternationalSpaceStationPodUuid',
+    uuid: 'podMemberThomasDoblerAndAURAPodUuid',
     user: {//UserDto
       uuid: 'ThomasDoblerUuid',
       gpin: 'ThomasDoblerGPIN',
@@ -41,14 +41,14 @@ export const POD_MEMBER_TEST_DATA = [
     },
     podMemberRole: PodMemberRole.JAVA_DEVELOPER,
     pod: {//PodDto
-      uuid: 'InternationalSpaceStationPodUuid',
-      podName: 'International Space Station',
+      uuid: 'AURAPodUuid',
+      podName: 'AURA',
       podStyleClass: 'podStyleClass1',
-      podDescription: 'This pod is for International Space Station USA'
+      podDescription: 'This pod is for AURA'
     }
   },
   {
-    uuid: 'podMemberAmarPandavAndGotthardTunnelPodUuid',
+    uuid: 'podMemberAmarPandavAndGIMPodUuid',
     user: {//UserDto
       uuid: 'AmarPandavUuid',
       gpin: 'AmarPandavGPIN',
@@ -56,14 +56,14 @@ export const POD_MEMBER_TEST_DATA = [
     },
     podMemberRole: PodMemberRole.SOLUTIONS_ARCHITECT,
     pod: {//PodDto
-      uuid: 'GotthardTunnelPodUuid',
-      podName: 'Gotthard tunnel',
+      uuid: 'GIMPodUuid',
+      podName: 'Global Identity Management',
       podStyleClass: 'podStyleClass2',
-      podDescription: 'This pod is for Gotthard tunnel Switzerland'
+      podDescription: 'This pod is for Global Identity Management'
     }
   },
   {
-    uuid: 'podMemberTimAndGotthardTunnelPodUuid',
+    uuid: 'podMemberTimAndGIMPodUuid',
     user: {//UserDto
       uuid: 'TimUuid',
       gpin: 'TimGPIN',
@@ -71,14 +71,14 @@ export const POD_MEMBER_TEST_DATA = [
     },
     podMemberRole: PodMemberRole.POD_LEAD,
     pod: {//PodDto
-      uuid: 'GotthardTunnelPodUuid',
-      podName: 'Gotthard tunnel',
+      uuid: 'GIMPodUuid',
+      podName: 'Global Identity Management',
       podStyleClass: 'podStyleClass2',
-      podDescription: 'This pod is for Gotthard tunnel Switzerland'
+      podDescription: 'This pod is for Global Identity Management'
     }
   },
   {
-    uuid: 'podMemberKamilLipinskiAndGotthardTunnelPodUuid',
+    uuid: 'podMemberKamilLipinskiAndGIMPodUuid',
     user: {//UserDto
       uuid: 'KamilLipinskiUuid',
       gpin: 'KamilLipinskiGPIN',
@@ -86,14 +86,14 @@ export const POD_MEMBER_TEST_DATA = [
     },
     podMemberRole: PodMemberRole.JAVA_DEVELOPER,
     pod: {//PodDto
-      uuid: 'GotthardTunnelPodUuid',
-      podName: 'Gotthard tunnel',
+      uuid: 'GIMPodUuid',
+      podName: 'Global Identity Management',
       podStyleClass: 'podStyleClass2',
-      podDescription: 'This pod is for Gotthard tunnel Switzerland'
+      podDescription: 'This pod is for Global Identity Management'
     }
   },
   {
-    uuid: 'podMemberWiktorAndGotthardTunnelPodUuid',
+    uuid: 'podMemberWiktorAndGIMPodUuid',
     user: {//UserDto
       uuid: 'WiktorUuid',
       gpin: 'WiktorGPIN',
@@ -101,10 +101,10 @@ export const POD_MEMBER_TEST_DATA = [
     },
     podMemberRole: PodMemberRole.JAVA_DEVELOPER,
     pod: {//PodDto
-      uuid: 'GotthardTunnelPodUuid',
-      podName: 'Gotthard tunnel',
+      uuid: 'GIMPodUuid',
+      podName: 'Global Identity Management',
       podStyleClass: 'podStyleClass2',
-      podDescription: 'This pod is for Gotthard tunnel Switzerland'
+      podDescription: 'This pod is for Global Identity Management'
     }
   }
 

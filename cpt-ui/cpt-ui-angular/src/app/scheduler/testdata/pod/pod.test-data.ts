@@ -3,10 +3,10 @@ import {PodMemberRole} from "../../models/pod/pom-member-role.enum";
 
 export const POD_TEST_DATA = [
   {
-    uuid:'InternationalSpaceStationPodUuid',
-    podName: 'International Space Station',
+    uuid:'AURAPodUuid',
+    podName: 'AURA',
     podStyleClass: 'podStyleClass1',
-    podDescription:'This pod is for International Space Station USA',
+    podDescription:'This pod is for AURA',
     podMembers: [//PodMemberDto
       {
         uuid: 'podMemberNiteshShriyanUuid1',
@@ -69,10 +69,10 @@ export const POD_TEST_DATA = [
     }*/
   },
   {
-    uuid:'GotthardTunnelPodUuid',
-    podName: 'Gotthard tunnel',
+    uuid:'GIMPodUuid',
+    podName: 'Global Identity Management',
     podStyleClass: 'podStyleClass2',
-    podDescription:'This pod is for Gotthard tunnel Switzerland',
+    podDescription:'This pod is for Global Identity Management',
     podMembers: [//PodMemberDto
       {
         uuid: 'podMemberTimUuid1',

@@ -79,12 +79,14 @@
   /*border-left: 1px solid #009BD2;
   border-right: 1px solid #009BD2;*/
 }
+
 .available + .unavailable {
   //border-left: 1px solid white;
 }
 .unavailable + .available {
   //border-right: 1px solid white;
 }
+
 .employeeRow{
   display: flex;
 }

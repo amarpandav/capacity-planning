@@ -20,16 +20,16 @@ export const SCHEDULER_VIEW_TEST_DATA = [
           {
             uuid: 'AmarPandavBookedCapacityUuid-01082024',
             morningPod: {//PodDto
-              uuid: 'InternationalSpaceStationPodUuid',
-              podName: 'International Space Station',
+              uuid: 'AURAPodUuid',
+              podName: 'AURA',
               podStyleClass: 'podStyleClass1',
-              podDescription: 'This pod is for International Space Station USA'
+              podDescription: 'This pod is for AURA'
             },
             afternoonPod: {//PodDto
-              uuid: 'InternationalSpaceStationPodUuid',
-              podName: 'International Space Station',
+              uuid: 'AURAPodUuid',
+              podName: 'AURA',
               podStyleClass: 'podStyleClass1',
-              podDescription: 'This pod is for International Space Station USA'
+              podDescription: 'This pod is for AURA'
             }
           }
 
@@ -39,16 +39,16 @@ export const SCHEDULER_VIEW_TEST_DATA = [
         userBookedCapacity: {//UserBookedCapacityDto
           uuid: 'AmarPandavBookedCapacityUuid-02082024',
           morningPod: {//PodDto
-            uuid: 'InternationalSpaceStationPodUuid',
-            podName: 'International Space Station',
+            uuid: 'AURAPodUuid',
+            podName: 'AURA',
             podStyleClass: 'podStyleClass1',
-            podDescription: 'This pod is for International Space Station USA'
+            podDescription: 'This pod is for AURA'
           },
           afternoonPod: {//PodDto
-            uuid: 'GotthardTunnelPodUuid',
-            podName: 'Gotthard tunnel',
+            uuid: 'GIMPodUuid',
+            podName: 'Global Identity Management',
             podStyleClass: 'podStyleClass2',
-            podDescription: 'This pod is for Gotthard tunnel Switzerland'
+            podDescription: 'This pod is for Global Identity Management'
           }
         }
 
@@ -58,10 +58,10 @@ export const SCHEDULER_VIEW_TEST_DATA = [
         userBookedCapacity: {//UserBookedCapacityDto
           uuid: 'AmarPandavBookedCapacityUuid-03082024',
           afternoonPod: {//PodDto
-            uuid: 'InternationalSpaceStationPodUuid',
-            podName: 'International Space Station',
+            uuid: 'AURAPodUuid',
+            podName: 'AURA',
             podStyleClass: 'podStyleClass1',
-            podDescription: 'This pod is for International Space Station USA'
+            podDescription: 'This pod is for AURA'
           }
         }
 
@@ -103,10 +103,10 @@ export const SCHEDULER_VIEW_TEST_DATA = [
         userBookedCapacity: { //UserBookedCapacityDto
           uuid: 'ThomasDoblerBookedCapacityUuid-09082024',
           morningPod: {//PodDto
-            uuid: 'GotthardTunnelPodUuid',
-            podName: 'Gotthard tunnel',
+            uuid: 'GIMPodUuid',
+            podName: 'Global Identity Management',
             podStyleClass: 'podStyleClass2',
-            podDescription: 'This pod is for Gotthard tunnel Switzerland'
+            podDescription: 'This pod is for Global Identity Management'
           }
         },
         userAvailableCapacity: {
