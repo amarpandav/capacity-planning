@@ -1,0 +1,435 @@
+<div class="card" style="width: 50rem;">
+  <div class="card-body">
+    <h5 class="card-title">Scheduler</h5>
+    <p class="card-text">Settings</p>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="selectedYear" class="form-label">Months to view</label>
+        <input type="number" class="form-control" id="selectedYear" name="selectedYear"
+               [(ngModel)]="schedulerSettings.yearToView">
+
+        <label for="selectedMonth" class="form-label">Starting month to view</label>
+        <input type="number" class="form-control" id="selectedMonth" name="selectedMonth"
+               [(ngModel)]="schedulerSettings.startMonthToView">
+
+        <label for="selectedMonthsToView" class="form-label">No. of months to view</label>
+        <input type="number" class="form-control" id="selectedMonthsToView" name="selectedMonthsToView"
+               [(ngModel)]="schedulerSettings.noOfMonthsToView">
+
+      </div>
+      <button type="submit" class="btn btn-primary">Change settings</button>
+    </form>
+  </div>
+</div>
+
+
+<!--div style="display:flex; zoom:150%">
+  <div><img src="months.png" alt="months.png"/></div>
+  <div><img src="months_v2.png" alt="months_v2.png"/></div>
+</div-->
+<div style="display:flex;justify-content: center;font-size: 20px;">Pod: International Space Station</div>
+
+<table class="scheduler">
+  <div style='display:flex'>
+    <div class='cell' style='width:180px;flex-shrink:0;'></div>
+    @for (monthHeaderDto of monthHeaders; track monthHeaderDto.monthAsString) {
+      <div class='cell monthHeader'
+           [style]="'width:'+monthHeaderDto.noOfDays*20+'px'">{{ monthHeaderDto.monthAsString }}
+      </div>
+    }
+  </div>
+  <div style='display:flex'>
+    <div class='cell' style='width:180px;flex-shrink:0;'></div>
+
+    @for (weekHeaderDto of weekHeaders; track weekHeaderDto.weekNumber) {
+      <div class='cell weekHeader' [style]="'width:'+weekHeaderDto.noOfDays*20+'px'">cw{{ weekHeaderDto.weekNumber }}
+      </div>
+    }
+
+  </div>
+  <div style='display:flex'>
+    <div class='cell' style='width:180px;flex-shrink:0;'></div>
+    @for (dayHeaderDto of dayHeaders; track $index) {
+      <div class='cell dayHeader'>{{ dayHeaderDto.day | date: 'd' }}</div>
+    }
+  </div>
+
+  @for (schedulerView of schedulerViews; track schedulerView) {
+    <div class='employeeRow'>
+      <div class='cell employeeName'>pic: {{ schedulerView.user.name }}
+        ({{ JSON.stringify(schedulerView.podMemberRoles) }})
+      </div>
+
+      @for (userCapacity of schedulerView.userCapacities; track userCapacity) {
+        <!--div class='cell day weekDay' -->
+        <!--{{userCapacity.day}};{{userCapacity.dayAsStr}};{{DateUtils.isWeekend(userCapacity.day, userCapacity.dayAsStr)}}-->
+        <div class='cell day ' [class]="{weekEnd: DateUtils.isWeekend(userCapacity.day, userCapacity.dayAsStr), weekDay: !DateUtils.isWeekend(userCapacity.day, userCapacity.dayAsStr) }">
+          <!--div class='cell day ' [class]="{weekEnd: isWeekEnd2(userCapacity.day | date: 'dd.MM.YYYY'), weekDay: !isWeekEnd2(userCapacity.day | date: 'dd.MM.YYYY') }"-->
+          <div style='height:100%;width:50%;' class='daypart morning {{userCapacity.userBookedCapacity?.morningPod?.podStyleClass}} {{userCapacity.userAvailableCapacity?.morningAvailability?.availabilityTypeStyleClass}}'></div>
+          <div style='height:100%;width:50%;' class='daypart afternoon {{userCapacity.userBookedCapacity?.afternoonPod?.podStyleClass}} {{userCapacity.userAvailableCapacity?.afternoonAvailability?.availabilityTypeStyleClass}}'></div>
+        </div>
+      }
+    </div>
+  }
+
+  <!--<div class='cell employeeName'>pic: Akhila Ekbal Munshi (UI-UX)</div>
+
+  @for (dayHeaderDto of dayHeaderDtos; track $index) {
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning pod1'></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+  }
+-->
+
+
+  <!--
+  <div class='employeeRow'>
+    <div class='cell employeeName'>Akhila Ekbal Munshi (UI-UX)</div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning  project1'></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon  project1'></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning  project1'></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon  project1'></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning  unavailable'></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning  project1'></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon  unavailable'></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning  project1'></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon  unavailable'></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning  project1'></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon  unavailable'></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning  project1'></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon  unavailable'></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning  project1'></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon  project1'></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning  unavailable'></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekDay'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+    <div class='cell day weekend'>
+      <div style='height:100%;width:50%;' class='daypart morning '></div>
+      <div style='height:100%;width:50%;' class='daypart afternoon '></div>
+    </div>
+  </div>
+  -->
+</table>
+
+
+
+
+
+
+
