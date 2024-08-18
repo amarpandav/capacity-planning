@@ -55,6 +55,8 @@ export class SchedulerComponent implements OnInit {
 
     protected readonly schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA;
 
+    selectedPod: PodDto;
+
     isWeekEnd(date: string): boolean {
         /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
         let day = new Date(date, '').getDay();*/
@@ -73,11 +75,10 @@ export class SchedulerComponent implements OnInit {
     constructor(private datePipe: DatePipe) {
         this.schedulerSettings = SchedulerSettingsDto.newInstance(new Date().getFullYear(), new Date().getMonth(), 3);
 
-
         this.populateHeaders();
+
         this.populateSchedulerTestData();
-
-
+        this.selectedPod = POD_TEST_DATA[0]; // Default - on logon - fetch all pods of logged-in user and select first
     }
 
     /**
@@ -86,6 +87,7 @@ export class SchedulerComponent implements OnInit {
      * @private
      */
     private populateSchedulerTestData() {
+
         this.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
             /*this.podMemberCapacities.forEach( (podMemberCapacityDto: PodMemberCapacityDto) => {
               let headerDateAsStr = this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
