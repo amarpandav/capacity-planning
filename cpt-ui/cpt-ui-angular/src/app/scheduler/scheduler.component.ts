@@ -55,7 +55,7 @@ export class SchedulerComponent implements OnInit {
 
     protected readonly schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA;
 
-    selectedPod: PodDto;
+    selectedPod: PodDto = POD_TEST_DATA[0]; // TODO Default - on logon - fetch all pods of logged-in user and select first
 
     isWeekEnd(date: string): boolean {
         /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
@@ -78,7 +78,6 @@ export class SchedulerComponent implements OnInit {
         this.populateHeaders();
 
         this.populateSchedulerTestData();
-        this.selectedPod = POD_TEST_DATA[0]; // Default - on logon - fetch all pods of logged-in user and select first
     }
 
     /**
