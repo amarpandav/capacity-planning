@@ -21,198 +21,194 @@ import {SCHEDULER_VIEW_TEST_DATA} from "./testdata/scheduler/scheduler-view.test
 import {SchedulerViewDto} from "./models/scheduler/scheduler-view.model";
 import {AvailabilityType} from "./models/availability/availability.enum";
 import {UserCapacityDto} from "./models/user/user.capacity.model";
-import { DateUtils } from '../shared/utils/DateUtils';
+import {DateUtils} from '../shared/utils/DateUtils';
 
 @Component({
-  selector: 'app-scheduler',
-  standalone: true,
-  imports: [
-    FormsModule,
-    DatePipe
-  ],
-  templateUrl: './scheduler.component.html',
-  styleUrl: './scheduler.component.scss'
+    selector: 'app-scheduler',
+    standalone: true,
+    imports: [
+        FormsModule,
+        DatePipe
+    ],
+    templateUrl: './scheduler.component.html',
+    styleUrl: './scheduler.component.scss'
 })
 export class SchedulerComponent implements OnInit {
 
-  schedulerSettings: SchedulerSettingsDto;
+    schedulerSettings: SchedulerSettingsDto;
 
-  monthHeaders: MonthHeaderDto[] = [];
+    monthHeaders: MonthHeaderDto[] = [];
 
-  dayHeaders: DayHeaderDto[] = [];
+    dayHeaders: DayHeaderDto[] = [];
 
-  weekHeaders: WeekHeaderDto[] = [];
+    weekHeaders: WeekHeaderDto[] = [];
 
-  protected readonly availability: AvailabilityDto[] = AVAILABILITY_TEST_DATA;
+    protected readonly availability: AvailabilityDto[] = AVAILABILITY_TEST_DATA;
 
-  protected readonly users: UserDto[] = USER_TEST_DATA;
-  protected readonly userAvailableCapacities: UserAvailableCapacityDto[] = USER_AVAILABLE_CAPACITY_TEST_DATA;
+    protected readonly users: UserDto[] = USER_TEST_DATA;
+    protected readonly userAvailableCapacities: UserAvailableCapacityDto[] = USER_AVAILABLE_CAPACITY_TEST_DATA;
 
-  protected readonly podMembers: PodMemberDto[] = POD_MEMBER_TEST_DATA;
-  protected readonly podWatchers: PodWatcherDto[] = POD_WATCHER_TEST_DATA;
+    protected readonly podMembers: PodMemberDto[] = POD_MEMBER_TEST_DATA;
+    protected readonly podWatchers: PodWatcherDto[] = POD_WATCHER_TEST_DATA;
 
-  protected readonly pods: PodDto[] = POD_TEST_DATA;
+    protected readonly pods: PodDto[] = POD_TEST_DATA;
 
-  protected readonly schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA;
+    protected readonly schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA;
 
-  isWeekEnd(date: string): boolean {
-    /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
-    let day = new Date(date, '').getDay();*/
-    let day = new Date(date).getDay();
-    //console.log(date);
-    //console.log(day);
-    return (day === 0 || day === 6)
-  }
-
-  isWeekEnd2(day: string | null): boolean {
-console.log(day);
-    return true;
-    /*return (day === 0 || day === 6)*/
-  }
-
-  constructor(private datePipe: DatePipe) {
-    this.schedulerSettings = SchedulerSettingsDto.newInstance(new Date().getFullYear(), new Date().getMonth(), 3);
-
-
-    this.populateHeaders();
-    /*console.log(this.availability);
-    console.log(this.users);
-    console.log(this.userAvailableCapacities);
-    console.log(this.podMembers);
-    console.log(this.podWatchers);
-    console.log(this.pods);
-    console.log(this.schedulerViews);*/
-
-    /*
-    let weekHeaderDto = this.weekHeaderDtos.find(week => week.weekNumber === weekNumber);
-      if(weekHeaderDto){
-        //We already exists
-        weekHeaderDto.increaseNoOfDaysByOne();
-      }else{
-        weekHeaderDto = new WeekHeaderDto(weekNumber);
-        weekHeaderDto.increaseNoOfDaysByOne();
-        this.weekHeaderDtos.push(weekHeaderDto)
-      }
-     */
-    //Workaround: only temporary solution. In reality all this must come from backend.
-    // Mark remaining capacity as available
-    this.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
-      /*this.podMemberCapacities.forEach( (podMemberCapacityDto: PodMemberCapacityDto) => {
-        let headerDateAsStr = this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
-        let find = podMemberCapacityDto.userCapacities?.find(capacityDto => capacityDto.day === headerDateAsStr);
-      });*/
-      this.schedulerViews.forEach((schedulerViewDto: SchedulerViewDto) => {
-        //let userDto = schedulerViewDto.user;
-
-        //let headerDateAsStr = "" + this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
-        let headerDateAsStr = DateUtils.formatToISODate(dayHeaderDto.day);
-        let userCapacityDto = schedulerViewDto.userCapacities?.find(capacityDto => capacityDto.dayAsStr === headerDateAsStr);
-
-        if (userCapacityDto) {
-          userCapacityDto.day = DateUtils.parseISODate(userCapacityDto.dayAsStr);//This is needed because constructor is not called when we use schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA
-          //capacity for this day exists, check if its complete otherwise complete it
-          //completing it means, morning and afternoon must be filled in with either booking or availability
-          console.log("userCapacityDto found: " + JSON.stringify(userCapacityDto));
-          /*console.log("userCapacityDto.userBookedCapacity?.morningPod: " + userCapacityDto.userBookedCapacity?.morningPod);
-          console.log("userCapacityDto.userBookedCapacity?.afternoonPod: " + userCapacityDto.userBookedCapacity?.afternoonPod);
-          console.log("userCapacityDto.userAvailableCapacity?.morningAvailability: " + userCapacityDto.userAvailableCapacity?.morningAvailability);
-          console.log("userCapacityDto.userAvailableCapacity?.afternoonAvailability: " + userCapacityDto.userAvailableCapacity?.afternoonAvailability);*/
-          if (!userCapacityDto.userBookedCapacity?.morningPod && !userCapacityDto.userAvailableCapacity?.morningAvailability) {
-            //both do not exist hence create  userAvailableCapacity as available or public holiday
-            if (DateUtils.isWeekend(dayHeaderDto.day)) {
-              let publicHolidayMorningAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.PUBLIC_HOLIDAY);
-              userCapacityDto.userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, publicHolidayMorningAvailabilityDto, null);
-            } else {
-              let availableMorningAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.AVAILABLE);
-              userCapacityDto.userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, availableMorningAvailabilityDto, null);
-            }
-          }else if (!userCapacityDto.userBookedCapacity?.afternoonPod && !userCapacityDto.userAvailableCapacity?.afternoonAvailability) {
-            //both do not exist hence create  userAvailableCapacity as available or public holiday
-            if (DateUtils.isWeekend(dayHeaderDto.day)) {
-              let publicHolidayAfternoonAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.PUBLIC_HOLIDAY);
-              userCapacityDto.userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, publicHolidayAfternoonAvailabilityDto);
-            } else {
-              let availableAfternoonAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.AVAILABLE);
-              userCapacityDto.userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, availableAfternoonAvailabilityDto);
-            }
-          }
-        } else {
-          //capacity for this day do not exist, complete it now
-          let availableFullDayAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.AVAILABLE);
-          let userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, availableFullDayAvailabilityDto, availableFullDayAvailabilityDto);
-
-          let userCapacityDto1 = new UserCapacityDto(headerDateAsStr, null, userAvailableCapacity);
-          schedulerViewDto.userCapacities?.push(userCapacityDto1)
-        }
-
-        //sort userCapacities otherwise manually added capacities would be pushed at the end of the list.
-        schedulerViewDto.userCapacities?.sort( (a: UserCapacityDto, b: UserCapacityDto) => {
-          if(a.day && b.day){
-            return a?.day > b?.day ? 1 : -1;
-          }
-          return 1;
-        });
-        //console.log("schedulerViews found: " + JSON.stringify(this.schedulerViews));
-
-      });
-    });
-
-
-  }
-
-  ngOnInit(): void {
-  }
-
-
-  protected readonly JSON = JSON;
-
-  onSubmit() {
-    //Recalculate the SchedulerDto
-    this.schedulerSettings = SchedulerSettingsDto.newInstance(this.schedulerSettings.yearToView, this.schedulerSettings.startMonthToView, this.schedulerSettings.noOfMonthsToView)
-
-    this.populateHeaders();
-  }
-
-  populateHeaders() {
-
-    //populate month header
-    this.monthHeaders = [];
-    for (let month = this.schedulerSettings.startMonthToView; month < this.schedulerSettings.endMonthToView; month++) {
-      //this.monthsToView.push(SchedulerDto.monthNames[month]);
-      let noOfDays = new Date(this.schedulerSettings.yearToView, month + 1, 0).getDate();
-      let monthDto = new MonthHeaderDto(month, noOfDays);
-      this.monthHeaders.push(monthDto);
+    isWeekEnd(date: string): boolean {
+        /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
+        let day = new Date(date, '').getDay();*/
+        let day = new Date(date).getDay();
+        //console.log(date);
+        //console.log(day);
+        return (day === 0 || day === 6)
     }
 
-    //populate days header
-    this.dayHeaders = [];
-    this.monthHeaders.forEach((monthHeaderDto: MonthHeaderDto) => {
-      let month = monthHeaderDto.month;
-      var date = new Date(this.schedulerSettings.yearToView, month, 1);
+    isWeekEnd2(day: string | null): boolean {
+        console.log(day);
+        return true;
+        /*return (day === 0 || day === 6)*/
+    }
 
-      while (date.getMonth() === month) {
-        this.dayHeaders.push(new DayHeaderDto(new Date(date)));
-        date.setDate(date.getDate() + 1);
-      }
-    });
-
-    //populate week header
-    this.weekHeaders = [];
-    this.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
-      let weekNumber = parseInt("" + this.datePipe.transform(dayHeaderDto.day, 'w'));
-      let weekHeaderDto = this.weekHeaders.find(week => week.weekNumber === weekNumber);
-      if (weekHeaderDto) {
-        //We already exists
-        weekHeaderDto.increaseNoOfDaysByOne();
-      } else {
-        weekHeaderDto = new WeekHeaderDto(weekNumber);
-        weekHeaderDto.increaseNoOfDaysByOne();
-        this.weekHeaders.push(weekHeaderDto)
-      }
-    });
-
-  }
+    constructor(private datePipe: DatePipe) {
+        this.schedulerSettings = SchedulerSettingsDto.newInstance(new Date().getFullYear(), new Date().getMonth(), 3);
 
 
-  protected readonly DateUtils = DateUtils;
+        this.populateHeaders();
+        this.populateSchedulerTestData();
+
+
+    }
+
+    /**
+     * Workaround: only temporary solution. In reality all this must come from backend.
+     * Mark remaining capacity as available or public holiday
+     * @private
+     */
+    private populateSchedulerTestData() {
+        this.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
+            /*this.podMemberCapacities.forEach( (podMemberCapacityDto: PodMemberCapacityDto) => {
+              let headerDateAsStr = this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
+              let find = podMemberCapacityDto.userCapacities?.find(capacityDto => capacityDto.day === headerDateAsStr);
+            });*/
+            this.schedulerViews.forEach((schedulerViewDto: SchedulerViewDto) => {
+                //let userDto = schedulerViewDto.user;
+
+                //let headerDateAsStr = "" + this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
+                let headerDateAsStr = DateUtils.formatToISODate(dayHeaderDto.day);
+                let userCapacityDto = schedulerViewDto.userCapacities?.find(capacityDto => capacityDto.dayAsStr === headerDateAsStr);
+
+                if (userCapacityDto) {
+                    //capacity for this day do exists
+                    userCapacityDto.day = DateUtils.parseISODate(userCapacityDto.dayAsStr);//This is needed because constructor is not called when we use schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA
+                    //capacity for this day exists, check if its complete otherwise complete it
+                    //completing it means, morning and afternoon must be filled in with either booking or availability
+                    //console.log("userCapacityDto found: " + JSON.stringify(userCapacityDto));
+                    /*console.log("userCapacityDto.userBookedCapacity?.morningPod: " + userCapacityDto.userBookedCapacity?.morningPod);
+                    console.log("userCapacityDto.userBookedCapacity?.afternoonPod: " + userCapacityDto.userBookedCapacity?.afternoonPod);
+                    console.log("userCapacityDto.userAvailableCapacity?.morningAvailability: " + userCapacityDto.userAvailableCapacity?.morningAvailability);
+                    console.log("userCapacityDto.userAvailableCapacity?.afternoonAvailability: " + userCapacityDto.userAvailableCapacity?.afternoonAvailability);*/
+                    if (!userCapacityDto.userBookedCapacity?.morningPod && !userCapacityDto.userAvailableCapacity?.morningAvailability) {
+                        //both do not exist hence create  userAvailableCapacity as available or public holiday
+                        let morningAvailabilityDto;
+                        if (DateUtils.isWeekend(dayHeaderDto.day)) {
+                            morningAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.PUBLIC_HOLIDAY);
+                        } else {
+                            morningAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.AVAILABLE);
+                        }
+                        userCapacityDto.userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, morningAvailabilityDto, null);
+                    } else if (!userCapacityDto.userBookedCapacity?.afternoonPod && !userCapacityDto.userAvailableCapacity?.afternoonAvailability) {
+                        //both do not exist hence create  userAvailableCapacity as available or public holiday
+                        let afternoonAvailabilityDto
+                        if (DateUtils.isWeekend(dayHeaderDto.day)) {
+                            afternoonAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.PUBLIC_HOLIDAY);
+                        } else {
+                            afternoonAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.AVAILABLE);
+                        }
+                        userCapacityDto.userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, afternoonAvailabilityDto);
+                    }
+                } else {
+                    //capacity for this day do not exist, complete it now
+                    let availableFullDayAvailabilityDto
+                    if (DateUtils.isWeekend(dayHeaderDto.day)) {
+                        //console.log(dayHeaderDto.day +"is holiday");
+                        availableFullDayAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.PUBLIC_HOLIDAY);
+                        //console.log(JSON.stringify(availableFullDayAvailabilityDto));
+                    } else {
+                        availableFullDayAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.AVAILABLE);
+                    }
+                    let userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, availableFullDayAvailabilityDto, availableFullDayAvailabilityDto);
+
+                    let userCapacityDto1 = new UserCapacityDto(headerDateAsStr, null, null, userAvailableCapacity);
+                    schedulerViewDto.userCapacities?.push(userCapacityDto1)
+                }
+
+                //sort userCapacities otherwise manually added capacities would be pushed at the end of the list.
+                schedulerViewDto.userCapacities?.sort((a: UserCapacityDto, b: UserCapacityDto) => {
+                    if (a.day && b.day) {
+                        return a?.day > b?.day ? 1 : -1;
+                    }
+                    return 1;
+                });
+            });
+        });
+
+        console.log("schedulerViews found: " + JSON.stringify(this.schedulerViews));
+    }
+
+    ngOnInit(): void {
+    }
+
+
+    protected readonly JSON = JSON;
+
+    onSubmit() {
+        //Recalculate the SchedulerDto
+        this.schedulerSettings = SchedulerSettingsDto.newInstance(this.schedulerSettings.yearToView, this.schedulerSettings.startMonthToView, this.schedulerSettings.noOfMonthsToView)
+
+        this.populateHeaders();
+    }
+
+    populateHeaders() {
+
+        //populate month header
+        this.monthHeaders = [];
+        for (let month = this.schedulerSettings.startMonthToView; month < this.schedulerSettings.endMonthToView; month++) {
+            //this.monthsToView.push(SchedulerDto.monthNames[month]);
+            let noOfDays = new Date(this.schedulerSettings.yearToView, month + 1, 0).getDate();
+            let monthDto = new MonthHeaderDto(month, noOfDays);
+            this.monthHeaders.push(monthDto);
+        }
+
+        //populate days header
+        this.dayHeaders = [];
+        this.monthHeaders.forEach((monthHeaderDto: MonthHeaderDto) => {
+            let month = monthHeaderDto.month;
+            var date = new Date(this.schedulerSettings.yearToView, month, 1);
+
+            while (date.getMonth() === month) {
+                this.dayHeaders.push(new DayHeaderDto(new Date(date)));
+                date.setDate(date.getDate() + 1);
+            }
+        });
+
+        //populate week header
+        this.weekHeaders = [];
+        this.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
+            let weekNumber = parseInt("" + this.datePipe.transform(dayHeaderDto.day, 'w'));
+            let weekHeaderDto = this.weekHeaders.find(week => week.weekNumber === weekNumber);
+            if (weekHeaderDto) {
+                //We already exists
+                weekHeaderDto.increaseNoOfDaysByOne();
+            } else {
+                weekHeaderDto = new WeekHeaderDto(weekNumber);
+                weekHeaderDto.increaseNoOfDaysByOne();
+                this.weekHeaders.push(weekHeaderDto)
+            }
+        });
+
+    }
+
+
+    protected readonly DateUtils = DateUtils;
 }
