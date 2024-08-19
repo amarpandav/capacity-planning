@@ -1,9 +1,9 @@
 package com.ubs.cpt.infra.test.base;
 
 
-import com.smoothie.infra.spring.config.AppConfig;
-import com.smoothie.infra.spring.profiles.ProfileHSQLDB;
-import com.smoothie.infra.test.config.TestDataConfig;
+import com.ubs.cpt.infra.spring.config.AppConfig;
+import com.ubs.cpt.infra.spring.profiles.ProfileHSQLDB;
+import com.ubs.cpt.infra.test.config.TestDataConfig;
 import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
