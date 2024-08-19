@@ -18,6 +18,7 @@
         <!-- Modules from Amar starts here-->
         <module>modules/domainLib</module>
         <module>modules/infraLib</module>
+        <module>modules/serviceLib</module>
         <module>modules/testDataLib</module>
         <module>modules/testInfraLib</module>
     </modules>
