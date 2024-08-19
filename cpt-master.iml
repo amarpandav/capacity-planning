@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/modules/domainLib/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/modules/infraLib/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/modules/testInfraLib/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/modules/serviceLib/src/main/java" isTestSource="false" />
     </content>
   </component>
 </module>

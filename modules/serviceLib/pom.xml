@@ -10,12 +10,12 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>cpt-infra</artifactId>
+    <artifactId>cpt-service</artifactId>
     <version>${parent.version}</version>
     <packaging>jar</packaging>
 
     <description>
-        This module contains infra.
+        This module contains service.
     </description>
 
     <dependencies>
@@ -23,7 +23,7 @@
         <!-- cpt internal  dependencies-->
         <dependency>
             <groupId>com.ubs.cpt</groupId>
-            <artifactId>cpt-domain</artifactId>
+            <artifactId>cpt-infra</artifactId>
         </dependency>
 
         <dependency>

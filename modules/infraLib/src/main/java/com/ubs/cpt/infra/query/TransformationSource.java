@@ -1,6 +1,7 @@
 package com.ubs.cpt.infra.query;
 
 import com.google.common.base.Function;
+import com.ubs.cpt.domain.entity.user.UserKey;
 import com.ubs.cpt.infra.domain.EntityId;
 import com.ubs.cpt.infra.util.CollectionUtils;
 import org.joda.time.DateTime;
@@ -261,6 +262,15 @@ public class TransformationSource {
 
             String uuid = asString();
             return uuid != null ? EntityId.<T>fromUuid(uuid) : null;
+        }
+
+        public  UserKey asUserKey() {
+            if (asObject() instanceof UserKey) {
+                return (UserKey) asObject();
+            }
+
+            String key = asString();
+            return key != null ? new UserKey(key) : null;
         }
 
 
