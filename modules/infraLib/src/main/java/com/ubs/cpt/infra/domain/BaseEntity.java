@@ -5,7 +5,7 @@ import com.ubs.cpt.infra.domain.base.AuditInfo;
 import com.ubs.cpt.infra.domain.base.AuditListener;
 import com.ubs.cpt.infra.domain.base.Auditable;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 /**
  * Base type for all entities.

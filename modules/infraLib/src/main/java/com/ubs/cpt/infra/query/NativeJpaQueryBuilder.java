@@ -6,8 +6,8 @@ import com.ubs.cpt.infra.util.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 

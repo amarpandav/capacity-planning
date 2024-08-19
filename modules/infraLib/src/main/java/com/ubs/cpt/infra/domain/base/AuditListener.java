@@ -1,7 +1,7 @@
 package com.ubs.cpt.infra.domain.base;
 
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 
 /**
  * @author Amar Pandav

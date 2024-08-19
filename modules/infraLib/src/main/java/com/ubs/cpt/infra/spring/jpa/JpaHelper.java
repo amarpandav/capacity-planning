@@ -1,7 +1,7 @@
 package com.ubs.cpt.infra.spring.jpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 
 
 public class JpaHelper {

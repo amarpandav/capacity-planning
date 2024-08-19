@@ -1,9 +1,8 @@
 package com.ubs.cpt.domain.entity.user;
 
-import com.smoothie.infra.domain.base.FieldConstants;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import com.ubs.cpt.infra.domain.base.FieldConstants;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 
 

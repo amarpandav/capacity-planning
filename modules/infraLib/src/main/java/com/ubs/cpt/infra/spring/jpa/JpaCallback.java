@@ -1,6 +1,6 @@
 package com.ubs.cpt.infra.spring.jpa;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 
 public interface JpaCallback<T> {
     T doWith(EntityManager em);

@@ -4,9 +4,7 @@ package com.ubs.cpt.domain.entity.user;
 import com.ubs.cpt.infra.domain.BaseEntity;
 import com.ubs.cpt.infra.domain.base.FieldConstants;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  * User table.

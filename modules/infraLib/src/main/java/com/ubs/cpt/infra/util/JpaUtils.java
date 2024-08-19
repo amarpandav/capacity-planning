@@ -6,10 +6,10 @@ import org.hibernate.internal.QueryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.NonUniqueResultException;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NonUniqueResultException;
+import jakarta.persistence.Query;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -30,13 +30,13 @@ public class JpaUtils {
 
     /**
      * Convenient util to get a single result from a query in an "empty result"-friendly way.
-     * Instead of using {@link javax.persistence.Query#getSingleResult()} (which throws a NoResultException) you can
-     * use {@link javax.persistence.Query#getResultList()} and convert it to a single result with this static method.
+     * Instead of using {@link jakarta.persistence.Query#getSingleResult()} (which throws a NoResultException) you can
+     * use {@link jakarta.persistence.Query#getResultList()} and convert it to a single result with this static method.
      *
      * @param resultList a JPA query result list with zero or one element
      * @param <E>        Type of queried object
      * @return null if result list was empty, or first element of list if size of list is one
-     * @throws javax.persistence.NonUniqueResultException if given list contains mor than one elements
+     * @throws jakarta.persistence.NonUniqueResultException if given list contains mor than one elements
      */
     @SuppressWarnings("unchecked")
     public static <E> E toSingleResult(List resultList) {

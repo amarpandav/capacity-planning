@@ -4,8 +4,8 @@ import com.ubs.cpt.infra.exception.DatabaseException;
 import com.ubs.cpt.infra.search.DefaultSearchParameters;
 import com.ubs.cpt.infra.util.JpaUtils;
 
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Query;
 import java.util.List;
 
 /**

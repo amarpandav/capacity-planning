@@ -3,6 +3,8 @@ package com.ubs.cpt.infra.datetime;
 import org.joda.time.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -15,7 +17,7 @@ public class CoreDateTimeUtils {
     //private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(CoreDateTimeUtils.class);
 
     public static final TimeZone JAVA_TIME_ZONE = TimeZone.getTimeZone("Europe/Zurich");
-    public static final DateTimeZone JODA_DATE_TIME_ZONE = DateTimeZone.forTimeZone(JAVA_TIME_ZONE);
+    public static final ZonedDateTime JODA_DATE_TIME_ZONE = ZonedDateTime.forTimeZone(JAVA_TIME_ZONE);
 
     /**
      * @deprecated
