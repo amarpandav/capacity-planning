@@ -1,6 +1,6 @@
 package com.ubs.cpt.infra.test.util;
 
-import com.smoothie.infra.spring.profiles.SpringProfiles;
+import com.ubs.cpt.infra.spring.profiles.SpringProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;

@@ -2,8 +2,8 @@ package com.ubs.cpt.infra.test.base;
 
 
 import com.google.common.collect.Lists;
-import com.smoothie.infra.domain.BaseEntity;
-import com.smoothie.infra.domain.EntityId;
+import com.ubs.cpt.infra.domain.BaseEntity;
+import com.ubs.cpt.infra.domain.EntityId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
