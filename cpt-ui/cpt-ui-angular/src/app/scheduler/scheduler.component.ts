@@ -154,7 +154,7 @@ export class SchedulerComponent implements OnInit {
             });
         });
 
-        console.log("schedulerViews found: " + JSON.stringify(this.schedulerViews));
+        //console.log("schedulerViews found: " + JSON.stringify(this.schedulerViews));
     }
 
     ngOnInit(): void {
@@ -212,4 +212,25 @@ export class SchedulerComponent implements OnInit {
 
 
     protected readonly DateUtils = DateUtils;
+
+    onDragStart($event: MouseEvent, user: UserDto, userCapacity: UserCapacityDto, morningPod: PodDto | null | undefined, morningAvailability: AvailabilityDto | null | undefined, afternoonPod: PodDto | null | undefined, afternoonAvailability: AvailabilityDto | null | undefined) {
+        console.log("onDragStart...");
+        console.log("user:"+ JSON.stringify(user));
+        console.log("userCapacity:"+ JSON.stringify(userCapacity));
+        console.log("morningPod:"+ JSON.stringify(morningPod));
+        console.log("morningAvailability:"+ JSON.stringify(morningAvailability));
+        console.log("afternoonPod:"+ JSON.stringify(afternoonPod));
+        console.log("afternoonAvailability:"+ JSON.stringify(afternoonAvailability));
+
+    }
+
+    onDragEnd($event: MouseEvent, user: UserDto, userCapacity: UserCapacityDto, morningPod: PodDto | null | undefined, morningAvailability: AvailabilityDto | null | undefined, afternoonPod: PodDto | null | undefined, afternoonAvailability: AvailabilityDto | null | undefined) {
+        console.log("onDragEnd...");
+        console.log("user:"+ JSON.stringify(user));
+        console.log("userCapacity:"+ JSON.stringify(userCapacity));
+        console.log("morningPod:"+ JSON.stringify(morningPod));
+        console.log("morningAvailability:"+ JSON.stringify(morningAvailability));
+        console.log("afternoonPod:"+ JSON.stringify(afternoonPod));
+        console.log("afternoonAvailability:"+ JSON.stringify(afternoonAvailability));
+    }
 }
