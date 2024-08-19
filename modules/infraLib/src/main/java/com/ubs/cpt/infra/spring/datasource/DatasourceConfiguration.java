@@ -3,6 +3,7 @@ package com.ubs.cpt.infra.spring.datasource;
 import com.ubs.cpt.infra.spring.profiles.ProfileHSQLDB;
 import com.ubs.cpt.infra.spring.profiles.ProfileMYSQLDBDEV;
 import com.ubs.cpt.infra.spring.profiles.ProfileMYSQLDBPROD;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,9 @@ import java.util.Properties;
  * <p>Configuration class that produces bean definitions for data sources. Depending on the datasource
  * that you specify (via command line parameters) a different data source will be produced.</p>
  */
+@Slf4j
 @Configuration
 public class DatasourceConfiguration {
-
-    private static final Logger logger = LoggerFactory.getLogger(DatasourceConfiguration.class);
 
     public static final String BEAN_JPA_PROPERTIES = "myJpaProperties";
     public static final String BEAN_DATA_SOURCE = "myDataSource";
@@ -45,7 +45,7 @@ public class DatasourceConfiguration {
     @Bean(name = BEAN_DATA_SOURCE)
     @ProfileHSQLDB
     public DataSource hsqldbMemoryDataSourceCore() {
-        logger.info("Inside hsqldbMemoryDataSourceCore ");
+        log.info("Inside hsqldbMemoryDataSourceCore ");
         return Datasource.HSQLDB.getDataSource();
     }
 
@@ -59,7 +59,7 @@ public class DatasourceConfiguration {
     @Bean(name = BEAN_DATA_SOURCE)
     @ProfileMYSQLDBDEV
     public DataSource mysqldbDevDataSourceCore() {
-        logger.info("Inside mysqldbDevDataSourceCore ");
+        log.info("Inside mysqldbDevDataSourceCore ");
         return Datasource.MYSQL_DEV.getDataSource();
     }
 
@@ -73,7 +73,7 @@ public class DatasourceConfiguration {
     @Bean(name = BEAN_DATA_SOURCE)
     @ProfileMYSQLDBPROD
     public DataSource mysqldbProdDataSourceCore() {
-        logger.info("Inside mysqldbProdDataSourceCore ");
+        log.info("Inside mysqldbProdDataSourceCore ");
         return Datasource.MYSQL_PROD.getDataSource();
     }
 
@@ -97,8 +97,6 @@ public class DatasourceConfiguration {
 
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(emf);
-        return transactionManager;
+        return new JpaTransactionManager(emf);
     }
 }
