@@ -22,8 +22,17 @@
         <!-- cpt internal  dependencies-->
         <dependency>
             <groupId>com.ubs.cpt</groupId>
+            <artifactId>cpt-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ubs.cpt</groupId>
             <artifactId>cpt-infra</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ubs.cpt</groupId>
+            <artifactId>cpt-test-infra</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>jakarta.persistence</groupId>

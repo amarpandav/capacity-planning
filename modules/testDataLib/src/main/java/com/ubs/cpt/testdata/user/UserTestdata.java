@@ -1,9 +1,10 @@
 package com.ubs.cpt.testdata.user;
 
-import com.ubs.cpt.domain.entity.User;
+import com.ubs.cpt.domain.entity.user.User;
+import com.ubs.cpt.domain.entity.user.UserKey;
 import com.ubs.cpt.infra.test.base.TestDataSuite;
 /**
- * Testdata for {@link com.ubs.cpt.domain.entity.User}.
+ * Testdata for {@link com.ubs.cpt.domain.entity.user.User}.
  *
  * @author Amar Pandav
  */
@@ -11,21 +12,21 @@ public class UserTestdata {
 
    private String name;
 
-    private String gpin;
+    private UserKey key;
 
     public UserTestdata withName(String name) {
         this.name = name;
         return this;
     }
 
-    public UserTestdata withGPIN(String gpin) {
-        this.gpin = gpin;
+    public UserTestdata withGPIN(UserKey key) {
+        this.key = key;
         return this;
     }
 
 
     public User create() {
-        User user = new User(name, gpin);
+        User user = new User(name, key);
         return user;
     }
 
@@ -33,27 +34,27 @@ public class UserTestdata {
     public static class SuiteSynthetic extends TestDataSuite<User> {
         public User APPLE = register(new com.ubs.cpt.testdata.user.UserTestdata()
                 .withName("Amar Pandav")
-                .withGPIN("AmarPandavGPIN")
+                .withGPIN(new UserKey("AmarPandavGPIN"))
                 .create());
 
         public User BANANA = register(new com.ubs.cpt.testdata.user.UserTestdata()
                 .withName("Thomas Dobler")
-                .withGPIN("ThomasDoblerGPIN")
+                .withGPIN(new UserKey("ThomasDoblerGPIN"))
                 .create());
 
         public User KIWI = register(new com.ubs.cpt.testdata.user.UserTestdata()
                 .withName("Wiktor")
-                .withGPIN("WiktorGPIN")
+                .withGPIN(new UserKey("WiktorGPIN"))
                 .create());
 
         public User ORANGE = register(new com.ubs.cpt.testdata.user.UserTestdata()
                 .withName("Kamil Lipinski")
-                .withGPIN("KamilLipinskiGPIN")
+                .withGPIN(new UserKey("KamilLipinskiGPIN"))
                 .create());
 
         public User LEMON = register(new com.ubs.cpt.testdata.user.UserTestdata()
                 .withName("Nitesh Shriya")
-                .withGPIN("NiteshShriyanGPIN")
+                .withGPIN(new UserKey("NiteshShriyanGPIN"))
                 .create());
 
 
