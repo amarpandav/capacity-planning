@@ -11,6 +11,10 @@
     <file url="file://$PROJECT_DIR$/cpt-web-spring/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cpt-web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cpt-web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/testDataLib/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/testDataLib/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/testInfraLib/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modules/testInfraLib/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
   </component>

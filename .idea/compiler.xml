@@ -7,12 +7,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="cpt-core" />
+        <module name="cpt-test-data" />
         <module name="cpt-web-spring" />
+        <module name="cpt-test-infra" />
+        <module name="cpt-core" />
         <module name="cpt-shared-utils" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="cpt-ui" target="21" />
       <module name="cpt-web" target="21" />
     </bytecodeTargetLevel>
   </component>

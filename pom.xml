@@ -13,7 +13,11 @@
         <module>cpt-core</module>
         <module>cpt-shared-utils</module>
         <module>cpt-web-spring</module>
-        <module>cpt-ui</module>
+        <!--module>cpt-ui</module> temporarily commenting this out -->
+
+        <!-- Modules from Amar starts here-->
+        <module>modules/testDataLib</module>
+        <module>modules/testInfraLib</module>
     </modules>
 
     <properties>

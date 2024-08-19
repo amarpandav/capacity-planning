@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class AuraUserRepositoryTest extends AuraTestBase {
+
     @Autowired
     AuraUserRepository auraUserRepository;
 
