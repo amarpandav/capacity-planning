@@ -9,7 +9,7 @@
     </description>
 
     <parent>
-        <groupId>com.ubs.tools.cpt</groupId>
+        <groupId>com.ubs.cpt</groupId>
         <artifactId>cpt-master</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>

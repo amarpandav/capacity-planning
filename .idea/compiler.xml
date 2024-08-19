@@ -8,10 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="cpt-test-data" />
+        <module name="cpt-domain" />
+        <module name="cpt-shared-utils" />
+        <module name="cpt-infra" />
         <module name="cpt-web-spring" />
         <module name="cpt-test-infra" />
         <module name="cpt-core" />
-        <module name="cpt-shared-utils" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/cpt-web-spring/src/test/java/com/ubs/tools/cpt/web/test/AuraTestBase.java" dialect="HSQLDB" />
+    <file url="file://$PROJECT_DIR$/cpt-web-spring/src/test/java/com/ubs/cpt/web/test/AuraTestBase.java" dialect="HSQLDB" />
   </component>
 </project>
