@@ -44,4 +44,16 @@ public class Availability extends BaseEntity<com.ubs.cpt.domain.entity.availabil
         this.availabilityDescription = availabilityDescription;
         this.availabilityTypeStyleClass = availabilityTypeStyleClass;
     }
+
+    public AvailabilityType getAvailabilityType() {
+        return availabilityType;
+    }
+
+    public String getAvailabilityDescription() {
+        return availabilityDescription;
+    }
+
+    public String getAvailabilityTypeStyleClass() {
+        return availabilityTypeStyleClass;
+    }
 }

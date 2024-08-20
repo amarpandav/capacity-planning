@@ -41,19 +41,19 @@ public class AvailabilityTestdata {
 
 
     public static class SuiteSynthetic extends TestDataSuite<Availability> {
-        public Availability AMAR = register(new AvailabilityTestdata()
+        public Availability AVAILABLE = register(new AvailabilityTestdata()
                 .withAvailabilityType(AvailabilityType.AVAILABLE)
                 .withAvailabilityDescription("Availability is available for booking")
                 .withAvailabilityTypeStyleClass("available")
                 .create());
 
-        public Availability THOMAS = register(new AvailabilityTestdata()
+        public Availability ABSENT = register(new AvailabilityTestdata()
                 .withAvailabilityType(AvailabilityType.ABSENT)
                 .withAvailabilityDescription("As per WAY member is not working, reason could be anything for e.g. vacations, sickness, attending conference etc")
                 .withAvailabilityTypeStyleClass("absent")
                 .create());
 
-        public Availability WIKTOR = register(new AvailabilityTestdata()
+        public Availability PUBLIC_HOLIDAY = register(new AvailabilityTestdata()
                 .withAvailabilityType(AvailabilityType.PUBLIC_HOLIDAY)
                 .withAvailabilityDescription("Globally Saturday and Sunday are treated as public holidays. Other than that regional holidays are also public holidays.")
                 .withAvailabilityTypeStyleClass("publicHoliday")

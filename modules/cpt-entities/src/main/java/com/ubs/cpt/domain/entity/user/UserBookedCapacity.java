@@ -1,9 +1,5 @@
 package com.ubs.cpt.domain.entity.user;
 
-/*
-constructor(public uuid: string, //required, cpt_user_booked_capacity.uuid
-              /*public day: Date | null, TODO: respective test-data.ts file is not working with Date type*/
-
 import com.ubs.cpt.domain.BaseEntity;
 import com.ubs.cpt.domain.entity.pod.Pod;
 import jakarta.persistence.*;
