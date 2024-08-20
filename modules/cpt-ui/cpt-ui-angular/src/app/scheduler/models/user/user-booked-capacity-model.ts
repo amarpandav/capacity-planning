@@ -1,6 +1,6 @@
-import { PodDto } from "../pod/pod.model";
-import { UserDto } from "./user.model";
-import { DateUtils } from "../../../shared/utils/DateUtils";
+import {PodDto} from "../pod/pod.model";
+import {UserDto} from "./user.model";
+import {DateUtils} from "../../../shared/utils/DateUtils";
 
 /**
  * Model representing cpt_user_booked_capacity DB table.
@@ -8,13 +8,13 @@ import { DateUtils } from "../../../shared/utils/DateUtils";
  * Table: cpt_user_booked_capacity
  *
  * DB-Constraints:
- * Either of is required: cpt_pod_uuid_xxx or cpt_absence_uuid_xxx
+ * Either of is required: cpt_morning_pod_uuid or cpt_afternoon_pod_uuid
  *
  * Columns:
  * uuid
  * user_uuid<fk>: cascade delete when user gets deleted
- * cpt_pod_morning_uuid<fk> : no cascade delete when cpt_pod gets deleted otherwise we loose everything booked for that person. On the contrary when cpt_pod gets deleted we must keep this row and set cpt_pod_uuid_morning_uuid to null for all future dates starting from now.
- * cpt_pod_afternoon_uuid<fk>: same like above
+ * cpt_morning_pod_uuid<fk> : no cascade delete when cpt_pod gets deleted otherwise we loose everything booked for that person. On the contrary when cpt_pod gets deleted we must keep this row and set cpt_pod_uuid_morning_uuid to null for all future dates starting from now.
+ * cpt_afternoon_pod_uuid<fk>: same like above
  *
  *
  **/

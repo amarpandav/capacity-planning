@@ -61,6 +61,14 @@ public class User extends BaseEntity<User> {
         return key;
     }
 
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
