@@ -19,9 +19,8 @@ public abstract class BaseEntity<E> implements Auditable, EntityIdAware<E> {
     public static final String UUID = "uuid";
     public static final String VERSION = "version";
 
-    @Id
-    @Column(name = UUID)
-    private String uuid;
+    @EmbeddedId
+    private EntityId<E> entityId;
 
     /**
      * Technical unique key of the row.
@@ -38,6 +37,8 @@ public abstract class BaseEntity<E> implements Auditable, EntityIdAware<E> {
      * Default constructor.
      */
     protected BaseEntity() {
+        // TODO: make the AuditListener work and remove the line below
+        prePersist();
     }
 
     public AuditInfo getAuditInfo() {
@@ -48,12 +49,12 @@ public abstract class BaseEntity<E> implements Auditable, EntityIdAware<E> {
     }
 
     public EntityId<E> getEntityId() {
-        return EntityId.fromUuid(uuid);
+        return entityId;
     }
 
     public void prePersist() {
-        if (uuid == null) {
-            uuid = UUIDGenerator.next();
+        if (entityId == null) {
+            entityId = EntityId.fromUuid(UUIDGenerator.next());
         }
 
         if (auditInfo == null) {
@@ -62,7 +63,7 @@ public abstract class BaseEntity<E> implements Auditable, EntityIdAware<E> {
     }
 
     public void setEntityId(EntityId<E> entityId) {
-        this.uuid = entityId.getUuid();
+        this.entityId = entityId;
     }
 
     public void setAuditInfo(AuditInfo auditInfo) {

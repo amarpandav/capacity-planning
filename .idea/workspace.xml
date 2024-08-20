@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" name="Changes" comment="added IDEA configuration">
+    <list default="true" id="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" name="Changes" comment="added gitignore">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/BaseEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/base/AuditInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/base/AuditInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/CptTestDataCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/CptTestDataCreator.java" afterDir="false" />
     </list>
     <list id="ae9fdc56-4ba7-4ccd-afa7-2948b5fe5e81" name="Changes by wrosinski" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,7 +60,7 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.CptWebApplication.executor": "Run",
+    "Spring Boot.CptWebApplication.executor": "Debug",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "amar-spring-boot",
     "kotlin-language-version-configured": "true",
@@ -172,7 +172,7 @@
       <workItem from="1722963299556" duration="206000" />
       <workItem from="1724143303388" duration="8241000" />
       <workItem from="1724151676213" duration="278000" />
-      <workItem from="1724151984144" duration="8245000" />
+      <workItem from="1724151984144" duration="9714000" />
     </task>
     <task id="LOCAL-00001" summary="x">
       <option name="closed" value="true" />
@@ -254,7 +254,23 @@
       <option name="project" value="LOCAL" />
       <updated>1724159850462</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="working version">
+      <option name="closed" value="true" />
+      <created>1724160266384</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1724160266384</updated>
+    </task>
+    <task id="LOCAL-00012" summary="added gitignore">
+      <option name="closed" value="true" />
+      <created>1724160356259</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1724160356259</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -285,7 +301,9 @@
     <MESSAGE value="more persistence config, added Project interface" />
     <MESSAGE value="changes 20.08.2024" />
     <MESSAGE value="added IDEA configuration" />
-    <option name="LAST_COMMIT_MESSAGE" value="added IDEA configuration" />
+    <MESSAGE value="working version" />
+    <MESSAGE value="added gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="added gitignore" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">

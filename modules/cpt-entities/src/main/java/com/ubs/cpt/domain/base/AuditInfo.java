@@ -2,7 +2,6 @@ package com.ubs.cpt.domain.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -26,21 +25,18 @@ public class AuditInfo implements Serializable {
      * Entity was created at.
      */
     @Column(name = Columns.createdAt, nullable = false)
-    @ColumnDefault("current_date")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     /**
      * Entity was created by.
      */
     @Column(name = Columns.createdBy, length = FieldConstants.USER_NAME_LEN)
-    @ColumnDefault("''")
     private String createdBy;
 
     /**
      * Entity was last modified at.
      */
     @Column(name = Columns.lastModifiedAt, nullable = true)
-    @ColumnDefault("current_date")
     private LocalDateTime lastModifiedAt;
 
     /**
