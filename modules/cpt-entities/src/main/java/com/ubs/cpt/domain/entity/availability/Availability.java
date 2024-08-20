@@ -24,7 +24,7 @@ public class Availability extends BaseEntity<com.ubs.cpt.domain.entity.availabil
 
     @Enumerated(EnumType.STRING)
     @Basic(optional = false)
-    @Column(name = Columns.AVAILABILITY_TYPE, length = FieldConstants.NAME, nullable = false)
+    @Column(name = Columns.AVAILABILITY_TYPE, length = FieldConstants.ENUM_30, nullable = false)
     private AvailabilityType availabilityType;
 
 

@@ -81,6 +81,13 @@ public class UserTestdata {
                 .withCountry("Switzerland")
                 .create());
 
+        public User TIM = register(new com.ubs.cpt.testdata.user.UserTestdata()
+                .withName("Tim")
+                .withGPIN(new UserKey("TimGPIN"))
+                .withJobTitle("Delivery Manager")
+                .withCountry("Switzerland")
+                .create());
+
 
     }
 

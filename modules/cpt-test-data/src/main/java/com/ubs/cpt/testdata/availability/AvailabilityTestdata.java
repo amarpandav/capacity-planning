@@ -1,4 +1,4 @@
-package com.ubs.cpt.testdata.user;
+package com.ubs.cpt.testdata.availability;
 
 import com.ubs.cpt.domain.entity.availability.Availability;
 import com.ubs.cpt.domain.entity.availability.AvailabilityType;

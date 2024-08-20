@@ -6,7 +6,8 @@ import com.ubs.cpt.infra.spring.profiles.SpringProfiles;
 import com.ubs.cpt.infra.test.base.TestDataCreator;
 import com.ubs.cpt.infra.test.util.SqlTestUtils;
 import com.ubs.cpt.infra.util.JpaUtils;
-import com.ubs.cpt.testdata.user.AvailabilityTestdata;
+import com.ubs.cpt.testdata.availability.AvailabilityTestdata;
+import com.ubs.cpt.testdata.availability.PodMemberTestdata;
 import com.ubs.cpt.testdata.user.UserTestdata;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -81,6 +82,7 @@ public class CptTestDataCreator implements TestDataCreator, ApplicationListener<
 
         UserTestdata.suiteSynthetic().persistTo(em);
         AvailabilityTestdata.suiteSynthetic().persistTo(em);
+        PodMemberTestdata.suiteSynthetic().persistTo(em);
     }
 
     private void executeAdditionalSqlScripts(EntityManager em) {
