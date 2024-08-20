@@ -10,8 +10,8 @@
       <change afterPath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/user/AvailabilityTestdata.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/base/FieldConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/base/FieldConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/entity/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/entity/user/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/CptTestDataCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/CptTestDataCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/user/UserTestdata.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/user/UserTestdata.java" afterDir="false" />
     </list>
     <list id="b2ce0b82-6ff8-421e-ac8d-50c171c9b5a2" name="ignore" comment="ignore">
       <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />

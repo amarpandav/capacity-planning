@@ -88,6 +88,20 @@ public class UserTestdata {
                 .withCountry("Switzerland")
                 .create());
 
+        public User HRISHI = register(new com.ubs.cpt.testdata.user.UserTestdata()
+                .withName("Hrishikesh Raghavan")
+                .withGPIN(new UserKey("HrishikeshRaghavanGPIN"))
+                .withJobTitle("Engineering Head")
+                .withCountry("UK")
+                .create());
+
+        public User NT = register(new com.ubs.cpt.testdata.user.UserTestdata()
+                .withName("NT")
+                .withGPIN(new UserKey("NTGPIN"))
+                .withJobTitle("AGO Head")
+                .withCountry("UK")
+                .create());
+
 
     }
 
