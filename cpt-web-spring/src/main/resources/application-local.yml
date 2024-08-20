@@ -1,5 +1,0 @@
-cpt:
-  datasource:
-    driver-class-name: jdbc:hsqldb:file:CPT
-  jpa:
-    ddl-auto: create
