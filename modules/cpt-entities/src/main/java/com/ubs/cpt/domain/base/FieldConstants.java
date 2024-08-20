@@ -12,7 +12,9 @@ public final class FieldConstants {
     //Application Specific
     public static final int NAME = 50;
     public static final int GENERAL_50 = 50;
-    public static final int description = 500;
+    public static final int ENUM_30 = 30;
+    public static final int DESCRIPTION_SHORT = 500;
+    public static final int DESCRIPTION = 4000;
 
     // Framework specific General Suffixes
 

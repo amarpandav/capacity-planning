@@ -4,12 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" name="Changes" comment="added gitignore">
+    <list default="true" id="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" name="Changes" comment="domain entity - user">
+      <change afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/entity/availability/Availability.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/entity/availability/AvailabilityType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/user/AvailabilityTestdata.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/BaseEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/base/AuditInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/base/AuditInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/base/FieldConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/base/FieldConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/entity/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/entity/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/CptTestDataCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/CptTestDataCreator.java" afterDir="false" />
     </list>
-    <list id="ae9fdc56-4ba7-4ccd-afa7-2948b5fe5e81" name="Changes by wrosinski" comment="" />
+    <list id="b2ce0b82-6ff8-421e-ac8d-50c171c9b5a2" name="ignore" comment="ignore">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,6 +30,7 @@
         <option value="Record" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -36,6 +45,28 @@
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/.idea/workspace.xml">
+      <ranges>
+        <range start1="6" end1="7" start2="6" end2="14" changelist="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" />
+        <range start1="8" end1="10" start2="15" end2="15" changelist="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" />
+        <range start1="11" end1="12" start2="16" end2="16" changelist="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" />
+        <range start1="37" end1="37" start2="41" end2="63" changelist="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" />
+        <range start1="47" end1="47" start2="73" end2="74" changelist="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" />
+        <range start1="55" end1="55" start2="82" end2="83" changelist="b2ce0b82-6ff8-421e-ac8d-50c171c9b5a2" />
+        <range start1="62" end1="63" start2="90" end2="91" changelist="b2ce0b82-6ff8-421e-ac8d-50c171c9b5a2" />
+        <range start1="66" end1="66" start2="94" end2="95" changelist="b2ce0b82-6ff8-421e-ac8d-50c171c9b5a2" />
+        <range start1="79" end1="80" start2="108" end2="109" changelist="b2ce0b82-6ff8-421e-ac8d-50c171c9b5a2" />
+        <range start1="101" end1="101" start2="130" end2="131" changelist="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" />
+        <range start1="105" end1="105" start2="135" end2="136" changelist="b2ce0b82-6ff8-421e-ac8d-50c171c9b5a2" />
+        <range start1="289" end1="290" start2="320" end2="353" changelist="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" />
+        <range start1="302" end1="303" start2="365" end2="365" changelist="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" />
+        <range start1="307" end1="307" start2="369" end2="380" changelist="b2ce0b82-6ff8-421e-ac8d-50c171c9b5a2" />
+        <range start1="322" end1="323" start2="395" end2="400" changelist="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" />
+        <range start1="324" end1="331" start2="401" end2="401" changelist="b2ce0b82-6ff8-421e-ac8d-50c171c9b5a2" />
+      </ranges>
+    </file>
+  </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="nsr9asne" />
   </component>
@@ -45,6 +76,7 @@
   <component name="ProjectId" id="2jkg3L3GdY5e3LoDn9NN6raSUmJ" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
@@ -53,6 +85,7 @@
     "JUnit.All in cpt-shared-utils.executor": "Run",
     "JUnit.All in cpt-web-spring.executor": "Run",
     "JUnit.AuraUserRepositoryTest.executor": "Run",
+    "JUnit.UserServiceTest.testFindUsers.executor": "Run",
     "Maven.cpt-master [clean,install,--projects...].executor": "Run",
     "Maven.cpt-master [clean,install].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
@@ -60,10 +93,11 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.CptWebApplication.executor": "Debug",
+    "Spring Boot.CptWebApplication.executor": "Run",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "amar-spring-boot",
     "kotlin-language-version-configured": "true",
+    "last_directory_selection": "/Users/amarpandav/Code/AWS/capacity-planning/modules/cpt-service/src/main/java/com/ubs/cpt/service/impl",
     "last_opened_file_path": "C:/Users/konta/IdeaProjects/capacity-planning",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -77,7 +111,7 @@
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors..ignore files",
     "show.migrate.to.gradle.popup": "false",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.3.4\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "ts.external.directory.path": "/Applications/IntelliJ IDEA.app/Contents/plugins/javascript-plugin/jsLanguageServicesImpl/external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -99,10 +133,13 @@
       <recent name="com.ubs.tools.cpt.shared.sql" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.ubs.cpt.service" />
       <recent name="com.ubs.tools.cpt.web.data" />
       <recent name="com.ubs.tools.cpt.web.data.aura" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.ubs.cpt.testdata.user" />
+      <recent name="" />
       <recent name="com.ubs.tools.cpt.web.data.cpt" />
     </key>
   </component>
@@ -287,7 +324,39 @@
       <option name="project" value="LOCAL" />
       <updated>1724160356259</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="fixed cpt-ui pom.xml">
+      <option name="closed" value="true" />
+      <created>1724164044601</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1724164044601</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fixing junits - not working so far">
+      <option name="closed" value="true" />
+      <created>1724165726740</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1724165726740</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fixing junits - not working so far">
+      <option name="closed" value="true" />
+      <created>1724165760340</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1724165760340</updated>
+    </task>
+    <task id="LOCAL-00016" summary="domain entity - user">
+      <option name="closed" value="true" />
+      <created>1724166472094</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1724166472094</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -300,7 +369,6 @@
         <option value="Default.Author" />
         <option value="Default.Date" />
         <option value="Default.Subject" />
-        <option value="Space.CommitStatus" />
         <option value="GitHub.CommitStatus" />
       </list>
     </option>
@@ -320,7 +388,11 @@
     <MESSAGE value="added IDEA configuration" />
     <MESSAGE value="working version" />
     <MESSAGE value="added gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="added gitignore" />
+    <MESSAGE value="ignore" />
+    <MESSAGE value="fixed cpt-ui pom.xml" />
+    <MESSAGE value="fixing junits - not working so far" />
+    <MESSAGE value="domain entity - user" />
+    <option name="LAST_COMMIT_MESSAGE" value="domain entity - user" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">

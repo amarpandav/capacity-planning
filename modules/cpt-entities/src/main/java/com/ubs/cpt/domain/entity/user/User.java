@@ -5,7 +5,7 @@ import com.ubs.cpt.domain.base.FieldConstants;
 import jakarta.persistence.*;
 
 /**
- * User table.
+ * cpt_user table.
  *
  * @author Amar Pandav
  */
@@ -14,29 +14,29 @@ import jakarta.persistence.*;
         name = User.TABLE_NAME
 )
 public class User extends BaseEntity<User> {
-    public static final String TABLE_NAME = "user";
+    public static final String TABLE_NAME = "cpt_user";
 
     public static final class Columns {
-        public static final String name = "name";
-        public static final String gpin = "gpin";
-        public static final String jobTitle = "jobTitle";
-        public static final String country = "country";
+        public static final String NAME = "name";
+        public static final String GPIN = "gpin";
+        public static final String JOB_TITLE = "job_title";
+        public static final String COUNTRY = "country";
     }
 
-    @Column(name = Columns.name, length = FieldConstants.NAME, nullable = false)
+    @Column(name = Columns.NAME, length = FieldConstants.NAME, nullable = false)
     private String name;
 
     @Embedded
-    @AttributeOverride(name = Columns.gpin, column = @Column(name = UserKey.Columns.gpin, length = FieldConstants.NAME, nullable = false))
+    @AttributeOverride(name = Columns.GPIN, column = @Column(name = UserKey.Columns.gpin, length = FieldConstants.NAME, nullable = false))
     private UserKey key;
 
-    @Column(name = Columns.jobTitle, length = FieldConstants.GENERAL_50, nullable = true)
+    @Column(name = Columns.JOB_TITLE, length = FieldConstants.GENERAL_50, nullable = true)
     private String jobTitle;
 
     /**
      * Name of the user
      */
-    @Column(name = Columns.country, length = FieldConstants.GENERAL_50, nullable = true)
+    @Column(name = Columns.COUNTRY, length = FieldConstants.GENERAL_50, nullable = true)
     private String country;
 
     protected User() {// required by JPA
