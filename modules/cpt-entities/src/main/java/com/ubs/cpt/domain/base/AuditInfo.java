@@ -32,7 +32,7 @@ public class AuditInfo implements Serializable {
     /**
      * Entity was created by.
      */
-    @Column(name = Columns.createdBy, length = FieldConstants.USER_NAME_LEN, nullable = false)
+    @Column(name = Columns.createdBy, length = FieldConstants.USER_NAME_LEN)
     @ColumnDefault("''")
     private String createdBy;
 

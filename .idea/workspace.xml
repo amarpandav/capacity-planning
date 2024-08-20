@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" name="Changes" comment="changes 20.08.2024">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="ab532a3f-4b5b-4f48-8d95-1acb78d9f523" name="Changes" comment="added IDEA configuration">
       <change beforePath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/BaseEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/BaseEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/base/AuditInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-entities/src/main/java/com/ubs/cpt/domain/base/AuditInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/CptTestDataCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/modules/cpt-test-data/src/main/java/com/ubs/cpt/testdata/CptTestDataCreator.java" afterDir="false" />
     </list>
     <list id="ae9fdc56-4ba7-4ccd-afa7-2948b5fe5e81" name="Changes by wrosinski" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,7 +72,7 @@
     "nodejs_package_manager_path": "npm",
     "org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon": "",
     "org.rust.first.attach.projects": "true",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15527344",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors..ignore files",
@@ -176,7 +172,7 @@
       <workItem from="1722963299556" duration="206000" />
       <workItem from="1724143303388" duration="8241000" />
       <workItem from="1724151676213" duration="278000" />
-      <workItem from="1724151984144" duration="7841000" />
+      <workItem from="1724151984144" duration="8245000" />
     </task>
     <task id="LOCAL-00001" summary="x">
       <option name="closed" value="true" />
@@ -250,7 +246,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724159580846</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="added IDEA configuration">
+      <option name="closed" value="true" />
+      <created>1724159850462</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1724159850462</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -280,7 +284,8 @@
     <MESSAGE value="a cosmetic change" />
     <MESSAGE value="more persistence config, added Project interface" />
     <MESSAGE value="changes 20.08.2024" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes 20.08.2024" />
+    <MESSAGE value="added IDEA configuration" />
+    <option name="LAST_COMMIT_MESSAGE" value="added IDEA configuration" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">

@@ -83,7 +83,7 @@ public class CptTestDataCreator implements TestDataCreator, ApplicationListener<
 
     private void executeAdditionalSqlScripts(EntityManager em) {
 
-        String[] scripts = {"/testdata/cpt-hsql.sql", "/testdata/user.insert.sql"};
+        String[] scripts = {"/testdata/cpt-hsql.sql"};
         for (String script : scripts) {
             SqlTestUtils.executeSqlScripts(JpaUtils.getConnection(em), getClass(), script);
         }
