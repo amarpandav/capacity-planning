@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="cpt-test-utils" />
+        <module name="cpt-test-data" />
+        <module name="cpt-web-app" />
+        <module name="cpt-service" />
+        <module name="cpt-entities" />
+        <module name="cpt-utils" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
