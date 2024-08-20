@@ -26,6 +26,11 @@
             <groupId>com.ubs.cpt</groupId>
             <artifactId>cpt-utils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ubs.cpt</groupId>
+            <artifactId>cpt-test-utils</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>jakarta.persistence</groupId>
@@ -36,6 +41,7 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 </project>

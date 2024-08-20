@@ -1,4 +1,4 @@
-package com.ubs.cpt.service;
+package com.ubs.cpt.service.impl;
 
 import com.ubs.cpt.service.dto.UserDto;
 import com.ubs.cpt.service.searchparams.UserSearchParameters;
