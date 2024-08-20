@@ -1,4 +1,4 @@
-package com.ubs.cpt.testdata.availability;
+package com.ubs.cpt.testdata.pod;
 
 import com.ubs.cpt.domain.entity.pod.PodMember;
 import com.ubs.cpt.domain.entity.pod.PodMemberRole;
