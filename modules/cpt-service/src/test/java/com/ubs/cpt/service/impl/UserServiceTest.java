@@ -1,6 +1,7 @@
 package com.ubs.cpt.service.impl;
 
 import com.ubs.cpt.infra.test.base.TestBase;
+import com.ubs.cpt.service.UserService;
 import com.ubs.cpt.service.dto.UserDto;
 import com.ubs.cpt.service.searchparams.UserSearchParameters;
 import org.junit.jupiter.api.Test;

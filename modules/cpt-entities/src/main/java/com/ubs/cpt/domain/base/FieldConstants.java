@@ -11,6 +11,7 @@ public final class FieldConstants {
 
     //Application Specific
     public static final int NAME = 50;
+    public static final int GENERAL_50 = 50;
     public static final int description = 500;
 
     // Framework specific General Suffixes

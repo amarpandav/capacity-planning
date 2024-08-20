@@ -2,6 +2,7 @@ package com.ubs.cpt.service.impl;
 
 import com.ubs.cpt.infra.datetime.DateTimeService;
 import com.ubs.cpt.infra.spring.util.CptReadOnlyTransaction;
+import com.ubs.cpt.service.UserService;
 import com.ubs.cpt.service.dto.UserDto;
 import com.ubs.cpt.service.query.UserQuery;
 import com.ubs.cpt.service.searchparams.UserSearchParameters;

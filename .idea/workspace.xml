@@ -111,7 +111,23 @@
       <command value="mvn clean install" />
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.CptWebApplication">
+    <configuration name="UserServiceTest.testFindUsers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="cpt-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ubs.cpt.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.ubs.cpt.service.impl" />
+      <option name="MAIN_CLASS_NAME" value="com.ubs.cpt.service.impl.UserServiceTest" />
+      <option name="METHOD_NAME" value="testFindUsers" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
         <option name="Make" enabled="true" />
@@ -144,6 +160,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.CptWebApplication" />
+        <item itemvalue="JUnit.UserServiceTest.testFindUsers" />
       </list>
     </recent_temporary>
   </component>
