@@ -2,6 +2,7 @@ package com.ubs.cpt.service.query;
 
 import com.ubs.cpt.domain.EntityId;
 import com.ubs.cpt.domain.entity.user.User;
+import com.ubs.cpt.domain.entity.user.UserKey;
 import com.ubs.cpt.infra.datetime.DateTimeService;
 import com.ubs.cpt.infra.query.NativeJpaQueryBuilder;
 import com.ubs.cpt.infra.query.TransformationSource;
@@ -10,12 +11,9 @@ import com.ubs.cpt.infra.util.CollectionUtils;
 import com.ubs.cpt.service.dto.UserDto;
 import com.ubs.cpt.service.searchparams.UserSearchParameters;
 import jakarta.persistence.EntityManager;
-import org.apache.commons.lang3.StringUtils;
-
-import static com.ubs.cpt.infra.query.util.SearchCriteriaFilterBuilder.newSearchCriteriaBuilder;
 
 /**
- * Query to load smoothieu.
+ * Query to load users.
  *
  * @author Amar pandav
  */
@@ -40,14 +38,19 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
         return this;
     }
 
-    public UserQuery withFullTextSearch(String searchCriteria) {
+    public UserQuery withUserKey(UserKey key) {
+        and("lower(u.gpin) = lower(:gpin)", "gpin", key.getGpin());
+        return this;
+    }
+
+    /*public UserQuery withFullTextSearch(String searchCriteria) {
         if (!StringUtils.isBlank(searchCriteria)) {
             newSearchCriteriaBuilder()
                     .consider("u.name").asString()
                     .applyTo(this, searchCriteria);
         }
         return this;
-    }
+    }*/
 
     public UserQuery with(UserSearchParameters parameters, boolean sort) {
         if (parameters.getEntityId() != null) {
@@ -55,7 +58,9 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
         }
 
         //Global search
-        withFullTextSearch(parameters.getSearchCriteria());
+        //withFullTextSearch(parameters.getName());
+        withUserName(parameters.getName());
+        withUserKey(new UserKey(parameters.getGpin()));
 
         if (sort) {
             for (SortBy sortBy : parameters.getSortBy()) {

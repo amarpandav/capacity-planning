@@ -10,24 +10,27 @@ import com.ubs.cpt.infra.search.SortBy;
  */
 public class UserSearchParameters extends DefaultSearchParameters<User> {
 
-    //Could be fruit name etc.
-    private String searchCriteria;
+    private String name;
+
+    private String gpin;
 
     public UserSearchParameters() {
         getSortBy().add(new SortBy("name", SortBy.SortDirection.ASCENDING));
     }
 
-
-    public UserSearchParameters(String searchCriteria) {
-        this();
-        this.searchCriteria = searchCriteria;
+    public String getGpin() {
+        return gpin;
     }
 
-    public void setSearchCriteria(String searchCriteria) {
-        this.searchCriteria = searchCriteria;
+    public void setGpin(String gpin) {
+        this.gpin = gpin;
     }
 
-    public String getSearchCriteria() {
-        return searchCriteria;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 }
