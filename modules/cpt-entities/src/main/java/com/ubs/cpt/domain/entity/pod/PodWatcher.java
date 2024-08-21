@@ -10,10 +10,10 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 /**
- * Entity to define user and pod relationship called Pod watcher. This way we can identify which user is watching which pod.
+ * Entity representing cpt_pod_watcher table. This way we can identify which user is watching which pod.
  *
- * Pod watchers could be Line Managers, Crew leads, stream leads as they are not directly part of the pod
- * Anybody could be Pod watcher!
+ * Pod watchers could be Line Managers, Crew leads, stream leads as they are not directly part of the pod.
+ * Pod watchers have no rights to modify pod. Anybody could be Pod watcher!
  *
  */
 @Entity

@@ -11,9 +11,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Entity to define pod.
- * <p>
- * Pod Roles would be Developers, BAs, SAs etc and not the Line Managers, Crew leads, stream leads as they are not directly part of the pod, they could be pod watchers.
+ * Entity representing cpt_pod table.
+ *
  */
 @Entity
 @Table(
@@ -26,7 +25,6 @@ public class Pod extends BaseEntity<Pod> {
         public static final String POD_NAME = "pod_name";
         public static final String POD_DESCRIPTION = "pod_description";
         public static final String POD_STYLE_CLASS = "pod_style_class";
-
     }
 
     @Column(name = Columns.POD_NAME, length = FieldConstants.POD_NAME, nullable = false)
@@ -35,6 +33,10 @@ public class Pod extends BaseEntity<Pod> {
     @Column(name = Columns.POD_DESCRIPTION, length = FieldConstants.DESCRIPTION_SHORT, nullable = false)
     private String podDescription;
 
+    /**
+     * UI has defined ca. 50 pod legend colors. While creating new pod, Pod leads have to select 1 style class out of 50.
+     * Pod lead is also free to change the legend color any time using Pod Management UI functionality.
+     */
     @Column(name = Columns.POD_STYLE_CLASS, length = FieldConstants.GENERAL_50, nullable = false)
     private String podStyleClass;
 

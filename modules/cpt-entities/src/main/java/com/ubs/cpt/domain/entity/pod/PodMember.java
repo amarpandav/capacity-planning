@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
  * In a Pod user can play single role officially.
  * <p>
  * Pod Roles would be Developers, BAs, SAs etc. Other roles like Line Managers, Crew leads, stream leads usually are not part of a pod, hence they could be pod watchers without any role.
+ * Pod member have no rights to modify pod meta-data neither add/remove pod members/watchers. Only Pod lead can do it.
  */
 @Entity
 @Table(
