@@ -1,27 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from "@angular/forms";
-import { DatePipe } from "@angular/common";
-import { SchedulerSettingsDto } from "./models/settings/scheduler.settings.model";
-import { PodWatcherDto } from "./models/pod/pod.watcher.model";
-import { PodDto } from "./models/pod/pod.model";
-import { MonthHeaderDto } from "./models/header/month-header.model";
-import { DayHeaderDto } from "./models/header/day-header.model";
-import { WeekHeaderDto } from "./models/header/week-header.model";
-import { PodMemberDto } from "./models/pod/pod-member.model";
-import { AvailabilityDto } from "./models/availability/availability.model";
-import { UserAvailableCapacityDto } from "./models/user/user-available-capacity.model";
-import { UserDto } from "./models/user/user.model";
-import { AVAILABILITY_TEST_DATA } from "./testdata/availability/availability.test-data";
-import { USER_TEST_DATA } from "./testdata/user/user.test-data";
-import { USER_AVAILABLE_CAPACITY_TEST_DATA } from "./testdata/user/user-available-capacity.test-data";
-import { POD_MEMBER_TEST_DATA } from "./testdata/pod/pod-member.test-data";
-import { POD_WATCHER_TEST_DATA } from "./testdata/pod/pod-watcher.test-data";
-import { POD_TEST_DATA } from "./testdata/pod/pod.test-data";
-import { SCHEDULER_VIEW_TEST_DATA } from "./testdata/scheduler/scheduler-view.test-data";
-import { SchedulerViewDto } from "./models/scheduler/scheduler-view.model";
-import { AvailabilityType } from "./models/availability/availability.enum";
-import { UserCapacityDto } from "./models/user/user.capacity.model";
-import { DateUtils } from '../shared/utils/DateUtils';
+import {Component, OnInit} from '@angular/core';
+import {FormsModule} from "@angular/forms";
+import {DatePipe} from "@angular/common";
+import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
+import {PodDto} from "./models/pod/pod.model";
+import {MonthHeaderDto} from "./models/header/month-header.model";
+import {DayHeaderDto} from "./models/header/day-header.model";
+import {WeekHeaderDto} from "./models/header/week-header.model";
+import {AvailabilityDto} from "./models/availability/availability.model";
+import {UserAvailableCapacityDto} from "./models/user/user-available-capacity.model";
+import {UserDto} from "./models/user/user.model";
+import {AVAILABILITY_TEST_DATA} from "./testdata/availability/availability.test-data";
+import {USER_TEST_DATA} from "./testdata/user/user.test-data";
+import {USER_AVAILABLE_CAPACITY_TEST_DATA} from "./testdata/user/user-available-capacity.test-data";
+import {POD_TEST_DATA} from "./testdata/pod/pod.test-data";
+import {SCHEDULER_VIEW_TEST_DATA} from "./testdata/scheduler/scheduler-view.test-data";
+import {SchedulerViewDto} from "./models/scheduler/scheduler-view.model";
+import {AvailabilityType} from "./models/availability/availability.enum";
+import {UserCapacityDto} from "./models/user/user.capacity.model";
+import {DateUtils} from '../shared/utils/DateUtils';
+import {USER_PODS_TEST_DATA} from "./testdata/user/user-pods.test-data";
+import {UserPodsDto} from "./models/user/user-pods.model";
+import {UserPodWatchersDto} from "./models/user/user-pod-watchers.model";
+import {USER_POD_WATCHERS_TEST_DATA} from "./testdata/user/user-pod-watchers.test-data";
 
 @Component({
     selector: 'app-scheduler',
@@ -48,8 +48,8 @@ export class SchedulerComponent implements OnInit {
     protected readonly users: UserDto[] = USER_TEST_DATA;
     protected readonly userAvailableCapacities: UserAvailableCapacityDto[] = USER_AVAILABLE_CAPACITY_TEST_DATA;
 
-    protected readonly podMembers: PodMemberDto[] = POD_MEMBER_TEST_DATA;
-    protected readonly podWatchers: PodWatcherDto[] = POD_WATCHER_TEST_DATA;
+    protected readonly userPods: UserPodsDto[] = USER_PODS_TEST_DATA;
+    protected readonly userPodWatchers: UserPodWatchersDto[] = USER_POD_WATCHERS_TEST_DATA;
 
     protected readonly pods: PodDto[] = POD_TEST_DATA;
 

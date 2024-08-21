@@ -1,5 +1,5 @@
 //test data for cpt_pod
-import { PodMemberRole } from "../../models/pod/pom-member-role.enum";
+import {PodMemberRole} from "../../models/pod/pom-member-role.enum";
 
 export const POD_TEST_DATA = [
   {
@@ -10,30 +10,30 @@ export const POD_TEST_DATA = [
     podMembers: [//PodMemberDto
       {
         uuid: 'podMemberNiteshShriyanUuid1',
+        podMemberRole: PodMemberRole.POD_LEAD,
         user: {//UserDto
           uuid: 'NiteshShriyanUuid',
           gpin: 'NiteshShriyanGPIN',
           name: 'Nitesh Shriyan'
         },
-        podMemberRole: PodMemberRole.POD_LEAD,
       },
       {
         uuid: 'podMemberAmarPandavUuid1',
+        podMemberRole: PodMemberRole.SOLUTIONS_ARCHITECT,
         user: {//UserDto
           uuid: 'AmarPandavUuid',
           gpin: 'AmarPandavGPIN',
           name: 'Amar Pandav'
-        },
-        podMemberRole: PodMemberRole.SOLUTIONS_ARCHITECT,
+        }
       },
       {
         uuid: 'podMemberThomasDoblerUuid1',
+        podMemberRole: PodMemberRole.JAVA_DEVELOPER,
         user: {//UserDto
           uuid: 'ThomasDoblerUuid',
           gpin: 'ThomasDoblerGPIN',
           name: 'Thomas Dobler'
         },
-        podMemberRole: PodMemberRole.JAVA_DEVELOPER,
       }
     ],
     podWatchers: [//PodWatcherDto
@@ -55,18 +55,7 @@ export const POD_TEST_DATA = [
           country: 'UK'
         }
       }
-    ],
-    /*auditInfo: {
-      createdAt:'01.12.2023',
-      createdByGPIN: "RolandFluhrGPIN",
-      createdBy: "Roland Fluhr",
-      lastModifiedAt:'05.09.2024',
-      lastModifiedByGPIN: "MichelOrijGPIN",
-      lastModifiedBy: "Michel Orij",
-      lastCertifiedAt:'05.09.2024',
-      lastCertifiedByGPIN: "4890041",
-      lastCertifiedBy: "Nitesh Shriyan",
-    }*/
+    ]
   },
   {
     uuid:'GIMPodUuid',
