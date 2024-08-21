@@ -5,7 +5,8 @@ import com.ubs.cpt.domain.base.FieldConstants;
 import jakarta.persistence.*;
 
 /**
- * cpt_availability table.
+ * Entity representing cpt_availability table.
+ * This is kind of static table with 3 rows, one row for each AvailabilityType.
  *
  * @author Amar Pandav
  */

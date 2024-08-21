@@ -8,10 +8,10 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 /**
- * Entity to define user and pod relationship called Pod member. This way we can identify which user is part of which pod and their role.
+ * Entity representing cpt_pod_member table. This table defines user and pod relationship called Pod member. This way we can identify which user is part of which pod and their role.
  * In a Pod user can play single role officially.
- *
- * Pod Roles would be Developers, BAs, SAs etc and not the Line Managers, Crew leads, stream leads as they are not directly part of the pod, they could be pod watchers.
+ * <p>
+ * Pod Roles would be Developers, BAs, SAs etc. Other roles like Line Managers, Crew leads, stream leads usually are not part of a pod, hence they could be pod watchers without any role.
  */
 @Entity
 @Table(
@@ -23,7 +23,7 @@ public class PodMember extends BaseEntity<PodMember> {
     public static final class Columns {
         public static final String USER_UUID = "user_uuid";
         public static final String POD_MEMBER_ROLE = "pod_member_role";
-        public static final String POD_UUID = "pod_uuid";
+        public static final String POD_UUID = "pod_uuid"; //one to many relationship defined into Pod entity.
     }
 
     //@CascadeDelete
