@@ -15,5 +15,8 @@
         <module name="cpt-utils" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cpt-ui" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
