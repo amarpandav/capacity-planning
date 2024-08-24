@@ -9,8 +9,7 @@ import java.util.List;
 
 public interface UserUnAvailabilityCapacityRepository extends JpaRepository<UserUnAvailableCapacity, EntityId<UserUnAvailableCapacity>> {
 
-    //TODO: Amar feedback: Why only ABSENT?? You should consider ABSENT and public holiday
-    @Query("select c from UserUnAvailableCapacity c where c.morningAvailability.availabilityType = 'ABSENT'" +
-            " or c.afternoonAvailability.availabilityType = 'ABSENT' order by c.user.name, c.day ASC")
-    public List<UserUnAvailableCapacity> findUserAbsences();
+    @Query("select c from UserUnAvailableCapacity c where c.morningAvailability.availabilityType in ('ABSENT', 'PUBLIC_HOLIDAY')" +
+            " or c.afternoonAvailability.availabilityType in ('ABSENT', 'PUBLIC_HOLIDAY') order by c.user.name, c.day ASC")
+    List<UserUnAvailableCapacity> findUserAbsences();
 }
