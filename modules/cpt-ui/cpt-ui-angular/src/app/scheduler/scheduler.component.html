@@ -1,3 +1,19 @@
+<dialog class="bookingDialog" #bookingDialog>
+    <div class="bookingDialogContainer">
+        <h5>Save Bookings</h5>
+        <ul>
+            <li>You can book only available slots.</li>
+            <li>You can't override someone else's booking</li>
+            <li>You can't book when member is Absent or has Public holidays.</li>
+        </ul>
+
+        <div class="confirmation-actions">
+            <button type="button" class="button btn btn-secondary" (click)="onBookingDialogCancel()">Cancel</button>
+            <button type="button" class="button btn btn-primary" (click)="onBookingSave()">Save</button>
+        </div>
+    </div>
+</dialog>
+
 <div class="card" style="width: 50rem;">
     <div class="card-body">
         <h5 class="card-title">Scheduler</h5>

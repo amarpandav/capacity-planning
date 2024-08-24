@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, viewChild} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {DatePipe} from "@angular/common";
 import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
@@ -22,6 +22,7 @@ import {USER_PODS_TEST_DATA} from "./testdata/user/user-pods.test-data";
 import {UserPodsDto} from "./models/user/user-pods.model";
 import {UserPodWatchersDto} from "./models/user/user-pod-watchers.model";
 import {USER_POD_WATCHERS_TEST_DATA} from "./testdata/user/user-pod-watchers.test-data";
+import {UserSaveBookingDto} from "./models/booking/user-save-booking.model";
 
 @Component({
     selector: 'app-scheduler',
@@ -33,7 +34,7 @@ import {USER_POD_WATCHERS_TEST_DATA} from "./testdata/user/user-pod-watchers.tes
     templateUrl: './scheduler.component.html',
     styleUrl: './scheduler.component.scss'
 })
-export class SchedulerComponent implements OnInit {
+export class SchedulerComponent implements OnInit, AfterViewInit {
 
     schedulerSettings: SchedulerSettingsDto;
 
@@ -56,6 +57,11 @@ export class SchedulerComponent implements OnInit {
     protected readonly schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA;
 
     selectedPod: PodDto = POD_TEST_DATA[0]; // TODO Default - on logon - fetch all pods of logged-in user and select first
+
+    private bookingDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
+
+    userSaveBookingStart: UserSaveBookingDto | undefined;
+    userSaveBookingEnd: UserSaveBookingDto | undefined;
 
     isWeekEnd(date: string): boolean {
         /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
@@ -221,10 +227,16 @@ export class SchedulerComponent implements OnInit {
         console.log("morningAvailability:"+ JSON.stringify(morningAvailability));
         console.log("afternoonPod:"+ JSON.stringify(afternoonPod));
         console.log("afternoonAvailability:"+ JSON.stringify(afternoonAvailability));
-
+        this.userSaveBookingStart = new UserSaveBookingDto(user, userCapacity, morningPod, afternoonPod, morningAvailability, afternoonAvailability);
     }
 
-    onDragEnd($event: MouseEvent, user: UserDto, userCapacity: UserCapacityDto, morningPod: PodDto | null | undefined, morningAvailability: AvailabilityDto | null | undefined, afternoonPod: PodDto | null | undefined, afternoonAvailability: AvailabilityDto | null | undefined) {
+    onDragEnd($event: MouseEvent,
+              user: UserDto,
+              userCapacity: UserCapacityDto,
+              morningPod: PodDto | null | undefined,
+              morningAvailability: AvailabilityDto | null | undefined,
+              afternoonPod: PodDto | null | undefined,
+              afternoonAvailability: AvailabilityDto | null | undefined) {
         console.log("onDragEnd...");
         console.log("user:"+ JSON.stringify(user));
         console.log("userCapacity:"+ JSON.stringify(userCapacity));
@@ -232,5 +244,23 @@ export class SchedulerComponent implements OnInit {
         console.log("morningAvailability:"+ JSON.stringify(morningAvailability));
         console.log("afternoonPod:"+ JSON.stringify(afternoonPod));
         console.log("afternoonAvailability:"+ JSON.stringify(afternoonAvailability));
+        this.userSaveBookingEnd = new UserSaveBookingDto(user, userCapacity, morningPod, afternoonPod, morningAvailability, afternoonAvailability);
+
+        if(this.userSaveBookingStart && this.userSaveBookingStart.isDataValid && this.userSaveBookingEnd && this.userSaveBookingEnd.isDataValid){
+            this.bookingDialogEl().nativeElement.showModal();
+        }
+    }
+
+
+    ngAfterViewInit(): void {
+        //this.bookingDialogEl().nativeElement.showModal();
+    }
+
+    onBookingDialogCancel() {
+        this.bookingDialogEl().nativeElement.close();
+    }
+
+    onBookingSave() {
+
     }
 }
