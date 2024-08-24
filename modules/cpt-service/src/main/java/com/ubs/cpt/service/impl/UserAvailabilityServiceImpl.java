@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+//TODO: Amar feedback: shouldn't we rename this class to UserUnAvailabilityServiceImpl
+//UI need UnAvailability and Availability. So think how you want to do this?
+//Availability is calculated virtually. Availability  = what is left over after Booking & UnAvailability
 @Service
 public class UserAvailabilityServiceImpl implements UserAvailabilityService {
 
