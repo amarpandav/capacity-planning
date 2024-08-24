@@ -10,9 +10,9 @@ import com.ubs.cpt.testdata.availability.AvailabilityTestdata;
 import com.ubs.cpt.testdata.pod.PodMemberTestdata;
 import com.ubs.cpt.testdata.pod.PodTestdata;
 import com.ubs.cpt.testdata.pod.PodWatcherTestdata;
-import com.ubs.cpt.testdata.user.UserAvailableCapacityTestdata;
 import com.ubs.cpt.testdata.user.UserBookedCapacityTestdata;
 import com.ubs.cpt.testdata.user.UserTestdata;
+import com.ubs.cpt.testdata.user.UserUnAvailableCapacityTestdata;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceUnit;
@@ -90,7 +90,7 @@ public class CptTestDataCreator implements TestDataCreator, ApplicationListener<
         PodMemberTestdata.suiteSynthetic().persistTo(em);
         PodWatcherTestdata.suiteSynthetic().persistTo(em);
         UserBookedCapacityTestdata.suiteSynthetic().persistTo(em);
-        UserAvailableCapacityTestdata.suiteSynthetic().persistTo(em);
+        UserUnAvailableCapacityTestdata.suiteSynthetic().persistTo(em);
     }
 
     private void executeAdditionalSqlScripts(EntityManager em) {

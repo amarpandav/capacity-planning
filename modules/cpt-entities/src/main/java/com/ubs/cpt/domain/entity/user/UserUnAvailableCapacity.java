@@ -9,15 +9,15 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.time.LocalDate;
 
 /**
- * Entity representing cpt_user_available_capacity DB table.
+ * Entity representing cpt_user_unavailable_capacity DB table.
  */
 @Entity
 @Table(
-        name = UserAvailableCapacity.TABLE_NAME
+        name = UserUnAvailableCapacity.TABLE_NAME
 )
 @org.hibernate.annotations.Check(constraints = "(morning_availability_uuid IS NOT NULL OR afternoon_availability_uuid IS NOT NULL)")
-public class UserAvailableCapacity extends BaseEntity<UserAvailableCapacity> {
-    public static final String TABLE_NAME = "cpt_user_available_capacity";
+public class UserUnAvailableCapacity extends BaseEntity<UserUnAvailableCapacity> {
+    public static final String TABLE_NAME = "cpt_user_unavailable_capacity";
 
     public static final class Columns {
         public static final String DAY = "day";
@@ -51,16 +51,16 @@ public class UserAvailableCapacity extends BaseEntity<UserAvailableCapacity> {
     @JoinColumn(name = Columns.AFTERNOON_AVAILABILITY_UUID)
     private Availability afternoonAvailability;
 
-    protected UserAvailableCapacity() {// required by JPA
+    protected UserUnAvailableCapacity() {// required by JPA
     }
 
-    public UserAvailableCapacity(LocalDate day, User user, Availability morningAvailability, Availability afternoonAvailability) {
+    public UserUnAvailableCapacity(LocalDate day, User user, Availability morningAvailability, Availability afternoonAvailability) {
         this.day = day;
         this.user = user;
         this.morningAvailability = morningAvailability;
         this.afternoonAvailability = afternoonAvailability;
         if (morningAvailability == null && afternoonAvailability == null) {
-            throw new IllegalStateException("morningAvailability or afternoonAvailability is required to save cpt_user_available_capacity");
+            throw new IllegalStateException("morningAvailability or afternoonAvailability is required to save cpt_user_unavailable_capacity");
         }
         if (morningAvailability != null && morningAvailability.getAvailabilityType().isAvailable()) {
             throw new IllegalStateException("You are trying to save morningAvailability with type " + morningAvailability.getAvailabilityType().name() + ", which is not allowed!");
