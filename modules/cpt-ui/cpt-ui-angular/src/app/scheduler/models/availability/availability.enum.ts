@@ -1,7 +1,8 @@
 export enum AvailabilityType{
-  AVAILABLE = 'Available',
-  ABSENT = 'Absent',
-  PUBLIC_HOLIDAY = 'Public Holiday',
+  AVAILABLE = 'AVAILABLE',
+  ABSENT = 'ABSENT',
+  PUBLIC_HOLIDAY = 'PUBLIC_HOLIDAY',
+  POD_ASSIGNMENT = 'POD_ASSIGNMENT',
 }
 
 export function toEnum(str: string) {
@@ -18,5 +19,8 @@ export function isAbsent(availability: AvailabilityType) {
 
 export function isPublicHoliday(availability: AvailabilityType) {
   return AvailabilityType.PUBLIC_HOLIDAY === availability;
+}
+export function isPodAssignment(availability: AvailabilityType) {
+  return AvailabilityType.POD_ASSIGNMENT === availability;
 }
 

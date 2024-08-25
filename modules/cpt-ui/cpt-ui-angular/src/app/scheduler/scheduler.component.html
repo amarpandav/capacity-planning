@@ -7,6 +7,9 @@
             <li>You can't book when member is Absent or has Public holidays.</li>
         </ul>
 
+        Start booking: {{JSON.stringify(podAssignmentToSaveStart)}}
+        <p></p>
+        End booking: {{JSON.stringify(podAssignmentToSaveEnd)}}
         <div class="confirmation-actions">
             <button type="button" class="button btn btn-secondary" (click)="onBookingDialogCancel()">Cancel</button>
             <button type="button" class="button btn btn-primary" (click)="onBookingSave()">Save</button>
@@ -72,32 +75,32 @@
         }
     </div>
 
-    @for (schedulerView of schedulerViews; track schedulerView) {
+    @for (podAssignmentWrapper of podAssignmentViewDto.podAssignmentWrappers; track podAssignmentWrapper) {
         <div class='employeeRow'>
-            <div class='cell employeeName'>pic: {{ schedulerView.user.name }}
-                ({{ JSON.stringify(schedulerView.podMemberRoles) }})
+            <div class='cell employeeName'>pic: {{ podAssignmentWrapper.user.name }}
+                ({{ JSON.stringify(podAssignmentWrapper.podMemberRole) }})
             </div>
 
-            @for (userCapacity of schedulerView.userCapacities; track userCapacity) {
+            @for (podAssignment of podAssignmentWrapper.podAssignments; track podAssignment) {
                 <!--div class='cell day weekDay' -->
-                        <!--{{userCapacity.day}};{{userCapacity.dayAsStr}};{{DateUtils.isWeekend(userCapacity.day, userCapacity.dayAsStr)}}-->
+                        <!--{{podAssignment.day}};{{podAssignment.dayAsStr}};{{DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr)}}-->
                 <div class='cell day '
-                     [class]="{weekEnd: DateUtils.isWeekend(userCapacity.day, userCapacity.dayAsStr), weekDay: !DateUtils.isWeekend(userCapacity.day, userCapacity.dayAsStr) }">
-                    <!--div class='cell day ' [class]="{weekEnd: isWeekEnd2(userCapacity.day | date: 'dd.MM.YYYY'), weekDay: !isWeekEnd2(userCapacity.day | date: 'dd.MM.YYYY') }"-->
+                     [class]="{weekEnd: DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr), weekDay: !DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr) }">
+                    <!--div class='cell day ' [class]="{weekEnd: isWeekEnd2(podAssignment.day | date: 'dd.MM.YYYY'), weekDay: !isWeekEnd2(podAssignment.day | date: 'dd.MM.YYYY') }"-->
 
                     <div style='height:100%;width:50%;'
-                         class='daypart morning {{userCapacity.userBookedCapacity?.morningPod?.podStyleClass}} {{userCapacity.userAvailableCapacity?.morningAvailability?.availabilityTypeStyleClass}}'
-                         title='{{userCapacity.userBookedCapacity?.morningPod?.podName}} {{userCapacity.userAvailableCapacity?.morningAvailability?.availabilityType}}'
+                         class='daypart morning {{podAssignment.morning?.pod?.podStyleClass}} {{podAssignment.morning?.availabilityType}}'
+                         title='{{podAssignment.morning?.pod?.podName}} {{podAssignment.morning?.availabilityType}}'
 
-                         (mousedown)="onDragStart($event,schedulerView.user, userCapacity, userCapacity.userBookedCapacity?.morningPod, userCapacity.userAvailableCapacity?.morningAvailability, null, null)"
-                         (mouseup)="onDragEnd($event,schedulerView.user, userCapacity, userCapacity.userBookedCapacity?.morningPod, userCapacity.userAvailableCapacity?.morningAvailability, null, null)">
+                         (mousedown)="onDragStart($event, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.dayAsStr, podAssignment.day)"
+                         (mouseup)="onDragEnd($event, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.dayAsStr, podAssignment.day)">
                     </div>
                     <div style='height:100%;width:50%;'
-                         class='daypart afternoon {{userCapacity.userBookedCapacity?.afternoonPod?.podStyleClass}} {{userCapacity.userAvailableCapacity?.afternoonAvailability?.availabilityTypeStyleClass}}'
-                         title='{{userCapacity.userBookedCapacity?.afternoonPod?.podName}} {{userCapacity.userAvailableCapacity?.afternoonAvailability?.availabilityType}}'
+                         class='daypart afternoon {{podAssignment.afternoon?.pod?.podStyleClass}} {{podAssignment.afternoon?.availabilityType}}'
+                         title='{{podAssignment.afternoon?.pod?.podName}} {{podAssignment.afternoon?.availabilityType}}'
 
-                         (mousedown)="onDragStart($event,schedulerView.user,userCapacity, null, null, userCapacity.userBookedCapacity?.afternoonPod, userCapacity.userAvailableCapacity?.afternoonAvailability)"
-                         (mouseup)="onDragEnd($event,schedulerView.user,userCapacity, null, null, userCapacity.userBookedCapacity?.afternoonPod,userCapacity.userAvailableCapacity?.afternoonAvailability)">
+                         (mousedown)="onDragStart($event, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.dayAsStr, podAssignment.day)"
+                         (mouseup)="onDragEnd($event, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.dayAsStr, podAssignment.day)">
                     </div>
                 </div>
             }

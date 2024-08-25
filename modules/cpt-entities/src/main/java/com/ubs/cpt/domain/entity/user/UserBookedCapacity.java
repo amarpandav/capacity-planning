@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
+//TODO: Amar feedback: Remove this class and instead use PodAssignment
 /**
  * Entity representing cpt_user_booked_capacity DB table.
  */

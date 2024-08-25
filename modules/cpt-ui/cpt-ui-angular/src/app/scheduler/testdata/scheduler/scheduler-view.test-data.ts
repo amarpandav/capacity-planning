@@ -1,6 +1,6 @@
 //test data for cpt_user_booked_capacity but grouped by pod_member
-import { PodMemberRole } from "../../models/pod/pom-member-role.enum";
-import { AvailabilityType } from "../../models/availability/availability.enum";
+import {PodMemberRole} from "../../models/pod/pom-member-role.enum";
+import {AvailabilityType} from "../../models/availability/availability.enum";
 
 //Assumption: All users added in this file are from same pod because you are looking at a scheduler view of a single POD to know availability of all these users.
 export const SCHEDULER_VIEW_TEST_DATA = [
@@ -13,7 +13,7 @@ export const SCHEDULER_VIEW_TEST_DATA = [
     podMemberRoles: [
       PodMemberRole.SOLUTIONS_ARCHITECT
     ],
-    userCapacities: [
+    podAssignments: [
       {
         dayAsStr: '2024-08-01',
         userBookedCapacity: //UserBookedCapacityDto
@@ -97,7 +97,7 @@ export const SCHEDULER_VIEW_TEST_DATA = [
     podMemberRoles: [
       PodMemberRole.SOLUTIONS_ARCHITECT
     ],
-    userCapacities: [
+    podAssignments: [
       {
         dayAsStr: '2024-08-09',
         userBookedCapacity: { //UserBookedCapacityDto

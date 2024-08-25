@@ -3,7 +3,8 @@ package com.ubs.cpt.domain.entity.availability;
 public enum AvailabilityType {
     AVAILABLE,
     ABSENT,
-    PUBLIC_HOLIDAY;
+    PUBLIC_HOLIDAY,
+    POD_ASSIGNMENT;
 
     public boolean isAvailable() {
         return this == AvailabilityType.AVAILABLE;
@@ -15,6 +16,10 @@ public enum AvailabilityType {
 
     public boolean isPublicHoliday() {
         return this == AvailabilityType.PUBLIC_HOLIDAY;
+    }
+
+    public boolean isPodAssignment() {
+        return this == AvailabilityType.POD_ASSIGNMENT;
     }
 }
 

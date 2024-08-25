@@ -7,22 +7,24 @@ import {MonthHeaderDto} from "./models/header/month-header.model";
 import {DayHeaderDto} from "./models/header/day-header.model";
 import {WeekHeaderDto} from "./models/header/week-header.model";
 import {AvailabilityDto} from "./models/availability/availability.model";
-import {UserAvailableCapacityDto} from "./models/user/user-available-capacity.model";
 import {UserDto} from "./models/user/user.model";
 import {AVAILABILITY_TEST_DATA} from "./testdata/availability/availability.test-data";
 import {USER_TEST_DATA} from "./testdata/user/user.test-data";
-import {USER_AVAILABLE_CAPACITY_TEST_DATA} from "./testdata/user/user-available-capacity.test-data";
 import {POD_TEST_DATA} from "./testdata/pod/pod.test-data";
-import {SCHEDULER_VIEW_TEST_DATA} from "./testdata/scheduler/scheduler-view.test-data";
-import {SchedulerViewDto} from "./models/scheduler/scheduler-view.model";
 import {AvailabilityType} from "./models/availability/availability.enum";
-import {UserCapacityDto} from "./models/user/user.capacity.model";
 import {DateUtils} from '../shared/utils/DateUtils';
 import {USER_PODS_TEST_DATA} from "./testdata/user/user-pods.test-data";
 import {UserPodsDto} from "./models/user/user-pods.model";
 import {UserPodWatchersDto} from "./models/user/user-pod-watchers.model";
 import {USER_POD_WATCHERS_TEST_DATA} from "./testdata/user/user-pod-watchers.test-data";
-import {UserSaveBookingDto} from "./models/booking/user-save-booking.model";
+import {POD_ASSIGNMENT_VIEW_TEST_DATA} from "./testdata/scheduler/pod-assignment-view.test-data";
+import {PodAssignmentViewDto} from "./models/pod-view/pod-view.model";
+import {PodAssignmentWrapperDto} from "./models/pod-assignment/pod-assignment-wrapper.model";
+import {AssignmentDto} from "./models/pod-assignment/assignment.model";
+import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
+import {PodAssignmentToSave} from "./models/pod-assignment/pod-assignment-to-save.model";
+import {TimeSlot} from "./models/pod-assignment/time-slot.enum";
+
 
 @Component({
     selector: 'app-scheduler',
@@ -47,21 +49,22 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     protected readonly availability: AvailabilityDto[] = AVAILABILITY_TEST_DATA;
 
     protected readonly users: UserDto[] = USER_TEST_DATA;
-    protected readonly userAvailableCapacities: UserAvailableCapacityDto[] = USER_AVAILABLE_CAPACITY_TEST_DATA;
 
     protected readonly userPods: UserPodsDto[] = USER_PODS_TEST_DATA;
     protected readonly userPodWatchers: UserPodWatchersDto[] = USER_POD_WATCHERS_TEST_DATA;
 
     protected readonly pods: PodDto[] = POD_TEST_DATA;
 
-    protected readonly schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA;
+    //protected readonly schedulerViews: PodViewDto[] = SCHEDULER_VIEW_TEST_DATA;
+    protected readonly podAssignmentViewDto: PodAssignmentViewDto = POD_ASSIGNMENT_VIEW_TEST_DATA;
 
     selectedPod: PodDto = POD_TEST_DATA[0]; // TODO Default - on logon - fetch all pods of logged-in user and select first
 
     private bookingDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
 
-    userSaveBookingStart: UserSaveBookingDto | undefined;
-    userSaveBookingEnd: UserSaveBookingDto | undefined;
+    //podAssignmentToSave: PodAssignmentToSave | undefined;
+    podAssignmentToSaveStart: PodAssignmentToSave | undefined;
+    podAssignmentToSaveEnd: PodAssignmentToSave | undefined;
 
     isWeekEnd(date: string): boolean {
         /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
@@ -96,18 +99,18 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
             /*this.podMemberCapacities.forEach( (podMemberCapacityDto: PodMemberCapacityDto) => {
               let headerDateAsStr = this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
-              let find = podMemberCapacityDto.userCapacities?.find(capacityDto => capacityDto.day === headerDateAsStr);
+              let find = podMemberCapacityDto.podAssignments?.find(capacityDto => capacityDto.day === headerDateAsStr);
             });*/
-            this.schedulerViews.forEach((schedulerViewDto: SchedulerViewDto) => {
+            this.podAssignmentViewDto.podAssignmentWrappers.forEach((podAssignmentWrapper: PodAssignmentWrapperDto) => {
                 //let userDto = schedulerViewDto.user;
 
                 //let headerDateAsStr = "" + this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
                 let headerDateAsStr = DateUtils.formatToISODate(dayHeaderDto.day);
-                let userCapacityDto = schedulerViewDto.userCapacities?.find(capacityDto => capacityDto.dayAsStr === headerDateAsStr);
+                let podAssignmentDto = podAssignmentWrapper.podAssignments?.find(podAssignmentDto => podAssignmentDto.dayAsStr === headerDateAsStr);
 
-                if (userCapacityDto) {
+                if (podAssignmentDto) {
                     //capacity for this day do exists
-                    userCapacityDto.day = DateUtils.parseISODate(userCapacityDto.dayAsStr);//This is needed because constructor is not called when we use schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA
+                    podAssignmentDto.day = DateUtils.parseISODate(podAssignmentDto.dayAsStr);//This is needed because constructor is not called when we use schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA
                     //capacity for this day exists, check if its complete otherwise complete it
                     //completing it means, morning and afternoon must be filled in with either booking or availability
                     //console.log("userCapacityDto found: " + JSON.stringify(userCapacityDto));
@@ -115,43 +118,39 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     console.log("userCapacityDto.userBookedCapacity?.afternoonPod: " + userCapacityDto.userBookedCapacity?.afternoonPod);
                     console.log("userCapacityDto.userAvailableCapacity?.morningAvailability: " + userCapacityDto.userAvailableCapacity?.morningAvailability);
                     console.log("userCapacityDto.userAvailableCapacity?.afternoonAvailability: " + userCapacityDto.userAvailableCapacity?.afternoonAvailability);*/
-                    if (!userCapacityDto.userBookedCapacity?.morningPod && !userCapacityDto.userAvailableCapacity?.morningAvailability) {
-                        //both do not exist hence create  userAvailableCapacity as available or public holiday
+                    if (!podAssignmentDto.morning) {
+                        //morning do not exist hence mark it as available
                         let morningAvailabilityDto;
                         if (DateUtils.isWeekend(dayHeaderDto.day)) {
-                            morningAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.PUBLIC_HOLIDAY);
+                            podAssignmentDto.morning = new AssignmentDto(AvailabilityType.PUBLIC_HOLIDAY);
                         } else {
-                            morningAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.AVAILABLE);
+                            podAssignmentDto.morning = new AssignmentDto(AvailabilityType.AVAILABLE);
                         }
-                        userCapacityDto.userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, morningAvailabilityDto, null);
-                    } else if (!userCapacityDto.userBookedCapacity?.afternoonPod && !userCapacityDto.userAvailableCapacity?.afternoonAvailability) {
-                        //both do not exist hence create  userAvailableCapacity as available or public holiday
-                        let afternoonAvailabilityDto
+
+                    } else if (!podAssignmentDto.afternoon) {
+                        //afternoon do not exist hence mark it as available
                         if (DateUtils.isWeekend(dayHeaderDto.day)) {
-                            afternoonAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.PUBLIC_HOLIDAY);
+                            podAssignmentDto.afternoon = new AssignmentDto(AvailabilityType.PUBLIC_HOLIDAY);
                         } else {
-                            afternoonAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.AVAILABLE);
+                            podAssignmentDto.afternoon = new AssignmentDto(AvailabilityType.AVAILABLE);
                         }
-                        userCapacityDto.userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, afternoonAvailabilityDto);
                     }
                 } else {
-                    //capacity for this day do not exist, complete it now
-                    let availableFullDayAvailabilityDto
+                    //availability for this day do not exist, complete it now
+                    let assignmentDtoForFullDay
                     if (DateUtils.isWeekend(dayHeaderDto.day)) {
                         //console.log(dayHeaderDto.day +"is holiday");
-                        availableFullDayAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.PUBLIC_HOLIDAY);
+                        assignmentDtoForFullDay = new AssignmentDto(AvailabilityType.PUBLIC_HOLIDAY)
                         //console.log(JSON.stringify(availableFullDayAvailabilityDto));
                     } else {
-                        availableFullDayAvailabilityDto = AVAILABILITY_TEST_DATA.find(availabilityDto => availabilityDto?.availabilityType === AvailabilityType.AVAILABLE);
+                        assignmentDtoForFullDay = new AssignmentDto(AvailabilityType.AVAILABLE)
                     }
-                    let userAvailableCapacity = new UserAvailableCapacityDto("userAvailableCapacityUuid-" + headerDateAsStr, headerDateAsStr, null, availableFullDayAvailabilityDto, availableFullDayAvailabilityDto);
-
-                    let userCapacityDto1 = new UserCapacityDto(headerDateAsStr, null, null, userAvailableCapacity);
-                    schedulerViewDto.userCapacities?.push(userCapacityDto1)
+                    let podAssignmentDto = new PodAssignmentDto(headerDateAsStr, headerDateAsStr, null, assignmentDtoForFullDay, assignmentDtoForFullDay);
+                    podAssignmentWrapper.podAssignments?.push(podAssignmentDto)
                 }
 
-                //sort userCapacities otherwise manually added capacities would be pushed at the end of the list.
-                schedulerViewDto.userCapacities?.sort((a: UserCapacityDto, b: UserCapacityDto) => {
+                //sort podAssignments otherwise manually added capacities would be pushed at the end of the list.
+                podAssignmentWrapper.podAssignments?.sort((a: PodAssignmentDto, b: PodAssignmentDto) => {
                     if (a.day && b.day) {
                         return a?.day > b?.day ? 1 : -1;
                     }
@@ -219,34 +218,44 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     protected readonly DateUtils = DateUtils;
 
-    onDragStart($event: MouseEvent, user: UserDto, userCapacity: UserCapacityDto, morningPod: PodDto | null | undefined, morningAvailability: AvailabilityDto | null | undefined, afternoonPod: PodDto | null | undefined, afternoonAvailability: AvailabilityDto | null | undefined) {
+    onDragStart($event: MouseEvent,
+                selectedUser: UserDto,
+                selectedTimeSlot: TimeSlot,
+                selectedDayAsStr?: string | null,
+                selectedDay?: Date | null) {
         console.log("onDragStart...");
-        console.log("user:"+ JSON.stringify(user));
-        console.log("userCapacity:"+ JSON.stringify(userCapacity));
-        console.log("morningPod:"+ JSON.stringify(morningPod));
-        console.log("morningAvailability:"+ JSON.stringify(morningAvailability));
-        console.log("afternoonPod:"+ JSON.stringify(afternoonPod));
-        console.log("afternoonAvailability:"+ JSON.stringify(afternoonAvailability));
-        this.userSaveBookingStart = new UserSaveBookingDto(user, userCapacity, morningPod, afternoonPod, morningAvailability, afternoonAvailability);
+        console.log("selectedPod:" + JSON.stringify(this.selectedPod));
+        console.log("selectedUserDto:" + JSON.stringify(selectedUser));
+        console.log("selectedDayAsStr:" + JSON.stringify(selectedDayAsStr));
+        console.log("selectedDay:" + JSON.stringify(selectedDay));
+        console.log("selectedTimeSlot:" + JSON.stringify(selectedTimeSlot));
+
+        if (!selectedDay && selectedDayAsStr) {
+            selectedDay = DateUtils.parseISODate(selectedDayAsStr);
+        }
+        // @ts-ignore : selectedDay would never be null
+        this.podAssignmentToSaveStart = new PodAssignmentToSave(selectedUser, selectedDay, selectedTimeSlot);
     }
 
     onDragEnd($event: MouseEvent,
-              user: UserDto,
-              userCapacity: UserCapacityDto,
-              morningPod: PodDto | null | undefined,
-              morningAvailability: AvailabilityDto | null | undefined,
-              afternoonPod: PodDto | null | undefined,
-              afternoonAvailability: AvailabilityDto | null | undefined) {
+              selectedUser: UserDto,
+              selectedTimeSlot: TimeSlot,
+              selectedDayAsStr?: string | null,
+              selectedDay?: Date | null) {
         console.log("onDragEnd...");
-        console.log("user:"+ JSON.stringify(user));
-        console.log("userCapacity:"+ JSON.stringify(userCapacity));
-        console.log("morningPod:"+ JSON.stringify(morningPod));
-        console.log("morningAvailability:"+ JSON.stringify(morningAvailability));
-        console.log("afternoonPod:"+ JSON.stringify(afternoonPod));
-        console.log("afternoonAvailability:"+ JSON.stringify(afternoonAvailability));
-        this.userSaveBookingEnd = new UserSaveBookingDto(user, userCapacity, morningPod, afternoonPod, morningAvailability, afternoonAvailability);
+        console.log("selectedPod:" + JSON.stringify(this.selectedPod));
+        console.log("selectedUserDto:" + JSON.stringify(selectedUser));
+        console.log("selectedDayAsStr:" + JSON.stringify(selectedDayAsStr));
+        console.log("selectedDay:" + JSON.stringify(selectedDay));
+        console.log("selectedTimeSlot:" + JSON.stringify(selectedTimeSlot));
 
-        if(this.userSaveBookingStart && this.userSaveBookingStart.isDataValid && this.userSaveBookingEnd && this.userSaveBookingEnd.isDataValid){
+        if (!selectedDay && selectedDayAsStr) {
+            selectedDay = DateUtils.parseISODate(selectedDayAsStr);
+        }
+        // @ts-ignore : selectedDay would never be null
+        this.podAssignmentToSaveEnd = new PodAssignmentToSave(selectedUser, selectedDay, selectedTimeSlot);
+
+        if (this.podAssignmentToSaveStart && this.podAssignmentToSaveStart.isDataValid && this.podAssignmentToSaveEnd && this.podAssignmentToSaveEnd.isDataValid) {
             this.bookingDialogEl().nativeElement.showModal();
         }
     }
@@ -263,4 +272,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     onBookingSave() {
 
     }
+
+    protected readonly TimeSlot = TimeSlot;
 }
