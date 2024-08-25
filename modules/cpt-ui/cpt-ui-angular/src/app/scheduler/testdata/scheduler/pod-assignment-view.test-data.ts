@@ -112,6 +112,58 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                     }
                 }
             ]
+        },
+        {
+            user: {//UserDto
+                uuid: 'KamilLipinskiUuid',
+                gpin: 'KamilLipinskiGPIN',
+                name: 'Kamil Lipinski'
+            },
+            podMemberRole: PodMemberRole.JAVA_DEVELOPER, //FOR current POD
+            podAssignments: [//PodAssignmentDto
+                {
+                    uuid: 'KamilLipinskiPodAssignmentUuid-20082024',
+                    dayAsStr: '2024-08-20',
+                    morning: { //AssignmentDto
+                        availabilityType: AvailabilityType.POD_ASSIGNMENT,
+                        pod: {//PodDto
+                            uuid: 'AURAPodUuid',
+                            podName: 'AURA',
+                            podStyleClass: 'podStyleClass1',
+                            podDescription: 'This pod is for AURA'
+                        }
+                    },
+                    afternoon: {//AssignmentDto
+                        availabilityType: AvailabilityType.ABSENT
+                    }
+                }
+            ]
+        },
+        {
+            user: {//UserDto
+                uuid: 'WiktorUuid',
+                gpin: 'WiktorGPIN',
+                name: 'Wiktor',
+            },
+            podMemberRole: PodMemberRole.JAVA_DEVELOPER, //FOR current POD
+            podAssignments: [//PodAssignmentDto
+                {
+                    uuid: 'TWiktorPodAssignmentUuid-13082024',
+                    dayAsStr: '2024-08-13',
+                    morning: { //AssignmentDto
+                        availabilityType: AvailabilityType.POD_ASSIGNMENT,
+                        pod: {//PodDto
+                            uuid: 'AURAPodUuid',
+                            podName: 'AURA',
+                            podStyleClass: 'podStyleClass1',
+                            podDescription: 'This pod is for AURA'
+                        }
+                    },
+                    afternoon: {//AssignmentDto
+                        availabilityType: AvailabilityType.ABSENT
+                    }
+                }
+            ]
         }
     ]
 }
