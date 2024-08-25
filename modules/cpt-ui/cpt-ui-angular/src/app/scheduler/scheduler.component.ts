@@ -256,6 +256,23 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.podAssignmentToSaveEnd = new PodAssignmentToSave(selectedUser, selectedDay, selectedTimeSlot);
 
         if (this.podAssignmentToSaveStart && this.podAssignmentToSaveStart.isDataValid && this.podAssignmentToSaveEnd && this.podAssignmentToSaveEnd.isDataValid) {
+
+            let selectedUsers: UserDto[] = [];
+            selectedUsers.push(this.podAssignmentToSaveStart.selectedUser);
+            //Is start and end user different, if yes then we need to select all in-between users
+             if (this.podAssignmentToSaveStart.selectedUser.gpin !== this.podAssignmentToSaveEnd.selectedUser.gpin) {
+
+                 for(let podAssignmentWrapper of this.podAssignmentViewDto.podAssignmentWrappers){
+                     selectedUsers.push(podAssignmentWrapper.user);
+                     if (podAssignmentWrapper.user.gpin === this.podAssignmentToSaveEnd?.selectedUser.gpin) {
+                         break;
+                     }
+                 }
+
+            }
+            selectedUsers = [...new Set(selectedUsers)]//remove duplicates;
+             console.log("selectedUsers: "+ JSON.stringify(selectedUsers));
+
             this.bookingDialogEl().nativeElement.showModal();
         }
     }
