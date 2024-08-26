@@ -1,4 +1,4 @@
-package com.ubs.cpt.web.config.datasource;
+package com.ubs.cpt.infra.datasource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -11,7 +11,14 @@ import java.util.Properties;
 public enum Datasource {
 
     //sql.syntax_ora=true -> for using dual table and other oracle specific things
-    HSQLDB(hsqldbDatasource(Constants.HSQLDB_URL + ";hsqldb.tx=mvcc;hsqldb.tx_level=read_commited;sql.syntax_mys=true", "sa", ""), hsqldbProperties());
+    HSQLDB(
+        hsqldbDatasource(
+            Constants.HSQLDB_URL + ";hsqldb.tx=mvcc;hsqldb.tx_level=read_commited;sql.syntax_mys=true",
+            "sa",
+            ""
+        ),
+        hsqldbProperties()
+    );
 
     private final DataSource dataSource;
 

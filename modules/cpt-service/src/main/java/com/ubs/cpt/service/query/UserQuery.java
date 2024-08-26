@@ -21,9 +21,9 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
 
     public UserQuery(EntityManager em, boolean count, DateTimeService dateTimeService) {
         super(em, dateTimeService, !count ?
-                        "select u.uuid, u.name, u.gpin from user u "
-                        :
-                        "select count(u.uuid) from user u "
+            "select u.uuid, u.name, u.gpin from user u "
+            :
+            "select count(u.uuid) from user u "
         );
     }
 
@@ -60,7 +60,8 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
         //Global search
         //withFullTextSearch(parameters.getName());
         withUserName(parameters.getName());
-        withUserKey(new UserKey(parameters.getGpin()));
+
+        parameters.getGpin().ifPresent(gpin -> withUserKey(new UserKey(gpin)));
 
         if (sort) {
             for (SortBy sortBy : parameters.getSortBy()) {

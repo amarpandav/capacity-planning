@@ -3,6 +3,7 @@ package com.ubs.cpt.testdata.user;
 import com.ubs.cpt.domain.entity.pod.Pod;
 import com.ubs.cpt.domain.entity.user.User;
 import com.ubs.cpt.domain.entity.user.UserBookedCapacity;
+import com.ubs.cpt.infra.datetime.DateTimeService;
 import com.ubs.cpt.infra.test.base.TestDataSuite;
 import com.ubs.cpt.testdata.pod.PodTestdata;
 
@@ -53,48 +54,61 @@ public class UserBookedCapacityTestdata {
 
 
     public static class SuiteSynthetic extends TestDataSuite<UserBookedCapacity> {
-        public UserBookedCapacity AMAR_AURA_AURA_DAY1 = register(new UserBookedCapacityTestdata()
-                .withDay(LocalDate.parse("01.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
-                .withUser(UserTestdata.suiteSynthetic().AMAR)
-                .withMorningPod(PodTestdata.suiteSynthetic().AURA)
-                .withAfternoonPod(PodTestdata.suiteSynthetic().AURA)
-                .create());
-        public UserBookedCapacity AMAR_AURA_GIM_DAY2 = register(new UserBookedCapacityTestdata()
-                .withDay(LocalDate.parse("02.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
-                .withUser(UserTestdata.suiteSynthetic().AMAR)
-                .withMorningPod(PodTestdata.suiteSynthetic().AURA)
-                .withAfternoonPod(PodTestdata.suiteSynthetic().GIM)
-                .create());
-        public UserBookedCapacity AMAR_NULL_AURA_DAY2 = register(new UserBookedCapacityTestdata()
-                .withDay(LocalDate.parse("03.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
-                .withUser(UserTestdata.suiteSynthetic().AMAR)
-                .withAfternoonPod(PodTestdata.suiteSynthetic().AURA)
-                .create());
+        public UserBookedCapacity AMAR_AURA_AURA_DAY1;
+        public UserBookedCapacity AMAR_AURA_GIM_DAY2;
+        public UserBookedCapacity AMAR_NULL_AURA_DAY2;
 
-        public UserBookedCapacity THOMAS_AURA_AURA_DAY1 = register(new UserBookedCapacityTestdata()
-                .withDay(LocalDate.parse("01.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
-                .withUser(UserTestdata.suiteSynthetic().AMAR)
-                .withMorningPod(PodTestdata.suiteSynthetic().AURA)
-                .withAfternoonPod(PodTestdata.suiteSynthetic().AURA)
-                .create());
-        public UserBookedCapacity THOMAS_GIM_AURA_DAY2 = register(new UserBookedCapacityTestdata()
-                .withDay(LocalDate.parse("02.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
-                .withUser(UserTestdata.suiteSynthetic().AMAR)
-                .withMorningPod(PodTestdata.suiteSynthetic().GIM)
-                .withAfternoonPod(PodTestdata.suiteSynthetic().AURA)
-                .create());
-        public UserBookedCapacity THOMAS_AURA_NULL_DAY2 = register(new UserBookedCapacityTestdata()
-                .withDay(LocalDate.parse("06.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
-                .withUser(UserTestdata.suiteSynthetic().AMAR)
-                .withMorningPod(PodTestdata.suiteSynthetic().AURA)
-                .create());
+        public UserBookedCapacity THOMAS_AURA_AURA_DAY1;
+        public UserBookedCapacity THOMAS_GIM_AURA_DAY2;
+        public UserBookedCapacity THOMAS_AURA_NULL_DAY2;
+
+        public SuiteSynthetic(DateTimeService dateTimeService) {
+            super();
+
+            var today = dateTimeService.todayLocalDate();
+
+            AMAR_AURA_AURA_DAY1 = register(new UserBookedCapacityTestdata()
+                    .withDay(LocalDate.parse("01.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                    .withUser(UserTestdata.suiteSynthetic().AMAR)
+                    .withMorningPod(PodTestdata.suiteSynthetic().AURA)
+                    .withAfternoonPod(PodTestdata.suiteSynthetic().AURA)
+                    .create());
+            AMAR_AURA_GIM_DAY2 = register(new UserBookedCapacityTestdata()
+                    .withDay(LocalDate.parse("02.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                    .withUser(UserTestdata.suiteSynthetic().AMAR)
+                    .withMorningPod(PodTestdata.suiteSynthetic().AURA)
+                    .withAfternoonPod(PodTestdata.suiteSynthetic().GIM)
+                    .create());
+            AMAR_NULL_AURA_DAY2 = register(new UserBookedCapacityTestdata()
+                    .withDay(LocalDate.parse("03.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                    .withUser(UserTestdata.suiteSynthetic().AMAR)
+                    .withAfternoonPod(PodTestdata.suiteSynthetic().AURA)
+                    .create());
+            THOMAS_AURA_AURA_DAY1 = register(new UserBookedCapacityTestdata()
+                    .withDay(LocalDate.parse("01.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                    .withUser(UserTestdata.suiteSynthetic().AMAR)
+                    .withMorningPod(PodTestdata.suiteSynthetic().AURA)
+                    .withAfternoonPod(PodTestdata.suiteSynthetic().AURA)
+                    .create());
+            THOMAS_GIM_AURA_DAY2 = register(new UserBookedCapacityTestdata()
+                    .withDay(LocalDate.parse("02.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                    .withUser(UserTestdata.suiteSynthetic().AMAR)
+                    .withMorningPod(PodTestdata.suiteSynthetic().GIM)
+                    .withAfternoonPod(PodTestdata.suiteSynthetic().AURA)
+                    .create());
+            THOMAS_AURA_NULL_DAY2 = register(new UserBookedCapacityTestdata()
+                    .withDay(LocalDate.parse("06.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                    .withUser(UserTestdata.suiteSynthetic().AMAR)
+                    .withMorningPod(PodTestdata.suiteSynthetic().AURA)
+                    .create());
+        }
     }
 
     private static SuiteSynthetic synthetic;
 
-    public static SuiteSynthetic suiteSynthetic() {
+    public static SuiteSynthetic suiteSynthetic(DateTimeService dateTimeService) {
         if (synthetic == null) {
-            synthetic = new SuiteSynthetic();
+            synthetic = new SuiteSynthetic(dateTimeService);
         }
         return synthetic;
     }

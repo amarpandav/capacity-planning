@@ -1,4 +1,4 @@
-package com.ubs.cpt.web.config.datasource;
+package com.ubs.cpt.infra.datasource;
 
 import com.ubs.cpt.domain.BaseEntity;
 import com.ubs.cpt.infra.spring.profiles.ProfileHSQLDB;
