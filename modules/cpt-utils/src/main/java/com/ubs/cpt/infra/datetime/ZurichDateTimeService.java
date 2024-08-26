@@ -42,9 +42,7 @@ public class ZurichDateTimeService implements DateTimeService {
 
     @Override
     public Date todayDate() {
-        return new Date(
-            todayLocalDateTime().toInstant(zoneOffset()).toEpochMilli()
-        );
+        return Date.from(todayZonedDateTime().toInstant());
     }
 
     @Override
