@@ -58,9 +58,11 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     //protected readonly schedulerViews: PodViewDto[] = SCHEDULER_VIEW_TEST_DATA;
     protected readonly podAssignmentViewDto: PodAssignmentViewDto = POD_ASSIGNMENT_VIEW_TEST_DATA;
 
-    selectedPod: PodDto = POD_TEST_DATA[0]; // TODO Default - on logon - fetch all pods of logged-in user and select first
+    selectedPodToView: PodDto = POD_TEST_DATA[0]; // TODO Default - on logon - fetch all pods of logged-in user and select first
 
-    private bookingDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
+    selectedPodToAssign: PodDto = POD_TEST_DATA[0]; //TODO Default - This is the pod the user will select from legend to book
+
+    private podAssignmentDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
 
     //podAssignmentToSave: PodAssignmentToSave | undefined;
     podAssignmentToSaveStart: PodAssignmentToSave | undefined;
@@ -224,7 +226,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 selectedDayAsStr?: string | null,
                 selectedDay?: Date | null) {
         console.log("onDragStart...");
-        console.log("selectedPod:" + JSON.stringify(this.selectedPod));
+        console.log("selectedPod:" + JSON.stringify(this.selectedPodToView));
         console.log("selectedUserDto:" + JSON.stringify(selectedUser));
         console.log("selectedDayAsStr:" + JSON.stringify(selectedDayAsStr));
         console.log("selectedDay:" + JSON.stringify(selectedDay));
@@ -243,7 +245,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
               selectedDayAsStr?: string | null,
               selectedDay?: Date | null) {
         console.log("onDragEnd...");
-        console.log("selectedPod:" + JSON.stringify(this.selectedPod));
+        console.log("selectedPod:" + JSON.stringify(this.selectedPodToView));
         console.log("selectedUserDto:" + JSON.stringify(selectedUser));
         console.log("selectedDayAsStr:" + JSON.stringify(selectedDayAsStr));
         console.log("selectedDay:" + JSON.stringify(selectedDay));
@@ -273,7 +275,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             selectedUsers = [...new Set(selectedUsers)]//remove duplicates;
              console.log("selectedUsers: "+ JSON.stringify(selectedUsers));
 
-            this.bookingDialogEl().nativeElement.showModal();
+            this.podAssignmentDialogEl().nativeElement.showModal();
         }
     }
 
@@ -283,7 +285,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     onBookingDialogCancel() {
-        this.bookingDialogEl().nativeElement.close();
+        this.podAssignmentDialogEl().nativeElement.close();
     }
 
     onBookingSave() {
