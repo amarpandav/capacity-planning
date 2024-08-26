@@ -15,6 +15,7 @@ export const USER_PODS_TEST_DATA = [
                 pod: {
                     uuid: 'AURAPodUuid',
                     podName: 'AURA',
+                    podShortName: 'AURA',
                     podStyleClass: 'podStyleClass1',
                     podDescription: 'This pod is for AURA'
                 }
@@ -25,6 +26,7 @@ export const USER_PODS_TEST_DATA = [
                 pod: {
                     uuid: 'GIMPodUuid',
                     podName: 'Global Identity Management',
+                    podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
                     podDescription: 'This pod is for Global Identity Management'
                 }
@@ -44,6 +46,7 @@ export const USER_PODS_TEST_DATA = [
                 pod: {
                     uuid: 'AURAPodUuid',
                     podName: 'AURA',
+                    podShortName: 'AURA',
                     podStyleClass: 'podStyleClass1',
                     podDescription: 'This pod is for AURA'
                 }
@@ -54,6 +57,7 @@ export const USER_PODS_TEST_DATA = [
                 pod: {
                     uuid: 'GIMPodUuid',
                     podName: 'Global Identity Management',
+                    podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
                     podDescription: 'This pod is for Global Identity Management'
                 }
@@ -73,6 +77,7 @@ export const USER_PODS_TEST_DATA = [
                 pod: {
                     uuid: 'AURAPodUuid',
                     podName: 'AURA',
+                    podShortName: 'AURA',
                     podStyleClass: 'podStyleClass1',
                     podDescription: 'This pod is for AURA'
                 }
@@ -92,6 +97,7 @@ export const USER_PODS_TEST_DATA = [
                 pod: {
                     uuid: 'GIMPodUuid',
                     podName: 'Global Identity Management',
+                    podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
                     podDescription: 'This pod is for Global Identity Management'
                 }
@@ -111,6 +117,7 @@ export const USER_PODS_TEST_DATA = [
                 pod: {
                     uuid: 'GIMPodUuid',
                     podName: 'Global Identity Management',
+                    podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
                     podDescription: 'This pod is for Global Identity Management'
                 }
@@ -130,6 +137,7 @@ export const USER_PODS_TEST_DATA = [
                 pod: {
                     uuid: 'GIMPodUuid',
                     podName: 'Global Identity Management',
+                    podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
                     podDescription: 'This pod is for Global Identity Management'
                 }

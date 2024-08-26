@@ -10,7 +10,6 @@ import {AvailabilityDto} from "./models/availability/availability.model";
 import {UserDto} from "./models/user/user.model";
 import {AVAILABILITY_TEST_DATA} from "./testdata/availability/availability.test-data";
 import {USER_TEST_DATA} from "./testdata/user/user.test-data";
-import {POD_TEST_DATA} from "./testdata/pod/pod.test-data";
 import {AvailabilityType} from "./models/availability/availability.enum";
 import {DateUtils} from '../shared/utils/DateUtils';
 import {USER_PODS_TEST_DATA} from "./testdata/user/user-pods.test-data";
@@ -24,6 +23,9 @@ import {AssignmentDto} from "./models/pod-assignment/assignment.model";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
 import {PodAssignmentToSave} from "./models/pod-assignment/pod-assignment-to-save.model";
 import {TimeSlot} from "./models/pod-assignment/time-slot.enum";
+import {POD_DETAILS_TEST_DATA} from "./testdata/pod/pod-details.test-data";
+import {PodDetailsDto} from "./models/pod/pod-details.model";
+import {POD_TEST_DATA} from "./testdata/pod/pod.test-data";
 
 
 @Component({
@@ -54,13 +56,14 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     protected readonly userPodWatchers: UserPodWatchersDto[] = USER_POD_WATCHERS_TEST_DATA;
 
     protected readonly pods: PodDto[] = POD_TEST_DATA;
+    protected readonly podDetails: PodDetailsDto[] = POD_DETAILS_TEST_DATA;
 
     //protected readonly schedulerViews: PodViewDto[] = SCHEDULER_VIEW_TEST_DATA;
     protected readonly podAssignmentViewDto: PodAssignmentViewDto = POD_ASSIGNMENT_VIEW_TEST_DATA;
 
-    selectedPodToView: PodDto = POD_TEST_DATA[0]; // TODO Default - on logon - fetch all pods of logged-in user and select first
+    currentPodToView: PodDto = POD_TEST_DATA[0]; // TODO Default - on logon - fetch all pods of logged-in user and select first
 
-    selectedPodToAssign: PodDto = POD_TEST_DATA[0]; //TODO Default - This is the pod the user will select from legend to book
+    selectedPodToAssign?: PodDto = POD_TEST_DATA[0]; //TODO Default - This is the pod the user will select from legend to book
 
     private podAssignmentDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
 
@@ -226,7 +229,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 selectedDayAsStr?: string | null,
                 selectedDay?: Date | null) {
         console.log("onDragStart...");
-        console.log("selectedPod:" + JSON.stringify(this.selectedPodToView));
+        console.log("selectedPod:" + JSON.stringify(this.currentPodToView));
         console.log("selectedUserDto:" + JSON.stringify(selectedUser));
         console.log("selectedDayAsStr:" + JSON.stringify(selectedDayAsStr));
         console.log("selectedDay:" + JSON.stringify(selectedDay));
@@ -245,7 +248,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
               selectedDayAsStr?: string | null,
               selectedDay?: Date | null) {
         console.log("onDragEnd...");
-        console.log("selectedPod:" + JSON.stringify(this.selectedPodToView));
+        console.log("selectedPod:" + JSON.stringify(this.currentPodToView));
         console.log("selectedUserDto:" + JSON.stringify(selectedUser));
         console.log("selectedDayAsStr:" + JSON.stringify(selectedDayAsStr));
         console.log("selectedDay:" + JSON.stringify(selectedDay));

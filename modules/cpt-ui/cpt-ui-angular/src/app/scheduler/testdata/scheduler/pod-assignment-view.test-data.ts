@@ -6,6 +6,7 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
     currentPod: {
         uuid: 'AURAPodUuid',
         podName: 'AURA',
+        podShortName: 'AURA',
         podStyleClass: 'podStyleClass1',
         podDescription: 'This pod is for AURA'
     },
@@ -26,6 +27,7 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                         pod: {//PodDto
                             uuid: 'AURAPodUuid',
                             podName: 'AURA',
+                            podShortName: 'AURA',
                             podStyleClass: 'podStyleClass1',
                             podDescription: 'This pod is for AURA'
                         }
@@ -35,6 +37,7 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                         pod: {//PodDto
                             uuid: 'AURAPodUuid',
                             podName: 'AURA',
+                            podShortName: 'AURA',
                             podStyleClass: 'podStyleClass1',
                             podDescription: 'This pod is for AURA'
                         }
@@ -48,6 +51,7 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                         pod: {//PodDto
                             uuid: 'AURAPodUuid',
                             podName: 'AURA',
+                            podShortName: 'AURA',
                             podStyleClass: 'podStyleClass1',
                             podDescription: 'This pod is for AURA'
                         }
@@ -57,6 +61,7 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                         pod: {//PodDto
                             uuid: 'GIMPodUuid',
                             podName: 'Global Identity Management',
+                            podShortName: 'GIM',
                             podStyleClass: 'podStyleClass2',
                             podDescription: 'This pod is for Global Identity Management'
                         }
@@ -70,6 +75,7 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                         pod: {//PodDto
                             uuid: 'AURAPodUuid',
                             podName: 'AURA',
+                            podShortName: 'AURA',
                             podStyleClass: 'podStyleClass1',
                             podDescription: 'This pod is for AURA'
                         }
@@ -103,6 +109,7 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                         pod: {//PodDto
                             uuid: 'AURAPodUuid',
                             podName: 'AURA',
+                            podShortName: 'AURA',
                             podStyleClass: 'podStyleClass1',
                             podDescription: 'This pod is for AURA'
                         }
@@ -129,6 +136,7 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                         pod: {//PodDto
                             uuid: 'AURAPodUuid',
                             podName: 'AURA',
+                            podShortName: 'AURA',
                             podStyleClass: 'podStyleClass1',
                             podDescription: 'This pod is for AURA'
                         }
@@ -155,6 +163,7 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                         pod: {//PodDto
                             uuid: 'AURAPodUuid',
                             podName: 'AURA',
+                            podShortName: 'AURA',
                             podStyleClass: 'podStyleClass1',
                             podDescription: 'This pod is for AURA'
                         }

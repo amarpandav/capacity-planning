@@ -7,9 +7,9 @@
             <li>You can't book when member is Absent or has Public holidays.</li>
         </ul>
 
-        Start booking: {{JSON.stringify(podAssignmentToSaveStart)}}
+        Start booking: {{ JSON.stringify(podAssignmentToSaveStart) }}
         <p></p>
-        End booking: {{JSON.stringify(podAssignmentToSaveEnd)}}
+        End booking: {{ JSON.stringify(podAssignmentToSaveEnd) }}
         <div class="confirmation-actions">
             <button type="button" class="button btn btn-secondary" (click)="onBookingDialogCancel()">Cancel</button>
             <button type="button" class="button btn btn-primary" (click)="onBookingSave()">Save</button>
@@ -17,28 +17,53 @@
     </div>
 </dialog>
 
-<div class="card" style="width: 50rem;">
-    <div class="card-body">
-        <h5 class="card-title">Scheduler</h5>
-        <p class="card-text">Settings</p>
+<div style='display:flex'>
+    <div class="card" style="width: 50rem; margin-right:10px">
+        <div class="card-body">
+            <h5 class="card-title">Scheduler</h5>
+            <p class="card-text">Settings</p>
 
-        <form (ngSubmit)="onSubmit()">
-            <div class="mb-3">
-                <label for="selectedYear" class="form-label">Months to view</label>
-                <input type="number" class="form-control" id="selectedYear" name="selectedYear"
-                       [(ngModel)]="schedulerSettings.yearToView">
+            <form (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="selectedYear" class="form-label">Months to view</label>
+                    <input type="number" class="form-control" id="selectedYear" name="selectedYear"
+                           [(ngModel)]="schedulerSettings.yearToView">
 
-                <label for="selectedMonth" class="form-label">Starting month to view</label>
-                <input type="number" class="form-control" id="selectedMonth" name="selectedMonth"
-                       [(ngModel)]="schedulerSettings.startMonthToView">
+                    <label for="selectedMonth" class="form-label">Starting month to view</label>
+                    <input type="number" class="form-control" id="selectedMonth" name="selectedMonth"
+                           [(ngModel)]="schedulerSettings.startMonthToView">
 
-                <label for="selectedMonthsToView" class="form-label">No. of months to view</label>
-                <input type="number" class="form-control" id="selectedMonthsToView" name="selectedMonthsToView"
-                       [(ngModel)]="schedulerSettings.noOfMonthsToView">
+                    <label for="selectedMonthsToView" class="form-label">No. of months to view</label>
+                    <input type="number" class="form-control" id="selectedMonthsToView" name="selectedMonthsToView"
+                           [(ngModel)]="schedulerSettings.noOfMonthsToView">
 
-            </div>
-            <button type="submit" class="btn btn-primary">Change settings</button>
-        </form>
+                </div>
+                <button type="submit" class="btn btn-primary">Change settings</button>
+            </form>
+        </div>
+    </div>
+    <div class="card" style="width: 15rem;">
+        <div class="card-body">
+            <h5 class="card-title">My Pods</h5>
+            <p class="card-text"></p>
+
+            @for (pod of pods; track pod) {
+                <div style="display:flex;">
+                    <div class="cell day weekDay" style="margin-right: 10px">
+                        <div style='height:100%;width:100%;'
+                             class='{{pod.podStyleClass}}'
+                             title='{{pod.podName}}'></div>
+                    </div>
+                    <div style="margin-right: 10px">{{ pod.podShortName }}</div>
+                    @if (pod.podName === selectedPodToAssign?.podName) {
+                        <div style="font-style: italic; font-size: 9px" >selected</div>
+                    }
+
+                </div>
+            }
+
+
+        </div>
     </div>
 </div>
 
@@ -47,7 +72,7 @@
   <div><img src="months.png" alt="months.png"/></div>
   <div><img src="months_v2.png" alt="months_v2.png"/></div>
 </div-->
-<div style="display:flex;justify-content: center;font-size: 20px;">{{ selectedPodToView.podName }} Pod</div>
+<div style="display:flex;justify-content: center;font-size: 20px;">{{ currentPodToView.podName }} Pod</div>
 
 <table class="scheduler">
     <div style='display:flex'>

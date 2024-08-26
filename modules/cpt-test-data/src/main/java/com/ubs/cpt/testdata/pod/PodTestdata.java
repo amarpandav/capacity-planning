@@ -16,6 +16,7 @@ import java.util.Set;
 public class PodTestdata {
 
     private String podName;
+    private String podShortName;
     private String podDescription;
     private String podStyleClass;
     private Set<PodMember> podMembers = new HashSet<>();
@@ -24,6 +25,10 @@ public class PodTestdata {
 
     public PodTestdata withPodName(String podName) {
         this.podName = podName;
+        return this;
+    }
+    public PodTestdata withPodShortName(String podShortName) {
+        this.podShortName = podShortName;
         return this;
     }
 
@@ -49,7 +54,7 @@ public class PodTestdata {
 
     public Pod create() {
 
-        Pod pm = new Pod(podName, podDescription, podStyleClass);
+        Pod pm = new Pod(podName, podShortName, podDescription, podStyleClass);
         for (PodMember podMember : podMembers) {
             pm.addPodMembers(podMember);;
         }
@@ -64,6 +69,7 @@ public class PodTestdata {
     public static class SuiteSynthetic extends TestDataSuite<Pod> {
         public Pod AURA = register(new PodTestdata()
                 .withPodName("AURA")
+                .withPodShortName("AURA")
                 .withPodDescription("Pod for project AURA")
                 .withPodStyleClass("podStyleClass1")
                 .addPodMember(PodMemberTestdata.suiteSynthetic().AMAR_FOR_AURA)
@@ -73,7 +79,8 @@ public class PodTestdata {
                 .create());
 
         public Pod GIM = register(new PodTestdata()
-                .withPodName("GIM")
+                .withPodName("Global Identity Management")
+                .withPodShortName("GIM")
                 .withPodDescription("Pod for project Global Identity Management")
                 .withPodStyleClass("podStyleClass2")
                 .addPodMember(PodMemberTestdata.suiteSynthetic().WIKTOR_FOR_GIM)

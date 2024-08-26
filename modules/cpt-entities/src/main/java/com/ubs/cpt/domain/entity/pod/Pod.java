@@ -23,12 +23,16 @@ public class Pod extends BaseEntity<Pod> {
 
     public static final class Columns {
         public static final String POD_NAME = "pod_name";
+        public static final String POD_SHORT_NAME = "pod_short_name";
         public static final String POD_DESCRIPTION = "pod_description";
         public static final String POD_STYLE_CLASS = "pod_style_class";
     }
 
     @Column(name = Columns.POD_NAME, length = FieldConstants.POD_NAME, nullable = false)
     private String podName;
+
+    @Column(name = Columns.POD_SHORT_NAME, length = FieldConstants.POD_SHORT_NAME, nullable = false)
+    private String podShortName;
 
     @Column(name = Columns.POD_DESCRIPTION, length = FieldConstants.DESCRIPTION_SHORT, nullable = false)
     private String podDescription;
@@ -55,8 +59,9 @@ public class Pod extends BaseEntity<Pod> {
     protected Pod() {// required by JPA
     }
 
-    public Pod(String podName, String podDescription, String podStyleClass) {
+    public Pod(String podName, String podShortName, String podDescription, String podStyleClass) {
         this.podName = podName;
+        this.podShortName = podShortName;
         this.podDescription = podDescription;
         this.podStyleClass = podStyleClass;
         this.podMembers = new HashSet<>();
@@ -81,6 +86,10 @@ public class Pod extends BaseEntity<Pod> {
 
     public String getPodName() {
         return podName;
+    }
+
+    public String getPodShortName() {
+        return podShortName;
     }
 
     public String getPodDescription() {

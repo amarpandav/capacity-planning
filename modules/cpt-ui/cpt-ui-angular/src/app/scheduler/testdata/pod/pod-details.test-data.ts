@@ -1,10 +1,11 @@
 //test data for cpt_pod
 import {PodMemberRole} from "../../models/pod/pom-member-role.enum";
 
-export const POD_TEST_DATA = [
+export const POD_DETAILS_TEST_DATA = [
   {
     uuid:'AURAPodUuid',
     podName: 'AURA',
+    podShortName: 'AURA',
     podStyleClass: 'podStyleClass1',
     podDescription:'This pod is for AURA',
     podMembers: [//PodMemberDto
@@ -60,6 +61,7 @@ export const POD_TEST_DATA = [
   {
     uuid:'GIMPodUuid',
     podName: 'Global Identity Management',
+    podShortName: 'GIM',
     podStyleClass: 'podStyleClass2',
     podDescription:'This pod is for Global Identity Management',
     podMembers: [//PodMemberDto
