@@ -19,27 +19,21 @@ import java.util.List;
 @SuppressWarnings("JpaQlInspection")
 @Service
 public class UserServiceImpl implements UserService {
+    private final UsersRepository usersRepository;
 
-    @PersistenceContext
-    private EntityManager em;
-
-    @Autowired
-    private DateTimeService dateTimeService;
+    public UserServiceImpl(UsersRepository usersRepository) {
+        this.usersRepository = usersRepository;
+    }
 
     @Override
     @CptReadOnlyTransaction
     public List<UserDto> findUsers(UserSearchParameters searchParameters) {
-        UserQuery query = new UserQuery(em, false, dateTimeService);
-        query.with(searchParameters, true);
-
-        return query.getResultList();
+        return usersRepository.findUsers(searchParameters);
     }
 
     @Override
     @CptReadOnlyTransaction
     public int countUsers(UserSearchParameters searchParameters) {
-        UserQuery query = new UserQuery(em, true, dateTimeService);
-        query.with(searchParameters, false);
-        return query.countResults();
+        return usersRepository.countUsers(searchParameters);
     }
 }

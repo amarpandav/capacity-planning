@@ -1,45 +1,20 @@
 package com.ubs.cpt.infra.datetime;
 
-import org.springframework.stereotype.Service;
-
 import java.time.*;
 import java.util.Date;
 
-/**
- * @author Amar Pandav
- */
-@Service
-public class DateTimeService {
-    private static final ZoneId JAVA_TIME_ZONE_ID = ZoneId.of("Europe/Zurich");
+public interface DateTimeService {
+    ZoneId timeZoneId();
 
-    public ZoneId timeZoneId() {
-        return JAVA_TIME_ZONE_ID;
-    }
+    ZoneOffset zoneOffset();
 
-    public ZoneOffset zoneOffset() {
-        Instant instant = Instant.now();
-        return timeZoneId().getRules().getOffset(instant);
-    }
+    LocalDate todayLocalDate();
 
-    public LocalDate todayLocalDate() {
-        return LocalDate.now(JAVA_TIME_ZONE_ID);
-    }
+    LocalDateTime todayLocalDateTime();
 
-    public LocalDateTime todayLocalDateTime() {
-        return LocalDateTime.now(timeZoneId());
-    }
+    ZonedDateTime todayZonedDateTime();
 
-    public ZonedDateTime todayZonedDateTime() {
-        return ZonedDateTime.now(timeZoneId());
-    }
+    Date todayDate();
 
-    public Date todayDate() {
-        return new Date(
-            todayLocalDateTime().toInstant(zoneOffset()).toEpochMilli()
-        );
-    }
-
-    public long currentTimeMillis() {
-        return System.currentTimeMillis();
-    }
+    long currentTimeMillis();
 }

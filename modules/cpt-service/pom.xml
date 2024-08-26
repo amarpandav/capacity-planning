@@ -35,6 +35,11 @@
             <artifactId>cpt-test-utils</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.ubs.cpt</groupId>
+            <artifactId>cpt-test-data</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>jakarta.persistence</groupId>
@@ -44,6 +49,14 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
         </dependency>
 
     </dependencies>

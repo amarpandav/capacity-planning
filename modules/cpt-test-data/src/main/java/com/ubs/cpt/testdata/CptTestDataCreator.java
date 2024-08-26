@@ -1,5 +1,6 @@
 package com.ubs.cpt.testdata;
 
+import com.ubs.cpt.infra.datetime.DateTimeService;
 import com.ubs.cpt.infra.spring.jpa.JpaCallbackVoid;
 import com.ubs.cpt.infra.spring.jpa.JpaHelper;
 import com.ubs.cpt.infra.spring.profiles.SpringProfiles;
@@ -38,7 +39,10 @@ public class CptTestDataCreator implements TestDataCreator, ApplicationListener<
     private EntityManagerFactory emf;
 
     @Autowired
-    DataSource dataSource;
+    protected DateTimeService dateTimeService;
+
+    @Autowired
+    protected DataSource dataSource;
 
     private boolean refreshTestData = true;
 
@@ -50,7 +54,7 @@ public class CptTestDataCreator implements TestDataCreator, ApplicationListener<
                 //Show HSQL DB Console ?
                 try {
                     log.info("Showing DB consle");
-                    DatabaseManagerSwing.main(new String[]{"--url", dataSource.getConnection().getMetaData().getURL() +";sql.syntax_mys=true", "--noexit"});
+                    DatabaseManagerSwing.main(new String[]{"--url", dataSource.getConnection().getMetaData().getURL() + ";sql.syntax_mys=true", "--noexit"});
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
@@ -89,7 +93,7 @@ public class CptTestDataCreator implements TestDataCreator, ApplicationListener<
         PodTestdata.suiteSynthetic().persistTo(em);
         PodMemberTestdata.suiteSynthetic().persistTo(em);
         PodWatcherTestdata.suiteSynthetic().persistTo(em);
-        UserBookedCapacityTestdata.suiteSynthetic().persistTo(em);
+        UserBookedCapacityTestdata.suiteSynthetic(dateTimeService).persistTo(em);
         UserUnAvailableCapacityTestdata.suiteSynthetic().persistTo(em);
     }
 
