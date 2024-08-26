@@ -21,7 +21,7 @@ import {PodAssignmentViewDto} from "./models/pod-view/pod-view.model";
 import {PodAssignmentWrapperDto} from "./models/pod-assignment/pod-assignment-wrapper.model";
 import {AssignmentDto} from "./models/pod-assignment/assignment.model";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
-import {PodAssignmentToSave} from "./models/pod-assignment/pod-assignment-to-save.model";
+import {PodAssignmentToSave, PodAssignmentToSaveTemp} from "./models/pod-assignment/pod-assignment-to-save.model";
 import {TimeSlot} from "./models/pod-assignment/time-slot.enum";
 import {POD_DETAILS_TEST_DATA} from "./testdata/pod/pod-details.test-data";
 import {PodDetailsDto} from "./models/pod/pod-details.model";
@@ -68,8 +68,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     private podAssignmentDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
 
     //podAssignmentToSave: PodAssignmentToSave | undefined;
-    podAssignmentToSaveStart: PodAssignmentToSave | undefined;
-    podAssignmentToSaveEnd: PodAssignmentToSave | undefined;
+    podAssignmentToSaveTempStart: PodAssignmentToSaveTemp | undefined;
+    podAssignmentToSaveTempEnd: PodAssignmentToSaveTemp | undefined;
+    podAssignmentToSave: PodAssignmentToSave |undefined;
 
     isWeekEnd(date: string): boolean {
         /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
@@ -224,60 +225,66 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     protected readonly DateUtils = DateUtils;
 
     onDragStart($event: MouseEvent,
-                selectedUser: UserDto,
-                selectedTimeSlot: TimeSlot,
-                selectedDayAsStr?: string | null,
-                selectedDay?: Date | null) {
+                clickedUser: UserDto,
+                clickedTimeSlot: TimeSlot,
+                clickedPod?: PodDto,
+                clickedDayAsStr?: string | null,
+                clickedDay?: Date | null) {
         console.log("onDragStart...");
-        console.log("selectedPod:" + JSON.stringify(this.currentPodToView));
-        console.log("selectedUserDto:" + JSON.stringify(selectedUser));
-        console.log("selectedDayAsStr:" + JSON.stringify(selectedDayAsStr));
-        console.log("selectedDay:" + JSON.stringify(selectedDay));
-        console.log("selectedTimeSlot:" + JSON.stringify(selectedTimeSlot));
+        console.log("currentPodToView:" + JSON.stringify(this.currentPodToView));
+        console.log("selectedPodToAssign:" + JSON.stringify(this.selectedPodToAssign));
+        console.log("clickedUserDto:" + JSON.stringify(clickedUser));
+        console.log("clickedDayAsStr:" + JSON.stringify(clickedDayAsStr));
+        console.log("clickedDay:" + JSON.stringify(clickedDay));
+        console.log("clickedTimeSlot:" + JSON.stringify(clickedTimeSlot));
 
-        if (!selectedDay && selectedDayAsStr) {
-            selectedDay = DateUtils.parseISODate(selectedDayAsStr);
+        if (!clickedDay && clickedDayAsStr) {
+            clickedDay = DateUtils.parseISODate(clickedDayAsStr);
         }
-        // @ts-ignore : selectedDay would never be null
-        this.podAssignmentToSaveStart = new PodAssignmentToSave(selectedUser, selectedDay, selectedTimeSlot);
+        // @ts-ignore : clickedDay would never be null
+        this.podAssignmentToSaveTempStart = new PodAssignmentToSaveTemp(clickedUser, clickedDay, clickedTimeSlot);
     }
 
     onDragEnd($event: MouseEvent,
-              selectedUser: UserDto,
-              selectedTimeSlot: TimeSlot,
-              selectedDayAsStr?: string | null,
-              selectedDay?: Date | null) {
+              clickedUser: UserDto,
+              clickedTimeSlot: TimeSlot,
+              clickedPod?: PodDto,
+              clickedDayAsStr?: string | null,
+              clickedDay?: Date | null) {
         console.log("onDragEnd...");
-        console.log("selectedPod:" + JSON.stringify(this.currentPodToView));
-        console.log("selectedUserDto:" + JSON.stringify(selectedUser));
-        console.log("selectedDayAsStr:" + JSON.stringify(selectedDayAsStr));
-        console.log("selectedDay:" + JSON.stringify(selectedDay));
-        console.log("selectedTimeSlot:" + JSON.stringify(selectedTimeSlot));
+        console.log("currentPodToView:" + JSON.stringify(this.currentPodToView));
+        console.log("selectedPodToAssign:" + JSON.stringify(this.selectedPodToAssign));
+        console.log("clickedUserDto:" + JSON.stringify(clickedUser));
+        console.log("clickedDayAsStr:" + JSON.stringify(clickedDayAsStr));
+        console.log("clickedDay:" + JSON.stringify(clickedDay));
+        console.log("clickedTimeSlot:" + JSON.stringify(clickedTimeSlot));
 
-        if (!selectedDay && selectedDayAsStr) {
-            selectedDay = DateUtils.parseISODate(selectedDayAsStr);
+        if (!clickedDay && clickedDayAsStr) {
+            clickedDay = DateUtils.parseISODate(clickedDayAsStr);
         }
-        // @ts-ignore : selectedDay would never be null
-        this.podAssignmentToSaveEnd = new PodAssignmentToSave(selectedUser, selectedDay, selectedTimeSlot);
 
-        if (this.podAssignmentToSaveStart && this.podAssignmentToSaveStart.isDataValid && this.podAssignmentToSaveEnd && this.podAssignmentToSaveEnd.isDataValid) {
+        // @ts-ignore : clickedDay would never be null
+        this.podAssignmentToSaveTempEnd = new PodAssignmentToSaveTemp(clickedUser, clickedDay, clickedTimeSlot);
 
-            let selectedUsers: UserDto[] = [];
-            selectedUsers.push(this.podAssignmentToSaveStart.selectedUser);
+        if (this.selectedPodToAssign && this.podAssignmentToSaveTempStart && this.podAssignmentToSaveTempStart.isDataValid && this.podAssignmentToSaveTempEnd && this.podAssignmentToSaveTempEnd.isDataValid) {
+
+            let usersToAssignToAPod: UserDto[] = [];
+            usersToAssignToAPod.push(this.podAssignmentToSaveTempStart.clickedUser);
             //Is start and end user different, if yes then we need to select all in-between users
-             if (this.podAssignmentToSaveStart.selectedUser.gpin !== this.podAssignmentToSaveEnd.selectedUser.gpin) {
+             if (this.podAssignmentToSaveTempStart.clickedUser.gpin !== this.podAssignmentToSaveTempEnd.clickedUser.gpin) {
 
                  for(let podAssignmentWrapper of this.podAssignmentViewDto.podAssignmentWrappers){
-                     selectedUsers.push(podAssignmentWrapper.user);
-                     if (podAssignmentWrapper.user.gpin === this.podAssignmentToSaveEnd?.selectedUser.gpin) {
+                     usersToAssignToAPod.push(podAssignmentWrapper.user);
+                     if (podAssignmentWrapper.user.gpin === this.podAssignmentToSaveTempEnd?.clickedUser.gpin) {
                          break;
                      }
                  }
 
             }
-            selectedUsers = [...new Set(selectedUsers)]//remove duplicates;
-             console.log("selectedUsers: "+ JSON.stringify(selectedUsers));
+            usersToAssignToAPod = [...new Set(usersToAssignToAPod)]//remove duplicates;
+            console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));
 
+            this.podAssignmentToSave = new PodAssignmentToSave(usersToAssignToAPod, this.selectedPodToAssign, this.podAssignmentToSaveTempStart.clickedDay, this.podAssignmentToSaveTempStart.clickedTimeSlot, this.podAssignmentToSaveTempEnd.clickedDay, this.podAssignmentToSaveTempEnd.clickedTimeSlot)
             this.podAssignmentDialogEl().nativeElement.showModal();
         }
     }

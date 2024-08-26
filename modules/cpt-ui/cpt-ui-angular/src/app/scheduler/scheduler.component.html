@@ -7,9 +7,8 @@
             <li>You can't book when member is Absent or has Public holidays.</li>
         </ul>
 
-        Start booking: {{ JSON.stringify(podAssignmentToSaveStart) }}
-        <p></p>
-        End booking: {{ JSON.stringify(podAssignmentToSaveEnd) }}
+        Booking: {{ JSON.stringify(podAssignmentToSave) }}
+
         <div class="confirmation-actions">
             <button type="button" class="button btn btn-secondary" (click)="onBookingDialogCancel()">Cancel</button>
             <button type="button" class="button btn btn-primary" (click)="onBookingSave()">Save</button>
@@ -117,15 +116,15 @@
                          class='daypart morning {{podAssignment.morning?.pod?.podStyleClass}} {{podAssignment.morning?.availabilityType}}'
                          title='{{podAssignment.morning?.pod?.podName}} {{podAssignment.morning?.availabilityType}}'
 
-                         (mousedown)="onDragStart($event, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.dayAsStr, podAssignment.day)"
-                         (mouseup)="onDragEnd($event, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.dayAsStr, podAssignment.day)">
+                         (mousedown)="onDragStart($event, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning?.pod, podAssignment.dayAsStr, podAssignment.day)"
+                         (mouseup)="onDragEnd($event, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning?.pod, podAssignment.dayAsStr, podAssignment.day)">
                     </div>
                     <div style='height:100%;width:50%;'
                          class='daypart afternoon {{podAssignment.afternoon?.pod?.podStyleClass}} {{podAssignment.afternoon?.availabilityType}}'
                          title='{{podAssignment.afternoon?.pod?.podName}} {{podAssignment.afternoon?.availabilityType}}'
 
-                         (mousedown)="onDragStart($event, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.dayAsStr, podAssignment.day)"
-                         (mouseup)="onDragEnd($event, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.dayAsStr, podAssignment.day)">
+                         (mousedown)="onDragStart($event, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.afternoon?.pod, podAssignment.dayAsStr, podAssignment.day)"
+                         (mouseup)="onDragEnd($event, podAssignmentWrapper.user, TimeSlot.AFTERNOON,podAssignment.afternoon?.pod, podAssignment.dayAsStr, podAssignment.day)">
                     </div>
                 </div>
             }
