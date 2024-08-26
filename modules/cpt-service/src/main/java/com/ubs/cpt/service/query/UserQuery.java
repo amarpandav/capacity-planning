@@ -21,9 +21,9 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
 
     public UserQuery(EntityManager em, boolean count, DateTimeService dateTimeService) {
         super(em, dateTimeService, !count ?
-            "select u.uuid, u.name, u.gpin from user u "
+            "select u.uuid, u.name, u.gpin from cpt_user u "
             :
-            "select count(u.uuid) from user u "
+            "select count(u.uuid) from cpt_user u "
         );
     }
 
