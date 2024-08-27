@@ -1,11 +1,11 @@
 import {UserDto} from "../user/user.model";
-import {TimeSlot} from "./time-slot.enum";
+import {TimeSlot} from "../pod-assignment/time-slot.enum";
 import {PodDto} from "../pod/pod.model";
 
 /**
- * Pod lead is trying to book assign these Users to these pods for this duration
+ * Pod lead is trying to assign these Users to these pods for this duration
  */
-export class PodAssignmentToSave {
+export class PodAssignmentCreateRequest {
 
     isDataValid: boolean = false;
 
@@ -20,7 +20,7 @@ export class PodAssignmentToSave {
 
 }
 
-export class PodAssignmentToSaveTemp {
+export class PodAssignmentCreateRequestTemp {
 
     isDataValid: boolean = false;
 

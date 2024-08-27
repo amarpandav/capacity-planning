@@ -21,11 +21,14 @@ import {PodAssignmentViewDto} from "./models/pod-view/pod-view.model";
 import {PodAssignmentWrapperDto} from "./models/pod-assignment/pod-assignment-wrapper.model";
 import {AssignmentDto} from "./models/pod-assignment/assignment.model";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
-import {PodAssignmentToSave, PodAssignmentToSaveTemp} from "./models/pod-assignment/pod-assignment-to-save.model";
 import {TimeSlot} from "./models/pod-assignment/time-slot.enum";
 import {POD_DETAILS_TEST_DATA} from "./testdata/pod/pod-details.test-data";
 import {PodDetailsDto} from "./models/pod/pod-details.model";
 import {POD_TEST_DATA} from "./testdata/pod/pod.test-data";
+import {
+    PodAssignmentCreateRequest,
+    PodAssignmentCreateRequestTemp
+} from "./models/pod-assignment-request/pod-assignment-create-request.model";
 
 
 @Component({
@@ -67,10 +70,10 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     private podAssignmentDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
 
-    //podAssignmentToSave: PodAssignmentToSave | undefined;
-    podAssignmentToSaveTempStart: PodAssignmentToSaveTemp | undefined;
-    podAssignmentToSaveTempEnd: PodAssignmentToSaveTemp | undefined;
-    podAssignmentToSave: PodAssignmentToSave |undefined;
+    //podAssignmentCreateRequest: PodAssignmentToSave | undefined;
+    podAssignmentCreateRequestTempStart: PodAssignmentCreateRequestTemp | undefined;
+    podAssignmentCreateRequestTempEnd: PodAssignmentCreateRequestTemp | undefined;
+    podAssignmentCreateRequest: PodAssignmentCreateRequest |undefined;
 
     isWeekEnd(date: string): boolean {
         /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
@@ -257,7 +260,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             podAssignment.afternoon.pod = this.selectedPodToAssign;
         });*/
         // @ts-ignore : clickedDay would never be null
-        this.podAssignmentToSaveTempStart = new PodAssignmentToSaveTemp(clickedUser, clickedDay, clickedTimeSlot);
+        this.podAssignmentCreateRequestTempStart = new PodAssignmentCreateRequestTemp(clickedUser, clickedDay, clickedTimeSlot);
     }
 
     onDragEnd($event: MouseEvent,
@@ -280,17 +283,17 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         }
 
         // @ts-ignore : clickedDay would never be null
-        this.podAssignmentToSaveTempEnd = new PodAssignmentToSaveTemp(clickedUser, clickedDay, clickedTimeSlot);
+        this.podAssignmentCreateRequestTempEnd = new PodAssignmentCreateRequestTemp(clickedUser, clickedDay, clickedTimeSlot);
 
-        if (this.selectedPodToAssign && this.podAssignmentToSaveTempStart && this.podAssignmentToSaveTempStart.isDataValid && this.podAssignmentToSaveTempEnd && this.podAssignmentToSaveTempEnd.isDataValid) {
+        if (this.selectedPodToAssign && this.podAssignmentCreateRequestTempStart && this.podAssignmentCreateRequestTempStart.isDataValid && this.podAssignmentCreateRequestTempEnd && this.podAssignmentCreateRequestTempEnd.isDataValid) {
 
             let usersToAssignToAPod: UserDto[] = [];
-            usersToAssignToAPod.push(this.podAssignmentToSaveTempStart.clickedUser);
+            usersToAssignToAPod.push(this.podAssignmentCreateRequestTempStart.clickedUser);
             //Is start and end user different, if yes then we need to select all in-between users
-             if (this.podAssignmentToSaveTempStart.clickedUser.gpin !== this.podAssignmentToSaveTempEnd.clickedUser.gpin) {
+             if (this.podAssignmentCreateRequestTempStart.clickedUser.gpin !== this.podAssignmentCreateRequestTempEnd.clickedUser.gpin) {
                  for(let podAssignmentWrapper of this.podAssignmentViewDto.podAssignmentWrappers){
                      usersToAssignToAPod.push(podAssignmentWrapper.user);
-                     if (podAssignmentWrapper.user.gpin === this.podAssignmentToSaveTempEnd?.clickedUser.gpin) {
+                     if (podAssignmentWrapper.user.gpin === this.podAssignmentCreateRequestTempEnd?.clickedUser.gpin) {
                          break;
                      }
                  }
@@ -298,9 +301,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             usersToAssignToAPod = [...new Set(usersToAssignToAPod)]//remove duplicates;
             //console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));
 
-            let podAssignmentToSaveTempStartCloned = {...this.podAssignmentToSaveTempStart}
-            let podAssignmentToSaveTempEndCloned = {...this.podAssignmentToSaveTempEnd}
-            this.podAssignmentToSave = new PodAssignmentToSave(
+            let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart}
+            let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd}
+            this.podAssignmentCreateRequest = new PodAssignmentCreateRequest(
                 usersToAssignToAPod,
                 this.selectedPodToAssign,
                 podAssignmentToSaveTempStartCloned.clickedDay,
@@ -308,8 +311,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 podAssignmentToSaveTempEndCloned.clickedDay,
                 podAssignmentToSaveTempEndCloned.clickedTimeSlot)
 
-            this.podAssignmentToSaveTempStart = undefined;
-            this.podAssignmentToSaveTempEnd = undefined;
+            this.podAssignmentCreateRequestTempStart = undefined;
+            this.podAssignmentCreateRequestTempEnd = undefined;
             //this.podAssignmentDialogEl().nativeElement.showModal();
 
         }
@@ -338,7 +341,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                   pod: PodDto | undefined,
                   dayAsStrWhileDragging: string | null | undefined,
                   dayWhileDragging: Date | null | undefined) {
-        if(this.podAssignmentToSaveTempStart && !this.podAssignmentToSaveTempEnd){
+        if(this.podAssignmentCreateRequestTempStart && !this.podAssignmentCreateRequestTempEnd){
             console.log("whileDragging...");
             console.log("userWhileDragging:" + JSON.stringify(userWhileDragging));
             console.log("dayAsStrWhileDragging:" + JSON.stringify(dayAsStrWhileDragging));
