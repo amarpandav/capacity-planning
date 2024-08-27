@@ -13,6 +13,10 @@ public record AssignmentDto(
         return new AssignmentDto(date, AvailabilityType.AVAILABLE, AvailabilityType.AVAILABLE);
     }
 
+    public static AssignmentDto publicHoliday(LocalDate day) {
+        return new AssignmentDto(day, AvailabilityType.PUBLIC_HOLIDAY, AvailabilityType.PUBLIC_HOLIDAY);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
