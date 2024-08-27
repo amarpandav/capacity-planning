@@ -53,7 +53,7 @@
                     </div>
                     <div style="margin-right: 10px">{{ pod.podShortName }}</div>
                     @if (pod.podName === selectedPodToAssign?.podName) {
-                        <div style="font-style: italic; font-size: 9px" >selected</div>
+                        <div style="font-style: italic; font-size: 9px">selected</div>
                     }
 
                 </div>
@@ -116,7 +116,7 @@
 
                          (mousedown)="onDragStart($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.dayAsStr, podAssignment.day)"
                          (mouseup)="onDragEnd($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.dayAsStr, podAssignment.day)"
-                         (mouseover)="whileDragging($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.dayAsStr, podAssignment.day)"
+                         (mouseover)="onWhileDragging($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.dayAsStr, podAssignment.day)"
                     >
 
                     </div>
@@ -125,7 +125,9 @@
                          title='{{podAssignment.afternoon.pod?.podName}} {{podAssignment.afternoon.availabilityType}}'
 
                          (mousedown)="onDragStart($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.dayAsStr, podAssignment.day)"
-                         (mouseup)="onDragEnd($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.dayAsStr, podAssignment.day)">
+                         (mouseup)="onDragEnd($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.dayAsStr, podAssignment.day)"
+                         (mouseover)="onWhileDragging($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.dayAsStr, podAssignment.day)"
+                    >
                     </div>
                 </div>
             }
