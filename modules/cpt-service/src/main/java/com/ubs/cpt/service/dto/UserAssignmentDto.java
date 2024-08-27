@@ -1,7 +1,10 @@
 package com.ubs.cpt.service.dto;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class UserAssignmentDto {
     private final String userId;
@@ -22,12 +25,18 @@ public class UserAssignmentDto {
         return userId;
     }
 
-    public Set<AssignmentDto> getAssignments() {
-        return assignments;
+    public List<AssignmentDto> getAssignments() {
+        return assignments.stream()
+                .sorted(Comparator.comparing(AssignmentDto::day))
+                .toList();
     }
 
     public void add(List<AssignmentDto> toAdd) {
-        assignments.addAll(toAdd);
+        toAdd.forEach(input -> {
+            if (assignments.remove(input)) {
+                assignments.add(input);
+            }
+        });
     }
 
 }

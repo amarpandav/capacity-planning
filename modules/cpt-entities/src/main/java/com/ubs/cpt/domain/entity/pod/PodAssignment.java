@@ -91,10 +91,10 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
             throw new IllegalStateException("You are trying to assign the user to afternoon pod without afternoon_pod_uuid.");
         }
 
-        if ( (morningAvailabilityType.isAbsent() ||  morningAvailabilityType.isPublicHoliday() && morningPod != null)) {
+        if ( (morningAvailabilityType.isAbsent() ||  morningAvailabilityType.isPublicHoliday()) && morningPod != null) {
             throw new IllegalStateException("You are trying to assign the user to morning pod with morningAvailabilityType: "+afternoonAvailabilityType.name() + " which is not allowed!");
         }
-        if ( (afternoonAvailabilityType.isAbsent() ||  afternoonAvailabilityType.isPublicHoliday() && afternoonPod != null)) {
+        if ( (afternoonAvailabilityType.isAbsent() ||  afternoonAvailabilityType.isPublicHoliday()) && afternoonPod != null) {
             throw new IllegalStateException("You are trying to assign the user to afternoon pod with afternoonAvailabilityType: "+afternoonAvailabilityType.name() + " which is not allowed!");
         }
     }

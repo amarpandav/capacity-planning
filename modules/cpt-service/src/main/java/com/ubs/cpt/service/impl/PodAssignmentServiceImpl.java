@@ -1,7 +1,6 @@
 package com.ubs.cpt.service.impl;
 
 import com.ubs.cpt.domain.EntityId;
-import com.ubs.cpt.domain.entity.pod.Pod;
 import com.ubs.cpt.domain.entity.pod.PodAssignment;
 import com.ubs.cpt.domain.entity.pod.PodMember;
 import com.ubs.cpt.domain.entity.user.User;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,26 +37,24 @@ public class PodAssignmentServiceImpl implements PodAssignmentService {
     @Override
     public PodAssignmentsResponse getPodAssignment(PodAssignmentRequest request) {
         String podId = request.podId();
-        Pod pod = podRepository.findById(new EntityId<>(podId))
+        podRepository.findById(new EntityId<>(podId))
                 .orElseThrow(() -> new PodNotFoundException("pod not found by id " + podId));
 
-        List<String> userIds = podMemberRepository.findByPodId(podId).stream()
+        Set<String> userIds = podMemberRepository.findByPodId(podId).stream()
                 .map(PodMember::getUser)
                 .map(User::getEntityId)
                 .map(EntityId::getUuid)
-                .toList();
+                .collect(Collectors.toSet());
         LocalDate startDate = request.startDate();
         LocalDate endDate = request.endDate();
-        List<PodAssignment> podAssignments = podAssignmentRepository.getPodAssignment(podId, startDate,
+        List<PodAssignment> podAssignments = podAssignmentRepository.getPodAssignment(userIds, startDate,
                 endDate);
         PodAssignmentsResponse response = PodAssignmentsResponse.available(userIds, startDate, endDate);
         Map<String, List<PodAssignment>> assignmentsByUserId = podAssignments.stream()
                 .collect(Collectors.groupingBy(podAssignment -> podAssignment.getUser().getEntityId().getUuid()));
-        assignmentsByUserId.entrySet().forEach(entry -> {
-            response.add(entry.getKey(), entry.getValue().stream()
-                    .map(val -> new AssignmentDto(val.getDay(), val.getMorningAvailabilityType(), val.getAfternoonAvailabilityType()))
-                    .toList());
-        });
+        assignmentsByUserId.forEach((key, value) -> response.add(key, value.stream()
+                .map(val -> new AssignmentDto(val.getDay(), val.getMorningAvailabilityType(), val.getAfternoonAvailabilityType()))
+                .toList()));
         return response;
     }
 }
