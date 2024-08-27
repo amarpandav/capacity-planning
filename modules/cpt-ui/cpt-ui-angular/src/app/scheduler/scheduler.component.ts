@@ -26,7 +26,7 @@ import {POD_DETAILS_TEST_DATA} from "./testdata/pod/pod-details.test-data";
 import {PodDetailsDto} from "./models/pod/pod-details.model";
 import {POD_TEST_DATA} from "./testdata/pod/pod.test-data";
 import {
-    PodAssignmentCreateRequest,
+    PodAssignmentCreateRequestDto,
     PodAssignmentCreateRequestTemp
 } from "./models/pod-assignment-request/pod-assignment-create-request.model";
 
@@ -73,7 +73,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     //podAssignmentCreateRequest: PodAssignmentToSave | undefined;
     podAssignmentCreateRequestTempStart: PodAssignmentCreateRequestTemp | undefined;
     podAssignmentCreateRequestTempEnd: PodAssignmentCreateRequestTemp | undefined;
-    podAssignmentCreateRequest: PodAssignmentCreateRequest |undefined;
+    podAssignmentCreateRequest: PodAssignmentCreateRequestDto |undefined;
 
     isWeekEnd(date: string): boolean {
         /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
@@ -233,83 +233,116 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     onDragStart($event: MouseEvent,
                 clickedPodAssignmentWrapper: PodAssignmentWrapperDto,
-                clickedUser: UserDto,
-                clickedTimeSlot: TimeSlot,
-                clickedAssignmentDto: AssignmentDto,
-                clickedPod?: PodDto,
-                clickedDayAsStr?: string | null,
-                clickedDay?: Date | null) {
+                userInAction: UserDto,
+                timeSlotInAction: TimeSlot,
+                assignmentInAction: AssignmentDto,
+                podInAction?: PodDto,
+                dayAsStrInAction?: string | null,
+                dayInAction?: Date | null) {
         console.log("onDragStart...");
-        console.log("clickedUserDto:" + JSON.stringify(clickedUser));
-        console.log("clickedDayAsStr:" + JSON.stringify(clickedDayAsStr));
-        console.log("clickedDay:" + JSON.stringify(clickedDay));
-        console.log("clickedTimeSlot:" + JSON.stringify(clickedTimeSlot));
-        console.log("clickedAssignmentDto:" + JSON.stringify(clickedAssignmentDto));
-        console.log("clickedAssignmentDto:" + JSON.stringify(clickedAssignmentDto));
 
-        if (!clickedDay && clickedDayAsStr) {
-            clickedDay = DateUtils.parseISODate(clickedDayAsStr);
+        //we do not need this once we integrate backend service
+        if (!dayInAction && dayAsStrInAction) {
+            dayInAction = DateUtils.parseISODate(dayAsStrInAction);
         }
-        if(clickedAssignmentDto.availabilityType === AvailabilityType.AVAILABLE){
-            //We allow to book only AVAILABLE slots otherwise we would allow overriding someone else's bookings which we do not want,.
-            clickedAssignmentDto.availabilityType = AvailabilityType.POD_ASSIGNMENT;
-            clickedAssignmentDto.pod = this.selectedPodToAssign;
-        }
+
+        this.allocateUsersToCurrentPod(userInAction, dayAsStrInAction, dayInAction, timeSlotInAction, assignmentInAction);
+
         /*clickedPodAssignmentWrapper.podAssignments.forEach( (podAssignment: PodAssignmentDto) => {
             podAssignment.morning.pod = this.selectedPodToAssign;
             podAssignment.afternoon.pod = this.selectedPodToAssign;
         });*/
-        // @ts-ignore : clickedDay would never be null
-        this.podAssignmentCreateRequestTempStart = new PodAssignmentCreateRequestTemp(clickedUser, clickedDay, clickedTimeSlot);
+        // @ts-ignore : dayInAction would never be null
+        this.podAssignmentCreateRequestTempStart = new PodAssignmentCreateRequestTemp(userInAction, dayInAction, timeSlotInAction);
+    }
+
+    onWhileDragging($event: MouseEvent,
+                    podAssignmentWrapper: PodAssignmentWrapperDto,
+                    userInAction: UserDto,
+                    timeSlotInAction: TimeSlot,
+                    assignmentInAction: AssignmentDto,
+                    pod: PodDto | undefined,
+                    dayAsStrInAction: string | null | undefined,
+                    dayInAction: Date | null | undefined) {
+        if(this.podAssignmentCreateRequestTempStart && !this.podAssignmentCreateRequestTempEnd){
+            console.log("whileDragging...");
+            console.log("userInAction:" + JSON.stringify(userInAction));
+            console.log("dayAsStrInAction:" + JSON.stringify(dayAsStrInAction));
+            console.log("dayInAction:" + JSON.stringify(dayInAction));
+            console.log("timeSlotInAction:" + JSON.stringify(timeSlotInAction));
+            console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));
+            this.allocateUsersToCurrentPod(userInAction, dayAsStrInAction, dayInAction, timeSlotInAction, assignmentInAction);
+        }
+
+
     }
 
     onDragEnd($event: MouseEvent,
               clickedPodAssignmentWrapper: PodAssignmentWrapperDto,
-              clickedUser: UserDto,
-              clickedTimeSlot: TimeSlot,
-              clickedAssignmentDto: AssignmentDto,
-              clickedPod?: PodDto,
-              clickedDayAsStr?: string | null,
-              clickedDay?: Date | null) {
+              userInAction: UserDto,
+              timeSlotInAction: TimeSlot,
+              assignmentInAction: AssignmentDto,
+              podInAction?: PodDto,
+              dayAsStrInAction?: string | null,
+              dayInAction?: Date | null) {
         console.log("onDragEnd...");
-        console.log("clickedUserDto:" + JSON.stringify(clickedUser));
-        console.log("clickedDayAsStr:" + JSON.stringify(clickedDayAsStr));
-        console.log("clickedDay:" + JSON.stringify(clickedDay));
-        console.log("clickedTimeSlot:" + JSON.stringify(clickedTimeSlot));
-        console.log("clickedAssignmentDto:" + JSON.stringify(clickedAssignmentDto));
 
-        if (!clickedDay && clickedDayAsStr) {
-            clickedDay = DateUtils.parseISODate(clickedDayAsStr);
+        //we do not need this once we integrate backend service
+        if (!dayInAction && dayAsStrInAction) {
+            dayInAction = DateUtils.parseISODate(dayAsStrInAction);
         }
 
-        // @ts-ignore : clickedDay would never be null
-        this.podAssignmentCreateRequestTempEnd = new PodAssignmentCreateRequestTemp(clickedUser, clickedDay, clickedTimeSlot);
 
+        this.allocateUsersToCurrentPod(userInAction, dayAsStrInAction, dayInAction, timeSlotInAction, assignmentInAction);
+
+        // @ts-ignore : dayInAction would never be null
+        this.podAssignmentCreateRequestTempEnd = new PodAssignmentCreateRequestTemp(userInAction, dayInAction, timeSlotInAction);
+
+        this.populatePodAssignmentCreateRequest();
+    }
+
+    private allocateUsersToCurrentPod(userInAction: UserDto, dayAsStrInAction: string | null | undefined, dayInAction: Date | null | undefined, timeSlotInAction: TimeSlot, assignmentInAction: AssignmentDto) {
+        console.log("userInAction:" + JSON.stringify(userInAction));
+        console.log("dayAsStrInAction:" + JSON.stringify(dayAsStrInAction));
+        console.log("dayInAction:" + JSON.stringify(dayInAction));
+        console.log("timeSlotInAction:" + JSON.stringify(timeSlotInAction));
+        console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));
+        console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));
+
+
+        if (assignmentInAction.availabilityType === AvailabilityType.AVAILABLE) {
+            //We allow to book only AVAILABLE slots otherwise we would allow overriding someone else's bookings which we do not want,.
+            assignmentInAction.availabilityType = AvailabilityType.POD_ASSIGNMENT;
+            assignmentInAction.pod = this.selectedPodToAssign;
+        }
+    }
+
+    private populatePodAssignmentCreateRequest() {
         if (this.selectedPodToAssign && this.podAssignmentCreateRequestTempStart && this.podAssignmentCreateRequestTempStart.isDataValid && this.podAssignmentCreateRequestTempEnd && this.podAssignmentCreateRequestTempEnd.isDataValid) {
 
             let usersToAssignToAPod: UserDto[] = [];
-            usersToAssignToAPod.push(this.podAssignmentCreateRequestTempStart.clickedUser);
+            usersToAssignToAPod.push(this.podAssignmentCreateRequestTempStart.userInAction);
             //Is start and end user different, if yes then we need to select all in-between users
-             if (this.podAssignmentCreateRequestTempStart.clickedUser.gpin !== this.podAssignmentCreateRequestTempEnd.clickedUser.gpin) {
-                 for(let podAssignmentWrapper of this.podAssignmentViewDto.podAssignmentWrappers){
-                     usersToAssignToAPod.push(podAssignmentWrapper.user);
-                     if (podAssignmentWrapper.user.gpin === this.podAssignmentCreateRequestTempEnd?.clickedUser.gpin) {
-                         break;
-                     }
-                 }
+            if (this.podAssignmentCreateRequestTempStart.userInAction.gpin !== this.podAssignmentCreateRequestTempEnd.userInAction.gpin) {
+                for (let podAssignmentWrapper of this.podAssignmentViewDto.podAssignmentWrappers) {
+                    usersToAssignToAPod.push(podAssignmentWrapper.user);
+                    if (podAssignmentWrapper.user.gpin === this.podAssignmentCreateRequestTempEnd?.userInAction.gpin) {
+                        break;
+                    }
+                }
             }
             usersToAssignToAPod = [...new Set(usersToAssignToAPod)]//remove duplicates;
             //console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));
 
             let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart}
             let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd}
-            this.podAssignmentCreateRequest = new PodAssignmentCreateRequest(
+            this.podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
                 usersToAssignToAPod,
                 this.selectedPodToAssign,
-                podAssignmentToSaveTempStartCloned.clickedDay,
-                podAssignmentToSaveTempStartCloned.clickedTimeSlot,
-                podAssignmentToSaveTempEndCloned.clickedDay,
-                podAssignmentToSaveTempEndCloned.clickedTimeSlot)
+                podAssignmentToSaveTempStartCloned.dayInAction,
+                podAssignmentToSaveTempStartCloned.timeSlotInAction,
+                podAssignmentToSaveTempEndCloned.dayInAction,
+                podAssignmentToSaveTempEndCloned.timeSlotInAction)
 
             this.podAssignmentCreateRequestTempStart = undefined;
             this.podAssignmentCreateRequestTempEnd = undefined;
@@ -317,7 +350,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
         }
     }
-
 
     ngAfterViewInit(): void {
         //this.bookingDialogEl().nativeElement.showModal();
@@ -333,28 +365,5 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     protected readonly TimeSlot = TimeSlot;
 
-    whileDragging($event: MouseEvent,
-                  podAssignmentWrapper: PodAssignmentWrapperDto,
-                  userWhileDragging: UserDto,
-                  timeSlotWhileDragging: TimeSlot,
-                  assignmentWhileDragging: AssignmentDto,
-                  pod: PodDto | undefined,
-                  dayAsStrWhileDragging: string | null | undefined,
-                  dayWhileDragging: Date | null | undefined) {
-        if(this.podAssignmentCreateRequestTempStart && !this.podAssignmentCreateRequestTempEnd){
-            console.log("whileDragging...");
-            console.log("userWhileDragging:" + JSON.stringify(userWhileDragging));
-            console.log("dayAsStrWhileDragging:" + JSON.stringify(dayAsStrWhileDragging));
-            console.log("dayWhileDragging:" + JSON.stringify(dayWhileDragging));
-            console.log("timeSlotWhileDragging:" + JSON.stringify(timeSlotWhileDragging));
-            console.log("assignmentWhileDragging:" + JSON.stringify(assignmentWhileDragging));
-        }
 
-        /*console.log("currentPodToView:" + JSON.stringify(this.currentPodToView));
-        console.log("selectedPodToAssign:" + JSON.stringify(this.selectedPodToAssign));
-        console.log("clickedUserDto:" + JSON.stringify(clickedUser));
-        console.log("clickedDayAsStr:" + JSON.stringify(clickedDayAsStr));
-        console.log("clickedDay:" + JSON.stringify(clickedDay));
-        console.log("clickedTimeSlot:" + JSON.stringify(clickedTimeSlot));*/
-    }
 }

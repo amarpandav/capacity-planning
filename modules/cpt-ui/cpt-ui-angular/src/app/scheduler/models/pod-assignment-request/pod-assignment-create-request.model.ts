@@ -5,7 +5,7 @@ import {PodDto} from "../pod/pod.model";
 /**
  * Pod lead is trying to assign these Users to these pods for this duration
  */
-export class PodAssignmentCreateRequest {
+export class PodAssignmentCreateRequestDto {
 
     isDataValid: boolean = false;
 
@@ -24,10 +24,10 @@ export class PodAssignmentCreateRequestTemp {
 
     isDataValid: boolean = false;
 
-    constructor(public clickedUser: UserDto,
-                public clickedTimeSlot: TimeSlot,
-                public clickedDay: Date) {
-        this.isDataValid = !!(clickedUser && clickedDay && clickedTimeSlot);
+    constructor(public userInAction: UserDto,
+                public timeSlotInAction: TimeSlot,
+                public dayInAction: Date) {
+        this.isDataValid = !!(userInAction && timeSlotInAction && dayInAction);
     }
 
 }
