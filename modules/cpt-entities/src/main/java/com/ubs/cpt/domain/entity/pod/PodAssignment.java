@@ -111,6 +111,10 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
         return morningAvailabilityType;
     }
 
+    public AvailabilityType getAfternoonAvailabilityType() {
+        return afternoonAvailabilityType;
+    }
+
     public Pod getMorningPod() {
         return morningPod;
     }
