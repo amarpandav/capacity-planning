@@ -28,9 +28,16 @@
                 <version>1.15.0</version>
                 <configuration>
                     <nodeVersion>v20.16.0</nodeVersion>
-                    <workingDirectory>${project.version}/cpt-ui-angular</workingDirectory>
+                    <workingDirectory>${project.basedir}/cpt-ui-angular</workingDirectory>
                 </configuration>
                 <executions>
+                    <execution>
+                        <id>install node and npm</id>
+                        <goals>
+                            <goal>install-node-and-npm</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                    </execution>
                     <execution>
                         <id>npm install</id>
                         <goals>
@@ -51,7 +58,7 @@
 
                         <phase>install</phase>
                         <configuration>
-                            <arguments>build</arguments>
+                            <arguments>run build</arguments>
                         </configuration>
                     </execution>
                 </executions>
