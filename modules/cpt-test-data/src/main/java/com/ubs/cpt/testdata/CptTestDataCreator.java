@@ -8,6 +8,7 @@ import com.ubs.cpt.infra.test.base.TestDataCreator;
 import com.ubs.cpt.infra.test.util.SqlTestUtils;
 import com.ubs.cpt.infra.util.JpaUtils;
 import com.ubs.cpt.testdata.availability.AvailabilityTestdata;
+import com.ubs.cpt.testdata.pod.PodAssignmentTestData;
 import com.ubs.cpt.testdata.pod.PodMemberTestdata;
 import com.ubs.cpt.testdata.pod.PodTestdata;
 import com.ubs.cpt.testdata.pod.PodWatcherTestdata;
@@ -95,6 +96,7 @@ public class CptTestDataCreator implements TestDataCreator, ApplicationListener<
         PodWatcherTestdata.suiteSynthetic().persistTo(em);
         UserBookedCapacityTestdata.suiteSynthetic(dateTimeService).persistTo(em);
         UserUnAvailableCapacityTestdata.suiteSynthetic().persistTo(em);
+        PodAssignmentTestData.suiteSynthetic().persistTo(em);
     }
 
     private void executeAdditionalSqlScripts(EntityManager em) {
