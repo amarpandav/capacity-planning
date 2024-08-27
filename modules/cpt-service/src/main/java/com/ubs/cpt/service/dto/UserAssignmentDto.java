@@ -1,5 +1,6 @@
 package com.ubs.cpt.service.dto;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -17,7 +18,13 @@ public class UserAssignmentDto {
     public UserAssignmentDto(String userId, LocalDate startDate, LocalDate endDate) {
         this(userId);
         startDate.datesUntil(endDate.plusDays(1))
-                .map(AssignmentDto::available)
+                .map(day -> {
+                    if (day.getDayOfWeek() == DayOfWeek.SATURDAY || day.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                        return AssignmentDto.publicHoliday(day);
+                    } else {
+                        return AssignmentDto.available(day);
+                    }
+                })
                 .forEach(assignments::add);
     }
 
