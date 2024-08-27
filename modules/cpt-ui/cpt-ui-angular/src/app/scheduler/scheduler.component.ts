@@ -247,11 +247,11 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         if (!clickedDay && clickedDayAsStr) {
             clickedDay = DateUtils.parseISODate(clickedDayAsStr);
         }
-        //if(!clickedPod){
-            //clickedPod = this.selectedPodToAssign;
-        clickedAssignmentDto.availabilityType = AvailabilityType.POD_ASSIGNMENT;
-        clickedAssignmentDto.pod = this.selectedPodToAssign;
-        //}
+        if(clickedAssignmentDto.availabilityType === AvailabilityType.AVAILABLE){
+            //We allow to book only AVAILABLE slots otherwise we would allow overriding someone else's bookings which we do not want,.
+            clickedAssignmentDto.availabilityType = AvailabilityType.POD_ASSIGNMENT;
+            clickedAssignmentDto.pod = this.selectedPodToAssign;
+        }
         /*clickedPodAssignmentWrapper.podAssignments.forEach( (podAssignment: PodAssignmentDto) => {
             podAssignment.morning.pod = this.selectedPodToAssign;
             podAssignment.afternoon.pod = this.selectedPodToAssign;
@@ -288,14 +288,12 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             usersToAssignToAPod.push(this.podAssignmentToSaveTempStart.clickedUser);
             //Is start and end user different, if yes then we need to select all in-between users
              if (this.podAssignmentToSaveTempStart.clickedUser.gpin !== this.podAssignmentToSaveTempEnd.clickedUser.gpin) {
-
                  for(let podAssignmentWrapper of this.podAssignmentViewDto.podAssignmentWrappers){
                      usersToAssignToAPod.push(podAssignmentWrapper.user);
                      if (podAssignmentWrapper.user.gpin === this.podAssignmentToSaveTempEnd?.clickedUser.gpin) {
                          break;
                      }
                  }
-
             }
             usersToAssignToAPod = [...new Set(usersToAssignToAPod)]//remove duplicates;
             //console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));

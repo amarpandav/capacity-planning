@@ -106,15 +106,32 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
             podAssignments: [//PodAssignmentDto
                 {
                     uuid: 'ThomasDoblerPodAssignmentUuid-09082024',
+                    dayAsStr: '2024-08-02',
+                    morning: { //AssignmentDto
+                        availabilityType: AvailabilityType.POD_ASSIGNMENT,
+                        pod: {//PodDto
+                            uuid: 'GIMPodUuid',
+                            podName: 'Global Identity Management',
+                            podShortName: 'GIM',
+                            podStyleClass: 'podStyleClass2',
+                            podDescription: 'This pod is for Global Identity Management'
+                        }
+                    },
+                    afternoon: {//AssignmentDto
+                        availabilityType: AvailabilityType.AVAILABLE
+                    }
+                },
+                {
+                    uuid: 'ThomasDoblerPodAssignmentUuid-09082024',
                     dayAsStr: '2024-08-09',
                     morning: { //AssignmentDto
                         availabilityType: AvailabilityType.POD_ASSIGNMENT,
                         pod: {//PodDto
-                            uuid: 'AURAPodUuid',
-                            podName: 'AURA',
-                            podShortName: 'AURA',
-                            podStyleClass: 'podStyleClass1',
-                            podDescription: 'This pod is for AURA'
+                            uuid: 'GIMPodUuid',
+                            podName: 'Global Identity Management',
+                            podShortName: 'GIM',
+                            podStyleClass: 'podStyleClass2',
+                            podDescription: 'This pod is for Global Identity Management'
                         }
                     },
                     afternoon: {//AssignmentDto
