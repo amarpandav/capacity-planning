@@ -113,18 +113,21 @@
                     <!--div class='cell day ' [class]="{weekEnd: isWeekEnd2(podAssignment.day | date: 'dd.MM.YYYY'), weekDay: !isWeekEnd2(podAssignment.day | date: 'dd.MM.YYYY') }"-->
 
                     <div style='height:100%;width:50%;'
-                         class='daypart morning {{podAssignment.morning?.pod?.podStyleClass}} {{podAssignment.morning?.availabilityType}}'
-                         title='{{podAssignment.morning?.pod?.podName}} {{podAssignment.morning?.availabilityType}}'
+                         class='daypart morning {{podAssignment.morning.pod?.podStyleClass}} {{podAssignment.morning.availabilityType}}'
+                         title='{{podAssignment.morning.pod?.podName}} {{podAssignment.morning.availabilityType}}'
 
-                         (mousedown)="onDragStart($event, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning?.pod, podAssignment.dayAsStr, podAssignment.day)"
-                         (mouseup)="onDragEnd($event, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning?.pod, podAssignment.dayAsStr, podAssignment.day)">
+                         (mousedown)="onDragStart($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.dayAsStr, podAssignment.day)"
+                         (mouseup)="onDragEnd($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.dayAsStr, podAssignment.day)"
+                         (mouseover)="whileDragging($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.dayAsStr, podAssignment.day)"
+                    >
+
                     </div>
                     <div style='height:100%;width:50%;'
                          class='daypart afternoon {{podAssignment.afternoon?.pod?.podStyleClass}} {{podAssignment.afternoon?.availabilityType}}'
-                         title='{{podAssignment.afternoon?.pod?.podName}} {{podAssignment.afternoon?.availabilityType}}'
+                         title='{{podAssignment.afternoon.pod?.podName}} {{podAssignment.afternoon.availabilityType}}'
 
-                         (mousedown)="onDragStart($event, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.afternoon?.pod, podAssignment.dayAsStr, podAssignment.day)"
-                         (mouseup)="onDragEnd($event, podAssignmentWrapper.user, TimeSlot.AFTERNOON,podAssignment.afternoon?.pod, podAssignment.dayAsStr, podAssignment.day)">
+                         (mousedown)="onDragStart($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.dayAsStr, podAssignment.day)"
+                         (mouseup)="onDragEnd($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.dayAsStr, podAssignment.day)">
                     </div>
                 </div>
             }

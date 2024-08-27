@@ -143,15 +143,19 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     }
                 } else {
                     //availability for this day do not exist, complete it now
-                    let assignmentDtoForFullDay
+                    let morning;
+                    let afternoon
+
                     if (DateUtils.isWeekend(dayHeaderDto.day)) {
                         //console.log(dayHeaderDto.day +"is holiday");
-                        assignmentDtoForFullDay = new AssignmentDto(AvailabilityType.PUBLIC_HOLIDAY)
+                        morning = new AssignmentDto(AvailabilityType.PUBLIC_HOLIDAY);
+                        afternoon = new AssignmentDto(AvailabilityType.PUBLIC_HOLIDAY)
                         //console.log(JSON.stringify(availableFullDayAvailabilityDto));
                     } else {
-                        assignmentDtoForFullDay = new AssignmentDto(AvailabilityType.AVAILABLE)
+                        morning = new AssignmentDto(AvailabilityType.AVAILABLE)
+                        afternoon = new AssignmentDto(AvailabilityType.AVAILABLE);
                     }
-                    let podAssignmentDto = new PodAssignmentDto(headerDateAsStr, headerDateAsStr, null, assignmentDtoForFullDay, assignmentDtoForFullDay);
+                    let podAssignmentDto = new PodAssignmentDto(headerDateAsStr, morning, afternoon, headerDateAsStr, null);
                     podAssignmentWrapper.podAssignments?.push(podAssignmentDto)
                 }
 
@@ -225,39 +229,51 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     protected readonly DateUtils = DateUtils;
 
     onDragStart($event: MouseEvent,
+                clickedPodAssignmentWrapper: PodAssignmentWrapperDto,
                 clickedUser: UserDto,
                 clickedTimeSlot: TimeSlot,
+                clickedAssignmentDto: AssignmentDto,
                 clickedPod?: PodDto,
                 clickedDayAsStr?: string | null,
                 clickedDay?: Date | null) {
         console.log("onDragStart...");
-        console.log("currentPodToView:" + JSON.stringify(this.currentPodToView));
-        console.log("selectedPodToAssign:" + JSON.stringify(this.selectedPodToAssign));
         console.log("clickedUserDto:" + JSON.stringify(clickedUser));
         console.log("clickedDayAsStr:" + JSON.stringify(clickedDayAsStr));
         console.log("clickedDay:" + JSON.stringify(clickedDay));
         console.log("clickedTimeSlot:" + JSON.stringify(clickedTimeSlot));
+        console.log("clickedAssignmentDto:" + JSON.stringify(clickedAssignmentDto));
+        console.log("clickedAssignmentDto:" + JSON.stringify(clickedAssignmentDto));
 
         if (!clickedDay && clickedDayAsStr) {
             clickedDay = DateUtils.parseISODate(clickedDayAsStr);
         }
+        //if(!clickedPod){
+            //clickedPod = this.selectedPodToAssign;
+        clickedAssignmentDto.availabilityType = AvailabilityType.POD_ASSIGNMENT;
+        clickedAssignmentDto.pod = this.selectedPodToAssign;
+        //}
+        /*clickedPodAssignmentWrapper.podAssignments.forEach( (podAssignment: PodAssignmentDto) => {
+            podAssignment.morning.pod = this.selectedPodToAssign;
+            podAssignment.afternoon.pod = this.selectedPodToAssign;
+        });*/
         // @ts-ignore : clickedDay would never be null
         this.podAssignmentToSaveTempStart = new PodAssignmentToSaveTemp(clickedUser, clickedDay, clickedTimeSlot);
     }
 
     onDragEnd($event: MouseEvent,
+              clickedPodAssignmentWrapper: PodAssignmentWrapperDto,
               clickedUser: UserDto,
               clickedTimeSlot: TimeSlot,
+              clickedAssignmentDto: AssignmentDto,
               clickedPod?: PodDto,
               clickedDayAsStr?: string | null,
               clickedDay?: Date | null) {
         console.log("onDragEnd...");
-        console.log("currentPodToView:" + JSON.stringify(this.currentPodToView));
-        console.log("selectedPodToAssign:" + JSON.stringify(this.selectedPodToAssign));
         console.log("clickedUserDto:" + JSON.stringify(clickedUser));
         console.log("clickedDayAsStr:" + JSON.stringify(clickedDayAsStr));
         console.log("clickedDay:" + JSON.stringify(clickedDay));
         console.log("clickedTimeSlot:" + JSON.stringify(clickedTimeSlot));
+        console.log("clickedAssignmentDto:" + JSON.stringify(clickedAssignmentDto));
 
         if (!clickedDay && clickedDayAsStr) {
             clickedDay = DateUtils.parseISODate(clickedDayAsStr);
@@ -282,10 +298,22 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
             }
             usersToAssignToAPod = [...new Set(usersToAssignToAPod)]//remove duplicates;
-            console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));
+            //console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));
 
-            this.podAssignmentToSave = new PodAssignmentToSave(usersToAssignToAPod, this.selectedPodToAssign, this.podAssignmentToSaveTempStart.clickedDay, this.podAssignmentToSaveTempStart.clickedTimeSlot, this.podAssignmentToSaveTempEnd.clickedDay, this.podAssignmentToSaveTempEnd.clickedTimeSlot)
-            this.podAssignmentDialogEl().nativeElement.showModal();
+            let podAssignmentToSaveTempStartCloned = {...this.podAssignmentToSaveTempStart}
+            let podAssignmentToSaveTempEndCloned = {...this.podAssignmentToSaveTempEnd}
+            this.podAssignmentToSave = new PodAssignmentToSave(
+                usersToAssignToAPod,
+                this.selectedPodToAssign,
+                podAssignmentToSaveTempStartCloned.clickedDay,
+                podAssignmentToSaveTempStartCloned.clickedTimeSlot,
+                podAssignmentToSaveTempEndCloned.clickedDay,
+                podAssignmentToSaveTempEndCloned.clickedTimeSlot)
+
+            this.podAssignmentToSaveTempStart = undefined;
+            this.podAssignmentToSaveTempEnd = undefined;
+            //this.podAssignmentDialogEl().nativeElement.showModal();
+
         }
     }
 
@@ -303,4 +331,29 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     protected readonly TimeSlot = TimeSlot;
+
+    whileDragging($event: MouseEvent,
+                  podAssignmentWrapper: PodAssignmentWrapperDto,
+                  userWhileDragging: UserDto,
+                  timeSlotWhileDragging: TimeSlot,
+                  assignmentWhileDragging: AssignmentDto,
+                  pod: PodDto | undefined,
+                  dayAsStrWhileDragging: string | null | undefined,
+                  dayWhileDragging: Date | null | undefined) {
+        if(this.podAssignmentToSaveTempStart && !this.podAssignmentToSaveTempEnd){
+            console.log("whileDragging...");
+            console.log("userWhileDragging:" + JSON.stringify(userWhileDragging));
+            console.log("dayAsStrWhileDragging:" + JSON.stringify(dayAsStrWhileDragging));
+            console.log("dayWhileDragging:" + JSON.stringify(dayWhileDragging));
+            console.log("timeSlotWhileDragging:" + JSON.stringify(timeSlotWhileDragging));
+            console.log("assignmentWhileDragging:" + JSON.stringify(assignmentWhileDragging));
+        }
+
+        /*console.log("currentPodToView:" + JSON.stringify(this.currentPodToView));
+        console.log("selectedPodToAssign:" + JSON.stringify(this.selectedPodToAssign));
+        console.log("clickedUserDto:" + JSON.stringify(clickedUser));
+        console.log("clickedDayAsStr:" + JSON.stringify(clickedDayAsStr));
+        console.log("clickedDay:" + JSON.stringify(clickedDay));
+        console.log("clickedTimeSlot:" + JSON.stringify(clickedTimeSlot));*/
+    }
 }

@@ -79,6 +79,9 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                             podStyleClass: 'podStyleClass1',
                             podDescription: 'This pod is for AURA'
                         }
+                    },
+                    afternoon: {//AssignmentDto
+                        availabilityType: AvailabilityType.AVAILABLE,
                     }
                 },
                 {

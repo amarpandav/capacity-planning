@@ -5,10 +5,12 @@ import {AssignmentDto} from "./assignment.model";
 export class PodAssignmentDto {
 
     constructor(public uuid: string, //cpt_pod_assignment.uuid
+                public morning: AssignmentDto,
+                public afternoon: AssignmentDto,
                 public dayAsStr?: string | null,
                 public day?: Date | null, ////Either dayAsStr or day object
-                public morning?: AssignmentDto | null,
-                public afternoon?: AssignmentDto | null) {
+                )
+                {
         if (this.dayAsStr && !this.day) {
             this.day = DateUtils.parseISODate(this.dayAsStr);
         }
