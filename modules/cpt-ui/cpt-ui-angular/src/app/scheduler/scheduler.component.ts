@@ -129,7 +129,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     console.log("userCapacityDto.userAvailableCapacity?.afternoonAvailability: " + userCapacityDto.userAvailableCapacity?.afternoonAvailability);*/
                     if (!podAssignmentDto.morning) {
                         //morning do not exist hence mark it as available
-                        let morningAvailabilityDto;
                         if (DateUtils.isWeekend(dayHeaderDto.day)) {
                             podAssignmentDto.morning = new AssignmentDto(AvailabilityType.PUBLIC_HOLIDAY);
                         } else {
@@ -298,7 +297,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         // @ts-ignore : dayInAction would never be null
         this.podAssignmentCreateRequestTempEnd = new PodAssignmentCreateRequestTemp(userInAction, dayInAction, timeSlotInAction);
 
-        this.populatePodAssignmentCreateRequest();
+        this.preparePodAssignmentCreateRequest();
     }
 
     private allocateUsersToCurrentPod(userInAction: UserDto, dayAsStrInAction: string | null | undefined, dayInAction: Date | null | undefined, timeSlotInAction: TimeSlot, assignmentInAction: AssignmentDto) {
@@ -317,7 +316,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private populatePodAssignmentCreateRequest() {
+    private preparePodAssignmentCreateRequest() {
         if (this.selectedPodToAssign && this.podAssignmentCreateRequestTempStart && this.podAssignmentCreateRequestTempStart.isDataValid && this.podAssignmentCreateRequestTempEnd && this.podAssignmentCreateRequestTempEnd.isDataValid) {
 
             let usersToAssignToAPod: UserDto[] = [];
@@ -342,12 +341,13 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 podAssignmentToSaveTempStartCloned.dayInAction,
                 podAssignmentToSaveTempStartCloned.timeSlotInAction,
                 podAssignmentToSaveTempEndCloned.dayInAction,
-                podAssignmentToSaveTempEndCloned.timeSlotInAction)
+                podAssignmentToSaveTempEndCloned.timeSlotInAction);
 
             this.podAssignmentCreateRequestTempStart = undefined;
             this.podAssignmentCreateRequestTempEnd = undefined;
             //this.podAssignmentDialogEl().nativeElement.showModal();
 
+            console.log("#####################podAssignmentCreateRequest#####################" + JSON.stringify(this.podAssignmentCreateRequest));
         }
     }
 
