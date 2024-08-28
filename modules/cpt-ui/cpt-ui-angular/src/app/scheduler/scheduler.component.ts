@@ -344,6 +344,13 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             if(!listHasDay) {
                 this.podAssignmentCreateRequestDays.push(dayInAction);
             }
+            //sort request by date - this is must before sending request to backend
+            this.podAssignmentCreateRequestDays?.sort((a: Date, b: Date) => {
+                if (a && b) {
+                    return a > b ? 1 : -1;
+                }
+                return 1;
+            });
         }
     }
 
