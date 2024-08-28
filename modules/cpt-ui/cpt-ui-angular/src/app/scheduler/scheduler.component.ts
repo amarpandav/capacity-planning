@@ -75,6 +75,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     podAssignmentCreateRequestTempEnd: PodAssignmentCreateRequestTemp | undefined;
     podAssignmentCreateRequest: PodAssignmentCreateRequestDto |undefined;
 
+    podAssignmentCreateRequestUsers: string[] = [];
+
     isWeekEnd(date: string): boolean {
         /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
         let day = new Date(date, '').getDay();*/
@@ -319,33 +321,35 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     private preparePodAssignmentCreateRequest() {
         if (this.selectedPodToAssign && this.podAssignmentCreateRequestTempStart && this.podAssignmentCreateRequestTempStart.isDataValid && this.podAssignmentCreateRequestTempEnd && this.podAssignmentCreateRequestTempEnd.isDataValid) {
 
-            let usersToAssignToAPod: string[] = [];
-            usersToAssignToAPod.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
+            this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
             //Is start and end user different, if yes then we need to select all in-between users
             if (this.podAssignmentCreateRequestTempStart.userInAction.gpin !== this.podAssignmentCreateRequestTempEnd.userInAction.gpin) {
                 for (let podAssignmentWrapper of this.podAssignmentViewDto.podAssignmentWrappers) {
-                    usersToAssignToAPod.push(podAssignmentWrapper.user.uuid);
+                    this.podAssignmentCreateRequestUsers.push(podAssignmentWrapper.user.uuid);
                     if (podAssignmentWrapper.user.gpin === this.podAssignmentCreateRequestTempEnd?.userInAction.gpin) {
                         break;
                     }
                 }
             }
             //usersToAssignToAPodAsUuids = [...new Set(usersToAssignToAPod.map( (u) => u.uuid))]//remove duplicates;
-            usersToAssignToAPod = [...new Set(usersToAssignToAPod)]//remove duplicates;
+            this.podAssignmentCreateRequestUsers = [...new Set(this.podAssignmentCreateRequestUsers)]//remove duplicates;
             //console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));
 
-            let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart}
+            let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart} //lets clone because we are resetting this at the end
             let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd}
+            let podAssignmentCreateRequestUsersCloned = {...this.podAssignmentCreateRequestUsers}
             this.podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
-                usersToAssignToAPod,
+                podAssignmentCreateRequestUsersCloned,
                 this.selectedPodToAssign.uuid,
                 podAssignmentToSaveTempStartCloned.dayInAction,
                 podAssignmentToSaveTempStartCloned.timeSlotInAction,
                 podAssignmentToSaveTempEndCloned.dayInAction,
                 podAssignmentToSaveTempEndCloned.timeSlotInAction);
 
+            //rest all class level variables after request is sent.
             this.podAssignmentCreateRequestTempStart = undefined;
             this.podAssignmentCreateRequestTempEnd = undefined;
+            this.podAssignmentCreateRequestUsers = [];
             //this.podAssignmentDialogEl().nativeElement.showModal();
 
             console.log("#####################podAssignmentCreateRequest#####################" + JSON.stringify(this.podAssignmentCreateRequest));
