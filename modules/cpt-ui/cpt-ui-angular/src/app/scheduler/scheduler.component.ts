@@ -319,25 +319,25 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     private preparePodAssignmentCreateRequest() {
         if (this.selectedPodToAssign && this.podAssignmentCreateRequestTempStart && this.podAssignmentCreateRequestTempStart.isDataValid && this.podAssignmentCreateRequestTempEnd && this.podAssignmentCreateRequestTempEnd.isDataValid) {
 
-            let usersToAssignToAPod: UserDto[] = [];
-            usersToAssignToAPod.push(this.podAssignmentCreateRequestTempStart.userInAction);
+            let usersToAssignToAPod: string[] = [];
+            usersToAssignToAPod.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
             //Is start and end user different, if yes then we need to select all in-between users
             if (this.podAssignmentCreateRequestTempStart.userInAction.gpin !== this.podAssignmentCreateRequestTempEnd.userInAction.gpin) {
                 for (let podAssignmentWrapper of this.podAssignmentViewDto.podAssignmentWrappers) {
-                    usersToAssignToAPod.push(podAssignmentWrapper.user);
+                    usersToAssignToAPod.push(podAssignmentWrapper.user.uuid);
                     if (podAssignmentWrapper.user.gpin === this.podAssignmentCreateRequestTempEnd?.userInAction.gpin) {
                         break;
                     }
                 }
             }
-            let usersToAssignToAPodAsUuids: string[];
-            usersToAssignToAPodAsUuids = [...new Set(usersToAssignToAPod.map( (u) => u.uuid))]//remove duplicates;
+            //usersToAssignToAPodAsUuids = [...new Set(usersToAssignToAPod.map( (u) => u.uuid))]//remove duplicates;
+            usersToAssignToAPod = [...new Set(usersToAssignToAPod)]//remove duplicates;
             //console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));
 
             let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart}
             let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd}
             this.podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
-                usersToAssignToAPodAsUuids,
+                usersToAssignToAPod,
                 this.selectedPodToAssign.uuid,
                 podAssignmentToSaveTempStartCloned.dayInAction,
                 podAssignmentToSaveTempStartCloned.timeSlotInAction,
