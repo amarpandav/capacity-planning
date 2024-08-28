@@ -83,7 +83,7 @@ deploy:
     - echo "Logging in to Azure..."
     - az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
     - echo "Getting AKS credentials..."
-    - az aks get-credentials --resource-group CapacityPlanningTool_RG --name CPT
+    - az aks get-credentials --resource-group $AZURE_RESOURCE_GROUP --name $AZURE_KUBERNETES_NAME
     - |
       if ! kubectl get secret gitlab-registry-secret > /dev/null 2>&1; 
       then kubectl create secret docker-registry gitlab-registry-secret  --docker-server=registry.gitlab.com  --docker-username=$CI_REGISTRY_USER --docker-password=$CI_REGISTRY_PASSWORD  --docker-email=$GITLAB_USER_EMAIL 
