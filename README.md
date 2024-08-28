@@ -46,4 +46,3 @@ should be added on Gitlab: settings/CICD/Variables. With options:
 If commands throw errors with access denied etc., try to login first:
 - az login
 - az aks get-credentials --resource-group <ARG_name> --name <AKS_name>
-
