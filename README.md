@@ -30,11 +30,12 @@ should be added on Gitlab: settings/CICD/Variables. With options:
 * **CI_REGISTRY_USER**: username for login to gitlab - used to push/pull docker image on Container Registry (Deploy/Container Registry) 
 * **CI_REGISTRY_PASSWORD**: password for login to gitlab - used to push/pull docker image on Container Registry (Deploy/Container Registry)
 * **GITLAB_USER_EMAIL**: email of user to gitlab - needed to create secret on azure
-* **AZURE_CLIENT_ID** field 'appId' in response of command: az ad sp create-for-rbac on azure
-* **AZURE_CLIENT_SECRET** field 'password' in response of command: az ad sp create-for-rbac on azure
-* **AZURE_TENANT_ID** field 'tenant' in response of command: az ad sp create-for-rbac on azure
-* **AZURE_RESOURCE_GROUP** name of resource group on azure
-* **AZURE_KUBERNETES_NAME** name of kubernetes (AKS) on azure
+* **AZURE_CLIENT_ID**: field 'appId' in response of command: az ad sp create-for-rbac on azure
+* **AZURE_CLIENT_SECRET**: field 'password' in response of command: az ad sp create-for-rbac on azure
+* **AZURE_TENANT_ID**: field 'tenant' in response of command: az ad sp create-for-rbac on azure
+* **AZURE_RESOURCE_GROUP**: name of resource group on azure
+* **AZURE_KUBERNETES_NAME**: name of kubernetes (AKS) on azure
+* **SPRING_PROFILES_ACTIVE**: active spring profiles for cpt-web-app
 
 ### AZURE
 - create resource group (ARG)
