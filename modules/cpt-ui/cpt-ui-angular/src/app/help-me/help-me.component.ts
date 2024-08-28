@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AppService} from "./help-me.service";
 
 @Component({
   selector: 'app-help-me',
@@ -8,6 +9,19 @@ import { Component } from '@angular/core';
   templateUrl: './help-me.component.html',
   styleUrl: './help-me.component.scss'
 })
-export class HelpMeComponent {
+export class HelpMeComponent implements OnInit {
+
+  appVersion: string;
+
+  constructor(private service: AppService) {
+  }
+
+
+  ngOnInit(): void {
+    this.service.getVersion().subscribe(response => {
+      this.appVersion = response.version;
+    })
+  }
+
 
 }
