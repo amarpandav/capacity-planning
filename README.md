@@ -33,6 +33,8 @@ should be added on Gitlab: settings/CICD/Variables. With options:
 * **AZURE_CLIENT_ID** field 'appId' in response of command: az ad sp create-for-rbac on azure
 * **AZURE_CLIENT_SECRET** field 'password' in response of command: az ad sp create-for-rbac on azure
 * **AZURE_TENANT_ID** field 'tenant' in response of command: az ad sp create-for-rbac on azure
+* **AZURE_RESOURCE_GROUP** name of resource group on azure
+* **AZURE_KUBERNETES_NAME** name of kubernetes (AKS) on azure
 
 ### AZURE
 - create resource group (ARG)
