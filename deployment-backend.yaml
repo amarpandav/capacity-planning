@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpt-web-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpt-web-app
+  template:
+    metadata:
+      labels:
+        app: cpt-web-app
+    spec:
+      containers:
+        - name: cpt-web-app
+          image: registry.gitlab.com/wrosoftware/cpt:main-backend
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: gitlab-registry-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cpt-web-app-service
+spec:
+  selector:
+    app: cpt-web-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer

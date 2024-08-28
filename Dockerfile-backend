@@ -1,0 +1,11 @@
+#FROM maven:3.8.4-eclipse-temurin-11-alpine as compiler
+#WORKDIR /app
+#COPY pom.xml pom.xml
+#COPY src ./src
+#RUN mvn clean package
+
+
+FROM openjdk:21-oracle
+WORKDIR /app
+COPY /modules/cpt-web-app/target/*.jar ./app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
