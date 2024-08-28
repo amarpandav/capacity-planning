@@ -330,14 +330,15 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     }
                 }
             }
-            usersToAssignToAPod = [...new Set(usersToAssignToAPod)]//remove duplicates;
+            let usersToAssignToAPodAsUuids: string[];
+            usersToAssignToAPodAsUuids = [...new Set(usersToAssignToAPod.map( (u) => u.uuid))]//remove duplicates;
             //console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));
 
             let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart}
             let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd}
             this.podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
-                usersToAssignToAPod,
-                this.selectedPodToAssign,
+                usersToAssignToAPodAsUuids,
+                this.selectedPodToAssign.uuid,
                 podAssignmentToSaveTempStartCloned.dayInAction,
                 podAssignmentToSaveTempStartCloned.timeSlotInAction,
                 podAssignmentToSaveTempEndCloned.dayInAction,
