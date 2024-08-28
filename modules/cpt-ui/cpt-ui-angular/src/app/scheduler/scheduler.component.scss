@@ -1,0 +1,177 @@
+.scheduler {
+  font: 10pt Arial, sans-serif;
+  min-width: 2100px;
+}
+.cell {
+  border: 1px solid white;
+}
+.day {
+  width: 20px;
+  height: 20px;
+  display: flex;
+}
+.dayHeader {
+  width: 20px;
+  height: 15px;
+  display: flex;
+  font-size: 10px;
+  justify-content: center;
+}
+.weekHeader {
+  //width: 150px;
+  height: 15px;
+  display: flex;
+  font-size: 10px;
+  justify-content: center;
+}
+.monthHeader {
+  //width: 600px;
+  //height: 15px;
+  display: flex;
+  font-size: 15px;
+  justify-content: center;
+  font-weight: bold;
+}
+.employeeName {
+  width: 180px;
+  flex-shrink: 0;
+}
+.weekEnd {
+  background-color: gray;
+}
+.weekDay {
+  background-color: silver;
+}
+
+.ABSENT {
+  background-color: gray;
+  background-image: linear-gradient(135deg, #ffffff 4.55%, gray 4.55%, gray 50%, #ffffff 50%, #ffffff 54.55%, gray 54.55%, gray 100%);
+  background-size: 5px 5px;
+}
+.PUBLIC_HOLIDAY {
+  background-color: gray;
+}
+.AVAILABLE {
+  background-color: silver;
+}
+/*
+.unavailable {
+  background-color: gray;
+  border-left: 1px solid #A43725;
+  border-right: 1px solid #A43725;
+  background-image: linear-gradient(135deg, #ffffff 4.55%, gray 4.55%, gray 50%, #ffffff 50%, #ffffff 54.55%, gray 54.55%, gray 100%);
+  background-size: 5px 5px;
+}*/
+
+.podStyleClass1 {
+  background-color: #00898D;
+  /*border-left: 1px solid #00898D;
+  border-right: 1px solid #00898D;*/
+}
+
+.podStyleClass2 {
+  background-color: #CDD760;
+  /*border-left: 1px solid #CDD760;
+  border-right: 1px solid #CDD760;*/
+}
+
+.podStyleClass3 {
+  background-color: #009BD2;
+  /*border-left: 1px solid #009BD2;
+  border-right: 1px solid #009BD2;*/
+}
+
+.available + .unavailable {
+  //border-left: 1px solid white;
+}
+.unavailable + .available {
+  //border-right: 1px solid white;
+}
+
+.employeeRow{
+  display: flex;
+}
+
+/*Booking dialog css starts*/
+dialog.bookingDialog {
+  min-width: 40rem;
+  padding: 0;
+  z-index: 2;
+  //background: #d5c7bc;
+  //border-radius: 8px;
+  overflow: hidden;
+  //box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  animation: slide-down-fade-in 0.3s ease-out forwards;
+
+  border: 2px solid #a55ae3;
+  border-radius: 4px;
+  background: linear-gradient(#23053f, #5e2775);
+  box-shadow: 0 0 16px 2px #f44fa2;
+}
+
+dialog.bookingDialog::backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.bookingDialogContainer {
+  max-width: 50rem;
+  margin: auto;
+  padding: 1rem;
+  background-color: #f8f9fa;//#f4c7c7;
+  color: #212529; //#3e0505;
+}
+
+.bookingDialog .confirmation-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/*.bookingDialog button.save {
+  cursor: pointer;
+  font-family: "Raleway", sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #0a3622;//#5d0909;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+.bookingDialog button.cancel {
+  cursor: pointer;
+  font-family: "Raleway", sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  background-color: red;//#5d0909;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+.bookingDialog button:hover,
+.bookingDialog button:focus {
+  background-color: #212529; //#3e0505;
+}*/
+
+
+
+@keyframes slide-down-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/*Booking dialog css ends*/

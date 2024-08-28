@@ -1,0 +1,21 @@
+<app-header/>
+
+@if (error()) {
+  <app-error-dialog title="An error occurred!" [message]="error()"/>
+}
+
+<main>
+  <div class="container-fluid">
+    <router-outlet></router-outlet>
+
+    <!--not working
+    @defer {
+      <router-outlet></router-outlet>
+    } @loading (after 100ms; minimum 1s){
+      <img alt="loading" src="loading.gif">
+      Loading...
+    }
+ -->
+
+  </div>
+</main>

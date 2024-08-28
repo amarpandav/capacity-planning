@@ -1,0 +1,283 @@
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Capacity Planning Tool</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#" routerLinkActive="selected-router">Home</a>
+                    </li>
+                    <form class="d-flex">
+                        <!--input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"-->
+                        <button class="btn btn-outline-success" type="submit" routerLink="/help"
+                                routerLinkActive="selected-router">Help
+                        </button>
+                    </form>
+                </ul>
+                <!--ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#" routerLinkActive="selected-router">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Basics
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="#" routerLink="/routing-samples/sample1"
+                                   routerLinkActive="selected-router">Routing sample</a>
+                                <ul class="my-dropdown-submenu">
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample1"
+                                           routerLinkActive="selected-router">Sample 1 - dynamic route params via
+                                        input</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample2"
+                                           routerLinkActive="selected-router">Sample 2 - dynamic route params via
+                                        Observable</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample3"
+                                           routerLinkActive="selected-router">Sample 3 - Nested routes & Programmatic
+                                        navigation</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/43434"
+                                           routerLinkActive="selected-router">Page Not found sample</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample-redirect"
+                                           routerLinkActive="selected-router">Redirect to Sample 1</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample4"
+                                           routerLinkActive="selected-router">Sample 4 - Query Params</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample5"
+                                           routerLinkActive="selected-router">Sample 5 - Static data to routes</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample6"
+                                           routerLinkActive="selected-router">Sample 6 - Dynamic data to routes</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample7"
+                                           routerLinkActive="selected-router">Sample 7 - Setting & Resolving Titles</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample8"
+                                           routerLinkActive="selected-router">Sample 8 - Route Guards</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample9"
+                                           routerLinkActive="selected-router">Sample 9 - Can leave Edit Page?</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample10"
+                                           routerLinkActive="selected-router">Sample 10 - Page reload, keep query
+                                        params</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/routing-samples/sample11"
+                                           routerLinkActive="selected-router">Sample 11 - Route based Lazy loading</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" routerLink="/change-detection-samples/sample1"
+                                   routerLinkActive="selected-router">Change Detection sample</a>
+                                <ul class="my-dropdown-submenu">
+                                    <li><a class="dropdown-item" href="#" routerLink="/change-detection-samples/sample1"
+                                           routerLinkActive="selected-router">Sample 1</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/change-detection-samples/sample2"
+                                           routerLinkActive="selected-router">Sample 2</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#" routerLink="/input-samples"
+                                   routerLinkActive="selected-router">Input Samples</a></li>
+                            <li>
+                                <a class="dropdown-item" href="#" routerLink="/output-samples/sample1"
+                                   routerLinkActive="selected-router">Output Samples</a>
+                                <ul class="my-dropdown-submenu">
+                                    <li><a class="dropdown-item" href="#" routerLink="/output-samples/sample1"
+                                           routerLinkActive="selected-router">Sample 1</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/output-samples/sample2"
+                                           routerLinkActive="selected-router">Sample 2</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/output-samples/sample3"
+                                           routerLinkActive="selected-router">Sample 3</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" routerLink="/template-variable-samples/sample1">Template
+                                    Variable Samples</a>
+                                <ul class="my-dropdown-submenu">
+                                    <li><a class="dropdown-item" href="#"
+                                           routerLink="/template-variable-samples/sample1"
+                                           routerLinkActive="selected-router">HTMLxxxElement & ng-content</a></li>
+                                    <li><a class="dropdown-item" href="#"
+                                           routerLink="/template-variable-samples/sample2"
+                                           routerLinkActive="selected-router">&#64;ViewChild, ElementRef</a></li>
+                                    <li><a class="dropdown-item" href="#"
+                                           routerLink="/template-variable-samples/sample3"
+                                           routerLinkActive="selected-router">viewChild signal, ElementRef</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" routerLink="/template-variable-samples/sample1">Angular
+                                    Lifecycle Samples</a>
+                                <ul class="my-dropdown-submenu">
+                                    <li><a class="dropdown-item" href="#"
+                                           routerLink="/angular-lifecycle-samples/sample1"
+                                           routerLinkActive="selected-router">Full Life Cycle</a></li>
+                                    <li><a class="dropdown-item" href="#"
+                                           routerLink="/angular-lifecycle-samples/sample2"
+                                           routerLinkActive="selected-router">ngOnInit vs ngAfterViewInit</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Directive samples
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="#" routerLink="/change-detection-samples/sample1"
+                                   routerLinkActive="selected-router">Custom Directive sample</a>
+                                <ul class="my-dropdown-submenu">
+                                    <li><a class="dropdown-item" href="#" routerLink="/directive-samples/sample1"
+                                           routerLinkActive="selected-router">Sample 1 - Attribute Directive</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/directive-samples/sample2"
+                                           routerLinkActive="selected-router">Sample 2 - Attribute Directive - Pass
+                                        params</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/directive-samples/sample3"
+                                           routerLinkActive="selected-router">Sample 3 - Structural Directive</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/directive-samples/sample4"
+                                           routerLinkActive="selected-router">Sample 4 - Host Directive</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Custom component samples
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" routerLink="/custom-component-samples/sample1"
+                                   routerLinkActive="selected-router">Sample 1 - ngContent</a></li>
+                            <li><a class="dropdown-item" href="#" routerLink="/custom-component-samples/sample2"
+                                   routerLinkActive="selected-router">Sample 2 - attribute selector vs element
+                                selector</a></li>
+                            <li><a class="dropdown-item" href="#" routerLink="/custom-component-samples/sample3"
+                                   routerLinkActive="selected-router">Sample 3 - multiple ng-content</a></li>
+                            <li><a class="dropdown-item" href="#" routerLink="/custom-component-samples/sample4"
+                                   routerLinkActive="selected-router">Sample 4 - fallback ng-content</a></li>
+                            <li><a class="dropdown-item" href="#" routerLink="/custom-component-samples/sample5"
+                                   routerLinkActive="selected-router">Sample 5 - host component styling</a></li>
+                            <li><a class="dropdown-item" href="#" routerLink="/custom-component-samples/sample6"
+                                   routerLinkActive="selected-router">Sample 6 - host component styling</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Pipe samples
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" routerLink="/pipe-samples/sample1"
+                                   routerLinkActive="selected-router">Sample 1 - date pipe</a></li>
+                            <li><a class="dropdown-item" href="#" routerLink="/pipe-samples/sample2"
+                                   routerLinkActive="selected-router">Sample 2 - custom pipe</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Dynamic CSS & JS samples
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="#" routerLink="/dynamic-css-samples/sample1"
+                                   routerLinkActive="selected-router">Dynamic CSS samples</a>
+                                <ul class="my-dropdown-submenu">
+                                    <li><a class="dropdown-item" href="#" routerLink="/dynamic-css-samples/sample1"
+                                           routerLinkActive="selected-router">Sample 1</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/dynamic-css-samples/sample2"
+                                           routerLinkActive="selected-router">Sample 2</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/dynamic-css-samples/sample3"
+                                           routerLinkActive="selected-router">Sample 3</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" routerLink="/js-samples/sample1"
+                                   routerLinkActive="selected-router">JS samples</a>
+                                <ul class="my-dropdown-submenu">
+                                    <li><a class="dropdown-item" href="#" routerLink="/js-samples/sample1"
+                                           routerLinkActive="selected-router">Sample 1</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Service & HTTP samples
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="#" routerLink="/service-samples/sample1"
+                                   routerLinkActive="selected-router">Service samples</a>
+                                <ul class="my-dropdown-submenu">
+                                    <li><a class="dropdown-item" href="#" routerLink="/service-samples/sample1"
+                                           routerLinkActive="selected-router">Sample 1</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" routerLink="/http-samples/sample1"
+                                   routerLinkActive="selected-router">Http samples</a>
+                                <ul class="my-dropdown-submenu">
+                                    <li><a class="dropdown-item" href="#" routerLink="/http-samples/sample1"
+                                           routerLinkActive="selected-router">Sample 1</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/http-samples/sample2"
+                                           routerLinkActive="selected-router">Sample 2 - Local Error Handling</a></li>
+                                    <li><a class="dropdown-item" href="#" routerLink="/http-samples/sample3"
+                                           routerLinkActive="selected-router">Sample 3 - Global Error Handling</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" routerLink="/def-view-app" routerLinkActive="selected-router">
+                            Other App samples
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" routerLink="/def-view-app"
+                                   routerLinkActive="selected-router">Deferrable View App</a></li>
+                            <li><a class="dropdown-item" href="#" routerLink="/investment-app"
+                                   routerLinkActive="selected-router">Investment App</a></li>
+                        </ul>
+                    </li>
+
+
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit" routerLink="/help"
+                                routerLinkActive="selected-router">Help
+                        </button>
+                    </form>
+
+                </ul-->
+            </div>
+        </div>
+    </nav>
+</header>

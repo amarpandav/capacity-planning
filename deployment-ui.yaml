@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpt-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpt-ui
+  template:
+    metadata:
+      labels:
+        app: cpt-ui
+    spec:
+      containers:
+        - name: cpt-ui
+          image: registry.gitlab.com/wrosoftware/cpt:main-ui
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: gitlab-registry-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cpt-ui-service
+spec:
+  selector:
+    app: cpt-ui
+  ports:
+    - protocol: TCP
+      port: 80
+  type: LoadBalancer
