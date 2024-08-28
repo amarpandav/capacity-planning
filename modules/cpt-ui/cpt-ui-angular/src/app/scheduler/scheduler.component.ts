@@ -73,9 +73,11 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     //podAssignmentCreateRequest: PodAssignmentToSave | undefined;
     podAssignmentCreateRequestTempStart: PodAssignmentCreateRequestTemp | undefined;
     podAssignmentCreateRequestTempEnd: PodAssignmentCreateRequestTemp | undefined;
-    podAssignmentCreateRequest: PodAssignmentCreateRequestDto |undefined;
+    podAssignmentCreateRequest: PodAssignmentCreateRequestDto | undefined;
 
+    //podAssignmentCreateRequestUsers: Set<string>  = new Set();
     podAssignmentCreateRequestUsers: string[] = [];
+    podAssignmentCreateRequestDays: Date[] = [];
 
     isWeekEnd(date: string): boolean {
         /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
@@ -247,6 +249,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             dayInAction = DateUtils.parseISODate(dayAsStrInAction);
         }
 
+        // @ts-ignore : dayInAction would never be null
         this.allocateUsersToCurrentPod(userInAction, dayAsStrInAction, dayInAction, timeSlotInAction, assignmentInAction);
 
         /*clickedPodAssignmentWrapper.podAssignments.forEach( (podAssignment: PodAssignmentDto) => {
@@ -265,13 +268,20 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     pod: PodDto | undefined,
                     dayAsStrInAction: string | null | undefined,
                     dayInAction: Date | null | undefined) {
-        if(this.podAssignmentCreateRequestTempStart && !this.podAssignmentCreateRequestTempEnd){
+        if (this.podAssignmentCreateRequestTempStart && !this.podAssignmentCreateRequestTempEnd) {
             console.log("whileDragging...");
             console.log("userInAction:" + JSON.stringify(userInAction));
             console.log("dayAsStrInAction:" + JSON.stringify(dayAsStrInAction));
             console.log("dayInAction:" + JSON.stringify(dayInAction));
             console.log("timeSlotInAction:" + JSON.stringify(timeSlotInAction));
             console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));
+
+            //we do not need this once we integrate backend service
+            if (!dayInAction && dayAsStrInAction) {
+                dayInAction = DateUtils.parseISODate(dayAsStrInAction);
+            }
+
+            // @ts-ignore : dayInAction would never be null
             this.allocateUsersToCurrentPod(userInAction, dayAsStrInAction, dayInAction, timeSlotInAction, assignmentInAction);
         }
 
@@ -293,7 +303,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             dayInAction = DateUtils.parseISODate(dayAsStrInAction);
         }
 
-
+        // @ts-ignore : dayInAction would never be null
         this.allocateUsersToCurrentPod(userInAction, dayAsStrInAction, dayInAction, timeSlotInAction, assignmentInAction);
 
         // @ts-ignore : dayInAction would never be null
@@ -302,7 +312,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.preparePodAssignmentCreateRequest();
     }
 
-    private allocateUsersToCurrentPod(userInAction: UserDto, dayAsStrInAction: string | null | undefined, dayInAction: Date | null | undefined, timeSlotInAction: TimeSlot, assignmentInAction: AssignmentDto) {
+    private allocateUsersToCurrentPod(userInAction: UserDto, dayAsStrInAction: string | null | undefined, dayInAction: Date, timeSlotInAction: TimeSlot, assignmentInAction: AssignmentDto) {
         console.log("userInAction:" + JSON.stringify(userInAction));
         console.log("dayAsStrInAction:" + JSON.stringify(dayAsStrInAction));
         console.log("dayInAction:" + JSON.stringify(dayInAction));
@@ -311,17 +321,39 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));
 
 
+        /*if (this.podAssignmentCreateRequestDays.indexOf(dayInAction) === -1) {
+            //this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
+            this.podAssignmentCreateRequestDays.push(dayInAction);
+        }*/
+
+        //console.log("podAssignmentCreateRequestUsersCloned:" + JSON.stringify(podAssignmentCreateRequestUsersCloned));
+        console.log("this.podAssignmentCreateRequestUsers:" + JSON.stringify(this.podAssignmentCreateRequestUsers));
+        console.log("this.podAssignmentCreateRequestDays:" + JSON.stringify(this.podAssignmentCreateRequestDays));
+
         if (assignmentInAction.availabilityType === AvailabilityType.AVAILABLE) {
             //We allow to book only AVAILABLE slots otherwise we would allow overriding someone else's bookings which we do not want,.
             assignmentInAction.availabilityType = AvailabilityType.POD_ASSIGNMENT;
             assignmentInAction.pod = this.selectedPodToAssign;
+
+            if (this.podAssignmentCreateRequestUsers.indexOf(userInAction.uuid) === -1) {
+                //this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
+                this.podAssignmentCreateRequestUsers.push(userInAction.uuid);
+            }
+
+            let listHasDay = this.podAssignmentCreateRequestDays.some( (day) => DateUtils.formatToISODate(day) === DateUtils.formatToISODate(dayInAction));
+            if(!listHasDay) {
+                this.podAssignmentCreateRequestDays.push(dayInAction);
+            }
         }
     }
+
+
+
 
     private preparePodAssignmentCreateRequest() {
         if (this.selectedPodToAssign && this.podAssignmentCreateRequestTempStart && this.podAssignmentCreateRequestTempStart.isDataValid && this.podAssignmentCreateRequestTempEnd && this.podAssignmentCreateRequestTempEnd.isDataValid) {
 
-            this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
+            /*this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
             //Is start and end user different, if yes then we need to select all in-between users
             if (this.podAssignmentCreateRequestTempStart.userInAction.gpin !== this.podAssignmentCreateRequestTempEnd.userInAction.gpin) {
                 for (let podAssignmentWrapper of this.podAssignmentViewDto.podAssignmentWrappers) {
@@ -330,14 +362,15 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                         break;
                     }
                 }
-            }
+            }*/
             //usersToAssignToAPodAsUuids = [...new Set(usersToAssignToAPod.map( (u) => u.uuid))]//remove duplicates;
-            this.podAssignmentCreateRequestUsers = [...new Set(this.podAssignmentCreateRequestUsers)]//remove duplicates;
+            //this.podAssignmentCreateRequestUsers = [...new Set(this.podAssignmentCreateRequestUsers)]//remove duplicates;
             //console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));
+            //[].concat(this.podAssignmentCreateRequestUsers)
+            let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart}; //lets clone because we are resetting this at the end
+            let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd};
+            let podAssignmentCreateRequestUsersCloned = {...this.podAssignmentCreateRequestUsers};
 
-            let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart} //lets clone because we are resetting this at the end
-            let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd}
-            let podAssignmentCreateRequestUsersCloned = {...this.podAssignmentCreateRequestUsers}
             this.podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
                 podAssignmentCreateRequestUsersCloned,
                 this.selectedPodToAssign.uuid,
@@ -350,6 +383,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             this.podAssignmentCreateRequestTempStart = undefined;
             this.podAssignmentCreateRequestTempEnd = undefined;
             this.podAssignmentCreateRequestUsers = [];
+            this.podAssignmentCreateRequestDays = [];
             //this.podAssignmentDialogEl().nativeElement.showModal();
 
             console.log("#####################podAssignmentCreateRequest#####################" + JSON.stringify(this.podAssignmentCreateRequest));
