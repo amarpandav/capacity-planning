@@ -1,5 +1,5 @@
 FROM nginx:alpine
-COPY modules/cpt-ui/cpt-ui-angular/dist/cpt-ui-angular /usr/share/nginx/html
+COPY modules/cpt-ui/cpt-ui-angular/dist/cpt-ui-angular/browser /usr/share/nginx/html
 COPY modules/cpt-ui/cpt-ui-angular/cpt_nginx.conf /etc/nginx/conf.d/
 RUN ls -la /usr/share/nginx/html
 EXPOSE 80
