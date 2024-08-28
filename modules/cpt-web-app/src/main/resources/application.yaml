@@ -1,0 +1,15 @@
+application:
+  version: ${project.version}
+
+server:
+  port: 8080
+  servlet:
+    context-path: '/api'
+
+logging:
+  level:
+    sql: DEBUG
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:HSQLDB}

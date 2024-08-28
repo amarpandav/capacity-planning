@@ -8,4 +8,5 @@
 FROM openjdk:21-oracle
 WORKDIR /app
 COPY /modules/cpt-web-app/target/*.jar ./app.jar
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
