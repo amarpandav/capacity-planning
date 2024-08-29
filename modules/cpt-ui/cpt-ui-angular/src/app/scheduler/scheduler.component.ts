@@ -6,7 +6,6 @@ import {PodDto} from "./models/pod/pod.model";
 import {AvailabilityDto} from "./models/availability/availability.model";
 import {UserDto} from "./models/user/user.model";
 import {AVAILABILITY_TEST_DATA} from "./testdata/availability/availability.test-data";
-import {USER_TEST_DATA} from "./testdata/user/user.test-data";
 import {AvailabilityType} from "./models/availability/availability.enum";
 import {DateUtils} from '../shared/utils/DateUtils';
 import {USER_PODS_TEST_DATA} from "./testdata/user/user-pods.test-data";
@@ -29,6 +28,7 @@ import {SchedulerService} from "./scheduler.service";
 import {Subscription} from "rxjs";
 import {SchedulerHeaderDto} from "../scheduler-header/scheduler-header.model";
 import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
+import {UserService} from "../user/user.service";
 
 
 @Component({
@@ -49,13 +49,14 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     protected readonly availability: AvailabilityDto[] = AVAILABILITY_TEST_DATA;
 
-    protected readonly users: UserDto[] = USER_TEST_DATA;
-
     protected readonly userPods: UserPodsDto[] = USER_PODS_TEST_DATA;
     protected readonly userPodWatchers: UserPodWatchersDto[] = USER_POD_WATCHERS_TEST_DATA;
 
     protected readonly pods: PodDto[] = POD_TEST_DATA;
     protected readonly podDetails: PodDetailsDto[] = POD_DETAILS_TEST_DATA;
+
+    //protected readonly users: UserDto[] = USER_TEST_DATA;
+    protected users?: UserDto[];
 
     //protected readonly schedulerViews: PodViewDto[] = SCHEDULER_VIEW_TEST_DATA;
     protected podAssignmentViewDto?: PodAssignmentViewDto;
@@ -85,13 +86,15 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     constructor(private datePipe: DatePipe,
                 private destroyRef: DestroyRef,
                 private schedulerService: SchedulerService,
-                private schedulerHeaderService: SchedulerHeaderService) {
+                private schedulerHeaderService: SchedulerHeaderService,
+                private userService: UserService) {
         this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
     }
 
     ngOnInit(): void {
         //this.isLoadingPlaces.set(true);
 
+        this.findUsers();
         this.findPodAssignmentView();
     }
 
@@ -117,6 +120,21 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.destroySubscription(subscription1);
     }
 
+    private findUsers() {
+        const subscription1 = this.userService.findUsers()
+            .subscribe({
+                    next: (users) => {
+                        //console.log("SchedulerComponent.findUsers(): Data is: ");
+                        //console.log(users);
+                        this.users = users;
+                    }
+                }
+            );
+
+        //Destroy is optional
+        this.destroySubscription(subscription1);
+    }
+
     private destroySubscription(subscription: Subscription) {
         this.destroyRef.onDestroy(() => {
             subscription.unsubscribe(); //technical this is not required but its a good idea plus i can demo this;)
@@ -129,7 +147,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         //Recalculate the SchedulerDto
         this.schedulerSettings = SchedulerSettingsDto.newInstance(this.schedulerSettings.yearToView, this.schedulerSettings.startMonthToView, this.schedulerSettings.noOfMonthsToView)
 
-        this.ngOnInit();
+        this.findPodAssignmentView();
     }
 
     protected readonly DateUtils = DateUtils;
@@ -332,6 +350,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
 
     destroyPodAllocationCreateRequest() {
+        //<div (mouseleave)="destroyPodAllocationCreateRequest()"> is must because in case user drags outside scheduler we want to throw everything and not save anything.
         if(this.podAssignmentCreateRequestTempStart){
             //destroy only when we are inside booking mode.
             console.log("destroyPodAllocationCreateRequest");
@@ -341,7 +360,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             this.podAssignmentCreateRequestUsers = [];
             this.podAssignmentCreateRequestDaysTemp = [];
             this.podAssignmentViewDto = undefined;
-            this.ngOnInit();
+            this.findPodAssignmentView();
         }
 
     }

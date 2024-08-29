@@ -7,7 +7,7 @@ import com.ubs.cpt.infra.query.TransformationSource;
 import com.ubs.cpt.infra.util.CollectionUtils;
 
 /**
- * DTO to carry fruit's basic information.
+ * DTO to carry user's basic information.
  *
  * @author Amar Pandav
  */
