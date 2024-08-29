@@ -11,6 +11,8 @@ import { ErrorService } from "./error.service";
 export class ErrorDialogComponent implements AfterViewInit {
   title = input<string>();
   message = input<string>();
+  additionalMessage = input<string>();
+
   private errorService = inject(ErrorService);
 
   private dialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('dialog');

@@ -1,10 +1,13 @@
 <dialog #dialog>
-  <div class="error">
-    <h2>{{ title() }}</h2>
-    <p>{{ message() }}</p>
+    <div class="error">
+        <h2>{{ title() }}</h2>
+        <ul>
+            <li>{{ message() }}</li>
+            <li>{{ additionalMessage() }}</li>
+        </ul>
 
-    <div class="confirmation-actions">
-      <button class="button" (click)="onClearError()">Okay</button>
+        <div class="confirmation-actions">
+            <button class="button" (click)="onClearError()">Okay</button>
+        </div>
     </div>
-  </div>
 </dialog>

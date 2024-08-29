@@ -44,7 +44,7 @@ export class SchedulerService {
 
         return this.httpClient.get<{
             podAssignmentView: PodAssignmentViewDto
-        }>('http://localhost:8080/api/pods/578D06828DAD49B780A560E017CA28D3/assignments', {
+        }>('http://localhost:8080/api/pods/'+currentPodToView.uuid+'/assignments', {
             params: {
                 'startDate': DateUtils.formatToISODate(schedulerSettings.startDate),
                 'endDate': DateUtils.formatToISODate(schedulerSettings.endDate)
@@ -65,7 +65,7 @@ export class SchedulerService {
                         });
                         return testDataObservable;
                     } else {
-                        this.errorService.showError('Failed to perform findPodAssignments.')
+                        this.errorService.showError('Failed to perform findPodAssignments.', error.error.message)
                         return throwError(() => new Error('Something went wrong : ' + error.message))
                     }
                 })

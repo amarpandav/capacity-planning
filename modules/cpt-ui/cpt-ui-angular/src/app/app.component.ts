@@ -21,6 +21,7 @@ export class AppComponent {
   private errorService = inject(ErrorService);
 
   error = this.errorService.error;
+  additionalMessage = this.errorService.additionalMessage;
 
   constructor() {
   }
