@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "http://cpt-web-app-service:8080",
+    "target": "http://cpt-web-app-service:8080/api",
     "secure": false,
     "changeOrigin": true,
     "logLevel": "debug"
