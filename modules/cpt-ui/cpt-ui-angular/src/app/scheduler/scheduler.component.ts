@@ -332,12 +332,18 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
 
     destroyPodAllocationCreateRequest() {
-        console.log("destroyPodAllocationCreateRequest");
-        //rest all class level variables after request is sent.
-        this.podAssignmentCreateRequestTempStart = undefined;
-        this.podAssignmentCreateRequestTempEnd = undefined;
-        this.podAssignmentCreateRequestUsers = [];
-        this.podAssignmentCreateRequestDaysTemp = [];
+        if(this.podAssignmentCreateRequestTempStart){
+            //destroy only when we are inside booking mode.
+            console.log("destroyPodAllocationCreateRequest");
+            //rest all class level variables after request is sent.
+            this.podAssignmentCreateRequestTempStart = undefined;
+            this.podAssignmentCreateRequestTempEnd = undefined;
+            this.podAssignmentCreateRequestUsers = [];
+            this.podAssignmentCreateRequestDaysTemp = [];
+            this.podAssignmentViewDto = undefined;
+            this.ngOnInit();
+        }
+
     }
 
 }
