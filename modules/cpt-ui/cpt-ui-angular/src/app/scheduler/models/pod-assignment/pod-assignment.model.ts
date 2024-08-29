@@ -1,4 +1,4 @@
-import {DateUtils} from "../../../shared/utils/DateUtils";
+import {DateUtils} from "../../../utils/DateUtils";
 import {AssignmentDto} from "./assignment.model";
 
 

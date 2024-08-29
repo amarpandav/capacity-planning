@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {catchError, map, of, throwError} from 'rxjs';
 import {HttpClient} from "@angular/common/http";
-import {ErrorService} from "../shared/ui-components/error-dialog/error.service";
+import {ErrorService} from "../error-dialog/error.service";
 import {UserDto} from "../scheduler/models/user/user.model";
 import {USER_TEST_DATA} from "../../testdata/user/user.test-data";
 

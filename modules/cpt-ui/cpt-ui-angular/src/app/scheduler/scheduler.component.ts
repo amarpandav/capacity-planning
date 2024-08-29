@@ -7,7 +7,7 @@ import {AvailabilityDto} from "./models/availability/availability.model";
 import {UserDto} from "./models/user/user.model";
 import {AVAILABILITY_TEST_DATA} from "../../testdata/availability/availability.test-data";
 import {AvailabilityType} from "./models/availability/availability.enum";
-import {DateUtils} from '../shared/utils/DateUtils';
+import {DateUtils} from '../utils/DateUtils';
 import {USER_PODS_TEST_DATA} from "../../testdata/user/user-pods.test-data";
 import {UserPodsDto} from "./models/user/user-pods.model";
 import {UserPodWatchersDto} from "./models/user/user-pod-watchers.model";

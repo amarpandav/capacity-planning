@@ -1,8 +1,8 @@
 import { Component, inject, ViewEncapsulation } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./header/header.component";
-import { ErrorDialogComponent } from "./shared/ui-components/error-dialog/error-dialog.component";
-import { ErrorService } from "./shared/ui-components/error-dialog/error.service";
+import { ErrorDialogComponent } from "./error-dialog/error-dialog.component";
+import { ErrorService } from "./error-dialog/error.service";
 
 @Component({
   selector: 'app-root',
