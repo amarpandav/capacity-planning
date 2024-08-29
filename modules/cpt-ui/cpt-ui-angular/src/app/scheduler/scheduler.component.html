@@ -98,7 +98,7 @@
     </div>
 
     <div (mouseleave)="destroyPodAllocationCreateRequest()">
-    @for (podAssignmentWrapper of podAssignmentViewDto.podAssignmentWrappers; track podAssignmentWrapper) {
+    @for (podAssignmentWrapper of podAssignmentViewDto?.podAssignmentWrappers; track podAssignmentWrapper) {
         <div class='employeeRow' >
             <div class='cell employeeName'>pic: {{ podAssignmentWrapper.user.name }}
                 ({{ JSON.stringify(podAssignmentWrapper.podMemberRole) }})

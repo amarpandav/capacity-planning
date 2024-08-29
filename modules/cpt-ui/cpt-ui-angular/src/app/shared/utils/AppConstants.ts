@@ -31,4 +31,6 @@ export class AppConstants {
 
   static TIME_FORMAT = "HH:mm";//HH:mm:ss
 */
+
+  static onBackendCallFailurePopulateUITestData = true;
 }
