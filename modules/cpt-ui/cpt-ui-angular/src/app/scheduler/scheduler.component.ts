@@ -137,6 +137,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.schedulerSettings = SchedulerSettingsDto.newInstance(this.schedulerSettings.yearToView, this.schedulerSettings.startMonthToView, this.schedulerSettings.noOfMonthsToView)
 
         this.populateHeaders();
+
+        this.findPodAssignmentView();
     }
 
     populateHeaders() {

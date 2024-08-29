@@ -35,12 +35,24 @@ export class SchedulerService {
         //TODO httpParams.append("startDate", DateUtils.formatToISODate(schedulerSettings.startDate));
         //TODO httpParams.append("endDate", DateUtils.formatToISODate(schedulerSettings.endDate));
 
+        /*
+        //TODO not working
         return this.httpClient.get<{
             podAssignmentView: PodAssignmentViewDto
-        }>('http://localhost:8080/api/pods/'+currentPodToView.uuid+"/assignments", { params: httpParams })
+        }>('http://localhost:8080/api/pods/578D06828DAD49B780A560E017CA28D3/assignments', { params: httpParams })
+        */
+
+        return this.httpClient.get<{
+            podAssignmentView: PodAssignmentViewDto
+        }>('http://localhost:8080/api/pods/578D06828DAD49B780A560E017CA28D3/assignments', {
+            params: {
+                'startDate': DateUtils.formatToISODate(schedulerSettings.startDate),
+                'endDate': DateUtils.formatToISODate(schedulerSettings.endDate)
+            }
+        })
             .pipe(
                 map((resBody) => {
-                    console.log("resBody.podAssignmentView:"+JSON.stringify(resBody.podAssignmentView))
+                    console.log("resBody.podAssignmentView:" + JSON.stringify(resBody.podAssignmentView))
                     return resBody.podAssignmentView
                 }),
                 //map( (resBody) => resBody.places),
