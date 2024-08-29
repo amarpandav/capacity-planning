@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {catchError, map, of, throwError} from 'rxjs';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {PodAssignmentViewDto} from "./models/pod-view/pod-view.model";
 import {ErrorService} from "../shared/ui-components/error-dialog/error.service";
 import {POD_ASSIGNMENT_VIEW_TEST_DATA} from "./testdata/scheduler/pod-assignment-view.test-data";
@@ -13,7 +13,7 @@ import {DateUtils} from "../shared/utils/DateUtils";
 import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
 import {PodDto} from "./models/pod/pod.model";
 
-const PRODUCE_UI_TEST_DATA = true;
+const PRODUCE_UI_TEST_DATA = false;
 
 @Injectable({providedIn: 'root'})
 export class SchedulerService {
@@ -23,17 +23,24 @@ export class SchedulerService {
 
     //dialog is displayed inside AppComponent.ts
     findPodAssignments(currentPodToView: PodDto, schedulerSettings: SchedulerSettingsDto, dayHeaders: DayHeaderDto[]) {
-        var searchParams = {
-            "podUuid": currentPodToView.uuid,
+        /*var searchParams = {
+            //"podUuid": currentPodToView.uuid,
             "startDate": schedulerSettings.startDate,
             "endDate": schedulerSettings.endDate,
-        };
+        };*/
 
-        return this.httpClient.post<{
+        let httpParams = new HttpParams();
+        httpParams.set('startDate', '2024-08-01');
+        httpParams.set('endDate', '2024-10-01');
+        //TODO httpParams.append("startDate", DateUtils.formatToISODate(schedulerSettings.startDate));
+        //TODO httpParams.append("endDate", DateUtils.formatToISODate(schedulerSettings.endDate));
+
+        return this.httpClient.get<{
             podAssignmentView: PodAssignmentViewDto
-        }>('http://localhost:3000/findPodAssignments', searchParams)
+        }>('http://localhost:8080/api/pods/'+currentPodToView.uuid+"/assignments", { params: httpParams })
             .pipe(
                 map((resBody) => {
+                    console.log("resBody.podAssignmentView:"+JSON.stringify(resBody.podAssignmentView))
                     return resBody.podAssignmentView
                 }),
                 //map( (resBody) => resBody.places),

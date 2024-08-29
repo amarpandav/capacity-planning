@@ -120,7 +120,7 @@
 
                     </div>
                     <div style='height:100%;width:50%;'
-                         class='daypart afternoon {{podAssignment.afternoon?.pod?.podStyleClass}} {{podAssignment.afternoon?.availabilityType}}'
+                         class='daypart afternoon {{podAssignment.afternoon?.pod?.podStyleClass}} {{podAssignment.afternoon.availabilityType}}'
                          title='{{podAssignment.afternoon.pod?.podName}} {{podAssignment.afternoon.availabilityType}}'
 
                          (mousedown)="onDragStart($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.dayAsStr, podAssignment.day)"
