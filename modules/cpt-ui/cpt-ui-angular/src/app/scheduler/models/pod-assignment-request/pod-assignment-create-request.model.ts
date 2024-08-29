@@ -27,3 +27,12 @@ export class PodAssignmentCreateRequestTemp {
     }
 
 }
+
+export class PodAssignmentCreateRequestDayTemp {
+
+    constructor(public day: Date,
+                public morningTimeSlot: TimeSlot | null,
+                public afternoonTimeSlot: TimeSlot| null) {
+    }
+
+}

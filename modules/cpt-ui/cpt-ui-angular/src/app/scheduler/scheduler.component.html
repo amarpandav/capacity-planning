@@ -97,8 +97,9 @@
         }
     </div>
 
+    <div (mouseleave)="destroyPodAllocationCreateRequest()">
     @for (podAssignmentWrapper of podAssignmentViewDto.podAssignmentWrappers; track podAssignmentWrapper) {
-        <div class='employeeRow'>
+        <div class='employeeRow' >
             <div class='cell employeeName'>pic: {{ podAssignmentWrapper.user.name }}
                 ({{ JSON.stringify(podAssignmentWrapper.podMemberRole) }})
             </div>
@@ -107,7 +108,8 @@
                 <!--div class='cell day weekDay' -->
                         <!--{{podAssignment.day}};{{podAssignment.dayAsStr}};{{DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr)}}-->
                 <div class='cell day '
-                     [class]="{weekEnd: DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr), weekDay: !DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr) }">
+                     [class]="{weekEnd: DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr), weekDay: !DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr) }"
+                     >
                     <!--div class='cell day ' [class]="{weekEnd: isWeekEnd2(podAssignment.day | date: 'dd.MM.YYYY'), weekDay: !isWeekEnd2(podAssignment.day | date: 'dd.MM.YYYY') }"-->
 
                     <div style='height:100%;width:50%;'
@@ -133,7 +135,7 @@
             }
         </div>
     }
-
+    </div>
 </table>
 
 
