@@ -8,6 +8,6 @@ public class UserMapper {
     }
 
     public static UserDto map(User user) {
-        return new UserDto(user.getEntityId(), user.getName(), user.getKey());
+        return new UserDto(user.getEntityId(), user.getName(), user.getKey(), user.getJobTitle(), user.getCountry());
     }
 }

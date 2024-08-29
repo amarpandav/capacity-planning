@@ -16,6 +16,10 @@ public class UserSearchParameters extends DefaultSearchParameters<User> {
 
     private String gpin;
 
+    private String jobTitle;
+
+    private String country;
+
     public UserSearchParameters() {
         getSortBy().add(new SortBy("name", SortBy.SortDirection.ASCENDING));
     }
@@ -32,7 +36,23 @@ public class UserSearchParameters extends DefaultSearchParameters<User> {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public Optional<String> getName() {
+        return Optional.ofNullable(name);
+    }
+
+    public Optional<String> getJobTitle() {
+        return Optional.ofNullable(jobTitle);
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public Optional<String> getCountry() {
+        return Optional.ofNullable(country);
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
