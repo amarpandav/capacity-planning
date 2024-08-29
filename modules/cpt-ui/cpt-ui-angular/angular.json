@@ -15,6 +15,11 @@
       "prefix": "app",
       "architect": {
         "build": {
+          "serve": {
+            "options": {
+              "proxyConfig": "proxy.conf.json"
+            }
+          },
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/cpt-ui-angular",
