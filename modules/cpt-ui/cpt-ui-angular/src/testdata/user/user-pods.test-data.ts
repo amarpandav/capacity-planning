@@ -1,5 +1,5 @@
 //test data for cpt_pod_member
-import {PodMemberRole} from "../../models/pod/pom-member-role.enum";
+import {PodMemberRole} from "../../app/scheduler/models/pod/pom-member-role.enum";
 
 export const USER_PODS_TEST_DATA = [
     {

@@ -5,20 +5,20 @@ import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
 import {PodDto} from "./models/pod/pod.model";
 import {AvailabilityDto} from "./models/availability/availability.model";
 import {UserDto} from "./models/user/user.model";
-import {AVAILABILITY_TEST_DATA} from "./testdata/availability/availability.test-data";
+import {AVAILABILITY_TEST_DATA} from "../../testdata/availability/availability.test-data";
 import {AvailabilityType} from "./models/availability/availability.enum";
 import {DateUtils} from '../shared/utils/DateUtils';
-import {USER_PODS_TEST_DATA} from "./testdata/user/user-pods.test-data";
+import {USER_PODS_TEST_DATA} from "../../testdata/user/user-pods.test-data";
 import {UserPodsDto} from "./models/user/user-pods.model";
 import {UserPodWatchersDto} from "./models/user/user-pod-watchers.model";
-import {USER_POD_WATCHERS_TEST_DATA} from "./testdata/user/user-pod-watchers.test-data";
+import {USER_POD_WATCHERS_TEST_DATA} from "../../testdata/user/user-pod-watchers.test-data";
 import {PodAssignmentViewDto} from "./models/pod-view/pod-view.model";
 import {PodAssignmentWrapperDto} from "./models/pod-assignment/pod-assignment-wrapper.model";
 import {AssignmentDto} from "./models/pod-assignment/assignment.model";
 import {isAfternoon, isMorning, TimeSlot} from "./models/pod-assignment/time-slot.enum";
-import {POD_DETAILS_TEST_DATA} from "./testdata/pod/pod-details.test-data";
+import {POD_DETAILS_TEST_DATA} from "../../testdata/pod/pod-details.test-data";
 import {PodDetailsDto} from "./models/pod/pod-details.model";
-import {POD_TEST_DATA} from "./testdata/pod/pod.test-data";
+import {POD_TEST_DATA} from "../../testdata/pod/pod.test-data";
 import {
     PodAssignmentCreateRequestDayTemp,
     PodAssignmentCreateRequestDto,

@@ -3,7 +3,7 @@ import {catchError, map, of, throwError} from 'rxjs';
 import {HttpClient} from "@angular/common/http";
 import {ErrorService} from "../shared/ui-components/error-dialog/error.service";
 import {UserDto} from "../scheduler/models/user/user.model";
-import {USER_TEST_DATA} from "../scheduler/testdata/user/user.test-data";
+import {USER_TEST_DATA} from "../../testdata/user/user.test-data";
 
 const PRODUCE_UI_TEST_DATA = false;
 

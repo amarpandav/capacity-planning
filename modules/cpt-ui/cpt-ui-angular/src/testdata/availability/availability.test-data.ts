@@ -1,5 +1,5 @@
 //test data for cpt_availability
-import { AvailabilityType } from "../../models/availability/availability.enum";
+import { AvailabilityType } from "../../app/scheduler/models/availability/availability.enum";
 
 export const AVAILABILITY_TEST_DATA = [
   {

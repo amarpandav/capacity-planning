@@ -1,6 +1,6 @@
 //test data for cpt_user_booked_capacity but grouped by pod_member
-import {PodMemberRole} from "../../models/pod/pom-member-role.enum";
-import {AvailabilityType} from "../../models/availability/availability.enum";
+import {PodMemberRole} from "../../app/scheduler/models/pod/pom-member-role.enum";
+import {AvailabilityType} from "../../app/scheduler/models/availability/availability.enum";
 
 export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
     currentPod: {

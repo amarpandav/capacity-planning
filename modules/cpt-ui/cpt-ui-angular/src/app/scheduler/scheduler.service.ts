@@ -3,7 +3,7 @@ import {catchError, map, of, throwError} from 'rxjs';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {PodAssignmentViewDto} from "./models/pod-view/pod-view.model";
 import {ErrorService} from "../shared/ui-components/error-dialog/error.service";
-import {POD_ASSIGNMENT_VIEW_TEST_DATA} from "./testdata/scheduler/pod-assignment-view.test-data";
+import {POD_ASSIGNMENT_VIEW_TEST_DATA} from "../../testdata/scheduler/pod-assignment-view.test-data";
 import {DayHeaderDto} from "../scheduler-header/day-header.model";
 import {PodAssignmentWrapperDto} from "./models/pod-assignment/pod-assignment-wrapper.model";
 import {AssignmentDto} from "./models/pod-assignment/assignment.model";
