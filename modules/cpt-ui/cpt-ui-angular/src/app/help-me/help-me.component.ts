@@ -11,7 +11,7 @@ import {AppService} from "./help-me.service";
 })
 export class HelpMeComponent implements OnInit {
 
-  appVersion: string;
+  appVersion: string = 'n.a.';
 
   constructor(private service: AppService) {
   }
