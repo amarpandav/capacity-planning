@@ -22,11 +22,13 @@ export class SchedulerService {
 
     //dialog is displayed inside AppComponent.ts
     findPodAssignments(dayHeaders: DayHeaderDto[]) {
+        var searchParams = {
+            "dayHeaders": dayHeaders
+        };
 
-
-        return this.httpClient.get<{
+        return this.httpClient.post<{
             podAssignmentView: PodAssignmentViewDto
-        }>('http://localhost:3000/findPodAssignments')
+        }>('http://localhost:3000/findPodAssignments', searchParams)
             .pipe(
                 map((resBody) => {
                     return resBody.podAssignmentView
