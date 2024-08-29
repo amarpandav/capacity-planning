@@ -15,7 +15,6 @@ export class UserService {
 
     //dialog is displayed inside AppComponent.ts
     findUsers() {
-
         return this.httpClient.post<{
             users: UserDto[]
         }>('http://localhost:8080/api/users/findUsers', {})//TODO send UserSearchParameters

@@ -27,7 +27,6 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
         );
     }
 
-
     public UserQuery withUserEntityId(EntityId<User> uEntityId) {
         and("u.uuid = :uUuid", "uUuid", uEntityId.getUuid());
         return this;
@@ -90,11 +89,6 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
 
     @Override
     public CollectionUtils.Transformer<TransformationSource, UserDto> getTransformer() {
-        return new CollectionUtils.Transformer<TransformationSource, UserDto>() {
-            @Override
-            public UserDto transform(TransformationSource input) {
-                return new UserDto.UserDtoTransformer().transform(input);
-            }
-        };
+        return input -> new UserDto.UserDtoTransformer().transform(input);
     }
 }

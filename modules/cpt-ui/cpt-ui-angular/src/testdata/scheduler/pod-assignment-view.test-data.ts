@@ -13,8 +13,8 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
     podAssignmentWrappers: [//PodAssignmentWrapperDto
         {
             user: {//UserDto
-                uuid: 'AmarPandavUuid',
-                gpin: 'AmarPandavGPIN',
+                entityId: {uuid: 'AmarPandavUuid'},
+                userKey: {gpin: 'AmarPandavGPIN'},
                 name: 'Amar Pandav'
             },
             podMemberRole:PodMemberRole.SOLUTIONS_ARCHITECT, //FOR current POD
@@ -98,8 +98,8 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
         },
         {
             user: {//UserDto
-                uuid: 'ThomasDoblerUuid',
-                gpin: 'ThomasDoblerGPIN',
+                entityId: {uuid: 'ThomasDoblerUuid'},
+                userKey: {gpin: 'ThomasDoblerGPIN'},
                 name: 'Thomas Dobler'
             },
             podMemberRole: PodMemberRole.JAVA_DEVELOPER, //FOR current POD
@@ -142,8 +142,8 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
         },
         {
             user: {//UserDto
-                uuid: 'KamilLipinskiUuid',
-                gpin: 'KamilLipinskiGPIN',
+                entityId: {uuid: 'KamilLipinskiUuid'},
+                userKey: {gpin: 'KamilLipinskiGPIN'},
                 name: 'Kamil Lipinski'
             },
             podMemberRole: PodMemberRole.JAVA_DEVELOPER, //FOR current POD
@@ -169,8 +169,8 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
         },
         {
             user: {//UserDto
-                uuid: 'WiktorUuid',
-                gpin: 'WiktorGPIN',
+                entityId: {uuid: 'WiktorUuid'},
+                userKey: {gpin: 'WiktorGPIN'},
                 name: 'Wiktor',
             },
             podMemberRole: PodMemberRole.JAVA_DEVELOPER, //FOR current POD

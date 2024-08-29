@@ -3,8 +3,8 @@
 export const USER_POD_WATCHERS_TEST_DATA = [
     {
         user: { //UserDto
-            uuid: 'HrishikeshRaghavanUuid',
-            gpin: 'HrishikeshRaghavanGpi',
+            entityId: {uuid: 'HrishikeshRaghavanUuid'},
+            userKey: {gpin: 'HrishikeshRaghavanGpi'},
             name: 'Hrishikesh Raghavan',
             country: 'UK'
         },
@@ -33,14 +33,14 @@ export const USER_POD_WATCHERS_TEST_DATA = [
     },
     {
         user: { //UserDto
-            uuid: 'podWatchNickTuffsUuid',
-            gpin: 'NickTuffsGpi',
+            entityId: {uuid: 'NickTuffsUuid'},
+            userKey: {gpin: 'NickTuffsGpi'},
             name: 'Nick Tuffs',
             country: 'UK'
         },
         userPodWatcherDetails: [
             {
-                podWatcherUuid: 'podWatcherHrishikeshRaghavanAndGIMPodUuid',
+                podWatcherUuid: 'podWatcherNickTuffsAndGIMPodUuid',
                 pod: {////PodDto
                     uuid: 'GIMPodUuid',
                     podName: 'Global Identity Management',

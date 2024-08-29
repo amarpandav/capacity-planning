@@ -29,6 +29,7 @@ import {Subscription} from "rxjs";
 import {SchedulerHeaderDto} from "../scheduler-header/scheduler-header.model";
 import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
 import {UserService} from "../user/user.service";
+import {UserComponent} from "../user/user.component";
 
 
 @Component({
@@ -36,7 +37,8 @@ import {UserService} from "../user/user.service";
     standalone: true,
     imports: [
         FormsModule,
-        DatePipe
+        DatePipe,
+        UserComponent
     ],
     templateUrl: './scheduler.component.html',
     styleUrl: './scheduler.component.scss'
@@ -77,6 +79,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     //podAssignmentCreateRequestDays: Date[] = [];
     podAssignmentCreateRequestDaysTemp: PodAssignmentCreateRequestDayTemp[] = [];
 
+    selectedUser?: UserDto;
+
     isWeekEnd(date: string): boolean {
         let day = new Date(date).getDay();
         return (day === 0 || day === 6)
@@ -89,6 +93,11 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 private schedulerHeaderService: SchedulerHeaderService,
                 private userService: UserService) {
         this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
+    }
+
+    onSelectedUserEventListener(selectedUser: UserDto){
+        console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));
+        this.selectedUser = selectedUser;
     }
 
     ngOnInit(): void {
@@ -251,9 +260,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             assignmentInAction.availabilityType = AvailabilityType.POD_ASSIGNMENT;
             assignmentInAction.pod = this.selectedPodToAssign;
 
-            if (this.podAssignmentCreateRequestUsers.indexOf(userInAction.uuid) === -1) {
+            if (this.podAssignmentCreateRequestUsers.indexOf(userInAction.entityId.uuid) === -1) {
                 //this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
-                this.podAssignmentCreateRequestUsers.push(userInAction.uuid);
+                this.podAssignmentCreateRequestUsers.push(userInAction.entityId.uuid);
             }
 
             /*let listHasDay = this.podAssignmentCreateRequestDays.some( (day) => DateUtils.formatToISODate(day) === DateUtils.formatToISODate(dayInAction));

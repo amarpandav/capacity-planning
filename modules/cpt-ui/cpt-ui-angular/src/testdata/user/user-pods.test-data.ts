@@ -4,8 +4,8 @@ import {PodMemberRole} from "../../app/scheduler/models/pod/pom-member-role.enum
 export const USER_PODS_TEST_DATA = [
     {
         user: {//UserDto
-            uuid: 'NiteshShriyanUuid',
-            gpin: 'NiteshShriyanGPIN',
+            entityId: {uuid: 'NiteshShriyanUuid'},
+            userKey: {gpin: 'NiteshShriyanGPIN'},
             name: 'Nitesh Shriyan'
         },
         userPodDetails: [
@@ -35,8 +35,8 @@ export const USER_PODS_TEST_DATA = [
     },
     {
         user: {//UserDto
-            uuid: 'AmarPandavUuid',
-            gpin: 'AmarPandavGPIN',
+            entityId: {uuid: 'AmarPandavUuid'},
+            userKey: {gpin: 'AmarPandavGPIN'},
             name: 'Amar Pandav'
         },
         userPodDetails: [
@@ -66,8 +66,8 @@ export const USER_PODS_TEST_DATA = [
     },
     {
         user: {//UserDto
-            uuid: 'ThomasDoblerUuid',
-            gpin: 'ThomasDoblerGPIN',
+            entityId: {uuid: 'ThomasDoblerUuid'},
+            userKey: {gpin: 'ThomasDoblerGPIN'},
             name: 'Thomas Dobler'
         },
         userPodDetails: [
@@ -86,8 +86,8 @@ export const USER_PODS_TEST_DATA = [
     },
     {
         user: {//UserDto
-            uuid: 'TimUuid',
-            gpin: 'TimGPIN',
+            entityId: {uuid: 'TimUuid'},
+            userKey: {gpin: 'TimGPIN'},
             name: 'Tim'
         },
         userPodDetails: [
@@ -106,8 +106,8 @@ export const USER_PODS_TEST_DATA = [
     },
     {
         user: {//UserDto
-            uuid: 'KamilLipinskiUuid',
-            gpin: 'KamilLipinskiGPIN',
+            entityId: {uuid: 'KamilLipinskiUuid'},
+            userKey: {gpin: 'KamilLipinskiGPIN'},
             name: 'Kamil Lipinski'
         },
         userPodDetails: [
@@ -126,8 +126,8 @@ export const USER_PODS_TEST_DATA = [
     },
     {
         user: {//UserDto
-            uuid: 'WiktorUuid',
-            gpin: 'WiktorGPIN',
+            entityId: {uuid: 'WiktorUuid'},
+            userKey: {gpin: 'WiktorGPIN'},
             name: 'Wiktor'
         },
         userPodDetails: [

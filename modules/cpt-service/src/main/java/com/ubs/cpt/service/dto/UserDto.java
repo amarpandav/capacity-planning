@@ -26,7 +26,7 @@ public class UserDto {
             UserKey userKey = input.next().asUserKey();
             String jobTitle = input.next().asString();
             String country = input.next().asString();
-            return new UserDto(entityId, country, userKey, jobTitle, country);
+            return new UserDto(entityId, name, userKey, jobTitle, country);
         }
     }
 
