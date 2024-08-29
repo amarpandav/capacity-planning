@@ -74,7 +74,7 @@
 <table class="scheduler">
     <div style='display:flex'>
         <div class='cell' style='width:180px;flex-shrink:0;'></div>
-        @for (monthHeaderDto of monthHeaders; track monthHeaderDto.monthAsString) {
+        @for (monthHeaderDto of schedulerHeader.monthHeaders; track monthHeaderDto.monthAsString) {
             <div class='cell monthHeader'
                  [style]="'width:'+monthHeaderDto.noOfDays*20+'px'">{{ monthHeaderDto.monthAsString }}
             </div>
@@ -83,7 +83,7 @@
     <div style='display:flex'>
         <div class='cell' style='width:180px;flex-shrink:0;'></div>
 
-        @for (weekHeaderDto of weekHeaders; track weekHeaderDto.weekNumber) {
+        @for (weekHeaderDto of schedulerHeader.weekHeaders; track weekHeaderDto.weekNumber) {
             <div class='cell weekHeader' [style]="'width:'+weekHeaderDto.noOfDays*20+'px'">
                 cw{{ weekHeaderDto.weekNumber }}
             </div>
@@ -92,7 +92,7 @@
     </div>
     <div style='display:flex'>
         <div class='cell' style='width:180px;flex-shrink:0;'></div>
-        @for (dayHeaderDto of dayHeaders; track $index) {
+        @for (dayHeaderDto of schedulerHeader.dayHeaders; track $index) {
             <div class='cell dayHeader'>{{ dayHeaderDto.day | date: 'd' }}</div>
         }
     </div>

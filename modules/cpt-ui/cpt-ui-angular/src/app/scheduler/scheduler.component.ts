@@ -3,9 +3,6 @@ import {FormsModule} from "@angular/forms";
 import {DatePipe} from "@angular/common";
 import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
 import {PodDto} from "./models/pod/pod.model";
-import {MonthHeaderDto} from "./models/header/month-header.model";
-import {DayHeaderDto} from "./models/header/day-header.model";
-import {WeekHeaderDto} from "./models/header/week-header.model";
 import {AvailabilityDto} from "./models/availability/availability.model";
 import {UserDto} from "./models/user/user.model";
 import {AVAILABILITY_TEST_DATA} from "./testdata/availability/availability.test-data";
@@ -30,6 +27,8 @@ import {
 } from "./models/pod-assignment-request/pod-assignment-create-request.model";
 import {SchedulerService} from "./scheduler.service";
 import {Subscription} from "rxjs";
+import {SchedulerHeaderDto} from "../scheduler-header/scheduler-header.model";
+import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
 
 
 @Component({
@@ -46,11 +45,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     schedulerSettings: SchedulerSettingsDto = SchedulerSettingsDto.newInstance(new Date().getFullYear(), new Date().getMonth(), 3);
 
-    monthHeaders: MonthHeaderDto[] = [];
-
-    dayHeaders: DayHeaderDto[] = [];
-
-    weekHeaders: WeekHeaderDto[] = [];
+    schedulerHeader: SchedulerHeaderDto;
 
     protected readonly availability: AvailabilityDto[] = AVAILABILITY_TEST_DATA;
 
@@ -87,20 +82,21 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
 
-    constructor(private datePipe: DatePipe, private destroyRef: DestroyRef, private schedulerService: SchedulerService) {
-
+    constructor(private datePipe: DatePipe,
+                private destroyRef: DestroyRef,
+                private schedulerService: SchedulerService,
+                private schedulerHeaderService: SchedulerHeaderService) {
+        this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
     }
 
     ngOnInit(): void {
         //this.isLoadingPlaces.set(true);
 
-        this.populateHeaders();
-
         this.findPodAssignmentView();
     }
 
     private findPodAssignmentView() {
-        const subscription1 = this.schedulerService.findPodAssignments(this.currentPodToView, this.schedulerSettings, this.dayHeaders)
+        const subscription1 = this.schedulerService.findPodAssignments(this.currentPodToView, this.schedulerSettings)
             .subscribe({
                     next: (podAssignmentView) => {
                         //console.log("SchedulerComponent.findPodAssignments(): Data is: ");
@@ -127,60 +123,14 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         });
     }
 
-
-
-
     protected readonly JSON = JSON;
 
     onSubmit() {
         //Recalculate the SchedulerDto
         this.schedulerSettings = SchedulerSettingsDto.newInstance(this.schedulerSettings.yearToView, this.schedulerSettings.startMonthToView, this.schedulerSettings.noOfMonthsToView)
 
-        this.populateHeaders();
-
-        this.findPodAssignmentView();
+        this.ngOnInit();
     }
-
-    populateHeaders() {
-
-        //populate month header
-        this.monthHeaders = [];
-        for (let month = this.schedulerSettings.startMonthToView; month <= this.schedulerSettings.endMonthToView; month++) {
-            //this.monthsToView.push(SchedulerDto.monthNames[month]);
-            let noOfDays = new Date(this.schedulerSettings.yearToView, month + 1, 0).getDate();
-            let monthDto = new MonthHeaderDto(month, noOfDays);
-            this.monthHeaders.push(monthDto);
-        }
-
-        //populate days header
-        this.dayHeaders = [];
-        this.monthHeaders.forEach((monthHeaderDto: MonthHeaderDto) => {
-            let month = monthHeaderDto.month;
-            var date = new Date(this.schedulerSettings.yearToView, month, 1);
-
-            while (date.getMonth() === month) {
-                this.dayHeaders.push(new DayHeaderDto(new Date(date)));
-                date.setDate(date.getDate() + 1);
-            }
-        });
-
-        //populate week header
-        this.weekHeaders = [];
-        this.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
-            let weekNumber = parseInt("" + this.datePipe.transform(dayHeaderDto.day, 'w'));
-            let weekHeaderDto = this.weekHeaders.find(week => week.weekNumber === weekNumber);
-            if (weekHeaderDto) {
-                //We already exists
-                weekHeaderDto.increaseNoOfDaysByOne();
-            } else {
-                weekHeaderDto = new WeekHeaderDto(weekNumber);
-                weekHeaderDto.increaseNoOfDaysByOne();
-                this.weekHeaders.push(weekHeaderDto)
-            }
-        });
-
-    }
-
 
     protected readonly DateUtils = DateUtils;
 
@@ -329,9 +279,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
         }
     }
-
-
-
 
     private preparePodAssignmentCreateRequest() {
         if (this.selectedPodToAssign && this.podAssignmentCreateRequestTempStart && this.podAssignmentCreateRequestTempStart.isDataValid && this.podAssignmentCreateRequestTempEnd && this.podAssignmentCreateRequestTempEnd.isDataValid) {

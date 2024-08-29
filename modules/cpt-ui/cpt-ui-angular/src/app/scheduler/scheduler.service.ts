@@ -4,7 +4,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {PodAssignmentViewDto} from "./models/pod-view/pod-view.model";
 import {ErrorService} from "../shared/ui-components/error-dialog/error.service";
 import {POD_ASSIGNMENT_VIEW_TEST_DATA} from "./testdata/scheduler/pod-assignment-view.test-data";
-import {DayHeaderDto} from "./models/header/day-header.model";
+import {DayHeaderDto} from "../scheduler-header/day-header.model";
 import {PodAssignmentWrapperDto} from "./models/pod-assignment/pod-assignment-wrapper.model";
 import {AssignmentDto} from "./models/pod-assignment/assignment.model";
 import {AvailabilityType} from "./models/availability/availability.enum";
@@ -12,17 +12,18 @@ import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
 import {DateUtils} from "../shared/utils/DateUtils";
 import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
 import {PodDto} from "./models/pod/pod.model";
+import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
 
-const PRODUCE_UI_TEST_DATA = false;
+const PRODUCE_UI_TEST_DATA = true;
 
 @Injectable({providedIn: 'root'})
 export class SchedulerService {
 
-    constructor(private httpClient: HttpClient, private errorService: ErrorService) {
+    constructor(private httpClient: HttpClient, private errorService: ErrorService, private schedulerHeaderService: SchedulerHeaderService) {
     }
 
     //dialog is displayed inside AppComponent.ts
-    findPodAssignments(currentPodToView: PodDto, schedulerSettings: SchedulerSettingsDto, dayHeaders: DayHeaderDto[]) {
+    findPodAssignments(currentPodToView: PodDto, schedulerSettings: SchedulerSettingsDto) {
         /*var searchParams = {
             //"podUuid": currentPodToView.uuid,
             "startDate": schedulerSettings.startDate,
@@ -61,7 +62,7 @@ export class SchedulerService {
                         let testDataObservable = of(POD_ASSIGNMENT_VIEW_TEST_DATA);
                         testDataObservable.subscribe((podAssignmentViewDto: PodAssignmentViewDto) => {
                             console.log("podAssignmentViewDto inside ser:" + JSON.stringify(podAssignmentViewDto))
-                            this.populateSchedulerTestData(dayHeaders, podAssignmentViewDto)
+                            this.populateSchedulerTestData(schedulerSettings, podAssignmentViewDto)
                         });
                         return testDataObservable;
                     } else {
@@ -77,14 +78,16 @@ export class SchedulerService {
      * Mark remaining capacity as available or public holiday
      * @private
      */
-    private populateSchedulerTestData(dayHeaders: DayHeaderDto[], podAssignmentViewDto: PodAssignmentViewDto) {
+    private populateSchedulerTestData(schedulerSettings: SchedulerSettingsDto, podAssignmentView: PodAssignmentViewDto) {
 
-        dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
+        let schedulerHeaderDto = this.schedulerHeaderService.findSchedulerHeader(schedulerSettings);
+
+        schedulerHeaderDto.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
             /*this.podMemberCapacities.forEach( (podMemberCapacityDto: PodMemberCapacityDto) => {
               let headerDateAsStr = this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
               let find = podMemberCapacityDto.podAssignments?.find(capacityDto => capacityDto.day === headerDateAsStr);
             });*/
-            podAssignmentViewDto?.podAssignmentWrappers.forEach((podAssignmentWrapper: PodAssignmentWrapperDto) => {
+            podAssignmentView?.podAssignmentWrappers.forEach((podAssignmentWrapper: PodAssignmentWrapperDto) => {
                 //let userDto = schedulerViewDto.user;
 
                 //let headerDateAsStr = "" + this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
