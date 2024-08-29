@@ -100,7 +100,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     private findPodAssignmentView() {
-        const subscription1 = this.schedulerService.findPodAssignments(this.dayHeaders)
+        const subscription1 = this.schedulerService.findPodAssignments(this.currentPodToView, this.schedulerSettings, this.dayHeaders)
             .subscribe({
                     next: (podAssignmentView) => {
                         //console.log("SchedulerComponent.findPodAssignments(): Data is: ");
@@ -143,7 +143,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
         //populate month header
         this.monthHeaders = [];
-        for (let month = this.schedulerSettings.startMonthToView; month < this.schedulerSettings.endMonthToView; month++) {
+        for (let month = this.schedulerSettings.startMonthToView; month <= this.schedulerSettings.endMonthToView; month++) {
             //this.monthsToView.push(SchedulerDto.monthNames[month]);
             let noOfDays = new Date(this.schedulerSettings.yearToView, month + 1, 0).getDate();
             let monthDto = new MonthHeaderDto(month, noOfDays);

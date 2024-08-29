@@ -11,6 +11,8 @@ import {AvailabilityType} from "./models/availability/availability.enum";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
 import {DateUtils} from "../shared/utils/DateUtils";
 import {AppConstants} from "../shared/utils/AppConstants";
+import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
+import {PodDto} from "./models/pod/pod.model";
 
 
 @Injectable({providedIn: 'root'})
@@ -21,9 +23,11 @@ export class SchedulerService {
     }
 
     //dialog is displayed inside AppComponent.ts
-    findPodAssignments(dayHeaders: DayHeaderDto[]) {
+    findPodAssignments(currentPodToView: PodDto, schedulerSettings: SchedulerSettingsDto, dayHeaders: DayHeaderDto[]) {
         var searchParams = {
-            "dayHeaders": dayHeaders
+            "podUuid": currentPodToView.uuid,
+            "startDate": schedulerSettings.startDate,
+            "endDate": schedulerSettings.endDate,
         };
 
         return this.httpClient.post<{
