@@ -105,14 +105,11 @@
             </div>
 
             @for (podAssignment of podAssignmentWrapper.podAssignments; track podAssignment) {
-                <!--div class='cell day weekDay' -->
-                        <!--{{podAssignment.day}};{{podAssignment.dayAsStr}};{{DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr)}}-->
                 <div class='cell day '
                      [class]="{weekEnd: DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr), weekDay: !DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr) }"
                      >
-                    <!--div class='cell day ' [class]="{weekEnd: isWeekEnd2(podAssignment.day | date: 'dd.MM.YYYY'), weekDay: !isWeekEnd2(podAssignment.day | date: 'dd.MM.YYYY') }"-->
 
-                    <div style='height:100%;width:50%;'
+                <div style='height:100%;width:50%;'
                          class='daypart morning {{podAssignment.morning.pod?.podStyleClass}} {{podAssignment.morning.availabilityType}}'
                          title='{{podAssignment.morning.pod?.podName}} {{podAssignment.morning.availabilityType}}'
 

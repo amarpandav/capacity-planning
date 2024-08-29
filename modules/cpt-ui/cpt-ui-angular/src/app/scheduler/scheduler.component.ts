@@ -82,19 +82,10 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     podAssignmentCreateRequestDaysTemp: PodAssignmentCreateRequestDayTemp[] = [];
 
     isWeekEnd(date: string): boolean {
-        /*let date = this.datePipe.t(date, 'DD.MM.YYYY');
-        let day = new Date(date, '').getDay();*/
         let day = new Date(date).getDay();
-        //console.log(date);
-        //console.log(day);
         return (day === 0 || day === 6)
     }
 
-    isWeekEnd2(day: string | null): boolean {
-        console.log(day);
-        return true;
-        /*return (day === 0 || day === 6)*/
-    }
 
     constructor(private datePipe: DatePipe, private destroyRef: DestroyRef, private schedulerService: SchedulerService) {
 
