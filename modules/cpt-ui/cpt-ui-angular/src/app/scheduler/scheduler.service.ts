@@ -10,14 +10,13 @@ import {AssignmentDto} from "./models/pod-assignment/assignment.model";
 import {AvailabilityType} from "./models/availability/availability.enum";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
 import {DateUtils} from "../shared/utils/DateUtils";
-import {AppConstants} from "../shared/utils/AppConstants";
 import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
 import {PodDto} from "./models/pod/pod.model";
 
+const PRODUCE_UI_TEST_DATA = true;
 
 @Injectable({providedIn: 'root'})
 export class SchedulerService {
-
 
     constructor(private httpClient: HttpClient, private errorService: ErrorService) {
     }
@@ -39,7 +38,7 @@ export class SchedulerService {
                 }),
                 //map( (resBody) => resBody.places),
                 catchError((error) => {
-                    if (AppConstants.onBackendCallFailurePopulateUITestData) {
+                    if (PRODUCE_UI_TEST_DATA) {
                         let testDataObservable = of(POD_ASSIGNMENT_VIEW_TEST_DATA);
                         testDataObservable.subscribe((podAssignmentViewDto: PodAssignmentViewDto) => {
                             console.log("podAssignmentViewDto inside ser:" + JSON.stringify(podAssignmentViewDto))
