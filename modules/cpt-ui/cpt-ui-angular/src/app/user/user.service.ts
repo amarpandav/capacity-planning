@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {ErrorService} from "../error-dialog/error.service";
 import {UserDto} from "../scheduler/models/user/user.model";
 import {USER_TEST_DATA} from "../../testdata/user/user.test-data";
+import {environment} from '../../environments/environment';
 
 const PRODUCE_UI_TEST_DATA = false;
 
@@ -17,7 +18,7 @@ export class UserService {
     findUsers() {
         return this.httpClient.post<{
             users: UserDto[]
-        }>('http://localhost:8080/api/users/findUsers', {})//TODO send UserSearchParameters
+        }>(`${environment.apiUrl}/users/findUsers`, {})//TODO send UserSearchParameters
             .pipe(
                 map((resBody) => {
                     //console.log("UserService.resBody.user:" + JSON.stringify(resBody.users))

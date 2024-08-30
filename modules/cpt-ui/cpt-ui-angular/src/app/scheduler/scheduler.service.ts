@@ -13,6 +13,7 @@ import {DateUtils} from "../utils/DateUtils";
 import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
 import {PodDto} from "./models/pod/pod.model";
 import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
+import {environment} from '../../environments/environment';
 
 const PRODUCE_UI_TEST_DATA = true;
 
@@ -30,27 +31,17 @@ export class SchedulerService {
             "endDate": schedulerSettings.endDate,
         };*/
 
-        let httpParams = new HttpParams();
-        httpParams.set('startDate', '2024-08-01');
-        httpParams.set('endDate', '2024-10-01');
+        const httpParams = new HttpParams()
+                                            .set('startDate', '2024-08-01')
+                                            .set('endDate', '2024-10-01');
         //TODO httpParams.append("startDate", DateUtils.formatToISODate(schedulerSettings.startDate));
         //TODO httpParams.append("endDate", DateUtils.formatToISODate(schedulerSettings.endDate));
 
-        /*
+
         //TODO not working
         return this.httpClient.get<{
             podAssignmentView: PodAssignmentViewDto
-        }>('http://localhost:8080/api/pods/578D06828DAD49B780A560E017CA28D3/assignments', { params: httpParams })
-        */
-
-        return this.httpClient.get<{
-            podAssignmentView: PodAssignmentViewDto
-        }>('http://localhost:8080/api/pods/'+currentPodToView.uuid+'/assignments', {
-            params: {
-                'startDate': DateUtils.formatToISODate(schedulerSettings.startDate),
-                'endDate': DateUtils.formatToISODate(schedulerSettings.endDate)
-            }
-        })
+        }>(`${environment.apiUrl}/pods/578D06828DAD49B780A560E017CA28D3/assignments`, { params: httpParams })
             .pipe(
                 map((resBody) => {
                     console.log("resBody.podAssignmentView:" + JSON.stringify(resBody.podAssignmentView))
