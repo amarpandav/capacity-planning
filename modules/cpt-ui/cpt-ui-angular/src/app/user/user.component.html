@@ -1,0 +1,18 @@
+
+<div>
+  <button (click)="onSelectUser()" [class.active]="selected()">
+    <!-- property binding using []  -->
+    <!-- option 1 -->
+    <!--img [src]="'assets/users/'+selectedUser.avatar"
+         [alt]="selectedUser.name"/-->
+    <!-- option 2 -->
+    <img [src]="selectedUserAvatar()"
+         [alt]="user().name">
+
+    <!-- string interpolation using double curly braces-->
+    <span>{{user().name}}</span>
+
+  </button>
+
+</div>
+

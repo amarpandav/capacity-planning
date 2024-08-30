@@ -15,6 +15,29 @@
 </dialog>
 
 <div style='display:flex'>
+    <div class="card" style="width: 15rem; margin-right:10px">
+        <div class="card-body">
+            <h5 class="card-title">Users</h5>
+            <p class="card-text"></p>
+
+            <div>
+                <ul id="users">
+                    <!-- @for got introduced since angular 17, older implementation is to use a structural directive *ngFor
+                    Do not forget to import NgFor in ts file.
+                    e.g. <li *ngFor="let user of allUsers" and  >-->
+                    @for (user of users; track user.entityId) {
+                        <!--unique identifier to track each row so i used user.id-->
+                        <li>
+                            <app-user [user]="user"
+                                              (selectUserAsOutputEvent)="onSelectedUserEventListener($event)"
+                                              [selected]="user.entityId.uuid === selectedUser?.entityId?.uuid"/>
+                        </li>}
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
     <div class="card" style="width: 50rem; margin-right:10px">
         <div class="card-body">
             <h5 class="card-title">Scheduler</h5>
@@ -74,7 +97,7 @@
 <table class="scheduler">
     <div style='display:flex'>
         <div class='cell' style='width:180px;flex-shrink:0;'></div>
-        @for (monthHeaderDto of monthHeaders; track monthHeaderDto.monthAsString) {
+        @for (monthHeaderDto of schedulerHeader.monthHeaders; track monthHeaderDto.monthAsString) {
             <div class='cell monthHeader'
                  [style]="'width:'+monthHeaderDto.noOfDays*20+'px'">{{ monthHeaderDto.monthAsString }}
             </div>
@@ -83,7 +106,7 @@
     <div style='display:flex'>
         <div class='cell' style='width:180px;flex-shrink:0;'></div>
 
-        @for (weekHeaderDto of weekHeaders; track weekHeaderDto.weekNumber) {
+        @for (weekHeaderDto of schedulerHeader.weekHeaders; track weekHeaderDto.weekNumber) {
             <div class='cell weekHeader' [style]="'width:'+weekHeaderDto.noOfDays*20+'px'">
                 cw{{ weekHeaderDto.weekNumber }}
             </div>
@@ -92,25 +115,24 @@
     </div>
     <div style='display:flex'>
         <div class='cell' style='width:180px;flex-shrink:0;'></div>
-        @for (dayHeaderDto of dayHeaders; track $index) {
+        @for (dayHeaderDto of schedulerHeader.dayHeaders; track $index) {
             <div class='cell dayHeader'>{{ dayHeaderDto.day | date: 'd' }}</div>
         }
     </div>
 
-    @for (podAssignmentWrapper of podAssignmentViewDto.podAssignmentWrappers; track podAssignmentWrapper) {
-        <div class='employeeRow'>
+    <div (mouseleave)="destroyPodAllocationCreateRequest()">
+    @for (podAssignmentWrapper of podAssignmentViewDto?.podAssignmentWrappers; track podAssignmentWrapper) {
+        <div class='employeeRow' >
             <div class='cell employeeName'>pic: {{ podAssignmentWrapper.user.name }}
                 ({{ JSON.stringify(podAssignmentWrapper.podMemberRole) }})
             </div>
 
             @for (podAssignment of podAssignmentWrapper.podAssignments; track podAssignment) {
-                <!--div class='cell day weekDay' -->
-                        <!--{{podAssignment.day}};{{podAssignment.dayAsStr}};{{DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr)}}-->
                 <div class='cell day '
-                     [class]="{weekEnd: DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr), weekDay: !DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr) }">
-                    <!--div class='cell day ' [class]="{weekEnd: isWeekEnd2(podAssignment.day | date: 'dd.MM.YYYY'), weekDay: !isWeekEnd2(podAssignment.day | date: 'dd.MM.YYYY') }"-->
+                     [class]="{weekEnd: DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr), weekDay: !DateUtils.isWeekend(podAssignment.day, podAssignment.dayAsStr) }"
+                     >
 
-                    <div style='height:100%;width:50%;'
+                <div style='height:100%;width:50%;'
                          class='daypart morning {{podAssignment.morning.pod?.podStyleClass}} {{podAssignment.morning.availabilityType}}'
                          title='{{podAssignment.morning.pod?.podName}} {{podAssignment.morning.availabilityType}}'
 
@@ -121,7 +143,7 @@
 
                     </div>
                     <div style='height:100%;width:50%;'
-                         class='daypart afternoon {{podAssignment.afternoon?.pod?.podStyleClass}} {{podAssignment.afternoon?.availabilityType}}'
+                         class='daypart afternoon {{podAssignment.afternoon?.pod?.podStyleClass}} {{podAssignment.afternoon.availabilityType}}'
                          title='{{podAssignment.afternoon.pod?.podName}} {{podAssignment.afternoon.availabilityType}}'
 
                          (mousedown)="onDragStart($event, podAssignmentWrapper, podAssignmentWrapper.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.dayAsStr, podAssignment.day)"
@@ -133,7 +155,7 @@
             }
         </div>
     }
-
+    </div>
 </table>
 
 

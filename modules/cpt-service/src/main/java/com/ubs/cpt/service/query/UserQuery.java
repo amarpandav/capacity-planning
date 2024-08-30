@@ -21,12 +21,11 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
 
     public UserQuery(EntityManager em, boolean count, DateTimeService dateTimeService) {
         super(em, dateTimeService, !count ?
-            "select u.uuid, u.name, u.gpin from cpt_user u "
-            :
-            "select count(u.uuid) from cpt_user u "
+                "select u.uuid, u.name, u.gpin, u.job_title, u.country from cpt_user u "
+                :
+                "select count(u.uuid) from cpt_user u "
         );
     }
-
 
     public UserQuery withUserEntityId(EntityId<User> uEntityId) {
         and("u.uuid = :uUuid", "uUuid", uEntityId.getUuid());
@@ -43,6 +42,15 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
         return this;
     }
 
+    public UserQuery withJobTitle(String jt) {
+        andLike("lower(u.job_title) like lower(:jt)", "jt", jt);
+        return this;
+    }
+
+    public UserQuery withCountry(String country) {
+        andLike("lower(u.country) like lower(:country)", "country", country);
+        return this;
+    }
     /*public UserQuery withFullTextSearch(String searchCriteria) {
         if (!StringUtils.isBlank(searchCriteria)) {
             newSearchCriteriaBuilder()
@@ -59,14 +67,21 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
 
         //Global search
         //withFullTextSearch(parameters.getName());
-        withUserName(parameters.getName());
+        parameters.getName().ifPresent(this::withUserName);
 
         parameters.getGpin().ifPresent(gpin -> withUserKey(new UserKey(gpin)));
+
+        parameters.getJobTitle().ifPresent(this::withJobTitle);
+
+        parameters.getCountry().ifPresent(this::withCountry);
 
         if (sort) {
             for (SortBy sortBy : parameters.getSortBy()) {
                 boolean ascending = sortBy.getDirection() == SortBy.SortDirection.ASCENDING;
                 orderBy("u.name", ascending, ifTrue("name".equals(sortBy.getFieldName())));
+                orderBy("u.job_title", ascending, ifTrue("jobTitle".equals(sortBy.getFieldName())));
+                orderBy("u.country", ascending, ifTrue("country".equals(sortBy.getFieldName())));
+
             }
         }
         return this;
@@ -74,11 +89,6 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
 
     @Override
     public CollectionUtils.Transformer<TransformationSource, UserDto> getTransformer() {
-        return new CollectionUtils.Transformer<TransformationSource, UserDto>() {
-            @Override
-            public UserDto transform(TransformationSource input) {
-                return new UserDto.UserDtoTransformer().transform(input);
-            }
-        };
+        return input -> new UserDto.UserDtoTransformer().transform(input);
     }
 }

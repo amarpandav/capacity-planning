@@ -1,0 +1,49 @@
+package com.ubs.cpt.web.rest;
+
+import com.ubs.cpt.service.UserService;
+import com.ubs.cpt.service.dto.UserDto;
+import com.ubs.cpt.service.searchparams.UserSearchParameters;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * The rest controller for smoothie application.
+ *
+ * @author Amar Pandav
+ */
+@RestController
+@RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:4200")
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+    public record UserResponse(List<UserDto> users) {
+    }
+
+    public record UserCountResponse(int usersCount) {
+    }
+
+    /**
+     * Find Users based on Search Parameters
+     *
+     * @param searchParameters  User Search Parameters
+     * @return searched stories
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "findUsers")
+    //@ResponseBody
+    public ResponseEntity<UserResponse> findUsers(@RequestBody(required = false) UserSearchParameters searchParameters) {
+        List<UserDto> users = userService.findUsers(searchParameters);
+        return ResponseEntity.ok(new UserResponse(users));
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "countUsers")
+    @ResponseBody
+    public ResponseEntity<UserCountResponse> countUsers(@RequestBody UserSearchParameters searchParameters) {
+        return ResponseEntity.ok(new UserCountResponse(userService.countUsers(searchParameters)));
+    }
+}
