@@ -15,11 +15,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "serve": {
-            "options": {
-              "proxyConfig": "proxy.conf.json"
-            }
-          },
+
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/cpt-ui-angular",
@@ -49,6 +45,18 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -60,8 +68,7 @@
                   "maximumWarning": "2kB",
                   "maximumError": "4kB"
                 }
-              ],
-              "outputHashing": "all"
+              ]
             },
             "development": {
               "optimization": false,
@@ -115,5 +122,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

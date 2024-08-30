@@ -49,7 +49,7 @@ npm-build:
     - cd modules/cpt-ui/cpt-ui-angular
   script:
     - npm i --f
-    - npm run build --prod
+    - ng build --configuration production
   artifacts:
     paths:
       - modules/cpt-ui/cpt-ui-angular/dist
