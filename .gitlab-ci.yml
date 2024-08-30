@@ -46,6 +46,7 @@ npm-build:
   stage: build-ui
   image: node:18
   before_script:
+    - npm install -g @angular/cli
     - cd modules/cpt-ui/cpt-ui-angular
   script:
     - npm i --f
