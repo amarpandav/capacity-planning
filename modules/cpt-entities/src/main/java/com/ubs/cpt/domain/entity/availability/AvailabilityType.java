@@ -10,6 +10,10 @@ public enum AvailabilityType {
         return this == AvailabilityType.AVAILABLE;
     }
 
+    public boolean isNotAvailable() {
+        return !isAvailable();
+    }
+
     public boolean isAbsent() {
         return this == AvailabilityType.ABSENT;
     }

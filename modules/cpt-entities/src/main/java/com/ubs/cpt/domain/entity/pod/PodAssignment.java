@@ -10,7 +10,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
-//TODO: Amar feedback: Use PodAssignment instead of UserBookedCapacity and UserUnAvailableCapacity
 /**
  * Entity representing cpt_pod_assignment DB table.
  */
@@ -121,6 +120,26 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
 
     public Pod getAfternoonPod() {
         return afternoonPod;
+    }
+
+    public PodAssignment setMorningAvailabilityType(AvailabilityType morningAvailabilityType) {
+        this.morningAvailabilityType = morningAvailabilityType;
+        return this;
+    }
+
+    public PodAssignment setAfternoonAvailabilityType(AvailabilityType afternoonAvailabilityType) {
+        this.afternoonAvailabilityType = afternoonAvailabilityType;
+        return this;
+    }
+
+    public PodAssignment setMorningPod(Pod morningPod) {
+        this.morningPod = morningPod;
+        return this;
+    }
+
+    public PodAssignment setAfternoonPod(Pod afternoonPod) {
+        this.afternoonPod = afternoonPod;
+        return this;
     }
 }
 

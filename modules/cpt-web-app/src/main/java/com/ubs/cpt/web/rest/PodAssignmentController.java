@@ -36,7 +36,7 @@ public class PodAssignmentController {
             @PathVariable("id") String podId,
             @RequestBody CreateAssignmentsService.CreateAssignmentsRequest request) {
         createAssignmentsService.execute(new CreateAssignmentsService.CreateAssignmentsRequest(
-                podId, request.userIds(), request.startDate(), request.endDate(), null, null
+                podId, request.userIds(), request.startDate(), request.endDate(), request.startTimeSlot(), request.endTimeSlot()
         ));
         return ResponseEntity.ok().build();
     }
