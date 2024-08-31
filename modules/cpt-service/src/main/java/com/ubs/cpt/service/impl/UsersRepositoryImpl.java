@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class UsersRepository {
+public class UsersRepositoryImpl {
     @PersistenceContext
     private EntityManager em;
 

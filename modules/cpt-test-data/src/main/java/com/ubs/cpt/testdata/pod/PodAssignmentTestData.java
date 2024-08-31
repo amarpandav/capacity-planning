@@ -8,6 +8,7 @@ import com.ubs.cpt.infra.test.base.TestDataSuite;
 import com.ubs.cpt.testdata.user.UserTestdata;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Testdata for {@link PodAssignment}.
@@ -88,6 +89,33 @@ public class PodAssignmentTestData {
                 .withAfternoonPod(PodTestdata.suiteSynthetic().GIM)
                 .create());
 
+        public PodAssignment AMAR_ABSENT_DAY1 = register(new PodAssignmentTestData()
+                .withDay(LocalDate.parse("13.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                .withUser(UserTestdata.suiteSynthetic().AMAR)
+                .withMorningAvailabilityType(AvailabilityType.ABSENT)
+                .withAfternoonAvailabilityType(AvailabilityType.ABSENT)
+                .create());
+
+        public PodAssignment AMAR_ABSENT_DAY2 = register(new PodAssignmentTestData()
+                .withDay(LocalDate.parse("14.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                .withUser(UserTestdata.suiteSynthetic().AMAR)
+                .withMorningAvailabilityType(AvailabilityType.ABSENT)
+                .withAfternoonAvailabilityType(AvailabilityType.PUBLIC_HOLIDAY)
+                .create());
+
+        public PodAssignment THOMAS_ABSENT_DAY1 = register(new PodAssignmentTestData()
+                .withDay(LocalDate.parse("09.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                .withUser(UserTestdata.suiteSynthetic().AMAR)
+                .withMorningAvailabilityType(AvailabilityType.ABSENT)
+                .withAfternoonAvailabilityType(AvailabilityType.ABSENT)
+                .create());
+
+        public PodAssignment THOMAS_ABSENT_DAY2 = register(new PodAssignmentTestData()
+                .withDay(LocalDate.parse("18.08.2024", DateTimeFormatter.ofPattern("dd.MM.yyyy")))
+                .withUser(UserTestdata.suiteSynthetic().AMAR)
+                .withMorningAvailabilityType(AvailabilityType.ABSENT)
+                .withAfternoonAvailabilityType(AvailabilityType.ABSENT)
+                .create());
 
     }
 
