@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, viewChild} from '@angular/core';
 import {UserDto} from "../scheduler/models/user/user.model";
 import {UserService} from "../user/user.service";
 import {UserSearchParameters} from "../user/user.search.parameters";
@@ -20,6 +20,8 @@ export class UserViewingBoxComponent implements OnInit {
 
     selectedUser?: UserDto;
 
+    private avatarEl = viewChild.required<ElementRef<HTMLImageElement>>('avatar');
+
     constructor(private userService: UserService) {
     }
 
@@ -36,5 +38,11 @@ export class UserViewingBoxComponent implements OnInit {
                 }
             }
         });
+    }
+
+    //Profile pic not found, so load default profile picture.
+    defaultAvatar() {
+        this.avatarEl().nativeElement.src =  "./assets/users/default-profile-pic.jpg";
+        //return this.defaultAvatar;
     }
 }
