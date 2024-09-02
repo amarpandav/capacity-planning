@@ -31,12 +31,12 @@ export class SchedulerService {
             "endDate": schedulerSettings.endDate,
         };*/
 
-        const httpParams = new HttpParams()
+        /*const httpParams = new HttpParams()
                                             .set('startDate', '2024-08-01')
-                                            .set('endDate', '2024-10-01');
-        //TODO httpParams.append("startDate", DateUtils.formatToISODate(schedulerSettings.startDate));
-        //TODO httpParams.append("endDate", DateUtils.formatToISODate(schedulerSettings.endDate));
-
+                                            .set('endDate', '2024-10-01');*/
+        const httpParams = new HttpParams()
+            .set('startDate', DateUtils.formatToISODate(schedulerSettings.startDate))
+            .set('endDate', DateUtils.formatToISODate(schedulerSettings.endDate));
 
         //TODO not working
         return this.httpClient.get<{
@@ -52,7 +52,7 @@ export class SchedulerService {
                     if (PRODUCE_UI_TEST_DATA) {
                         let testDataObservable = of(POD_ASSIGNMENT_VIEW_TEST_DATA);
                         testDataObservable.subscribe((podAssignmentViewDto: PodAssignmentViewDto) => {
-                            console.log("podAssignmentViewDto inside ser:" + JSON.stringify(podAssignmentViewDto))
+                            console.log("findPodAssignments.catchError loading UI Test data:" + JSON.stringify(podAssignmentViewDto))
                             this.populateSchedulerTestData(schedulerSettings, podAssignmentViewDto)
                         });
                         return testDataObservable;
