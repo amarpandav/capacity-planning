@@ -4,7 +4,7 @@ export const USER_POD_WATCHERS_TEST_DATA = [
     {
         user: { //UserDto
             entityId: {uuid: 'HrishikeshRaghavanUuid'},
-            userKey: {gpin: 'HrishikeshRaghavanGpi'},
+            userKey: {gpin: '43333447'},
             name: 'Hrishikesh Raghavan',
             country: 'UK'
         },
@@ -34,7 +34,7 @@ export const USER_POD_WATCHERS_TEST_DATA = [
     {
         user: { //UserDto
             entityId: {uuid: 'NickTuffsUuid'},
-            userKey: {gpin: 'NickTuffsGpi'},
+            userKey: {gpin: '43568763'},
             name: 'Nick Tuffs',
             country: 'UK'
         },

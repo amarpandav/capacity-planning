@@ -14,7 +14,7 @@ export const POD_DETAILS_TEST_DATA = [
         podMemberRole: PodMemberRole.POD_LEAD,
         user: {//UserDto
           entityId: {uuid: 'NiteshShriyanUuid'},
-          userKey: {gpin: 'NiteshShriyanGPIN'},
+          userKey: {gpin: '49053180'},
           name: 'Nitesh Shriyan'
         },
       },
@@ -23,7 +23,7 @@ export const POD_DETAILS_TEST_DATA = [
         podMemberRole: PodMemberRole.SOLUTIONS_ARCHITECT,
         user: {//UserDto
           entityId: {uuid: 'AmarPandavUuid'},
-          userKey: {gpin: 'AmarPandavGPIN'},
+          userKey: {gpin: '49008491'},
           name: 'Amar Pandav'
         }
       },
@@ -32,7 +32,7 @@ export const POD_DETAILS_TEST_DATA = [
         podMemberRole: PodMemberRole.JAVA_DEVELOPER,
         user: {//UserDto
           entityId: {uuid: 'ThomasDoblerUuid'},
-          userKey: {gpin: 'ThomasDoblerGPIN'},
+          userKey: {gpin: '49041056'},
           name: 'Thomas Dobler'
         },
       }
@@ -42,7 +42,7 @@ export const POD_DETAILS_TEST_DATA = [
         uuid: 'podWatchHrishikeshRaghavanUuid1',
         user: { //UserDto
           entityId: {uuid: 'HrishikeshRaghavanUuid'},
-          userKey: {gpin: 'HrishikeshRaghavanGpi'},
+          userKey: {gpin: '43333447'},
           name: 'Hrishikesh Raghavan',
           country: 'UK'
         }
@@ -51,7 +51,7 @@ export const POD_DETAILS_TEST_DATA = [
         uuid: 'podWatchNickTuffsUuid2',
         user: {//UserDto
           entityId: {uuid: 'NickTuffsUuid'},
-          userKey: {gpin: 'NickTuffsGpi'},
+          userKey: {gpin: '43568763'},
           name: 'Nick Tuffs',
           country: 'UK'
         }
@@ -69,8 +69,8 @@ export const POD_DETAILS_TEST_DATA = [
         uuid: 'podMemberTimUuid1',
         user: {//UserDto
           entityId: {uuid: 'TimUuid'},
-          userKey: {gpin: 'TimGPIN'},
-          name: 'Tim'
+          userKey: {gpin: '49013788'},
+          name: 'Timothy Schilling'
         },
         podMemberRole: PodMemberRole.POD_LEAD
       },
@@ -78,7 +78,7 @@ export const POD_DETAILS_TEST_DATA = [
         uuid: 'podMemberKamilUuid1',
         user: {//UserDto
           entityId: {uuid: 'KamilLipinskiUuid'},
-          userKey: {gpin: 'KamilLipinskiGPIN'},
+          userKey: {gpin: '49063666'},
           name: 'Kamil Lipinski'
         },
         podMemberRole: PodMemberRole.JAVA_DEVELOPER
@@ -87,8 +87,8 @@ export const POD_DETAILS_TEST_DATA = [
         uuid: 'podMemberWiktorUuid1',
         user: {//UserDto
           entityId: {uuid: 'WiktorUuid'},
-          userKey: {gpin: 'WiktorGPIN'},
-          name: 'Wiktor'
+          userKey: {gpin: '49064232'},
+          name: 'Wiktor Rosinski'
         },
         podMemberRole: PodMemberRole.JAVA_DEVELOPER
       }
@@ -98,7 +98,7 @@ export const POD_DETAILS_TEST_DATA = [
         uuid: 'podBartoszMarciniakUuid1',
         user: {//UserDto
           entityId: {uuid: 'podWatchBartoszMarciniakUuid'},
-          userKey: {gpin: 'BartoszMarciniakGpin'},
+          userKey: {gpin: '49017821'},
           name: 'Bartosz Marciniak',
           country: 'Switzerland'
         }
@@ -107,7 +107,7 @@ export const POD_DETAILS_TEST_DATA = [
         uuid: 'podWatchNickTuffsUuid2',
         user: {//UserDto
           entityId: {uuid: 'NickTuffsUuid'},
-          userKey: {gpin: 'NickTuffsGpi'},
+          userKey: {gpin: '43568763'},
           name: 'Nick Tuffs',
           country: 'UK'
         }

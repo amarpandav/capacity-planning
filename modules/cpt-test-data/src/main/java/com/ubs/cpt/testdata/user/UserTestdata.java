@@ -40,64 +40,63 @@ public class UserTestdata {
 
 
     public User create() {
-        User user = new User(name, key, jobTitle, country);
-        return user;
+        return new User(name, key, jobTitle, country);
     }
 
 
     public static class SuiteSynthetic extends TestDataSuite<User> {
         public User AMAR = register(new com.ubs.cpt.testdata.user.UserTestdata()
                 .withName("Amar Pandav")
-                .withGPIN(new UserKey("AmarPandavGPIN"))
+                .withGPIN(new UserKey("49008491"))
                 .withJobTitle("Engineering Lead")
                 .withCountry("Switzerland")
                 .create());
 
         public User THOMAS = register(new com.ubs.cpt.testdata.user.UserTestdata()
                 .withName("Thomas Dobler")
-                .withGPIN(new UserKey("ThomasDoblerGPIN"))
+                .withGPIN(new UserKey("49041056"))
                 .withJobTitle("Software Developer")
                 .withCountry("Switzerland")
                 .create());
 
         public User WIKTOR = register(new com.ubs.cpt.testdata.user.UserTestdata()
-                .withName("Wiktor")
-                .withGPIN(new UserKey("WiktorGPIN"))
+                .withName("Wiktor Rosinski")
+                .withGPIN(new UserKey("49064232"))
                 .withJobTitle("Software Developer")
                 .withCountry("Poland")
                 .create());
 
         public User KAMIL = register(new com.ubs.cpt.testdata.user.UserTestdata()
                 .withName("Kamil Lipinski")
-                .withGPIN(new UserKey("KamilLipinskiGPIN"))
+                .withGPIN(new UserKey("49063666"))
                 .withJobTitle("Software Developer")
                 .withCountry("Poland")
                 .create());
 
         public User NITESH = register(new com.ubs.cpt.testdata.user.UserTestdata()
-                .withName("Nitesh Shriya")
-                .withGPIN(new UserKey("NiteshShriyanGPIN"))
-                .withJobTitle("Delivery Manager")
+                .withName("Nitesh Shriyan")
+                .withGPIN(new UserKey("49053180"))
+                .withJobTitle("Project Manager")
                 .withCountry("Switzerland")
                 .create());
 
         public User TIM = register(new com.ubs.cpt.testdata.user.UserTestdata()
-                .withName("Tim")
-                .withGPIN(new UserKey("TimGPIN"))
-                .withJobTitle("Delivery Manager")
+                .withName("Timothy Schilling")
+                .withGPIN(new UserKey("49013788"))
+                .withJobTitle("Project Manager")
                 .withCountry("Switzerland")
                 .create());
 
         public User HRISHI = register(new com.ubs.cpt.testdata.user.UserTestdata()
                 .withName("Hrishikesh Raghavan")
-                .withGPIN(new UserKey("HrishikeshRaghavanGPIN"))
+                .withGPIN(new UserKey("43333447"))
                 .withJobTitle("Engineering Head")
                 .withCountry("UK")
                 .create());
 
         public User NT = register(new com.ubs.cpt.testdata.user.UserTestdata()
-                .withName("NT")
-                .withGPIN(new UserKey("NTGPIN"))
+                .withName("Nick Tuffs")
+                .withGPIN(new UserKey("43568763"))
                 .withJobTitle("AGO Head")
                 .withCountry("UK")
                 .create());

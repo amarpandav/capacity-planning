@@ -1,21 +1,21 @@
 export const USER_TEST_DATA = [
   {
     entityId: {uuid: 'AmarPandavUuid'},
-    userKey: {gpin: 'AmarPandavGPIN'},
+    userKey: {gpin: '49008491'},
     name: 'Amar Pandav',
     jobTitle: "AGO-CS Development Lead",
     country: 'Switzerland'
   },
   {
     entityId: {uuid: 'ThomasDoblerUuid'},
-    userKey: {gpin: 'ThomasDoblerGPIN'},
+    userKey: {gpin: '49041056'},
     name: 'Thomas Dobler',
     jobTitle: "AGO Software Developer",
     country: 'Switzerland'
   },
   {
     entityId: {uuid: 'KamilLipinskiUuid'},
-    userKey: {gpin: 'KamilLipinskiGPIN'},
+    userKey: {gpin: '49063666'},
     name: 'Kamil Lipinski',
     jobTitle: "AGO Software Developer",
     country: 'Poland'
@@ -23,13 +23,13 @@ export const USER_TEST_DATA = [
   {
     entityId: {uuid: 'WiktorUuid'},
     userKey: {gpin: 'KamilLipWiktorGPINinskiGPIN'},
-    name: 'Wiktor',
+    name: 'Wiktor Rosinski',
     jobTitle: "AGO Software Developer",
     country: 'Poland'
   },
   {
     entityId: {uuid: 'NiteshShriyanUuid'},
-    userKey: {gpin: 'NiteshShriyanGPIN'},
+    userKey: {gpin: '49053180'},
     name: 'Nitesh Shriyan',
     jobTitle: "Delivery Manager",
     country: 'Switzerland'
@@ -43,33 +43,33 @@ export const USER_TEST_DATA = [
   },
   {
     entityId: {uuid: 'TimUuid'},
-    userKey: {gpin: 'TimGPIN'},
-    name: 'Tim',
+    userKey: {gpin: '49013788'},
+    name: 'Timothy Schilling',
     jobTitle: "Delivery Manager",
     country: 'Switzerland'
   },
   {
-    entityId: {uuid: 'Bart U Uuid'},
-    userKey: {gpin: 'BartUGPIN'},
-    name: 'Bart U',
+    entityId: {uuid: 'Bart Uzalowicz Uuid'},
+    userKey: {gpin: '49013938'},
+    name: 'Bart Uzalowicz',
     jobTitle: "Product Owner",
     country: 'Switzerland'
   },
   {
     entityId: {uuid: 'HrishikeshRaghavanUuid'},
-    userKey: {gpin: 'HrishikeshRaghavanGpi'},
+    userKey: {gpin: '43333447'},
     name: 'Hrishikesh Raghavan',
     country: 'UK'
   },
   {
     entityId: {uuid: 'NickTuffsUuid'},
-    userKey: {gpin: 'NickTuffsGpi'},
+    userKey: {gpin: '43568763'},
     name: 'Nick Tuffs',
     country: 'UK'
   },
   {
     entityId: {uuid: 'BartoszMarciniakUuid'},
-    userKey: {gpin: 'BartoszMarciniakGPIN'},
+    userKey: {gpin: '49017821'},
     name: 'Bartosz Marciniak',
     country: 'Switzerland'
   }

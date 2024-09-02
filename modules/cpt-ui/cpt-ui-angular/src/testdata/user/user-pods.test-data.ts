@@ -5,7 +5,7 @@ export const USER_PODS_TEST_DATA = [
     {
         user: {//UserDto
             entityId: {uuid: 'NiteshShriyanUuid'},
-            userKey: {gpin: 'NiteshShriyanGPIN'},
+            userKey: {gpin: '49053180'},
             name: 'Nitesh Shriyan'
         },
         userPodDetails: [
@@ -36,7 +36,7 @@ export const USER_PODS_TEST_DATA = [
     {
         user: {//UserDto
             entityId: {uuid: 'AmarPandavUuid'},
-            userKey: {gpin: 'AmarPandavGPIN'},
+            userKey: {gpin: '49008491'},
             name: 'Amar Pandav'
         },
         userPodDetails: [
@@ -67,7 +67,7 @@ export const USER_PODS_TEST_DATA = [
     {
         user: {//UserDto
             entityId: {uuid: 'ThomasDoblerUuid'},
-            userKey: {gpin: 'ThomasDoblerGPIN'},
+            userKey: {gpin: '49041056'},
             name: 'Thomas Dobler'
         },
         userPodDetails: [
@@ -87,8 +87,8 @@ export const USER_PODS_TEST_DATA = [
     {
         user: {//UserDto
             entityId: {uuid: 'TimUuid'},
-            userKey: {gpin: 'TimGPIN'},
-            name: 'Tim'
+            userKey: {gpin: '49013788'},
+            name: 'Timothy Schilling'
         },
         userPodDetails: [
             {
@@ -107,7 +107,7 @@ export const USER_PODS_TEST_DATA = [
     {
         user: {//UserDto
             entityId: {uuid: 'KamilLipinskiUuid'},
-            userKey: {gpin: 'KamilLipinskiGPIN'},
+            userKey: {gpin: '49063666'},
             name: 'Kamil Lipinski'
         },
         userPodDetails: [
@@ -127,8 +127,8 @@ export const USER_PODS_TEST_DATA = [
     {
         user: {//UserDto
             entityId: {uuid: 'WiktorUuid'},
-            userKey: {gpin: 'WiktorGPIN'},
-            name: 'Wiktor'
+            userKey: {gpin: '49064232'},
+            name: 'Wiktor Rosinski'
         },
         userPodDetails: [
             {
