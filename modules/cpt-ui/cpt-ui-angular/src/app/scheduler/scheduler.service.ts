@@ -25,12 +25,6 @@ export class SchedulerService {
 
     //dialog is displayed inside AppComponent.ts
     findPodAssignments(currentPodToView: PodDto, schedulerSettings: SchedulerSettingsDto) {
-        /*var searchParams = {
-            //"podUuid": currentPodToView.uuid,
-            "startDate": schedulerSettings.startDate,
-            "endDate": schedulerSettings.endDate,
-        };*/
-
         /*const httpParams = new HttpParams()
                                             .set('startDate', '2024-08-01')
                                             .set('endDate', '2024-10-01');*/
