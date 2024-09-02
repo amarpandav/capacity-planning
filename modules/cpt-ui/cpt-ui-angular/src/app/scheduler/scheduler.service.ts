@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {catchError, map, of, throwError} from 'rxjs';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {PodAssignmentViewDto} from "./models/pod-view/pod-view.model";
 import {ErrorService} from "../error-dialog/error.service";
 import {POD_ASSIGNMENT_VIEW_TEST_DATA} from "../../testdata/scheduler/pod-assignment-view.test-data";
@@ -48,7 +48,7 @@ export class SchedulerService {
                     return resBody.podAssignmentView
                 }),
                 //map( (resBody) => resBody.places),
-                catchError((error) => {
+                catchError((error: HttpErrorResponse) => {
                     if (PRODUCE_UI_TEST_DATA) {
                         let testDataObservable = of(POD_ASSIGNMENT_VIEW_TEST_DATA);
                         testDataObservable.subscribe((podAssignmentViewDto: PodAssignmentViewDto) => {
@@ -57,7 +57,7 @@ export class SchedulerService {
                         });
                         return testDataObservable;
                     } else {
-                        this.errorService.showError('Failed to perform findPodAssignments.', error.error.message)
+                        this.errorService.showError(error.status, 'Failed to perform findPodAssignments', error.error.message)
                         return throwError(() => new Error('Something went wrong : ' + error.message))
                     }
                 })

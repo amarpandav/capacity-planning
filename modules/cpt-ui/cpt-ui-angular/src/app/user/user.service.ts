@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {catchError, map, of, throwError} from 'rxjs';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ErrorService} from "../error-dialog/error.service";
 import {UserDto} from "../scheduler/models/user/user.model";
 import {USER_TEST_DATA} from "../../testdata/user/user.test-data";
@@ -25,11 +25,12 @@ export class UserService {
                     return resBody.users
                 }),
                 //map( (resBody) => resBody.places),
-                catchError((error) => {
+                catchError((error: HttpErrorResponse) => {
                     if (PRODUCE_UI_TEST_DATA) {
                         return of(USER_TEST_DATA);
                     } else {
-                        this.errorService.showError('Failed to perform findUsers().', error.error.message)
+                        //console.log(JSON.stringify(error));
+                        this.errorService.showError(error.status, 'Failed to perform findUsers()', error.error.message)
                         return throwError(() => new Error('Something went wrong : ' + error.message))
                     }
                 })

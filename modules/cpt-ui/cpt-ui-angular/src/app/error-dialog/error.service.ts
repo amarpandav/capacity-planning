@@ -10,9 +10,15 @@ export class ErrorService {
   error = this._error.asReadonly();
   additionalMessage = this._additionalError.asReadonly();
 
-  showError(message: string, additionalMessage?: string) {
-    console.log(message);
-    console.log(additionalMessage);
+  showError(errorStatus: number, message: string, additionalMessage?: string) {
+    /*console.log(message);
+    console.log(errorStatus);*/
+    if(errorStatus === 0 && !additionalMessage) {
+      additionalMessage = "Not able to connect to backend. Connection refused!"
+    }
+    //console.log(additionalMessage);
+    console.log("errorStatus: "+ errorStatus, ", message: "+ message, ", additionalMessage: "+additionalMessage);
+
     this._error.set(message);
     if(additionalMessage){
       this._additionalError.set(additionalMessage);
