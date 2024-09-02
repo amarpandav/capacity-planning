@@ -14,30 +14,14 @@
     </div>
 </dialog-->
 
+<app-user-viewing-box></app-user-viewing-box>
+
 <div style='display:flex'>
-    <div class="card" style="width: 15rem; margin-right:10px">
-        <div class="card-body">
-            <h5 class="card-title">Users</h5>
-            <p class="card-text"></p>
 
-            <div>
-                <ul id="users">
-                    <!-- @for got introduced since angular 17, older implementation is to use a structural directive *ngFor
-                    Do not forget to import NgFor in ts file.
-                    e.g. <li *ngFor="let user of allUsers" and  >-->
-                    @for (user of users; track user.entityId) {
-                        <!--unique identifier to track each row so i used user.id-->
-                        <li>
-                            <app-user [user]="user"
-                                              (selectUserAsOutputEvent)="onSelectedUserEventListener($event)"
-                                              [selected]="user.entityId.uuid === selectedUser?.entityId?.uuid"/>
-                        </li>}
-                </ul>
+    <!--{{selectedUser?.name}};
+    <app-user-list (selectUserAsOutputEvent)="onSelectedUserEventListener($event)"></app-user-list>
+    -->
 
-            </div>
-
-        </div>
-    </div>
     <div class="card" style="width: 50rem; margin-right:10px">
         <div class="card-body">
             <h5 class="card-title">Scheduler</h5>

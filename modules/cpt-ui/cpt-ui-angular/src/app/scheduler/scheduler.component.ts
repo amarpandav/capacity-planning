@@ -28,8 +28,9 @@ import {SchedulerService} from "./scheduler.service";
 import {Subscription} from "rxjs";
 import {SchedulerHeaderDto} from "../scheduler-header/scheduler-header.model";
 import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
-import {UserService} from "../user/user.service";
 import {UserComponent} from "../user/user.component";
+import {UserListComponent} from "../user-list/user-list.component";
+import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.component";
 
 
 @Component({
@@ -38,7 +39,9 @@ import {UserComponent} from "../user/user.component";
     imports: [
         FormsModule,
         DatePipe,
-        UserComponent
+        UserComponent,
+        UserListComponent,
+        UserViewingBoxComponent
     ],
     templateUrl: './scheduler.component.html',
     styleUrl: './scheduler.component.scss'
@@ -56,9 +59,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     protected readonly pods: PodDto[] = POD_TEST_DATA;
     protected readonly podDetails: PodDetailsDto[] = POD_DETAILS_TEST_DATA;
-
-    //protected readonly users: UserDto[] = USER_TEST_DATA;
-    protected users?: UserDto[];
 
     //protected readonly schedulerViews: PodViewDto[] = SCHEDULER_VIEW_TEST_DATA;
     protected podAssignmentViewDto?: PodAssignmentViewDto;
@@ -90,8 +90,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     constructor(private datePipe: DatePipe,
                 private destroyRef: DestroyRef,
                 private schedulerService: SchedulerService,
-                private schedulerHeaderService: SchedulerHeaderService,
-                private userService: UserService) {
+                private schedulerHeaderService: SchedulerHeaderService) {
         this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
     }
 
@@ -102,8 +101,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         //this.isLoadingPlaces.set(true);
-
-        this.findUsers();
         this.findPodAssignmentView();
     }
 
@@ -129,24 +126,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.destroySubscription(subscription1);
     }
 
-    private findUsers() {
-        const subscription1 = this.userService.findUsers()
-            .subscribe({
-                    next: (users) => {
-                        //console.log("SchedulerComponent.findUsers(): Data is: ");
-                        //console.log(users);
-                        this.users = users;
-                    }
-                }
-            );
-
-        //Destroy is optional
-        this.destroySubscription(subscription1);
-    }
-
     private destroySubscription(subscription: Subscription) {
         this.destroyRef.onDestroy(() => {
-            subscription.unsubscribe(); //technical this is not required but its a good idea plus i can demo this;)
+            subscription.unsubscribe(); //technical this is not required but its a good idea
         });
     }
 
