@@ -11,15 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/application")
 public class ApplicationController {
 
-    @Value("${application.version}")
-    private String applicationVersion;
-
-    @GetMapping("/version")
-    public ApplicationDto getApplicationVersion(){
-        return new ApplicationDto(applicationVersion);
+    private record ApplicationResponse(String version) {
     }
 
+    private final String applicationVersion;
 
-    record ApplicationDto(String version) {
+    public ApplicationController(@Value("${application.version}") String applicationVersion) {
+        this.applicationVersion = applicationVersion;
+    }
+
+    @GetMapping("/version")
+    public ApplicationResponse getApplicationVersion() {
+        return new ApplicationResponse(applicationVersion);
     }
 }

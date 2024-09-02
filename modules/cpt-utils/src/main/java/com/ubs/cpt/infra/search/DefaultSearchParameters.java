@@ -31,7 +31,7 @@ public class DefaultSearchParameters<E> implements Serializable, Cloneable, Sear
     private List<FilterBy> filterBy = new ArrayList<FilterBy>();
 
     /**
-     * Free text to search for almost any thing
+     * Free text to search for almost anything
      */
     private String fullTextSearch;
 
@@ -147,6 +147,41 @@ public class DefaultSearchParameters<E> implements Serializable, Cloneable, Sear
 
     public void setFullTextSearch(String fullTextSearch) {
         this.fullTextSearch = fullTextSearch;
+    }
+
+    public DefaultSearchParameters withEntityId(EntityId<E> entityId) {
+        setEntityId(entityId);
+        return this;
+    }
+
+    public DefaultSearchParameters withWithoutEntityIds(List<EntityId<E>> withoutEntityIds) {
+        setWithoutEntityIds(withoutEntityIds);
+        return this;
+    }
+
+    public DefaultSearchParameters withSortBy(List<SortBy> sortBy) {
+        setSortBy(sortBy);
+        return this;
+    }
+
+    public DefaultSearchParameters withFilterBy(List<FilterBy> filterBy) {
+        setFilterBy(filterBy);
+        return this;
+    }
+
+    public DefaultSearchParameters withFullTextSearch(String fullTextSearch) {
+        setFullTextSearch(fullTextSearch);
+        return this;
+    }
+
+    public DefaultSearchParameters withFrom(int from) {
+        setFrom(from);
+        return this;
+    }
+
+    public DefaultSearchParameters withPageSize(Integer pageSize) {
+        setPageSize(pageSize);
+        return this;
     }
 
     @Override

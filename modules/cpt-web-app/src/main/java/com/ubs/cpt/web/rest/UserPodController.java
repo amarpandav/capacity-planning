@@ -2,7 +2,9 @@ package com.ubs.cpt.web.rest;
 
 import com.ubs.cpt.domain.EntityId;
 import com.ubs.cpt.service.UserPodService;
+import com.ubs.cpt.service.UserService;
 import com.ubs.cpt.service.dto.PodInfo;
+import com.ubs.cpt.service.searchparams.UserSearchParameters;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +17,16 @@ import java.util.Set;
 @RequestMapping("/users/{userId}")
 public class UserPodController {
 
+    private record UserPodsResponse(String uuid, Set<PodInfo> pods) {
+    }
+
     private final UserPodService service;
 
-    public UserPodController(UserPodService service) {
+    private final UserService userService;
+
+    public UserPodController(UserPodService service, UserService userService) {
         this.service = service;
+        this.userService = userService;
     }
 
     @GetMapping("/pod-member-pods")
@@ -33,5 +41,28 @@ public class UserPodController {
         return ResponseEntity.ok(new UserPodsResponse(userId, userPods));
     }
 
-    record UserPodsResponse(String uuid, Set<PodInfo> pods) {}
+    // debugging purposes
+    private record UserPodsRelationResponse(String uuid,
+                                            String name,
+                                            UserPodsResponse member,
+                                            UserPodsResponse watcher) {
+    }
+
+    // debugging purposes
+    @GetMapping("/pod-relation-pods")
+    public ResponseEntity<UserPodsRelationResponse> getUsersPodRelationPods(@PathVariable("userId") String userId) {
+        var user = this.userService
+                .findUsers((UserSearchParameters) new UserSearchParameters().withEntityId(new EntityId<>(userId)))
+                .getFirst();
+        var memberOf = service.getUserPodMemberPods(new EntityId<>(userId));
+        var watcherOf = service.getUserPodWatcherPods(new EntityId<>(userId));
+        return ResponseEntity.ok(
+                new UserPodsRelationResponse(
+                        userId,
+                        user.getName(),
+                        new UserPodsResponse(userId, memberOf),
+                        new UserPodsResponse(userId, watcherOf)
+                )
+        );
+    }
 }

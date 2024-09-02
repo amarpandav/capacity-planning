@@ -31,6 +31,22 @@ public class PodAssignmentController {
                 new PodAssignmentService.PodAssignmentRequest(podId, startDate, endDate)));
     }
 
+    // debugging purposes
+    // TODO ultra slow and OutOfMemoryError: Java heap space
+    // check implementation
+    @GetMapping("/{id}/all-assignments")
+    public ResponseEntity<PodAssignmentsResponse> getAllPodAssignments(@PathVariable("id") String podId) {
+
+        return ResponseEntity.ok(podAssignmentService.getPodAssignment(
+                        new PodAssignmentService.PodAssignmentRequest(
+                                podId,
+                                LocalDate.MIN,
+                                LocalDate.MAX.minusDays(1)
+                        )
+                )
+        );
+    }
+
     @PostMapping("/{id}/assignments")
     public ResponseEntity createAssignments(
             @PathVariable("id") String podId,

@@ -3,14 +3,13 @@ package com.ubs.cpt.web.rest;
 import com.ubs.cpt.service.UserService;
 import com.ubs.cpt.service.dto.UserDto;
 import com.ubs.cpt.service.searchparams.UserSearchParameters;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * The rest controller for smoothie application.
+ * The rest controller for user management.
  *
  * @author Amar Pandav
  */
@@ -19,13 +18,16 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
-    public record UserResponse(List<UserDto> users) {
+    private record UserResponse(List<UserDto> users) {
     }
 
-    public record UserCountResponse(int usersCount) {
+    private record UserCountResponse(int usersCount) {
+    }
+
+    private final UserService userService;
+
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 
     /**
@@ -35,15 +37,20 @@ public class UserController {
      * @return searched stories
      */
     @RequestMapping(method = RequestMethod.POST, value = "findUsers")
-    //@ResponseBody
     public ResponseEntity<UserResponse> findUsers(@RequestBody(required = false) UserSearchParameters searchParameters) {
         List<UserDto> users = userService.findUsers(searchParameters);
         return ResponseEntity.ok(new UserResponse(users));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "countUsers")
-    @ResponseBody
     public ResponseEntity<UserCountResponse> countUsers(@RequestBody UserSearchParameters searchParameters) {
         return ResponseEntity.ok(new UserCountResponse(userService.countUsers(searchParameters)));
+    }
+
+    // Debugging purpose
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<UserResponse> getAllUsers(){
+        List<UserDto> users = userService.findUsers(new UserSearchParameters());
+        return ResponseEntity.ok(new UserResponse(users));
     }
 }

@@ -2,6 +2,7 @@ package com.ubs.cpt.web.rest;
 
 import com.ubs.cpt.domain.EntityId;
 import com.ubs.cpt.service.GetAllVisiblePodsService;
+import com.ubs.cpt.service.PodService;
 import com.ubs.cpt.service.dto.PodDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,17 +16,32 @@ import java.util.List;
 @RequestMapping("/pods")
 public class PodController {
 
-    private final GetAllVisiblePodsService service;
+    private record PodsResponse(List<PodDto> pods) {
+    }
 
-    public PodController(GetAllVisiblePodsService service) {
-        this.service = service;
+    private final GetAllVisiblePodsService getAllVisiblePodsService;
+
+    private final PodService podService;
+
+    public PodController(
+            GetAllVisiblePodsService getAllVisiblePodsService,
+            PodService podService) {
+        this.getAllVisiblePodsService = getAllVisiblePodsService;
+        this.podService = podService;
     }
 
     @GetMapping("/{id}/visible-pods")
     public ResponseEntity<PodsResponse> getAllVisiblePods(@PathVariable("id") String podId) {
-        List<PodDto> allVisiblePods = service.getAllVisiblePods(new EntityId<>(podId));
+        List<PodDto> allVisiblePods = getAllVisiblePodsService.getAllVisiblePods(new EntityId<>(podId));
         return ResponseEntity.ok(new PodsResponse(allVisiblePods));
     }
 
-    record PodsResponse(List<PodDto> pods) {}
+    // Debugging purposes
+    @GetMapping
+    ResponseEntity<PodsResponse> getAllPods() {
+        var allPods = podService.getAllPods();
+        return ResponseEntity.ok(new PodsResponse(allPods));
+    }
+
+
 }

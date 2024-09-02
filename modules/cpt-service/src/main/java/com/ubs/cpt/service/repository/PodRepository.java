@@ -30,4 +30,10 @@ public interface PodRepository extends JpaRepository<Pod, EntityId<User>> {
             where p1.uuid = :podId)
     """, nativeQuery = true)
     Set<Pod> findAllVisiblePods(@Param("podId") String podId);
+
+    @Query(value = """
+        select * 
+        from cpt_pod p 
+    """, nativeQuery = true)
+    Set<Pod> findAllPods();
 }
