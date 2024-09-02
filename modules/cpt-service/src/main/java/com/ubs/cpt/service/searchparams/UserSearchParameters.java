@@ -2,6 +2,7 @@ package com.ubs.cpt.service.searchparams;
 
 
 import com.ubs.cpt.domain.entity.user.User;
+import com.ubs.cpt.domain.entity.user.UserKey;
 import com.ubs.cpt.infra.search.DefaultSearchParameters;
 import com.ubs.cpt.infra.search.SortBy;
 
@@ -14,7 +15,8 @@ public class UserSearchParameters extends DefaultSearchParameters<User> {
 
     private String name;
 
-    private String gpin;
+    //private String gpin;
+    private UserKey userKey;
 
     private String jobTitle;
 
@@ -24,12 +26,12 @@ public class UserSearchParameters extends DefaultSearchParameters<User> {
         getSortBy().add(new SortBy("name", SortBy.SortDirection.ASCENDING));
     }
 
-    public Optional<String> getGpin() {
-        return Optional.ofNullable(gpin);
+    public Optional<UserKey> getUserKey() {
+        return Optional.ofNullable(userKey);
     }
 
-    public void setGpin(String gpin) {
-        this.gpin = gpin;
+    public void setUserKey(UserKey userKey) {
+        this.userKey = userKey;
     }
 
     public void setName(String name) {

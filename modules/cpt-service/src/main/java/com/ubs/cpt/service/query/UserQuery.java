@@ -69,7 +69,8 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
         //withFullTextSearch(parameters.getName());
         parameters.getName().ifPresent(this::withUserName);
 
-        parameters.getGpin().ifPresent(gpin -> withUserKey(new UserKey(gpin)));
+        //parameters.getUserKey().ifPresent(gpin -> withUserKey(new UserKey(gpin)));
+        parameters.getUserKey().ifPresent(this::withUserKey);
 
         parameters.getJobTitle().ifPresent(this::withJobTitle);
 

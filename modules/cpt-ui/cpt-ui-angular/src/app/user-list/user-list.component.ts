@@ -4,6 +4,7 @@ import {DatePipe} from "@angular/common";
 import {UserService} from "../user/user.service";
 import {Subscription} from "rxjs";
 import {UserComponent} from "../user/user.component";
+import {UserSearchParameters} from "../user/user.search.parameters";
 
 @Component({
   selector: 'app-user-list',
@@ -43,11 +44,9 @@ export class UserListComponent implements OnInit {
   }
 
   private findUsers() {
-    const subscription1 = this.userService.findUsers()
+    const subscription1 = this.userService.findUsers(new UserSearchParameters())
         .subscribe({
               next: (users) => {
-                //console.log("SchedulerComponent.findUsers(): Data is: ");
-                //console.log(users);
                 this.users = users;
               }
             }
