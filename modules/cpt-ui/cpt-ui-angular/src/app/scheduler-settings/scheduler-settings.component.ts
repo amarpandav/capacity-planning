@@ -104,12 +104,13 @@ export class SchedulerSettingsComponent implements OnChanges {
     emitPodChangedEvent(podDto: PodDto){
         this.selectedMyPodOutput.emit(podDto);
         this.selectedMyPod = podDto;
+        //console.log("emitPodChangedEvent:"+JSON.stringify(podDto));
 
         // @ts-ignore
-        const subscription1 = this.podService.findRelatedPods(this.selectedUser().entityId)
+        const subscription1 = this.podService.findRelatedPods(this.selectedMyPod.entityId)
             .subscribe({
                     next: (relatedPods) => {
-                        //console.log("myPods:"+JSON.stringify(myPods));
+                        //console.log("relatedPods:"+JSON.stringify(relatedPods));
                         this.relatedPods = relatedPods;
                     }
                 }
@@ -122,5 +123,6 @@ export class SchedulerSettingsComponent implements OnChanges {
     onSelectRelatedPod(pod: PodDto) {
         this.selectedPodToAssign = pod;
         this.selectedPodToAssignOutput.emit(pod);
+
     }
 }

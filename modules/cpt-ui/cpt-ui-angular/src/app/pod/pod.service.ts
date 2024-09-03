@@ -7,7 +7,7 @@ import {EntityId} from "../scheduler/models/entityId.model";
 import {PodDto} from "../scheduler/models/pod/pod.model";
 import {POD_TEST_DATA} from "../../testdata/pod/pod.test-data";
 
-const PRODUCE_UI_TEST_DATA = true;
+const PRODUCE_UI_TEST_DATA = false;
 
 @Injectable({providedIn: 'root'})
 export class PodService {
@@ -48,7 +48,7 @@ export class PodService {
         }>(`${environment.apiUrl}/pods/` + podEntityId.uuid + '/related-pods')
             .pipe(
                 map((resBody) => {
-                    //console.log("PodService.findMyPods().resBody:" + JSON.stringify(resBody))
+                    console.log("PodService.findRelatedPods().resBody:" + JSON.stringify(resBody))
                     return resBody.pods
                 }),
                 //map( (resBody) => resBody.places),

@@ -1,7 +1,7 @@
 package com.ubs.cpt.web.rest;
 
 import com.ubs.cpt.domain.EntityId;
-import com.ubs.cpt.service.GetAllVisiblePodsService;
+import com.ubs.cpt.service.GetRelatedPodsService;
 import com.ubs.cpt.service.PodService;
 import com.ubs.cpt.service.dto.PodDto;
 import org.springframework.http.ResponseEntity;
@@ -19,20 +19,20 @@ public class PodController {
     private record PodsResponse(List<PodDto> pods) {
     }
 
-    private final GetAllVisiblePodsService getAllVisiblePodsService;
+    private final GetRelatedPodsService getRelatedPodsService;
 
     private final PodService podService;
 
     public PodController(
-            GetAllVisiblePodsService getAllVisiblePodsService,
+            GetRelatedPodsService getRelatedPodsService,
             PodService podService) {
-        this.getAllVisiblePodsService = getAllVisiblePodsService;
+        this.getRelatedPodsService = getRelatedPodsService;
         this.podService = podService;
     }
 
     @GetMapping("/{id}/related-pods")
     public ResponseEntity<PodsResponse> getRelatedPods(@PathVariable("id") String podId) {
-        List<PodDto> allVisiblePods = getAllVisiblePodsService.getAllVisiblePods(new EntityId<>(podId));
+        List<PodDto> allVisiblePods = getRelatedPodsService.getRelatedPods(new EntityId<>(podId));
         return ResponseEntity.ok(new PodsResponse(allVisiblePods));
     }
 

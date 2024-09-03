@@ -6,7 +6,7 @@ import com.ubs.cpt.service.dto.PodDto;
 
 import java.util.List;
 
-public interface GetAllVisiblePodsService {
+public interface GetRelatedPodsService {
 
-    List<PodDto> getAllVisiblePods(EntityId<Pod> id);
+    List<PodDto> getRelatedPods(EntityId<Pod> id);
 }

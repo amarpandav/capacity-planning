@@ -29,9 +29,9 @@ public interface PodRepository extends JpaRepository<Pod, EntityId<User>> {
             join cpt_pod_member pm1 on p1.uuid = pm1.pod_uuid 
             join cpt_user u1 on pm1.user_uuid = u1.uuid 
             where p1.uuid = :podId)
-        order by p.podName
+        order by p.pod_name
     """, nativeQuery = true)
-    Set<Pod> findAllVisiblePods(@Param("podId") String podId);
+    Set<Pod> findRelatedPods(@Param("podId") String podId);
 
     @Query(value = """
         select * 

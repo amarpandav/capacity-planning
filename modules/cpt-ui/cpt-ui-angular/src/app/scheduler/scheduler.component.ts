@@ -31,7 +31,6 @@ import {UserListComponent} from "../user-list/user-list.component";
 import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.component";
 import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settings.component";
 import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
-import {PodService} from "../pod/pod.service";
 
 
 @Component({
@@ -156,7 +155,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.findMyPodAssignments();
     }
 
-    onSelectedMyPodEntityIdEventListener(mySelectedPod: PodDto) {
+    onSelectedMyPodEventListener(mySelectedPod: PodDto) {
         //console.log("onSelectedMyPodEntityIdEventListener received: "+ JSON.stringify(mySelectedPod));
         this.mySelectedPod = mySelectedPod;
         this.findMyPodAssignments();
