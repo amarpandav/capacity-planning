@@ -134,10 +134,10 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     protected readonly JSON = JSON;
 
-    onSubmit() {
+    onChangeSchedulerSettings() {
         //Recalculate the SchedulerDto
         this.schedulerSettings = SchedulerSettingsDto.newInstance(this.schedulerSettings.yearToView, this.schedulerSettings.startMonthToView, this.schedulerSettings.noOfMonthsToView)
-
+        this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
         this.findPodAssignmentView();
     }
 
