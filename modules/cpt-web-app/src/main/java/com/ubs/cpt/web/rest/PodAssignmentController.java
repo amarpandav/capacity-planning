@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/pods")
 public class PodAssignmentController {
 
