@@ -6,6 +6,7 @@ import {PodService} from "../pod/pod.service";
 import {UserDto} from "../scheduler/models/user/user.model";
 import {MyPodInfoDto} from "../pod/my-pod.model";
 import {Subscription} from "rxjs";
+import {EntityId} from "../scheduler/models/entityId.model";
 
 @Component({
     selector: 'app-scheduler-settings',
@@ -14,7 +15,7 @@ import {Subscription} from "rxjs";
     templateUrl: './scheduler-settings.component.html',
     styleUrl: './scheduler-settings.component.scss'
 })
-export class SchedulerSettingsComponent implements OnChanges{
+export class SchedulerSettingsComponent implements OnChanges {
 
     selectedUser = input<UserDto>();
     schedulerSettings: SchedulerSettingsDto;
@@ -29,6 +30,7 @@ export class SchedulerSettingsComponent implements OnChanges{
 
     myPods?: MyPodInfoDto[];
 
+    selectedPodEntityIdOutput = output<EntityId<string>>();
 
     constructor(private destroyRef: DestroyRef, private podService: PodService) {
         this.monthShortNames = AppConstants.monthShortNames;
@@ -39,8 +41,8 @@ export class SchedulerSettingsComponent implements OnChanges{
     }
 
     ngOnChanges(): void {
-        if(this.selectedUser()){
-            console.log("SchedulerSettingsComponent.ngOnChanges() - selected user changed:"+JSON.stringify(this.selectedUser()));
+        if (this.selectedUser()) {
+            console.log("SchedulerSettingsComponent.ngOnChanges() - selected user changed:" + JSON.stringify(this.selectedUser()));
 
             // @ts-ignore
             const subscription1 = this.podService.findMyPods(this.selectedUser().entityId)
@@ -79,4 +81,10 @@ export class SchedulerSettingsComponent implements OnChanges{
     }
 
     protected readonly JSON = JSON;
+
+    onPodChanged(event: any) {
+        console.log("pod changed:" + event.target.value);
+        //console.log("pod changed:" + htmlOptionElement.value);
+        this.selectedPodEntityIdOutput.emit(new EntityId(event.target.value));
+    }
 }

@@ -33,9 +33,9 @@
             <h6 class="card-title" style="min-width: 100px; text-align: center">My Pods</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
-                    <select>
+                    <select (change)="onPodChanged($event)">
                         @for (pod of myPods; track pod) {
-                            <option value="{{pod.entityId.uuid}}">{{pod.name}}</option>
+                            <option value="{{pod.entityId.uuid}}"  >{{pod.name}}</option>
                         }
                     </select>
                 </div>

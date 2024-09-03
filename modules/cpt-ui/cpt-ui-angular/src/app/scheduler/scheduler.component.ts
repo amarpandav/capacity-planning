@@ -32,6 +32,7 @@ import {UserListComponent} from "../user-list/user-list.component";
 import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.component";
 import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.model";
 import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settings.component";
+import {EntityId} from "./models/entityId.model";
 
 
 @Component({
@@ -144,6 +145,10 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         //Recalculate the SchedulerDto
         this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
         this.findPodAssignmentView();
+    }
+
+    onSelectedPodEntityIdEventListener($event: EntityId<string>) {
+
     }
 
     /*onChangeSchedulerSettings() {
@@ -367,6 +372,5 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         }
 
     }
-
 
 }
