@@ -319,7 +319,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
             let podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
                 this.selectedPodToAssign.entityId.uuid,
-                podAssignmentCreateRequestUsersCloned,
+                new Set(podAssignmentCreateRequestUsersCloned),
                 podAssignmentToSaveTempStartCloned.dayInAction,
                 podAssignmentToSaveTempStartCloned.timeSlotInAction,
                 podAssignmentToSaveTempEndCloned.dayInAction,
