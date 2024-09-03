@@ -14,6 +14,7 @@ import com.ubs.cpt.service.repository.PodRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,6 +37,7 @@ public class PodAssignmentServiceImpl implements PodAssignmentService {
 
     @Override
     public PodAssignmentsResponse getPodAssignment(PodAssignmentRequest request) {
+        validate(request);
         String podId = request.podId();
         podRepository.findById(new EntityId<>(podId))
                 .orElseThrow(() -> new PodNotFoundException("pod not found by id " + podId));
@@ -56,5 +58,15 @@ public class PodAssignmentServiceImpl implements PodAssignmentService {
                 .map(val -> new AssignmentDto(val.getDay(), val.getMorningAvailabilityType(), val.getAfternoonAvailabilityType()))
                 .toList()));
         return response;
+    }
+
+    private void validate(PodAssignmentRequest request) {
+        LocalDate startDate = request.startDate();
+        LocalDate endDate = request.endDate();
+
+        Period duration = startDate.until(endDate);
+        if (duration.toTotalMonths() > 12) {
+            throw new IllegalArgumentException("duration longer than 12 months between startDate and endDate is not supported");
+        }
     }
 }
