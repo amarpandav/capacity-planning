@@ -14,6 +14,7 @@ import com.ubs.cpt.service.repository.PodRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -63,7 +64,8 @@ public class PodAssignmentServiceImpl implements PodAssignmentService {
         LocalDate startDate = request.startDate();
         LocalDate endDate = request.endDate();
 
-        if (startDate.until(endDate).getMonths() > 12) {
+        Period duration = startDate.until(endDate);
+        if (duration.toTotalMonths() > 12) {
             throw new IllegalArgumentException("duration longer than 12 months between startDate and endDate is not supported");
         }
     }
