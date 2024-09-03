@@ -1,9 +1,9 @@
 import {PodDto} from "../pod/pod.model";
-import {PodAssignmentWrapperDto} from "./pod-assignment-wrapper.model";
+import {UserAssignmentDto} from "./user-assignment.model";
 
 export class PodAssignmentViewDto {
 
     constructor(public currentPod: PodDto,
-                public podAssignmentWrappers: PodAssignmentWrapperDto[]) {
+                public userAssignments: UserAssignmentDto[]) {
     }
 }

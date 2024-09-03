@@ -12,7 +12,6 @@ import {USER_PODS_TEST_DATA} from "../../testdata/user/user-pods.test-data";
 import {UserPodsDto} from "./models/user/user-pods.model";
 import {UserPodWatchersDto} from "./models/user/user-pod-watchers.model";
 import {USER_POD_WATCHERS_TEST_DATA} from "../../testdata/user/user-pod-watchers.test-data";
-import {PodAssignmentWrapperDto} from "./models/pod-assignment/pod-assignment-wrapper.model";
 import {AssignmentDto} from "./models/pod-assignment/assignment.model";
 import {isAfternoon, isMorning, TimeSlot} from "./models/pod-assignment/time-slot.enum";
 import {POD_DETAILS_TEST_DATA} from "../../testdata/pod/pod-details.test-data";
@@ -33,6 +32,7 @@ import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.comp
 import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.model";
 import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settings.component";
 import {EntityId} from "./models/entityId.model";
+import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
 
 
 @Component({
@@ -66,7 +66,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     //protected readonly schedulerViews: PodViewDto[] = SCHEDULER_VIEW_TEST_DATA;
     protected podAssignmentViewDto?: PodAssignmentViewDto;
 
-    currentPodToView: PodDto = POD_TEST_DATA[0]; // TODO Default - on logon - fetch all pods of logged-in user and select first
+    mySelectedPodEntityId?: EntityId<string>
 
     selectedPodToAssign?: PodDto = POD_TEST_DATA[0]; //TODO Default - This is the pod the user will select from legend to book
 
@@ -105,18 +105,19 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         //this.isLoadingPlaces.set(true);
-        this.findPodAssignmentView();
+        //this.findMyPodAssignments();
     }
 
-    private findPodAssignmentView() {
-        this.podAssignmentViewDto = undefined;
-        const subscription1 = this.schedulerService.findPodAssignments(this.currentPodToView, this.schedulerSettings)
-            .subscribe({
-                    next: (podAssignmentView) => {
-                        //console.log("SchedulerComponent.findPodAssignments(): Data is: ");
-                        //console.log(podAssignmentView);
-                        this.podAssignmentViewDto = podAssignmentView;
-                    }/*,Not needed as its handled in the service
+    private findMyPodAssignments() {
+        if(this.mySelectedPodEntityId){
+            this.podAssignmentViewDto = undefined;
+            const subscription1 = this.schedulerService.findMyPodAssignments(this.mySelectedPodEntityId, this.schedulerSettings)
+                .subscribe({
+                        next: (podAssignmentView) => {
+                            //console.log("SchedulerComponent.findPodAssignments(): Data is: ");
+                            //console.log(podAssignmentView);
+                            this.podAssignmentViewDto = podAssignmentView;
+                        }/*,Not needed as its handled in the service
                     error: (error) => {
                         this.error.set(error.message);
                         this.toastrService.error('Something went wrong: ' + error.message);
@@ -124,11 +125,13 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     complete: () => {
                         this.isLoadingPlaces.set(false);
                     }*/
-                }
-            );
+                    }
+                );
 
-        //Destroy is optional
-        this.destroySubscription(subscription1);
+            //Destroy is optional
+            this.destroySubscription(subscription1);
+        }
+
     }
 
     private destroySubscription(subscription: Subscription) {
@@ -144,11 +147,13 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
         //Recalculate the SchedulerDto
         this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
-        this.findPodAssignmentView();
+        this.findMyPodAssignments();
     }
 
     onSelectedMyPodEntityIdEventListener(mySelectedPodEntityId: EntityId<string>) {
         console.log("onSelectedMyPodEntityIdEventListener received: "+ mySelectedPodEntityId.uuid);
+        this.mySelectedPodEntityId = mySelectedPodEntityId;
+        this.findMyPodAssignments();
     }
 
     /*onChangeSchedulerSettings() {
@@ -161,7 +166,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     protected readonly DateUtils = DateUtils;
 
     onDragStart($event: MouseEvent,
-                clickedPodAssignmentWrapper: PodAssignmentWrapperDto,
+                clickedUserAssignment: UserAssignmentDto,
                 userInAction: UserDto,
                 timeSlotInAction: TimeSlot,
                 assignmentInAction: AssignmentDto,
@@ -178,7 +183,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         // @ts-ignore : dayInAction would never be null
         this.allocateUsersToCurrentPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
 
-        /*clickedPodAssignmentWrapper.podAssignments.forEach( (podAssignment: PodAssignmentDto) => {
+        /*clickedUserAssignment.podAssignments.forEach( (podAssignment: PodAssignmentDto) => {
             podAssignment.morning.pod = this.selectedPodToAssign;
             podAssignment.afternoon.pod = this.selectedPodToAssign;
         });*/
@@ -187,7 +192,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     onWhileDragging($event: MouseEvent,
-                    podAssignmentWrapper: PodAssignmentWrapperDto,
+                    userAssignment: UserAssignmentDto,
                     userInAction: UserDto,
                     timeSlotInAction: TimeSlot,
                     assignmentInAction: AssignmentDto,
@@ -215,7 +220,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     onDragEnd($event: MouseEvent,
-              clickedPodAssignmentWrapper: PodAssignmentWrapperDto,
+              clickedUserAssignment: UserAssignmentDto,
               userInAction: UserDto,
               timeSlotInAction: TimeSlot,
               assignmentInAction: AssignmentDto,
@@ -312,9 +317,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             /*this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
             //Is start and end user different, if yes then we need to select all in-between users
             if (this.podAssignmentCreateRequestTempStart.userInAction.gpin !== this.podAssignmentCreateRequestTempEnd.userInAction.gpin) {
-                for (let podAssignmentWrapper of this.podAssignmentViewDto.podAssignmentWrappers) {
-                    this.podAssignmentCreateRequestUsers.push(podAssignmentWrapper.user.uuid);
-                    if (podAssignmentWrapper.user.gpin === this.podAssignmentCreateRequestTempEnd?.userInAction.gpin) {
+                for (let userAssignment of this.podAssignmentViewDto.userAssignments) {
+                    this.podAssignmentCreateRequestUsers.push(userAssignment.user.uuid);
+                    if (userAssignment.user.gpin === this.podAssignmentCreateRequestTempEnd?.userInAction.gpin) {
                         break;
                     }
                 }
@@ -368,7 +373,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             this.podAssignmentCreateRequestUsers = [];
             this.podAssignmentCreateRequestDaysTemp = [];
             this.podAssignmentViewDto = undefined;
-            this.findPodAssignmentView();
+            this.findMyPodAssignments();
         }
 
     }

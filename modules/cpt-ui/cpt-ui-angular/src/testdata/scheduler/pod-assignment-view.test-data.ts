@@ -10,7 +10,7 @@ export var POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
         podStyleClass: 'podStyleClass1',
         podDescription: 'This pod is for AURA'
     },
-    podAssignmentWrappers: [//PodAssignmentWrapperDto
+    userAssignments: [//UserAssignmentDto
         {
             user: {//UserDto
                 entityId: {uuid: 'AmarPandavUuid'},

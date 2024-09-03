@@ -4,7 +4,6 @@ import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {ErrorService} from "../error-dialog/error.service";
 import {POD_ASSIGNMENT_VIEW_TEST_DATA} from "../../testdata/scheduler/pod-assignment-view.test-data";
 import {DayHeaderDto} from "../scheduler-header/day-header.model";
-import {PodAssignmentWrapperDto} from "./models/pod-assignment/pod-assignment-wrapper.model";
 import {AssignmentDto} from "./models/pod-assignment/assignment.model";
 import {AvailabilityType} from "./models/availability/availability.enum";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
@@ -14,6 +13,7 @@ import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.servi
 import {environment} from '../../environments/environment';
 import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.model";
 import {EntityId} from "./models/entityId.model";
+import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
 
 const PRODUCE_UI_TEST_DATA = true;
 
@@ -48,7 +48,7 @@ export class SchedulerService {
                         let testDataObservable = of(JSON.parse(JSON.stringify(POD_ASSIGNMENT_VIEW_TEST_DATA)));//if you don't deep clone data gets appended.
                         testDataObservable.subscribe((podAssignmentViewDto: PodAssignmentViewDto) => {
                             //console.log("findPodAssignments.catchError loading UI Test data:" + JSON.stringify(podAssignmentViewDto))
-                            //console.log("findPodAssignments.catchError loading UI Test data:" + podAssignmentViewDto.podAssignmentWrappers[0].podAssignments.length)
+                            //console.log("findPodAssignments.catchError loading UI Test data:" + podAssignmentViewDto.userAssignments[0].podAssignments.length)
                             this.populateSchedulerTestData(schedulerSettings, podAssignmentViewDto);
                         });
                         return testDataObservable;
@@ -72,10 +72,10 @@ export class SchedulerService {
         //Adjust all months of test data as per scheduler settings. When day matches replace the month as per scheduler settings
         var dateAdjusted: number[] = [];
         schedulerHeaderDto.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
-            podAssignmentView?.podAssignmentWrappers.forEach((podAssignmentWrapper: PodAssignmentWrapperDto) => {
+            podAssignmentView?.userAssignments.forEach((userAssignment: UserAssignmentDto) => {
                 let headerDateAsStr = DateUtils.formatToISODate(dayHeaderDto.day);
 
-                podAssignmentWrapper.podAssignments?.forEach((podAssignmentDto: PodAssignmentDto) => {
+                userAssignment.podAssignments?.forEach((podAssignmentDto: PodAssignmentDto) => {
 
                     if (podAssignmentDto.dayAsStr && !podAssignmentDto.day) {
                         podAssignmentDto.day = DateUtils.parseISODate(podAssignmentDto.dayAsStr);
@@ -97,11 +97,11 @@ export class SchedulerService {
               let headerDateAsStr = this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
               let find = podMemberCapacityDto.podAssignments?.find(capacityDto => capacityDto.day === headerDateAsStr);
             });*/
-            podAssignmentView?.podAssignmentWrappers.forEach((podAssignmentWrapper: PodAssignmentWrapperDto) => {
+            podAssignmentView?.userAssignments.forEach((userAssignment: UserAssignmentDto) => {
                 //let headerDateAsStr = "" + this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
                 let headerDateAsStr = DateUtils.formatToISODate(dayHeaderDto.day);
 
-                let podAssignmentDto = podAssignmentWrapper.podAssignments?.find(podAssignmentDto => podAssignmentDto.dayAsStr === headerDateAsStr);
+                let podAssignmentDto = userAssignment.podAssignments?.find(podAssignmentDto => podAssignmentDto.dayAsStr === headerDateAsStr);
 
                 if (podAssignmentDto) {
                     //capacity for this day do exists
@@ -144,11 +144,11 @@ export class SchedulerService {
                         afternoon = new AssignmentDto(AvailabilityType.AVAILABLE);
                     }
                     let podAssignmentDto = new PodAssignmentDto(headerDateAsStr, morning, afternoon, headerDateAsStr, null);
-                    podAssignmentWrapper.podAssignments?.push(podAssignmentDto)
+                    userAssignment.podAssignments?.push(podAssignmentDto)
                 }
 
                 //sort podAssignments otherwise manually added capacities would be pushed at the end of the list.
-                podAssignmentWrapper.podAssignments?.sort((a: PodAssignmentDto, b: PodAssignmentDto) => {
+                userAssignment.podAssignments?.sort((a: PodAssignmentDto, b: PodAssignmentDto) => {
                     if (a.day && b.day) {
                         return a?.day > b?.day ? 1 : -1;
                     }
