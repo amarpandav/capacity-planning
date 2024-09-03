@@ -147,8 +147,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.findPodAssignmentView();
     }
 
-    onSelectedPodEntityIdEventListener($event: EntityId<string>) {
-
+    onSelectedMyPodEntityIdEventListener(mySelectedPodEntityId: EntityId<string>) {
+        console.log("onSelectedMyPodEntityIdEventListener received: "+ mySelectedPodEntityId.uuid);
     }
 
     /*onChangeSchedulerSettings() {

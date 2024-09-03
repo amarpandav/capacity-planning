@@ -30,7 +30,7 @@ export class SchedulerSettingsComponent implements OnChanges {
 
     myPods?: MyPodInfoDto[];
 
-    selectedPodEntityIdOutput = output<EntityId<string>>();
+    selectedMyPodEntityIdOutput = output<EntityId<string>>();
 
     constructor(private destroyRef: DestroyRef, private podService: PodService) {
         this.monthShortNames = AppConstants.monthShortNames;
@@ -82,9 +82,9 @@ export class SchedulerSettingsComponent implements OnChanges {
 
     protected readonly JSON = JSON;
 
-    onPodChanged(event: any) {
-        console.log("pod changed:" + event.target.value);
+    onMyPodChanged(event: any) {
+        console.log("onMyPodChanged :" + event.target.value);
         //console.log("pod changed:" + htmlOptionElement.value);
-        this.selectedPodEntityIdOutput.emit(new EntityId(event.target.value));
+        this.selectedMyPodEntityIdOutput.emit(new EntityId(event.target.value));
     }
 }
