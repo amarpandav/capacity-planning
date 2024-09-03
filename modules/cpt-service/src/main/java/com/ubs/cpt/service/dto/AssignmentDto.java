@@ -6,15 +6,16 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public record AssignmentDto(
+        String uuid,
         LocalDate day,
         AvailabilityType morningAvailability,
         AvailabilityType eveningAvailability) {
     public static AssignmentDto available(LocalDate date) {
-        return new AssignmentDto(date, AvailabilityType.AVAILABLE, AvailabilityType.AVAILABLE);
+        return new AssignmentDto("virtual", date, AvailabilityType.AVAILABLE, AvailabilityType.AVAILABLE);
     }
 
     public static AssignmentDto publicHoliday(LocalDate day) {
-        return new AssignmentDto(day, AvailabilityType.PUBLIC_HOLIDAY, AvailabilityType.PUBLIC_HOLIDAY);
+        return new AssignmentDto("virtual", day, AvailabilityType.PUBLIC_HOLIDAY, AvailabilityType.PUBLIC_HOLIDAY);
     }
 
     @Override

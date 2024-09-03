@@ -42,7 +42,8 @@ public class PodAssignmentServiceImpl implements PodAssignmentService {
         podRepository.findById(new EntityId<>(podId))
                 .orElseThrow(() -> new PodNotFoundException("pod not found by id " + podId));
 
-        Set<String> userIds = podMemberRepository.findByPodId(podId).stream()
+        List<PodMember> podMembers = podMemberRepository.findByPodId(podId);
+        Set<String> userIds = podMembers.stream()
                 .map(PodMember::getUser)
                 .map(User::getEntityId)
                 .map(EntityId::getUuid)
@@ -51,11 +52,11 @@ public class PodAssignmentServiceImpl implements PodAssignmentService {
         LocalDate endDate = request.endDate();
         List<PodAssignment> podAssignments = podAssignmentRepository.getPodAssignment(userIds, startDate,
                 endDate);
-        PodAssignmentsResponse response = PodAssignmentsResponse.available(userIds, startDate, endDate);
+        PodAssignmentsResponse response = PodAssignmentsResponse.available(podMembers, startDate, endDate);
         Map<String, List<PodAssignment>> assignmentsByUserId = podAssignments.stream()
                 .collect(Collectors.groupingBy(podAssignment -> podAssignment.getUser().getEntityId().getUuid()));
         assignmentsByUserId.forEach((key, value) -> response.add(key, value.stream()
-                .map(val -> new AssignmentDto(val.getDay(), val.getMorningAvailabilityType(), val.getAfternoonAvailabilityType()))
+                .map(val -> new AssignmentDto(val.getEntityId().getUuid(), val.getDay(), val.getMorningAvailabilityType(), val.getAfternoonAvailabilityType()))
                 .toList()));
         return response;
     }

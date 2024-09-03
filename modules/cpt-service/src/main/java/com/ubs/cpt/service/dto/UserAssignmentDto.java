@@ -1,5 +1,9 @@
 package com.ubs.cpt.service.dto;
 
+import com.ubs.cpt.domain.entity.pod.PodMemberRole;
+import com.ubs.cpt.domain.entity.user.User;
+import com.ubs.cpt.service.impl.mapper.UserMapper;
+
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -8,15 +12,17 @@ import java.util.List;
 import java.util.Set;
 
 public class UserAssignmentDto {
-    private final String userId;
+    private final UserDto user;
+    private final PodMemberRole podMemberRole;
     private final Set<AssignmentDto> assignments = new HashSet<>();
 
-    public UserAssignmentDto(String userId) {
-        this.userId = userId;
+    public UserAssignmentDto(UserDto user, PodMemberRole podMemberRole) {
+        this.user = user;
+        this.podMemberRole = podMemberRole;
     }
 
-    public UserAssignmentDto(String userId, LocalDate startDate, LocalDate endDate) {
-        this(userId);
+    public UserAssignmentDto(User user, PodMemberRole podMemberRole, LocalDate startDate, LocalDate endDate) {
+        this(UserMapper.map(user), podMemberRole);
         startDate.datesUntil(endDate.plusDays(1))
                 .map(day -> {
                     if (day.getDayOfWeek() == DayOfWeek.SATURDAY || day.getDayOfWeek() == DayOfWeek.SUNDAY) {
@@ -28,8 +34,12 @@ public class UserAssignmentDto {
                 .forEach(assignments::add);
     }
 
-    public String getUserId() {
-        return userId;
+    public UserDto getUser() {
+        return user;
+    }
+
+    public PodMemberRole getPodMemberRole() {
+        return podMemberRole;
     }
 
     public List<AssignmentDto> getAssignments() {
