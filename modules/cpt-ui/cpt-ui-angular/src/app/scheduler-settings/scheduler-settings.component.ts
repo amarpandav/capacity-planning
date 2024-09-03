@@ -50,6 +50,10 @@ export class SchedulerSettingsComponent implements OnChanges {
                         next: (myPods) => {
                             //console.log("myPods:"+JSON.stringify(myPods));
                             this.myPods = myPods;
+                            //as the screen loads we would like to select first my pod from this list
+                            if(this.myPods && this.myPods.length > 0){
+                                this.selectedMyPodEntityIdOutput.emit(this.myPods[0].entityId);
+                            }
                         }
                     }
                 );
