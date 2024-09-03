@@ -1,7 +1,6 @@
 import {Injectable} from "@angular/core";
 import {catchError, map, of, throwError} from 'rxjs';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
-import {PodAssignmentViewDto} from "./models/pod-view/pod-view.model";
 import {ErrorService} from "../error-dialog/error.service";
 import {POD_ASSIGNMENT_VIEW_TEST_DATA} from "../../testdata/scheduler/pod-assignment-view.test-data";
 import {DayHeaderDto} from "../scheduler-header/day-header.model";
@@ -14,6 +13,7 @@ import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
 import {PodDto} from "./models/pod/pod.model";
 import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
 import {environment} from '../../environments/environment';
+import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.model";
 
 const PRODUCE_UI_TEST_DATA = true;
 

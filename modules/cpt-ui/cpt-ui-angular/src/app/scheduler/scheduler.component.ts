@@ -12,7 +12,6 @@ import {USER_PODS_TEST_DATA} from "../../testdata/user/user-pods.test-data";
 import {UserPodsDto} from "./models/user/user-pods.model";
 import {UserPodWatchersDto} from "./models/user/user-pod-watchers.model";
 import {USER_POD_WATCHERS_TEST_DATA} from "../../testdata/user/user-pod-watchers.test-data";
-import {PodAssignmentViewDto} from "./models/pod-view/pod-view.model";
 import {PodAssignmentWrapperDto} from "./models/pod-assignment/pod-assignment-wrapper.model";
 import {AssignmentDto} from "./models/pod-assignment/assignment.model";
 import {isAfternoon, isMorning, TimeSlot} from "./models/pod-assignment/time-slot.enum";
@@ -31,6 +30,7 @@ import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.servi
 import {UserComponent} from "../user/user.component";
 import {UserListComponent} from "../user-list/user-list.component";
 import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.component";
+import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.model";
 
 
 @Component({
@@ -105,6 +105,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     private findPodAssignmentView() {
+        this.podAssignmentViewDto = undefined;
         const subscription1 = this.schedulerService.findPodAssignments(this.currentPodToView, this.schedulerSettings)
             .subscribe({
                     next: (podAssignmentView) => {

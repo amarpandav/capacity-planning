@@ -1,5 +1,5 @@
 import {PodDto} from "../pod/pod.model";
-import {PodAssignmentWrapperDto} from "../pod-assignment/pod-assignment-wrapper.model";
+import {PodAssignmentWrapperDto} from "./pod-assignment-wrapper.model";
 
 export class PodAssignmentViewDto {
 
