@@ -29,7 +29,6 @@ import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.servi
 import {UserComponent} from "../user/user.component";
 import {UserListComponent} from "../user-list/user-list.component";
 import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.component";
-import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.model";
 import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settings.component";
 import {EntityId} from "./models/entityId.model";
 import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
@@ -64,7 +63,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     protected readonly podDetails: PodDetailsDto[] = POD_DETAILS_TEST_DATA;
 
     //protected readonly schedulerViews: PodViewDto[] = SCHEDULER_VIEW_TEST_DATA;
-    protected podAssignmentViewDto?: PodAssignmentViewDto;
+    //protected podAssignmentViewDto?: PodAssignmentViewDto;
+    protected userAssignments?: UserAssignmentDto[]
 
     mySelectedPodEntityId?: EntityId<string>
 
@@ -110,13 +110,13 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     private findMyPodAssignments() {
         if(this.mySelectedPodEntityId){
-            this.podAssignmentViewDto = undefined;
+            this.userAssignments = undefined;
             const subscription1 = this.schedulerService.findMyPodAssignments(this.mySelectedPodEntityId, this.schedulerSettings)
                 .subscribe({
-                        next: (podAssignmentView) => {
+                        next: (userAssignments) => {
                             //console.log("SchedulerComponent.findPodAssignments(): Data is: ");
                             //console.log(podAssignmentView);
-                            this.podAssignmentViewDto = podAssignmentView;
+                            this.userAssignments = userAssignments;
                         }/*,Not needed as its handled in the service
                     error: (error) => {
                         this.error.set(error.message);
@@ -171,14 +171,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 timeSlotInAction: TimeSlot,
                 assignmentInAction: AssignmentDto,
                 podInAction?: PodDto,
-                dayAsStrInAction?: string | null,
                 dayInAction?: Date | null) {
         console.log("onDragStart...");
-
-        //we do not need this once we integrate backend service
-        if (!dayInAction && dayAsStrInAction) {
-            dayInAction = DateUtils.parseISODate(dayAsStrInAction);
-        }
 
         // @ts-ignore : dayInAction would never be null
         this.allocateUsersToCurrentPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
@@ -197,20 +191,13 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     timeSlotInAction: TimeSlot,
                     assignmentInAction: AssignmentDto,
                     pod: PodDto | undefined,
-                    dayAsStrInAction: string | null | undefined,
                     dayInAction: Date | null | undefined) {
         if (this.podAssignmentCreateRequestTempStart && !this.podAssignmentCreateRequestTempEnd) {
             console.log("whileDragging...");
             console.log("userInAction:" + JSON.stringify(userInAction));
-            console.log("dayAsStrInAction:" + JSON.stringify(dayAsStrInAction));
             console.log("dayInAction:" + JSON.stringify(dayInAction));
             console.log("timeSlotInAction:" + JSON.stringify(timeSlotInAction));
             console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));
-
-            //we do not need this once we integrate backend service
-            if (!dayInAction && dayAsStrInAction) {
-                dayInAction = DateUtils.parseISODate(dayAsStrInAction);
-            }
 
             // @ts-ignore : dayInAction would never be null
             this.allocateUsersToCurrentPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
@@ -225,14 +212,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
               timeSlotInAction: TimeSlot,
               assignmentInAction: AssignmentDto,
               podInAction?: PodDto,
-              dayAsStrInAction?: string | null,
               dayInAction?: Date | null) {
         console.log("onDragEnd...");
-
-        //we do not need this once we integrate backend service
-        if (!dayInAction && dayAsStrInAction) {
-            dayInAction = DateUtils.parseISODate(dayAsStrInAction);
-        }
 
         // @ts-ignore : dayInAction would never be null
         this.allocateUsersToCurrentPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
@@ -372,7 +353,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             this.podAssignmentCreateRequestTempEnd = undefined;
             this.podAssignmentCreateRequestUsers = [];
             this.podAssignmentCreateRequestDaysTemp = [];
-            this.podAssignmentViewDto = undefined;
+            this.userAssignments = [];
             this.findMyPodAssignments();
         }
 

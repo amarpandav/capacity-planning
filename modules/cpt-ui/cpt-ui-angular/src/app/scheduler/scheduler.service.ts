@@ -24,7 +24,7 @@ export class SchedulerService {
     }
 
     //dialog is displayed inside AppComponent.ts
-    findMyPodAssignments(mySelectedPodEntityId: EntityId<string>, schedulerSettings: SchedulerSettingsDto): Observable<PodAssignmentViewDto> {
+    findMyPodAssignments(mySelectedPodEntityId: EntityId<string>, schedulerSettings: SchedulerSettingsDto): Observable<UserAssignmentDto[]> {
         /*const httpParams = new HttpParams()
                                             .set('startDate', '2024-08-01')
                                             .set('endDate', '2024-10-01');*/
@@ -34,12 +34,12 @@ export class SchedulerService {
 
         //TODO not working
         return this.httpClient.get<{
-            podAssignmentView: PodAssignmentViewDto
+            assignments: UserAssignmentDto[]
         }>(`${environment.apiUrl}/pods/` + mySelectedPodEntityId.uuid + `/assignments`, {params: httpParams})
             .pipe(
                 map((resBody) => {
                     console.log("findMyPodAssignments(): resBody :" + JSON.stringify(resBody))
-                    return resBody.podAssignmentView
+                    return resBody.assignments
                 }),
                 //map( (resBody) => resBody.places),
                 catchError((error: HttpErrorResponse) => {
@@ -77,13 +77,8 @@ export class SchedulerService {
 
                 userAssignment.podAssignments?.forEach((podAssignmentDto: PodAssignmentDto) => {
 
-                    if (podAssignmentDto.dayAsStr && !podAssignmentDto.day) {
-                        podAssignmentDto.day = DateUtils.parseISODate(podAssignmentDto.dayAsStr);
-                    }
-
                     if (dayHeaderDto.day.getDate() === podAssignmentDto.day?.getDate() && dateAdjusted.indexOf(dayHeaderDto.day.getDate()) < 0) {
                         podAssignmentDto.day = dayHeaderDto.day;
-                        podAssignmentDto.dayAsStr = headerDateAsStr;
                         podAssignmentDto.uuid = headerDateAsStr;
 
                         dateAdjusted.push(dayHeaderDto.day.getDate()); // otherwise last month gets assignments instead of first.
@@ -101,11 +96,11 @@ export class SchedulerService {
                 //let headerDateAsStr = "" + this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
                 let headerDateAsStr = DateUtils.formatToISODate(dayHeaderDto.day);
 
-                let podAssignmentDto = userAssignment.podAssignments?.find(podAssignmentDto => podAssignmentDto.dayAsStr === headerDateAsStr);
+                let podAssignmentDto = userAssignment.podAssignments?.find(podAssignmentDto => DateUtils.formatToISODate(podAssignmentDto.day) === headerDateAsStr);
 
                 if (podAssignmentDto) {
                     //capacity for this day do exists
-                    podAssignmentDto.day = DateUtils.parseISODate(podAssignmentDto.dayAsStr);//This is needed because constructor is not called when we use schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA
+                    //podAssignmentDto.day = DateUtils.parseISODate(podAssignmentDto.dayAsStr);//This is needed because constructor is not called when we use schedulerViews: SchedulerViewDto[] = SCHEDULER_VIEW_TEST_DATA
                     //capacity for this day exists, check if its complete otherwise complete it
                     //completing it means, morning and afternoon must be filled in with either booking or availability
                     //console.log("userCapacityDto found: " + JSON.stringify(userCapacityDto));
@@ -143,7 +138,7 @@ export class SchedulerService {
                         morning = new AssignmentDto(AvailabilityType.AVAILABLE)
                         afternoon = new AssignmentDto(AvailabilityType.AVAILABLE);
                     }
-                    let podAssignmentDto = new PodAssignmentDto(headerDateAsStr, morning, afternoon, headerDateAsStr, null);
+                    let podAssignmentDto = new PodAssignmentDto(headerDateAsStr, dayHeaderDto.day, morning, afternoon);
                     userAssignment.podAssignments?.push(podAssignmentDto)
                 }
 
