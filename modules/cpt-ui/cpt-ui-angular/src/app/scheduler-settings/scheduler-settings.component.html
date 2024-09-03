@@ -35,7 +35,7 @@
                 <div class="col-12">
                     <select (change)="onMyPodChanged($event)">
                         @for (pod of myPods; track pod) {
-                            <option value="{{pod.entityId.uuid}}"  >{{pod.name}}</option>
+                            <option value="{{pod.entityId.uuid}}"  >{{pod.podName}}</option>
                         }
                     </select>
                 </div>

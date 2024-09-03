@@ -30,7 +30,6 @@ import {UserComponent} from "../user/user.component";
 import {UserListComponent} from "../user-list/user-list.component";
 import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.component";
 import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settings.component";
-import {EntityId} from "./models/entityId.model";
 import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
 
 
@@ -66,7 +65,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     //protected podAssignmentViewDto?: PodAssignmentViewDto;
     protected userAssignments?: UserAssignmentDto[]
 
-    mySelectedPodEntityId?: EntityId<string>
+    mySelectedPod?: PodDto
 
     selectedPodToAssign?: PodDto = POD_TEST_DATA[0]; //TODO Default - This is the pod the user will select from legend to book
 
@@ -109,9 +108,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     private findMyPodAssignments() {
-        if(this.mySelectedPodEntityId){
+        if(this.mySelectedPod){
             this.userAssignments = undefined;
-            const subscription1 = this.schedulerService.findMyPodAssignments(this.mySelectedPodEntityId, this.schedulerSettings)
+            const subscription1 = this.schedulerService.findMyPodAssignments(this.mySelectedPod.entityId, this.schedulerSettings)
                 .subscribe({
                         next: (userAssignments) => {
                             //console.log("SchedulerComponent.findPodAssignments(): Data is: ");
@@ -150,9 +149,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.findMyPodAssignments();
     }
 
-    onSelectedMyPodEntityIdEventListener(mySelectedPodEntityId: EntityId<string>) {
-        console.log("onSelectedMyPodEntityIdEventListener received: "+ mySelectedPodEntityId.uuid);
-        this.mySelectedPodEntityId = mySelectedPodEntityId;
+    onSelectedMyPodEntityIdEventListener(mySelectedPod: PodDto) {
+        console.log("onSelectedMyPodEntityIdEventListener received: "+ JSON.stringify(mySelectedPod));
+        this.mySelectedPod = mySelectedPod;
         this.findMyPodAssignments();
     }
 
@@ -315,7 +314,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
             this.podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
                 podAssignmentCreateRequestUsersCloned,
-                this.selectedPodToAssign.uuid,
+                this.selectedPodToAssign.entityId.uuid,
                 podAssignmentToSaveTempStartCloned.dayInAction,
                 podAssignmentToSaveTempStartCloned.timeSlotInAction,
                 podAssignmentToSaveTempEndCloned.dayInAction,

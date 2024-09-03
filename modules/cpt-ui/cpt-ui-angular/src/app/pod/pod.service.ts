@@ -4,7 +4,8 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ErrorService} from "../error-dialog/error.service";
 import {environment} from '../../environments/environment';
 import {EntityId} from "../scheduler/models/entityId.model";
-import {MyPodInfoDto} from "./my-pod.model";
+import {PodDto} from "../scheduler/models/pod/pod.model";
+import {POD_TEST_DATA} from "../../testdata/pod/pod.test-data";
 
 const PRODUCE_UI_TEST_DATA = true;
 
@@ -15,9 +16,9 @@ export class PodService {
     }
 
     //dialog is displayed inside AppComponent.ts
-    findMyPods(userEntityId: EntityId<string>): Observable<MyPodInfoDto[]> {
+    findMyPods(userEntityId: EntityId<string>): Observable<PodDto[]> {
         return this.httpClient.get<{
-            pods: MyPodInfoDto[]
+            pods: PodDto[]
         }>(`${environment.apiUrl}/my-pods/` + userEntityId.uuid + '/my-pod-member-pods')
             .pipe(
                 map((resBody) => {
@@ -28,9 +29,9 @@ export class PodService {
                 catchError((error: HttpErrorResponse) => {
                     if (PRODUCE_UI_TEST_DATA) {
                         //return [new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "AURA-test")];
-                        let pods: MyPodInfoDto[] = [];
-                        pods.push(new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "AURA-test"))
-                        return of(pods);
+                        /*let pods: MyPodInfoDto[] = [];
+                        pods.push(new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "AURA-test"))*/
+                        return of(POD_TEST_DATA);
                     } else {
                         //console.log(JSON.stringify(error));
                         this.errorService.showError(error.status, 'Failed to perform findUsers()', error.error.message)

@@ -2,14 +2,14 @@
 
 export const POD_TEST_DATA = [
     {
-        uuid: 'AURAPodUuid',
+        entityId: {uuid: 'AURAPodUuid'},
         podName: 'AURA',
         podShortName: 'AURA',
         podStyleClass: 'podStyleClass1',
         podDescription: 'This pod is for AURA'
     },
     {
-        uuid: 'GIMPodUuid',
+        entityId: {uuid: 'GIMPodUuid'},
         podName: 'Global Identity Management',
         podShortName: 'GIM',
         podStyleClass: 'podStyleClass2',

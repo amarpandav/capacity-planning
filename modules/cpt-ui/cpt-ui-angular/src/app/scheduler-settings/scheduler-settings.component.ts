@@ -4,9 +4,8 @@ import {AppConstants} from "../utils/AppConstants";
 import {DateUtils} from "../utils/DateUtils";
 import {PodService} from "../pod/pod.service";
 import {UserDto} from "../scheduler/models/user/user.model";
-import {MyPodInfoDto} from "../pod/my-pod.model";
 import {Subscription} from "rxjs";
-import {EntityId} from "../scheduler/models/entityId.model";
+import {PodDto} from "../scheduler/models/pod/pod.model";
 
 @Component({
     selector: 'app-scheduler-settings',
@@ -28,9 +27,9 @@ export class SchedulerSettingsComponent implements OnChanges {
 
     schedulerSettingsOutput = output<SchedulerSettingsDto>();
 
-    myPods?: MyPodInfoDto[];
+    myPods?: PodDto[];
 
-    selectedMyPodEntityIdOutput = output<EntityId<string>>();
+    selectedMyPodOutput = output<PodDto>();
 
     constructor(private destroyRef: DestroyRef, private podService: PodService) {
         this.monthShortNames = AppConstants.monthShortNames;
@@ -52,7 +51,7 @@ export class SchedulerSettingsComponent implements OnChanges {
                             this.myPods = myPods;
                             //as the screen loads we would like to select first my pod from this list
                             if(this.myPods && this.myPods.length > 0){
-                                this.selectedMyPodEntityIdOutput.emit(this.myPods[0].entityId);
+                                this.selectedMyPodOutput.emit(this.myPods[0]);
                             }
                         }
                     }
@@ -87,8 +86,12 @@ export class SchedulerSettingsComponent implements OnChanges {
     protected readonly JSON = JSON;
 
     onMyPodChanged(event: any) {
-        console.log("onMyPodChanged :" + event.target.value);
+        console.log("onMyPodChanged :" + JSON.stringify(event.target.value));
+        let podDto = this.myPods?.find( (podDto)=>podDto.entityId.uuid === event.target.value);
         //console.log("pod changed:" + htmlOptionElement.value);
-        this.selectedMyPodEntityIdOutput.emit(new EntityId(event.target.value));
+        if(podDto){
+            this.selectedMyPodOutput.emit(podDto);
+        }
+
     }
 }

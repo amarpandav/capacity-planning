@@ -12,7 +12,7 @@ export const USER_POD_WATCHERS_TEST_DATA = [
             {
                 podWatcherUuid: 'podWatcherHrishikeshRaghavanAndAURAPodUuid',
                 pod: {////PodDto
-                    uuid: 'AURAPodUuid',
+                    entityId: {uuid: 'AURAPodUuid'},
                     podName: 'AURA',
                     podShortName: 'AURA',
                     podDescription: 'This pod is for AURA',
@@ -22,7 +22,7 @@ export const USER_POD_WATCHERS_TEST_DATA = [
             {
                 podWatcherUuid: 'podWatcherHrishikeshRaghavanAndGIMPodUuid',
                 pod: {////PodDto
-                    uuid: 'GIMPodUuid',
+                    entityId: {uuid: 'GIMPodUuid'},
                     podName: 'Global Identity Management',
                     podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
@@ -42,7 +42,7 @@ export const USER_POD_WATCHERS_TEST_DATA = [
             {
                 podWatcherUuid: 'podWatcherNickTuffsAndGIMPodUuid',
                 pod: {////PodDto
-                    uuid: 'GIMPodUuid',
+                    entityId: {uuid: 'GIMPodUuid'},
                     podName: 'Global Identity Management',
                     podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',

@@ -13,7 +13,7 @@ public class PodMapper {
         if (isNull(pod)) {
             return null;
         }
-        return new PodDto(pod.getEntityId().getUuid(),
-                pod.getPodName(), pod.getPodDescription(), pod.getPodStyleClass());
+        return new PodDto(pod.getEntityId(),
+                pod.getPodName(), pod.getPodShortName(), pod.getPodDescription(), pod.getPodStyleClass());
     }
 }

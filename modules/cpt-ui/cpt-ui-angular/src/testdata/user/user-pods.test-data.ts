@@ -13,7 +13,7 @@ export const USER_PODS_TEST_DATA = [
                 podMemberUuid: 'podMemberNiteshShriyanAndAURAPodUuid',
                 podMemberRole: PodMemberRole.POD_LEAD,
                 pod: {
-                    uuid: 'AURAPodUuid',
+                    entityId: {uuid: 'AURAPodUuid'},
                     podName: 'AURA',
                     podShortName: 'AURA',
                     podStyleClass: 'podStyleClass1',
@@ -24,7 +24,7 @@ export const USER_PODS_TEST_DATA = [
                 podMemberUuid: 'podMemberNiteshShriyanAndGIMPodUuid',
                 podMemberRole: PodMemberRole.POD_LEAD,
                 pod: {
-                    uuid: 'GIMPodUuid',
+                    entityId: {uuid: 'GIMPodUuid'},
                     podName: 'Global Identity Management',
                     podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
@@ -44,7 +44,7 @@ export const USER_PODS_TEST_DATA = [
                 podMemberUuid: 'podMemberAmarPandavAndAURAPodUuid',
                 podMemberRole: PodMemberRole.SOLUTIONS_ARCHITECT,
                 pod: {
-                    uuid: 'AURAPodUuid',
+                    entityId: {uuid: 'AURAPodUuid'},
                     podName: 'AURA',
                     podShortName: 'AURA',
                     podStyleClass: 'podStyleClass1',
@@ -55,7 +55,7 @@ export const USER_PODS_TEST_DATA = [
                 podMemberUuid: 'podMemberAmarPandavAndGIMPodUuid',
                 podMemberRole: PodMemberRole.SOLUTIONS_ARCHITECT,
                 pod: {
-                    uuid: 'GIMPodUuid',
+                    entityId: {uuid: 'GIMPodUuid'},
                     podName: 'Global Identity Management',
                     podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
@@ -75,7 +75,7 @@ export const USER_PODS_TEST_DATA = [
                 podMemberUuid: 'podMemberThomasDoblerAndAURAPodUuid',
                 podMemberRole: PodMemberRole.JAVA_DEVELOPER,
                 pod: {
-                    uuid: 'AURAPodUuid',
+                    entityId: {uuid: 'AURAPodUuid'},
                     podName: 'AURA',
                     podShortName: 'AURA',
                     podStyleClass: 'podStyleClass1',
@@ -95,7 +95,7 @@ export const USER_PODS_TEST_DATA = [
                 podMemberUuid: 'podMemberTimAndGIMPodUuid',
                 podMemberRole: PodMemberRole.POD_LEAD,
                 pod: {
-                    uuid: 'GIMPodUuid',
+                    entityId: {uuid: 'GIMPodUuid'},
                     podName: 'Global Identity Management',
                     podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
@@ -115,7 +115,7 @@ export const USER_PODS_TEST_DATA = [
                 podMemberUuid: 'podMemberKamilLipinskiAndGIMPodUuid',
                 podMemberRole: PodMemberRole.NET_DEVELOPER,
                 pod: {
-                    uuid: 'GIMPodUuid',
+                    entityId: {uuid: 'GIMPodUuid'},
                     podName: 'Global Identity Management',
                     podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
@@ -135,7 +135,7 @@ export const USER_PODS_TEST_DATA = [
                 podMemberUuid: 'podMemberWiktorAndGIMPodUuid',
                 podMemberRole: PodMemberRole.JAVA_DEVELOPER,
                 pod: {
-                    uuid: 'GIMPodUuid',
+                    entityId: {uuid: 'GIMPodUuid'},
                     podName: 'Global Identity Management',
                     podShortName: 'GIM',
                     podStyleClass: 'podStyleClass2',
