@@ -18,7 +18,7 @@ export class PodService {
     findMyPods(userEntityId: EntityId<string>): Observable<MyPodInfoDto[]> {
         return this.httpClient.get<{
             pods: MyPodInfoDto[]
-        }>(`${environment.apiUrl}/mypods/` + userEntityId.uuid + '/my-pod-member-pods')
+        }>(`${environment.apiUrl}/my-pods/` + userEntityId.uuid + '/my-pod-member-pods')
             .pipe(
                 map((resBody) => {
                     //console.log("PodService.findMyPods().resBody:" + JSON.stringify(resBody))

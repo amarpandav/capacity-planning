@@ -3,12 +3,12 @@ package com.ubs.cpt.service.impl;
 import com.ubs.cpt.domain.EntityId;
 import com.ubs.cpt.domain.entity.user.User;
 import com.ubs.cpt.service.MyPodService;
-import com.ubs.cpt.service.dto.MyPod;
+import com.ubs.cpt.service.dto.PodDto;
+import com.ubs.cpt.service.impl.mapper.PodMapper;
 import com.ubs.cpt.service.repository.PodRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Service
 public class MyPodServiceImpl implements MyPodService {
@@ -20,16 +20,16 @@ public class MyPodServiceImpl implements MyPodService {
     }
 
     @Override
-    public Set<MyPod> getMyPodMemberPods(EntityId<User> userId) {
+    public List<PodDto> getMyPodMemberPods(EntityId<User> userId) {
         return repository.findPodsWhereUserIsMember(userId).stream()
-                .map(pod -> new MyPod(pod.getEntityId(), pod.getPodName()))
-                .collect(Collectors.toSet());
+                .map(PodMapper::map)
+                .toList();
     }
 
     @Override
-    public Set<MyPod> getMyPodWatcherPods(EntityId<User> userId) {
+    public List<PodDto> getMyPodWatcherPods(EntityId<User> userId) {
         return repository.findPodsWhereUserIsWatcher(userId).stream()
-                .map(pod -> new MyPod(pod.getEntityId(), pod.getPodName()))
-                .collect(Collectors.toSet());
+                .map(PodMapper::map)
+                .toList();
     }
 }
