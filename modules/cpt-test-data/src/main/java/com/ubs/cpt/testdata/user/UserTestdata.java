@@ -52,6 +52,13 @@ public class UserTestdata {
                 .withCountry("Switzerland")
                 .create());
 
+        public User LUKASZ = register(new com.ubs.cpt.testdata.user.UserTestdata()
+                .withName("Lukasz Piotrowski")
+                .withGPIN(new UserKey("49015871"))
+                .withJobTitle("Software Developer")
+                .withCountry("Switzerland")
+                .create());
+
         public User THOMAS = register(new com.ubs.cpt.testdata.user.UserTestdata()
                 .withName("Thomas Dobler")
                 .withGPIN(new UserKey("49041056"))
@@ -73,10 +80,10 @@ public class UserTestdata {
                 .withCountry("Poland")
                 .create());
 
-        public User NITESH = register(new com.ubs.cpt.testdata.user.UserTestdata()
-                .withName("Nitesh Shriyan")
-                .withGPIN(new UserKey("49053180"))
-                .withJobTitle("Project Manager")
+        public User ROLAND = register(new com.ubs.cpt.testdata.user.UserTestdata()
+                .withName("Roland Fluhr")
+                .withGPIN(new UserKey("49016605"))
+                .withJobTitle("Tech Business Analyst")
                 .withCountry("Switzerland")
                 .create());
 

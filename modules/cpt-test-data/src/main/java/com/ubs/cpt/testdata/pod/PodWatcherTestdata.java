@@ -31,7 +31,7 @@ public class PodWatcherTestdata {
                 .create());
 
         public PodWatcher NT_WATCHING_GIM_POD = register(new PodWatcherTestdata()
-                .withUser(UserTestdata.suiteSynthetic().THOMAS)
+                .withUser(UserTestdata.suiteSynthetic().NT)
                 .create());
 
 

@@ -1,5 +1,4 @@
 package com.ubs.cpt.testdata.pod;
-
 import com.ubs.cpt.domain.entity.pod.Pod;
 import com.ubs.cpt.domain.entity.pod.PodMember;
 import com.ubs.cpt.domain.entity.pod.PodWatcher;
@@ -73,8 +72,9 @@ public class PodTestdata {
                 .withPodDescription("Pod for project AURA")
                 .withPodStyleClass("podStyleClass1")
                 .addPodMember(PodMemberTestdata.suiteSynthetic().AMAR_FOR_AURA)
+                .addPodMember(PodMemberTestdata.suiteSynthetic().LUKASZ_FOR_AURA)
                 .addPodMember(PodMemberTestdata.suiteSynthetic().THOMAS_FOR_AURA)
-                .addPodMember(PodMemberTestdata.suiteSynthetic().NITESH_FOR_AURA)
+                .addPodMember(PodMemberTestdata.suiteSynthetic().ROLAND_FOR_AURA)
                 .addPodWatcher(PodWatcherTestdata.suiteSynthetic().HRISHI_WATCHING_AURA_POD)
                 .create());
 
@@ -83,6 +83,7 @@ public class PodTestdata {
                 .withPodShortName("GIM")
                 .withPodDescription("Pod for project Global Identity Management")
                 .withPodStyleClass("podStyleClass2")
+                .addPodMember(PodMemberTestdata.suiteSynthetic().AMAR_FOR_GIM)
                 .addPodMember(PodMemberTestdata.suiteSynthetic().WIKTOR_FOR_GIM)
                 .addPodMember(PodMemberTestdata.suiteSynthetic().KAMIL_FOR_GIM)
                 .addPodMember(PodMemberTestdata.suiteSynthetic().TIM_FOR_GIM)

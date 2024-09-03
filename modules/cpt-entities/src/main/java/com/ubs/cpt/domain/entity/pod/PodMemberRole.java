@@ -7,7 +7,7 @@ public enum PodMemberRole {
     TESTER("TE"),
     POD_LEAD("PL"),
     SOLUTIONS_ARCHITECT("SA"),
-    BUSINESS_ALALYSTS("BA"),
+    BUSINESS_ANALYSTS("BA"),
     PRODUCT_OWNER("PO"),
     UI_UX("UX");
 
@@ -38,8 +38,8 @@ public enum PodMemberRole {
         return this == PodMemberRole.SOLUTIONS_ARCHITECT;
     }
 
-    public boolean isBusinessAlalysts() {
-        return this == PodMemberRole.BUSINESS_ALALYSTS;
+    public boolean isBusinessAnalysts() {
+        return this == PodMemberRole.BUSINESS_ANALYSTS;
     }
 
     public boolean isProductOwner() {

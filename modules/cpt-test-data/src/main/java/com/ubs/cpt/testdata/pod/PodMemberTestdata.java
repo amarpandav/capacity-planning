@@ -36,6 +36,16 @@ public class PodMemberTestdata {
     public static class SuiteSynthetic extends TestDataSuite<PodMember> {
         public PodMember AMAR_FOR_AURA = register(new PodMemberTestdata()
                 .withUser(UserTestdata.suiteSynthetic().AMAR)
+                .withPodMemberRole(PodMemberRole.POD_LEAD)
+                .create());
+
+        public PodMember AMAR_FOR_GIM = register(new PodMemberTestdata()
+                .withUser(UserTestdata.suiteSynthetic().AMAR)
+                .withPodMemberRole(PodMemberRole.SOLUTIONS_ARCHITECT)
+                .create());
+
+        public PodMember LUKASZ_FOR_AURA = register(new PodMemberTestdata()
+                .withUser(UserTestdata.suiteSynthetic().LUKASZ)
                 .withPodMemberRole(PodMemberRole.SOLUTIONS_ARCHITECT)
                 .create());
 
@@ -54,9 +64,9 @@ public class PodMemberTestdata {
                 .withPodMemberRole(PodMemberRole.NET_DEVELOPER)
                 .create());
 
-        public PodMember NITESH_FOR_AURA = register(new PodMemberTestdata()
-                .withUser(UserTestdata.suiteSynthetic().NITESH)
-                .withPodMemberRole(PodMemberRole.POD_LEAD)
+        public PodMember ROLAND_FOR_AURA = register(new PodMemberTestdata()
+                .withUser(UserTestdata.suiteSynthetic().ROLAND)
+                .withPodMemberRole(PodMemberRole.JAVA_DEVELOPER)
                 .create());
 
         public PodMember TIM_FOR_GIM = register(new PodMemberTestdata()
