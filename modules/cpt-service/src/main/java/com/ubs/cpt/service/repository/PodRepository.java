@@ -11,10 +11,10 @@ import java.util.Set;
 
 public interface PodRepository extends JpaRepository<Pod, EntityId<User>> {
 
-    @Query("select p from Pod p join fetch p.podMembers pm join fetch pm.user u where u.entityId = :userId")
+    @Query("select p from Pod p join fetch p.podMembers pm join fetch pm.user u where u.entityId = :userId order by p.podName")
     Set<Pod> findPodsWhereUserIsMember(@Param("userId") EntityId<User> userId);
 
-    @Query("select p from Pod p join fetch p.podWatchers pw join fetch pw.user u where u.entityId = :userId")
+    @Query("select p from Pod p join fetch p.podWatchers pw join fetch pw.user u where u.entityId = :userId order by p.podName")
     Set<Pod> findPodsWhereUserIsWatcher(@Param("userId") EntityId<User> userId);
 
     @Query(value = """
@@ -28,6 +28,7 @@ public interface PodRepository extends JpaRepository<Pod, EntityId<User>> {
             join cpt_pod_member pm1 on p1.uuid = pm1.pod_uuid 
             join cpt_user u1 on pm1.user_uuid = u1.uuid 
             where p1.uuid = :podId)
+        order by p.podName
     """, nativeQuery = true)
     Set<Pod> findAllVisiblePods(@Param("podId") String podId);
 
