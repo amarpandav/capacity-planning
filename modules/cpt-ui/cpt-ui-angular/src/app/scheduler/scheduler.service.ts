@@ -10,10 +10,10 @@ import {AvailabilityType} from "./models/availability/availability.enum";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
 import {DateUtils} from "../utils/DateUtils";
 import {SchedulerSettingsDto} from "../scheduler-settings/scheduler.settings.model";
-import {PodDto} from "./models/pod/pod.model";
 import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
 import {environment} from '../../environments/environment';
 import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.model";
+import {EntityId} from "./models/entityId.model";
 
 const PRODUCE_UI_TEST_DATA = true;
 
@@ -24,7 +24,7 @@ export class SchedulerService {
     }
 
     //dialog is displayed inside AppComponent.ts
-    findPodAssignments(currentPodToView: PodDto, schedulerSettings: SchedulerSettingsDto): Observable<PodAssignmentViewDto> {
+    findMyPodAssignments(mySelectedPodEntityId: EntityId<string>, schedulerSettings: SchedulerSettingsDto): Observable<PodAssignmentViewDto> {
         /*const httpParams = new HttpParams()
                                             .set('startDate', '2024-08-01')
                                             .set('endDate', '2024-10-01');*/
@@ -35,10 +35,10 @@ export class SchedulerService {
         //TODO not working
         return this.httpClient.get<{
             podAssignmentView: PodAssignmentViewDto
-        }>(`${environment.apiUrl}/pods/578D06828DAD49B780A560E017CA28D3/assignments`, { params: httpParams })
+        }>(`${environment.apiUrl}/pods/` + mySelectedPodEntityId.uuid + `/assignments`, {params: httpParams})
             .pipe(
                 map((resBody) => {
-                    console.log("resBody.podAssignmentView:" + JSON.stringify(resBody.podAssignmentView))
+                    console.log("findMyPodAssignments(): resBody :" + JSON.stringify(resBody))
                     return resBody.podAssignmentView
                 }),
                 //map( (resBody) => resBody.places),
@@ -81,12 +81,12 @@ export class SchedulerService {
                         podAssignmentDto.day = DateUtils.parseISODate(podAssignmentDto.dayAsStr);
                     }
 
-                    if (dayHeaderDto.day.getDate() === podAssignmentDto.day?.getDate() && dateAdjusted.indexOf(dayHeaderDto.day.getDate()) <0 ) {
+                    if (dayHeaderDto.day.getDate() === podAssignmentDto.day?.getDate() && dateAdjusted.indexOf(dayHeaderDto.day.getDate()) < 0) {
                         podAssignmentDto.day = dayHeaderDto.day;
                         podAssignmentDto.dayAsStr = headerDateAsStr;
                         podAssignmentDto.uuid = headerDateAsStr;
 
-                        dateAdjusted.push(dayHeaderDto.day.getDate() ); // otherwise last month gets assignments instead of first.
+                        dateAdjusted.push(dayHeaderDto.day.getDate()); // otherwise last month gets assignments instead of first.
                     }
                 });
             })

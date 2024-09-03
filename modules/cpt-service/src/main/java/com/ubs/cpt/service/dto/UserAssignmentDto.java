@@ -14,7 +14,7 @@ import java.util.Set;
 public class UserAssignmentDto {
     private final UserDto user;
     private final PodMemberRole podMemberRole;
-    private final Set<AssignmentDto> assignments = new HashSet<>();
+    private final Set<AssignmentDto> podAssignments = new HashSet<>();
 
     public UserAssignmentDto(UserDto user, PodMemberRole podMemberRole) {
         this.user = user;
@@ -31,7 +31,7 @@ public class UserAssignmentDto {
                         return AssignmentDto.available(day);
                     }
                 })
-                .forEach(assignments::add);
+                .forEach(podAssignments::add);
     }
 
     public UserDto getUser() {
@@ -42,16 +42,16 @@ public class UserAssignmentDto {
         return podMemberRole;
     }
 
-    public List<AssignmentDto> getAssignments() {
-        return assignments.stream()
+    public List<AssignmentDto> getPodAssignments() {
+        return podAssignments.stream()
                 .sorted(Comparator.comparing(AssignmentDto::day))
                 .toList();
     }
 
     public void add(List<AssignmentDto> toAdd) {
         toAdd.forEach(input -> {
-            if (assignments.remove(input)) {
-                assignments.add(input);
+            if (podAssignments.remove(input)) {
+                podAssignments.add(input);
             }
         });
     }
