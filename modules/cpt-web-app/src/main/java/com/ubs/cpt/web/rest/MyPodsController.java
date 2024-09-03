@@ -27,13 +27,13 @@ public class MyPodsController {
     }
 
     @GetMapping("/my-pod-member-pods")
-    public ResponseEntity<MyPodsResponse> getMyPodsAsPodMember(@PathVariable("userId") String userId) {
+    public ResponseEntity<MyPodsResponse> getMyPodMemberPods(@PathVariable("userId") String userId) {
         List<PodDto> userPods = service.getMyPodMemberPods(new EntityId<>(userId));
         return ResponseEntity.ok(new MyPodsResponse(userId, userPods));
     }
 
     @GetMapping("/my-pod-watcher-pods")
-    public ResponseEntity<MyPodsResponse> getMyPodsAsPodWatcher(@PathVariable("userId") String userId) {
+    public ResponseEntity<MyPodsResponse> getMyPodWatcherPods(@PathVariable("userId") String userId) {
         List<PodDto> userPods = service.getMyPodWatcherPods(new EntityId<>(userId));
         return ResponseEntity.ok(new MyPodsResponse(userId, userPods));
     }
