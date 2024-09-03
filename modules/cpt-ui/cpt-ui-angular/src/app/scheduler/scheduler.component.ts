@@ -31,6 +31,7 @@ import {UserListComponent} from "../user-list/user-list.component";
 import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.component";
 import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settings.component";
 import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
+import {PodService} from "../pod/pod.service";
 
 
 @Component({
@@ -67,14 +68,14 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     mySelectedPod?: PodDto
 
-    selectedPodToAssign?: PodDto = POD_TEST_DATA[0]; //TODO Default - This is the pod the user will select from legend to book
+    selectedPodToAssign?: PodDto;
 
     private podAssignmentDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
 
     //podAssignmentCreateRequest: PodAssignmentToSave | undefined;
     podAssignmentCreateRequestTempStart: PodAssignmentCreateRequestTemp | undefined;
     podAssignmentCreateRequestTempEnd: PodAssignmentCreateRequestTemp | undefined;
-    podAssignmentCreateRequest: PodAssignmentCreateRequestDto | undefined;
+    //podAssignmentCreateRequest: PodAssignmentCreateRequestDto | undefined;
 
     //podAssignmentCreateRequestUsers: Set<string>  = new Set();
     podAssignmentCreateRequestUsers: string[] = [];
@@ -97,9 +98,14 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
     }
 
-    onSelectedUserEventListener(selectedUser: UserDto){
-       // console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));
+    onSelectedUserEventListener(selectedUser: UserDto) {
+        // console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));
         this.selectedUser = selectedUser;
+    }
+
+    onSelectedPodToAssignEventListener(podDto: PodDto) {
+         console.log("I am (SchedulerComponent) consuming emitted selected pod to assign as an Object: " + JSON.stringify(podDto));
+        this.selectedPodToAssign = podDto;
     }
 
     ngOnInit(): void {
@@ -108,14 +114,14 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     private findMyPodAssignments() {
-        if(this.mySelectedPod){
+        if (this.mySelectedPod) {
             this.userAssignments = undefined;
             const subscription1 = this.schedulerService.findMyPodAssignments(this.mySelectedPod.entityId, this.schedulerSettings)
                 .subscribe({
                         next: (userAssignments) => {
                             //console.log(podAssignmentView);
                             this.userAssignments = userAssignments;
-                            console.log("SchedulerComponent.findPodAssignments(): Data is: "+JSON.stringify(this.userAssignments));
+                            // console.log("SchedulerComponent.findPodAssignments(): Data is: "+JSON.stringify(this.userAssignments));
 
                         }/*,Not needed as its handled in the service
                     error: (error) => {
@@ -151,7 +157,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     onSelectedMyPodEntityIdEventListener(mySelectedPod: PodDto) {
-        console.log("onSelectedMyPodEntityIdEventListener received: "+ JSON.stringify(mySelectedPod));
+        //console.log("onSelectedMyPodEntityIdEventListener received: "+ JSON.stringify(mySelectedPod));
         this.mySelectedPod = mySelectedPod;
         this.findMyPodAssignments();
     }
@@ -239,7 +245,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         }*/
 
 
-
         if (assignmentInAction.availabilityType === AvailabilityType.AVAILABLE) {
             //We allow to book only AVAILABLE slots otherwise we would allow overriding someone else's bookings which we do not want,.
             assignmentInAction.availabilityType = AvailabilityType.POD_ASSIGNMENT;
@@ -261,17 +266,17 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 }
                 return 1;
             });*/
-            let podAssignmentCreateRequestDayTemp = this.podAssignmentCreateRequestDaysTemp.find( (requestDay) => DateUtils.formatToISODate(requestDay.day) === DateUtils.formatToISODate(dayInAction));
-            if(!podAssignmentCreateRequestDayTemp) {
+            let podAssignmentCreateRequestDayTemp = this.podAssignmentCreateRequestDaysTemp.find((requestDay) => DateUtils.formatToISODate(requestDay.day) === DateUtils.formatToISODate(dayInAction));
+            if (!podAssignmentCreateRequestDayTemp) {
                 //This is new day
-                this.podAssignmentCreateRequestDaysTemp.push(new PodAssignmentCreateRequestDayTemp(dayInAction, isMorning(timeSlotInAction) ? timeSlotInAction : null,isAfternoon(timeSlotInAction) ? timeSlotInAction : null));
-            }else {
+                this.podAssignmentCreateRequestDaysTemp.push(new PodAssignmentCreateRequestDayTemp(dayInAction, isMorning(timeSlotInAction) ? timeSlotInAction : null, isAfternoon(timeSlotInAction) ? timeSlotInAction : null));
+            } else {
                 //This day already exists
-                if(isMorning(timeSlotInAction)){
+                if (isMorning(timeSlotInAction)) {
                     //even if this timeslot is set we are overriding it here but it's fine, it doesn't really matter.
                     podAssignmentCreateRequestDayTemp.morningTimeSlot = timeSlotInAction;
                 }
-                if(isAfternoon(timeSlotInAction)){
+                if (isAfternoon(timeSlotInAction)) {
                     //even if this timeslot is set we are overriding it here but it's fine, it doesn't really matter.
                     podAssignmentCreateRequestDayTemp.afternoonTimeSlot = timeSlotInAction;
                 }
@@ -313,9 +318,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd};
             let podAssignmentCreateRequestUsersCloned = {...this.podAssignmentCreateRequestUsers};
 
-            this.podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
-                podAssignmentCreateRequestUsersCloned,
+            let podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
                 this.selectedPodToAssign.entityId.uuid,
+                podAssignmentCreateRequestUsersCloned,
                 podAssignmentToSaveTempStartCloned.dayInAction,
                 podAssignmentToSaveTempStartCloned.timeSlotInAction,
                 podAssignmentToSaveTempEndCloned.dayInAction,
@@ -324,8 +329,22 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             //this.podAssignmentDialogEl().nativeElement.showModal();
             this.destroyPodAllocationCreateRequest();
 
-            console.log("#####################podAssignmentCreateRequest#####################" + JSON.stringify(this.podAssignmentCreateRequest));
+            console.log("#####################podAssignmentCreateRequest#####################" + JSON.stringify(podAssignmentCreateRequest));
+            this.createOodAssignmentCreateRequest(podAssignmentCreateRequest)
         }
+    }
+
+    private createOodAssignmentCreateRequest(podAssignmentCreateRequest: PodAssignmentCreateRequestDto) {
+        const subscription1 = this.schedulerService.createPodAssignmentRequest(podAssignmentCreateRequest)
+            .subscribe({
+                    next: (whatever) => {
+                        console.log("whatever:" + JSON.stringify(whatever));
+                    }
+                }
+            );
+
+        //Destroy is optional
+        this.destroySubscription(subscription1);
     }
 
     ngAfterViewInit(): void {
@@ -345,7 +364,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     destroyPodAllocationCreateRequest() {
         //<div (mouseleave)="destroyPodAllocationCreateRequest()"> is must because in case user drags outside scheduler we want to throw everything and not save anything.
-        if(this.podAssignmentCreateRequestTempStart){
+        if (this.podAssignmentCreateRequestTempStart) {
             //destroy only when we are inside booking mode.
             console.log("destroyPodAllocationCreateRequest");
             //rest all class level variables after request is sent.
@@ -358,5 +377,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         }
 
     }
+
 
 }

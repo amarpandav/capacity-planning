@@ -28,8 +28,14 @@ export class SchedulerSettingsComponent implements OnChanges {
     schedulerSettingsOutput = output<SchedulerSettingsDto>();
 
     myPods?: PodDto[];
+    relatedPods?: PodDto[];
+    selectedPodToAssign?: PodDto;
 
     selectedMyPodOutput = output<PodDto>();
+
+    selectedPodToAssignOutput = output<PodDto>();
+
+    selectedMyPod?: PodDto;
 
     constructor(private destroyRef: DestroyRef, private podService: PodService) {
         this.monthShortNames = AppConstants.monthShortNames;
@@ -41,7 +47,7 @@ export class SchedulerSettingsComponent implements OnChanges {
 
     ngOnChanges(): void {
         if (this.selectedUser()) {
-            console.log("SchedulerSettingsComponent.ngOnChanges() - selected user changed:" + JSON.stringify(this.selectedUser()));
+            //console.log("SchedulerSettingsComponent.ngOnChanges() - selected user changed:" + JSON.stringify(this.selectedUser()));
 
             // @ts-ignore
             const subscription1 = this.podService.findMyPods(this.selectedUser().entityId)
@@ -51,7 +57,7 @@ export class SchedulerSettingsComponent implements OnChanges {
                             this.myPods = myPods;
                             //as the screen loads we would like to select first my pod from this list
                             if(this.myPods && this.myPods.length > 0){
-                                this.selectedMyPodOutput.emit(this.myPods[0]);
+                                this.emitPodChangedEvent(this.myPods[0]);
                             }
                         }
                     }
@@ -86,12 +92,35 @@ export class SchedulerSettingsComponent implements OnChanges {
     protected readonly JSON = JSON;
 
     onMyPodChanged(event: any) {
-        console.log("onMyPodChanged :" + JSON.stringify(event.target.value));
+        //console.log("onMyPodChanged :" + JSON.stringify(event.target.value));
         let podDto = this.myPods?.find( (podDto)=>podDto.entityId.uuid === event.target.value);
         //console.log("pod changed:" + htmlOptionElement.value);
         if(podDto){
-            this.selectedMyPodOutput.emit(podDto);
+            this.emitPodChangedEvent(podDto);
         }
 
+    }
+
+    emitPodChangedEvent(podDto: PodDto){
+        this.selectedMyPodOutput.emit(podDto);
+        this.selectedMyPod = podDto;
+
+        // @ts-ignore
+        const subscription1 = this.podService.findRelatedPods(this.selectedUser().entityId)
+            .subscribe({
+                    next: (relatedPods) => {
+                        //console.log("myPods:"+JSON.stringify(myPods));
+                        this.relatedPods = relatedPods;
+                    }
+                }
+            );
+
+        //Destroy is optional
+        this.destroySubscription(subscription1);
+    }
+
+    onSelectRelatedPod(pod: PodDto) {
+        this.selectedPodToAssign = pod;
+        this.selectedPodToAssignOutput.emit(pod);
     }
 }

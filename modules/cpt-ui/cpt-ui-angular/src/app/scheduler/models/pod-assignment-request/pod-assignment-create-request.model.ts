@@ -6,12 +6,12 @@ import {TimeSlot} from "../pod-assignment/time-slot.enum";
  */
 export class PodAssignmentCreateRequestDto {
 
-    constructor(public userUuidsToAssign: string[],
-                public podUuidToAssign: string,
-                public startDay: Date,
-                public startDayTimeSlot: TimeSlot,
-                public endDay: Date,
-                public endDayTimeSlot: TimeSlot) {
+    constructor(public podId: string,
+                public userIds: string[],
+                public startDate: Date,
+                public startTimeSlot: TimeSlot,
+                public endDate: Date,
+                public endTimeSlot: TimeSlot) {
     }
 
 }

@@ -16,3 +16,43 @@ body {
   padding: 0;
   height: 100%;*/
 }
+
+
+.podStyleClass1 {
+  background-color: #00898D;
+  /*border-left: 1px solid #00898D;
+  border-right: 1px solid #00898D;*/
+}
+
+.podStyleClass2 {
+  background-color: #CDD760;
+  /*border-left: 1px solid #CDD760;
+  border-right: 1px solid #CDD760;*/
+}
+
+.podStyleClass3 {
+  background-color: #009BD2;
+  /*border-left: 1px solid #009BD2;
+  border-right: 1px solid #009BD2;*/
+}
+
+
+
+.cell {
+  border: 1px solid white;
+}
+
+.day {
+  width: 20px;
+  height: 20px;
+  display: flex;
+}
+
+
+.weekEnd {
+  background-color: gray;
+}
+.weekDay {
+  background-color: silver;
+}
+

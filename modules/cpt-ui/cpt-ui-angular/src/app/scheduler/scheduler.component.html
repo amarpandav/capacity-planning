@@ -19,32 +19,8 @@
 <app-scheduler-settings [selectedUser]="selectedUser"
                         (schedulerSettingsOutput)="onSchedulerSettingsEventListener($event)"
                         (selectedMyPodOutput)="onSelectedMyPodEntityIdEventListener($event)"
-></app-scheduler-settings>
+                        (selectedPodToAssignOutput)="onSelectedPodToAssignEventListener($event)"></app-scheduler-settings>
 
-<div style='display:flex'>
-
-    <div class="card" style="width: 15rem;">
-        <div class="card-body">
-            <h5 class="card-title">My Pods</h5>
-            <p class="card-text"></p>
-
-            @for (pod of pods; track pod) {
-                <div style="display:flex;">
-                    <div class="cell day weekDay" style="margin-right: 10px">
-                        <div style='height:100%;width:100%;'
-                             class='{{pod.podStyleClass}}'
-                             title='{{pod.podName}}'></div>
-                    </div>
-                    <div style="margin-right: 10px">{{ pod.podShortName }}</div>
-                    @if (pod.podName === selectedPodToAssign?.podName) {
-                        <div style="font-style: italic; font-size: 9px">selected</div>
-                    }
-
-                </div>
-            }
-        </div>
-    </div>
-</div>
 
 <!--div style="display:flex;justify-content: center;font-size: 20px;">{{ currentPodToView.podName }} Pod</div-->
 <div style="display:flex;justify-content: center;font-size: 20px;">{{ mySelectedPod?.podName }} Pod</div>

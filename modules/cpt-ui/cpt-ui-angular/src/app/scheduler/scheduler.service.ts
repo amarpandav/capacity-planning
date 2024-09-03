@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {catchError, map, Observable, of, throwError} from 'rxjs';
-import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams, HttpResponse} from "@angular/common/http";
 import {ErrorService} from "../error-dialog/error.service";
 import {POD_ASSIGNMENT_VIEW_TEST_DATA} from "../../testdata/scheduler/pod-assignment-view.test-data";
 import {DayHeaderDto} from "../scheduler-header/day-header.model";
@@ -14,6 +14,7 @@ import {environment} from '../../environments/environment';
 import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.model";
 import {EntityId} from "./models/entityId.model";
 import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
+import {PodAssignmentCreateRequestDto} from "./models/pod-assignment-request/pod-assignment-create-request.model";
 
 const PRODUCE_UI_TEST_DATA = true;
 
@@ -25,14 +26,10 @@ export class SchedulerService {
 
     //dialog is displayed inside AppComponent.ts
     findMyPodAssignments(mySelectedPodEntityId: EntityId<string>, schedulerSettings: SchedulerSettingsDto): Observable<UserAssignmentDto[]> {
-        /*const httpParams = new HttpParams()
-                                            .set('startDate', '2024-08-01')
-                                            .set('endDate', '2024-10-01');*/
         const httpParams = new HttpParams()
             .set('startDate', DateUtils.formatToISODate(schedulerSettings.startDate))
             .set('endDate', DateUtils.formatToISODate(schedulerSettings.endDate));
 
-        //TODO not working
         return this.httpClient.get<{
             assignments: UserAssignmentDto[]
         }>(`${environment.apiUrl}/pods/` + mySelectedPodEntityId.uuid + `/assignments`, {params: httpParams})
@@ -56,6 +53,26 @@ export class SchedulerService {
                         this.errorService.showError(error.status, 'Failed to perform findPodAssignments', error.error.message)
                         return throwError(() => new Error('Something went wrong : ' + error.message))
                     }
+                })
+            );
+    }
+
+    createPodAssignmentRequest(podAssignmentCreateRequestDto: PodAssignmentCreateRequestDto): Observable<any> {
+        return this.httpClient.post<{
+            httpResponse: HttpResponse<any>
+        }>(`${environment.apiUrl}/pods/` + podAssignmentCreateRequestDto.podId + `/assignments`, podAssignmentCreateRequestDto)
+            .pipe(
+                map((resBody) => {
+                    //console.log("findMyPodAssignments(): resBody :" + JSON.stringify(resBody))
+                    //return resBody.assignments
+                    return resBody.httpResponse
+                }),
+                //map( (resBody) => resBody.places),
+                catchError((error: HttpErrorResponse) => {
+
+                        this.errorService.showError(error.status, 'Failed to perform createPodAssignmentRequest', error.error.message)
+                        return throwError(() => new Error('Something went wrong : ' + error.message))
+
                 })
             );
     }

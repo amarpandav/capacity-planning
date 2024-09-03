@@ -30,8 +30,8 @@ public class PodController {
         this.podService = podService;
     }
 
-    @GetMapping("/{id}/visible-pods")
-    public ResponseEntity<PodsResponse> getAllVisiblePods(@PathVariable("id") String podId) {
+    @GetMapping("/{id}/related-pods")
+    public ResponseEntity<PodsResponse> getRelatedPods(@PathVariable("id") String podId) {
         List<PodDto> allVisiblePods = getAllVisiblePodsService.getAllVisiblePods(new EntityId<>(podId));
         return ResponseEntity.ok(new PodsResponse(allVisiblePods));
     }

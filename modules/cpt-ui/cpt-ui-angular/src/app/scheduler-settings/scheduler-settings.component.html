@@ -35,9 +35,39 @@
                 <div class="col-12">
                     <select (change)="onMyPodChanged($event)">
                         @for (pod of myPods; track pod) {
-                            <option value="{{pod.entityId.uuid}}"  >{{pod.podName}}</option>
+                            <option value="{{pod.entityId.uuid}}">{{ pod.podName }}</option>
                         }
                     </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="min-width: 110px; margin-right:10px">
+        <div class="card-body" style="padding: 5px">
+            <h6 class="card-title" style="min-width: 100px; text-align: center">Pods</h6>
+            <div class="row settingsContainer">
+                <div class="col-12">
+                    @for (pod of relatedPods; track pod) {
+                        <div style="display:flex;">
+                            <div class="cell day weekDay" style="margin-right: 10px">
+                                <div style='height:100%;width:100%;'
+                                     class='{{pod.podStyleClass}}'
+                                     title='{{pod.podName}}'></div>
+                            </div>
+                            <div style="margin-right: 10px; cursor: pointer"
+                            (click)="onSelectRelatedPod(pod)"
+                            >{{ pod.podName }}
+                                @if (pod.podName !== pod.podShortName) {
+                                    ({{ pod.podShortName }})
+                                }
+                            </div>
+                            @if (pod.podName === selectedPodToAssign?.podName) {
+                                <div style="font-style: italic; font-size: 9px">selected</div>
+                            }
+
+                        </div>
+                    }
                 </div>
             </div>
         </div>

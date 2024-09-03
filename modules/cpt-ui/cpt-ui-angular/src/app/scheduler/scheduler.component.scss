@@ -2,14 +2,7 @@
   font: 10pt Arial, sans-serif;
   min-width: 2100px;
 }
-.cell {
-  border: 1px solid white;
-}
-.day {
-  width: 20px;
-  height: 20px;
-  display: flex;
-}
+
 .dayHeader {
   width: 20px;
   height: 15px;
@@ -36,12 +29,6 @@
   width: 180px;
   flex-shrink: 0;
 }
-.weekEnd {
-  background-color: gray;
-}
-.weekDay {
-  background-color: silver;
-}
 
 .ABSENT {
   background-color: gray;
@@ -62,24 +49,6 @@
   background-image: linear-gradient(135deg, #ffffff 4.55%, gray 4.55%, gray 50%, #ffffff 50%, #ffffff 54.55%, gray 54.55%, gray 100%);
   background-size: 5px 5px;
 }*/
-
-.podStyleClass1 {
-  background-color: #00898D;
-  /*border-left: 1px solid #00898D;
-  border-right: 1px solid #00898D;*/
-}
-
-.podStyleClass2 {
-  background-color: #CDD760;
-  /*border-left: 1px solid #CDD760;
-  border-right: 1px solid #CDD760;*/
-}
-
-.podStyleClass3 {
-  background-color: #009BD2;
-  /*border-left: 1px solid #009BD2;
-  border-right: 1px solid #009BD2;*/
-}
 
 .available + .unavailable {
   //border-left: 1px solid white;
