@@ -84,6 +84,7 @@ public class PodTestdata {
                 .withPodDescription("Pod for project Global Identity Management")
                 .withPodStyleClass("podStyleClass2")
                 .addPodMember(PodMemberTestdata.suiteSynthetic().AMAR_FOR_GIM)
+                .addPodMember(PodMemberTestdata.suiteSynthetic().LUKASZ_FOR_GIM)
                 .addPodMember(PodMemberTestdata.suiteSynthetic().WIKTOR_FOR_GIM)
                 .addPodMember(PodMemberTestdata.suiteSynthetic().KAMIL_FOR_GIM)
                 .addPodMember(PodMemberTestdata.suiteSynthetic().TIM_FOR_GIM)

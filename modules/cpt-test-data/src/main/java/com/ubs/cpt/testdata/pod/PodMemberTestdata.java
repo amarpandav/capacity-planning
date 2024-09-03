@@ -49,6 +49,11 @@ public class PodMemberTestdata {
                 .withPodMemberRole(PodMemberRole.SOLUTIONS_ARCHITECT)
                 .create());
 
+        public PodMember LUKASZ_FOR_GIM = register(new PodMemberTestdata()
+                .withUser(UserTestdata.suiteSynthetic().LUKASZ)
+                .withPodMemberRole(PodMemberRole.JAVA_DEVELOPER)
+                .create());
+
         public PodMember THOMAS_FOR_AURA = register(new PodMemberTestdata()
                 .withUser(UserTestdata.suiteSynthetic().THOMAS)
                 .withPodMemberRole(PodMemberRole.JAVA_DEVELOPER)
@@ -66,7 +71,7 @@ public class PodMemberTestdata {
 
         public PodMember ROLAND_FOR_AURA = register(new PodMemberTestdata()
                 .withUser(UserTestdata.suiteSynthetic().ROLAND)
-                .withPodMemberRole(PodMemberRole.JAVA_DEVELOPER)
+                .withPodMemberRole(PodMemberRole.BUSINESS_ANALYSTS)
                 .create());
 
         public PodMember TIM_FOR_GIM = register(new PodMemberTestdata()
