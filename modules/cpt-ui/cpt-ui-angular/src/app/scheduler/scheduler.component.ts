@@ -31,6 +31,7 @@ import {UserComponent} from "../user/user.component";
 import {UserListComponent} from "../user-list/user-list.component";
 import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.component";
 import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.model";
+import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settings.component";
 
 
 @Component({
@@ -41,7 +42,8 @@ import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.
         DatePipe,
         UserComponent,
         UserListComponent,
-        UserViewingBoxComponent
+        UserViewingBoxComponent,
+        SchedulerSettingsComponent
     ],
     templateUrl: './scheduler.component.html',
     styleUrl: './scheduler.component.scss'

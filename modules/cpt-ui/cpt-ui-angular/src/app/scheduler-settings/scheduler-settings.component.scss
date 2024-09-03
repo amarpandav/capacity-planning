@@ -1,0 +1,112 @@
+.selectionBox {
+  margin: 10px;
+  border: 1px solid silver;
+  display: grid;
+  grid-template-columns: 40px 40px 40px 25px 25px 25px 25px 25px 25px;
+}
+
+.yearSelectionTitle {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row: 1;
+}
+
+#yearSelectionItem1 {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+#yearSelectionItem2 {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+#yearSelectionItem3 {
+  grid-column: 3;
+  grid-row: 2;
+}
+
+#yearSelectionItem4 {
+  grid-column: 1;
+  grid-row: 3;
+}
+
+#yearSelectionItem5 {
+  grid-column: 2;
+  grid-row: 3;
+}
+
+#yearSelectionItem6 {
+  grid-column: 3;
+  grid-row: 3;
+}
+
+#yearSelectionItem7 {
+  grid-column: 1;
+  grid-row: 4;
+}
+
+#yearSelectionItem8 {
+  grid-column: 2;
+  grid-row: 4;
+}
+
+#yearSelectionItem9 {
+  grid-column: 3;
+  grid-row: 4;
+}
+
+#yearSelectionItem10 {
+  grid-column: 1;
+  grid-row: 5;
+}
+
+#yearSelectionItem11 {
+  grid-column: 2;
+  grid-row: 5;
+}
+
+#yearSelectionItem12 {
+  grid-column: 3;
+  grid-row: 5;
+}
+
+.monthSelectionTitle {
+  grid-column-start: 4;
+  grid-column-end: 10;
+  grid-row: 1;
+}
+
+.yearSelectionContent {
+  display: grid;
+  width: 150px;
+
+}
+
+.podSelectionTitle {
+  grid-column-start: 4;
+  grid-column-end: 10;
+  grid-row: 4;
+}
+
+#podSelectionDropdown {
+  width: 100%;
+  grid-column-start: 4;
+  grid-column-end: 10;
+  grid-row: 5;
+}
+
+.settingsContainer {
+  font-family: CircularStd, sans-serif;
+  font-size: 0.8rem;
+  //width:120px;
+  button {
+    margin-bottom: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+    border: 1px solid grey;
+  }
+  button:hover,button:active,button:focus, {
+    background-color: darkgray;
+  }
+}
