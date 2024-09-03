@@ -9,7 +9,7 @@ import {AssignmentDto} from "./models/pod-assignment/assignment.model";
 import {AvailabilityType} from "./models/availability/availability.enum";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
 import {DateUtils} from "../utils/DateUtils";
-import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
+import {SchedulerSettingsDto} from "../scheduler-settings/scheduler.settings.model";
 import {PodDto} from "./models/pod/pod.model";
 import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
 import {environment} from '../../environments/environment';

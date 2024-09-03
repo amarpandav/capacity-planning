@@ -3,46 +3,23 @@
         <div class="card-body" style="padding: 5px">
             <h6 class="card-title" style="text-align: center">2024</h6>
             <div class="row settingsContainer" style="width: 120px">
-                <div class="col-4">
-                    <button>Jan</button>
-                </div>
-                <div class="col-4">
-                    <button>Feb</button>
-                </div>
-                <div class="col-4">
-                    <button>Mar</button>
-                </div>
-                <div class="col-4">
-                    <button>Apr</button>
-                </div>
+                @for (monthName of AppConstants.monthShortNames; track $index) {
+                    <div class="col-4">
+                        <button [class.active]="startMonthToView === $index" (click)="onMonthChange($index)">{{ monthName }}</button>
+                    </div>
+                }
             </div>
         </div>
     </div>
-    <div class="card" style="width: 160px; margin-right:10px">
+    <div class="card" style="width: 170px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
             <h6 class="card-title" style="text-align: center">Months to view</h6>
-            <div class="row settingsContainer" style="width: 150px">
-                <div class="col-2">
-                    <button>1</button>
-                </div>
-                <div class="col-2">
-                    <button>2</button>
-                </div>
-                <div class="col-2">
-                    <button>3</button>
-                </div>
-                <div class="col-2">
-                    <button>4</button>
-                </div>
-                <div class="col-2">
-                    <button>5</button>
-                </div>
-                <div class="col-2">
-                    <button>6</button>
-                </div>
-                <div class="col-2">
-                    <button>7</button>
-                </div>
+            <div class="row settingsContainer" style="width: 160px">
+                @for (monthsToView of AppConstants.NoOfMonthsToView; track monthsToView) {
+                    <div class="col-2">
+                        <button [class.active]="noOfMonthsToView === monthsToView" (click)="onNoOfMonthsToViewChange(monthsToView)">{{ monthsToView }}</button>
+                    </div>
+                }
             </div>
         </div>
     </div>

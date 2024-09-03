@@ -8,7 +8,9 @@ export class SchedulerSettingsDto {
   endMonthToView: number;
 
   startDate: Date;
+
   endDate: Date;
+
   constructor(public yearToView: number, public startMonthToView: number, public noOfMonthsToView: number) {
 
     this.startMonthToView = this.startMonthToView >= 12 ? 11 : this.startMonthToView; //in real app we do not need it as user will not enter number instead they will select month name directly
@@ -25,6 +27,10 @@ export class SchedulerSettingsDto {
 
   public static newInstance(selectedYear: number, selectedMonth: number, selectedMonthsToView: number) {
     return new SchedulerSettingsDto(selectedYear, selectedMonth, selectedMonthsToView);
+  }
+
+  public static newDefaultInstance(){
+    return new SchedulerSettingsDto(new Date().getFullYear(), new Date().getMonth(), 3)
   }
 
 }

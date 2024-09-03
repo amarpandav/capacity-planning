@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, DestroyRef, ElementRef, OnInit, viewChild} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {DatePipe} from "@angular/common";
-import {SchedulerSettingsDto} from "./models/settings/scheduler.settings.model";
+import {SchedulerSettingsDto} from "../scheduler-settings/scheduler.settings.model";
 import {PodDto} from "./models/pod/pod.model";
 import {AvailabilityDto} from "./models/availability/availability.model";
 import {UserDto} from "./models/user/user.model";
@@ -50,7 +50,7 @@ import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settin
 })
 export class SchedulerComponent implements OnInit, AfterViewInit {
 
-    schedulerSettings: SchedulerSettingsDto = SchedulerSettingsDto.newInstance(new Date().getFullYear(), new Date().getMonth(), 3);
+    schedulerSettings: SchedulerSettingsDto;
 
     schedulerHeader: SchedulerHeaderDto;
 
@@ -93,6 +93,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 private destroyRef: DestroyRef,
                 private schedulerService: SchedulerService,
                 private schedulerHeaderService: SchedulerHeaderService) {
+        this.schedulerSettings = SchedulerSettingsDto.newDefaultInstance();
         this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
     }
 
@@ -137,12 +138,20 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     protected readonly JSON = JSON;
 
-    onChangeSchedulerSettings() {
+    onSchedulerSettingsEventListener(schedulerSettings: SchedulerSettingsDto) {
+        this.schedulerSettings = schedulerSettings;
+
+        //Recalculate the SchedulerDto
+        this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
+        this.findPodAssignmentView();
+    }
+
+    /*onChangeSchedulerSettings() {
         //Recalculate the SchedulerDto
         this.schedulerSettings = SchedulerSettingsDto.newInstance(this.schedulerSettings.yearToView, this.schedulerSettings.startMonthToView, this.schedulerSettings.noOfMonthsToView)
         this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
         this.findPodAssignmentView();
-    }
+    }*/
 
     protected readonly DateUtils = DateUtils;
 
@@ -358,5 +367,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         }
 
     }
+
 
 }

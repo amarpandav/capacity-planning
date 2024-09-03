@@ -37,6 +37,17 @@ export class DateUtils {
     return new Intl.DateTimeFormat("fr-CA", {year: 'numeric', month: '2-digit', day: '2-digit'}).format(date);
   }
 
+  public static currentDay(): number {
+    return new Date().getDay();
+  }
+
+  public static currentMonth(): number {
+    return new Date().getMonth();
+  }
+
+  public static currentYear(): number {
+    return new Date().getFullYear();
+  }
 
   /*
     public static isTodayOrPast(date: Date): boolean {

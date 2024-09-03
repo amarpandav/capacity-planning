@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {SchedulerSettingsDto} from "../scheduler/models/settings/scheduler.settings.model";
+import {SchedulerSettingsDto} from "../scheduler-settings/scheduler.settings.model";
 import {SchedulerHeaderDto} from "./scheduler-header.model";
 import {MonthHeaderDto} from "./month-header.model";
 import {DayHeaderDto} from "./day-header.model";
