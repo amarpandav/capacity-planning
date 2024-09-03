@@ -21,8 +21,8 @@ export class PodAssignmentCreateRequestTemp {
     isDataValid: boolean = false;
 
     constructor(public userInAction: UserDto,
-                public timeSlotInAction: TimeSlot,
-                public dayInAction: Date) {
+                public dayInAction: Date,
+                public timeSlotInAction: TimeSlot) {
         this.isDataValid = !!(userInAction && timeSlotInAction && dayInAction);
     }
 
