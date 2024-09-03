@@ -14,11 +14,11 @@
     </div>
 </dialog-->
 
-<app-user-viewing-box></app-user-viewing-box>
+<app-user-viewing-box (selectUserAsOutputEvent)="onSelectedUserEventListener($event)"></app-user-viewing-box>
 
 <div style='display:flex'>
 
-    <!--{{selectedUser?.name}};
+    <!--<{{selectedUser?.name}};
     <app-user-list (selectUserAsOutputEvent)="onSelectedUserEventListener($event)"></app-user-list>
     -->
 
