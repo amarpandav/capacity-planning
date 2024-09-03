@@ -5,7 +5,9 @@
             <div class="row settingsContainer" style="width: 120px">
                 @for (monthName of AppConstants.monthShortNames; track $index) {
                     <div class="col-4">
-                        <button [class.active]="startMonthToView === $index" (click)="onMonthChange($index)">{{ monthName }}</button>
+                        <button [class.active]="startMonthToView === $index"
+                                (click)="onMonthChange($index)">{{ monthName }}
+                        </button>
                     </div>
                 }
             </div>
@@ -17,20 +19,24 @@
             <div class="row settingsContainer" style="width: 160px">
                 @for (monthsToView of AppConstants.NoOfMonthsToView; track monthsToView) {
                     <div class="col-2">
-                        <button [class.active]="noOfMonthsToView === monthsToView" (click)="onNoOfMonthsToViewChange(monthsToView)">{{ monthsToView }}</button>
+                        <button [class.active]="noOfMonthsToView === monthsToView"
+                                (click)="onNoOfMonthsToViewChange(monthsToView)">{{ monthsToView }}
+                        </button>
                     </div>
                 }
             </div>
         </div>
     </div>
+
     <div class="card" style="min-width: 110px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
             <h6 class="card-title" style="min-width: 100px; text-align: center">My Pods</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
                     <select>
-                        <option value="aura">AURA</option>
-                        <option value="GIM">GIM</option>
+                        @for (pod of myPods; track pod) {
+                            <option value="{{pod.entityId.uuid}}">{{pod.name}}</option>
+                        }
                     </select>
                 </div>
             </div>

@@ -82,10 +82,6 @@ export class SchedulerService {
                     }
 
                     if (dayHeaderDto.day.getDate() === podAssignmentDto.day?.getDate() && dateAdjusted.indexOf(dayHeaderDto.day.getDate()) <0 ) {
-                        //console.log(headerDateAsStr);
-                        if(dayHeaderDto.day.getDate() === 1){
-                            console.log(podAssignmentDto.dayAsStr);
-                        }
                         podAssignmentDto.day = dayHeaderDto.day;
                         podAssignmentDto.dayAsStr = headerDateAsStr;
                         podAssignmentDto.uuid = headerDateAsStr;

@@ -98,7 +98,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     onSelectedUserEventListener(selectedUser: UserDto){
-        console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));
+       // console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));
         this.selectedUser = selectedUser;
     }
 

@@ -31,13 +31,14 @@ export class UserViewingBoxComponent implements OnInit {
         let userSearchParameters = new UserSearchParameters();
         userSearchParameters.userKey = this.selectedUserKey;
 
-        console.log(JSON.stringify(userSearchParameters));
+        //console.log(JSON.stringify(userSearchParameters));
 
         let observable = this.userService.findUsers(userSearchParameters).subscribe({
             next: (users) => {
                 if (users && users.length > 0) {
                     this.selectedUser = users[0];
-                    this.selectedUserOutput.emit(this.selectedUser)
+                    this.selectedUserOutput.emit(this.selectedUser);
+                    //console.log("Emitting selectedUserDto");
                 }
             }
         });

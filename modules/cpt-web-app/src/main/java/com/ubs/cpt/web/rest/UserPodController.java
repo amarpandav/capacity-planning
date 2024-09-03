@@ -17,7 +17,7 @@ import java.util.Set;
 @RequestMapping("/users/{userId}")
 public class UserPodController {
 
-    private record UserPodsResponse(String uuid, Set<PodInfo> pods) {
+    private record UserPodsResponse(String userId, Set<PodInfo> pods) {
     }
 
     private final UserPodService service;

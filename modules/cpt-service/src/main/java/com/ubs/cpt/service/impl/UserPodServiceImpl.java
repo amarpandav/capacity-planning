@@ -22,14 +22,14 @@ public class UserPodServiceImpl implements UserPodService {
     @Override
     public Set<PodInfo> getUserPodMemberPods(EntityId<User> userId) {
         return repository.findPodsWhereUserIsMember(userId).stream()
-                .map(pod -> new PodInfo(pod.getEntityId().getUuid(), pod.getPodName()))
+                .map(pod -> new PodInfo(pod.getEntityId(), pod.getPodName()))
                 .collect(Collectors.toSet());
     }
 
     @Override
     public Set<PodInfo> getUserPodWatcherPods(EntityId<User> userId) {
         return repository.findPodsWhereUserIsWatcher(userId).stream()
-                .map(pod -> new PodInfo(pod.getEntityId().getUuid(), pod.getPodName()))
+                .map(pod -> new PodInfo(pod.getEntityId(), pod.getPodName()))
                 .collect(Collectors.toSet());
     }
 }
