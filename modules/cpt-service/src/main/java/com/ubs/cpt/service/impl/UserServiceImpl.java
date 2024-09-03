@@ -3,6 +3,7 @@ package com.ubs.cpt.service.impl;
 import com.ubs.cpt.infra.spring.util.CptReadOnlyTransaction;
 import com.ubs.cpt.service.UserService;
 import com.ubs.cpt.service.dto.UserDto;
+import com.ubs.cpt.service.repository.UsersRepositoryImpl;
 import com.ubs.cpt.service.searchparams.UserSearchParameters;
 import org.springframework.stereotype.Service;
 

@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Set;
 
-public interface PodRepository extends JpaRepository<Pod, EntityId<User>> {
+public interface PodRepository extends JpaRepository<Pod, EntityId<Pod>> {
 
     @Query("select p from Pod p join fetch p.podMembers pm join fetch pm.user u where u.entityId = :userId order by p.podName")
     List<Pod> findPodsWhereUserIsMember(@Param("userId") EntityId<User> userId);

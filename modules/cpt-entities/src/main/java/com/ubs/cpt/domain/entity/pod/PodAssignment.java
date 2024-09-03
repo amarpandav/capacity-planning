@@ -10,6 +10,9 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 /**
  * Entity representing cpt_pod_assignment DB table.
  */
@@ -24,6 +27,7 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
     public static final String TABLE_NAME = "cpt_pod_assignment";
 
     public static final class Columns {
+
         public static final String DAY = "day";
         public static final String USER_UUID = "user_uuid";
         public static final String MORNING_AVAILABILITY_TYPE = "morning_availability_type";
@@ -31,7 +35,6 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
         public static final String MORNING_POD_UUID = "morning_pod_uuid";
         public static final String AFTERNOON_POD_UUID = "afternoon_pod_uuid";
     }
-
     /**
      * User is booked for this day
      */
@@ -40,11 +43,11 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
 
 
     //@CascadeDelete
+
     @OnDelete(action = OnDeleteAction.CASCADE) // when User is deleted, bookings must also be deleted
     @ManyToOne
     @JoinColumn(name = Columns.USER_UUID)
     private User user;
-
     @Enumerated(EnumType.STRING)
     @Basic(optional = false)
     @Column(name = Columns.MORNING_AVAILABILITY_TYPE, length = FieldConstants.ENUM_30, nullable = false)
@@ -56,17 +59,17 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
     private AvailabilityType afternoonAvailabilityType;
 
     //@CascadeDelete
+
     @OnDelete(action = OnDeleteAction.CASCADE) // when Pod is deleted, bookings must also be deleted
     @ManyToOne
     @JoinColumn(name = Columns.MORNING_POD_UUID)
     private Pod morningPod;
-
     //@CascadeDelete
+
     @OnDelete(action = OnDeleteAction.CASCADE) // when Pod is deleted, bookings must also be deleted
     @ManyToOne
     @JoinColumn(name = Columns.AFTERNOON_POD_UUID)
     private Pod afternoonPod;
-
     protected PodAssignment() {// required by JPA
     }
 
@@ -96,6 +99,12 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
         if ( (afternoonAvailabilityType.isAbsent() ||  afternoonAvailabilityType.isPublicHoliday()) && afternoonPod != null) {
             throw new IllegalStateException("You are trying to assign the user to afternoon pod with afternoonAvailabilityType: "+afternoonAvailabilityType.name() + " which is not allowed!");
         }
+        if (morningAvailabilityType.isAvailable() && nonNull(morningPod)) {
+            throw new IllegalStateException("You are trying to mark the user as available in spite of assigning to morning pod.");
+        }
+        if (afternoonAvailabilityType.isAvailable() && nonNull(afternoonPod)) {
+            throw new IllegalStateException("You are trying to mark the user as available in spite of assigning to afternoon pod.");
+        }
     }
 
     public LocalDate getDay() {
@@ -123,23 +132,45 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
     }
 
     public PodAssignment setMorningAvailabilityType(AvailabilityType morningAvailabilityType) {
-        this.morningAvailabilityType = morningAvailabilityType;
+        if (this.morningAvailabilityType.isAvailable()) {
+            this.morningAvailabilityType = morningAvailabilityType;
+        }
         return this;
     }
 
     public PodAssignment setAfternoonAvailabilityType(AvailabilityType afternoonAvailabilityType) {
-        this.afternoonAvailabilityType = afternoonAvailabilityType;
+        if (this.afternoonAvailabilityType.isAvailable()) {
+            this.afternoonAvailabilityType = afternoonAvailabilityType;
+        }
         return this;
     }
 
     public PodAssignment setMorningPod(Pod morningPod) {
-        this.morningPod = morningPod;
+        if (isNull(this.morningPod)) {
+            this.morningPod = morningPod;
+        }
         return this;
     }
 
     public PodAssignment setAfternoonPod(Pod afternoonPod) {
-        this.afternoonPod = afternoonPod;
+        if (isNull(this.afternoonPod)) {
+            this.afternoonPod = afternoonPod;
+        }
         return this;
+    }
+
+    public void assignMorningToPod(Pod pod) {
+        if (this.morningAvailabilityType.isAvailable() && isNull(this.morningPod)) {
+            this.morningAvailabilityType = AvailabilityType.POD_ASSIGNMENT;
+            this.morningPod = pod;
+        }
+
+    }
+    public void assignAfternoonToPod(Pod pod) {
+        if (this.afternoonAvailabilityType.isAvailable() && isNull(this.afternoonPod)) {
+            this.afternoonAvailabilityType = AvailabilityType.POD_ASSIGNMENT;
+            this.afternoonPod = pod;
+        }
     }
 }
 
