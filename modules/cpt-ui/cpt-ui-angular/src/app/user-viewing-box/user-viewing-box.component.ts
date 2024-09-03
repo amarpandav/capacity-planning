@@ -22,7 +22,7 @@ export class UserViewingBoxComponent implements OnInit {
 
     private avatarEl = viewChild.required<ElementRef<HTMLImageElement>>('avatar');
 
-    selectUserAsOutputEvent = output<UserDto>(); //
+    selectedUserOutput = output<UserDto>(); //
 
     constructor(private userService: UserService) {
     }
@@ -37,7 +37,7 @@ export class UserViewingBoxComponent implements OnInit {
             next: (users) => {
                 if (users && users.length > 0) {
                     this.selectedUser = users[0];
-                    this.selectUserAsOutputEvent.emit(this.selectedUser)
+                    this.selectedUserOutput.emit(this.selectedUser)
                 }
             }
         });
