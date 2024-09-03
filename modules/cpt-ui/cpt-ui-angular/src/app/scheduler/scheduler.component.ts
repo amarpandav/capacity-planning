@@ -113,9 +113,10 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             const subscription1 = this.schedulerService.findMyPodAssignments(this.mySelectedPod.entityId, this.schedulerSettings)
                 .subscribe({
                         next: (userAssignments) => {
-                            //console.log("SchedulerComponent.findPodAssignments(): Data is: ");
                             //console.log(podAssignmentView);
                             this.userAssignments = userAssignments;
+                            console.log("SchedulerComponent.findPodAssignments(): Data is: "+JSON.stringify(this.userAssignments));
+
                         }/*,Not needed as its handled in the service
                     error: (error) => {
                         this.error.set(error.message);

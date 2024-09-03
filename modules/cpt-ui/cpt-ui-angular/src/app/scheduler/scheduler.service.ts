@@ -38,7 +38,7 @@ export class SchedulerService {
         }>(`${environment.apiUrl}/pods/` + mySelectedPodEntityId.uuid + `/assignments`, {params: httpParams})
             .pipe(
                 map((resBody) => {
-                    console.log("findMyPodAssignments(): resBody :" + JSON.stringify(resBody))
+                    //console.log("findMyPodAssignments(): resBody :" + JSON.stringify(resBody))
                     return resBody.assignments
                 }),
                 //map( (resBody) => resBody.places),

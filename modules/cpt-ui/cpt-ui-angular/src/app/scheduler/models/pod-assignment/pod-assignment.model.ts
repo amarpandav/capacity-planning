@@ -1,12 +1,16 @@
 import {AssignmentDto} from "./assignment.model";
+import {DateUtils} from "../../../utils/DateUtils";
 
 
 export class PodAssignmentDto {
+
+    public isWeekend: boolean = false;
 
     constructor(public uuid: string, //cpt_pod_assignment.uuid
                 public day: Date,
                 public morning: AssignmentDto,
                 public afternoon: AssignmentDto){
+        this.isWeekend = DateUtils.isWeekend(day);
         if (!morning && !afternoon) {
             //You can't have an empty capacity day
             //TODO we can't inject service in a Dto hence move this code later into an injectable component.

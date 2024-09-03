@@ -83,9 +83,7 @@
             </div>
 
             @for (podAssignment of userAssignment.podAssignments; track podAssignment) {
-                <div class='cell day '
-                     [class]="{weekEnd: DateUtils.isWeekend(podAssignment.day), weekDay: !DateUtils.isWeekend(podAssignment.day) }"
-                     >
+                <div class='cell day'>
 
                 <div style='height:100%;width:50%;'
                          class='daypart morning {{podAssignment.morning.pod?.podStyleClass}} {{podAssignment.morning.availabilityType}}'
