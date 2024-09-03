@@ -6,8 +6,9 @@ import com.ubs.cpt.domain.entity.pod.PodMember;
 import com.ubs.cpt.domain.entity.user.User;
 import com.ubs.cpt.infra.exception.PodNotFoundException;
 import com.ubs.cpt.service.PodAssignmentService;
-import com.ubs.cpt.service.dto.AssignmentDto;
+import com.ubs.cpt.service.dto.PodAssignmentDto;
 import com.ubs.cpt.service.dto.PodAssignmentsResponse;
+import com.ubs.cpt.service.impl.mapper.PodMapper;
 import com.ubs.cpt.service.repository.PodAssignmentRepository;
 import com.ubs.cpt.service.repository.PodMemberRepository;
 import com.ubs.cpt.service.repository.PodRepository;
@@ -56,7 +57,9 @@ public class PodAssignmentServiceImpl implements PodAssignmentService {
         Map<String, List<PodAssignment>> assignmentsByUserId = podAssignments.stream()
                 .collect(Collectors.groupingBy(podAssignment -> podAssignment.getUser().getEntityId().getUuid()));
         assignmentsByUserId.forEach((key, value) -> response.add(key, value.stream()
-                .map(val -> new AssignmentDto(val.getEntityId().getUuid(), val.getDay(), val.getMorningAvailabilityType(), val.getAfternoonAvailabilityType()))
+                .map(val -> new PodAssignmentDto(val.getEntityId().getUuid(), val.getDay(),
+                        new PodAssignmentDto.AssignmentDto(val.getMorningAvailabilityType(), PodMapper.map(val.getMorningPod())),
+                        new PodAssignmentDto.AssignmentDto(val.getAfternoonAvailabilityType(), PodMapper.map(val.getAfternoonPod()))))
                 .toList()));
         return response;
     }

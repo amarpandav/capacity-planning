@@ -15,11 +15,11 @@ public record PodAssignmentsResponse(List<UserAssignmentDto> assignments) {
         );
     }
 
-    public void add(String userId, List<AssignmentDto> assignmentDtos) {
+    public void add(String userId, List<PodAssignmentDto> podAssignmentDtos) {
         assignments.stream()
                 .filter(userAssignment -> userAssignment.getUser().getEntityId().getUuid().equals(userId))
                 .findAny()
-                .ifPresent(assignment -> assignment.add(assignmentDtos));
+                .ifPresent(assignment -> assignment.add(podAssignmentDtos));
     }
 
 }

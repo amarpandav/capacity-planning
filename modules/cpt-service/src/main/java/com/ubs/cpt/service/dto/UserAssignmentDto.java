@@ -14,7 +14,7 @@ import java.util.Set;
 public class UserAssignmentDto {
     private final UserDto user;
     private final PodMemberRole podMemberRole;
-    private final Set<AssignmentDto> podAssignments = new HashSet<>();
+    private final Set<PodAssignmentDto> podAssignments = new HashSet<>();
 
     public UserAssignmentDto(UserDto user, PodMemberRole podMemberRole) {
         this.user = user;
@@ -26,9 +26,9 @@ public class UserAssignmentDto {
         startDate.datesUntil(endDate.plusDays(1))
                 .map(day -> {
                     if (day.getDayOfWeek() == DayOfWeek.SATURDAY || day.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                        return AssignmentDto.publicHoliday(day);
+                        return PodAssignmentDto.publicHoliday(day);
                     } else {
-                        return AssignmentDto.available(day);
+                        return PodAssignmentDto.available(day);
                     }
                 })
                 .forEach(podAssignments::add);
@@ -42,13 +42,13 @@ public class UserAssignmentDto {
         return podMemberRole;
     }
 
-    public List<AssignmentDto> getPodAssignments() {
+    public List<PodAssignmentDto> getPodAssignments() {
         return podAssignments.stream()
-                .sorted(Comparator.comparing(AssignmentDto::day))
+                .sorted(Comparator.comparing(PodAssignmentDto::day))
                 .toList();
     }
 
-    public void add(List<AssignmentDto> toAdd) {
+    public void add(List<PodAssignmentDto> toAdd) {
         toAdd.forEach(input -> {
             if (podAssignments.remove(input)) {
                 podAssignments.add(input);
