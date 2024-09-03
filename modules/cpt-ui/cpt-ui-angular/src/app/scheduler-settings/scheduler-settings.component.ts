@@ -46,7 +46,7 @@ export class SchedulerSettingsComponent implements OnChanges{
             const subscription1 = this.podService.findMyPods(this.selectedUser().entityId)
                 .subscribe({
                         next: (myPods) => {
-                            console.log("myPods:"+JSON.stringify(myPods));
+                            //console.log("myPods:"+JSON.stringify(myPods));
                             this.myPods = myPods;
                         }
                     }

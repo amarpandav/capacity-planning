@@ -21,7 +21,7 @@ export class PodService {
         }>(`${environment.apiUrl}/users/` + userEntityId.uuid + '/pod-member-pods')
             .pipe(
                 map((resBody) => {
-                    console.log("PodService.findMyPods().resBody:" + JSON.stringify(resBody))
+                    //console.log("PodService.findMyPods().resBody:" + JSON.stringify(resBody))
                     return resBody.pods
                 }),
                 //map( (resBody) => resBody.places),
