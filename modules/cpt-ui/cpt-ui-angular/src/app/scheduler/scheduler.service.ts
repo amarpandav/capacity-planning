@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {catchError, map, of, throwError} from 'rxjs';
+import {catchError, map, Observable, of, throwError} from 'rxjs';
 import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {ErrorService} from "../error-dialog/error.service";
 import {POD_ASSIGNMENT_VIEW_TEST_DATA} from "../../testdata/scheduler/pod-assignment-view.test-data";
@@ -24,7 +24,7 @@ export class SchedulerService {
     }
 
     //dialog is displayed inside AppComponent.ts
-    findPodAssignments(currentPodToView: PodDto, schedulerSettings: SchedulerSettingsDto) {
+    findPodAssignments(currentPodToView: PodDto, schedulerSettings: SchedulerSettingsDto): Observable<PodAssignmentViewDto> {
         /*const httpParams = new HttpParams()
                                             .set('startDate', '2024-08-01')
                                             .set('endDate', '2024-10-01');*/
@@ -44,10 +44,12 @@ export class SchedulerService {
                 //map( (resBody) => resBody.places),
                 catchError((error: HttpErrorResponse) => {
                     if (PRODUCE_UI_TEST_DATA) {
-                        let testDataObservable = of(POD_ASSIGNMENT_VIEW_TEST_DATA);
+
+                        let testDataObservable = of(JSON.parse(JSON.stringify(POD_ASSIGNMENT_VIEW_TEST_DATA)));//if you don't deep clone data gets appended.
                         testDataObservable.subscribe((podAssignmentViewDto: PodAssignmentViewDto) => {
-                            console.log("findPodAssignments.catchError loading UI Test data:" + JSON.stringify(podAssignmentViewDto))
-                            this.populateSchedulerTestData(schedulerSettings, podAssignmentViewDto)
+                            //console.log("findPodAssignments.catchError loading UI Test data:" + JSON.stringify(podAssignmentViewDto))
+                            //console.log("findPodAssignments.catchError loading UI Test data:" + podAssignmentViewDto.podAssignmentWrappers[0].podAssignments.length)
+                            this.populateSchedulerTestData(schedulerSettings, podAssignmentViewDto);
                         });
                         return testDataObservable;
                     } else {
@@ -67,16 +69,42 @@ export class SchedulerService {
 
         let schedulerHeaderDto = this.schedulerHeaderService.findSchedulerHeader(schedulerSettings);
 
+        //Adjust all months of test data as per scheduler settings. When day matches replace the month as per scheduler settings
+        var dateAdjusted: number[] = [];
+        schedulerHeaderDto.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
+            podAssignmentView?.podAssignmentWrappers.forEach((podAssignmentWrapper: PodAssignmentWrapperDto) => {
+                let headerDateAsStr = DateUtils.formatToISODate(dayHeaderDto.day);
+
+                podAssignmentWrapper.podAssignments?.forEach((podAssignmentDto: PodAssignmentDto) => {
+
+                    if (podAssignmentDto.dayAsStr && !podAssignmentDto.day) {
+                        podAssignmentDto.day = DateUtils.parseISODate(podAssignmentDto.dayAsStr);
+                    }
+
+                    if (dayHeaderDto.day.getDate() === podAssignmentDto.day?.getDate() && dateAdjusted.indexOf(dayHeaderDto.day.getDate()) <0 ) {
+                        //console.log(headerDateAsStr);
+                        if(dayHeaderDto.day.getDate() === 1){
+                            console.log(podAssignmentDto.dayAsStr);
+                        }
+                        podAssignmentDto.day = dayHeaderDto.day;
+                        podAssignmentDto.dayAsStr = headerDateAsStr;
+                        podAssignmentDto.uuid = headerDateAsStr;
+
+                        dateAdjusted.push(dayHeaderDto.day.getDate() ); // otherwise last month gets assignments instead of first.
+                    }
+                });
+            })
+        });
+
         schedulerHeaderDto.dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
             /*this.podMemberCapacities.forEach( (podMemberCapacityDto: PodMemberCapacityDto) => {
               let headerDateAsStr = this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
               let find = podMemberCapacityDto.podAssignments?.find(capacityDto => capacityDto.day === headerDateAsStr);
             });*/
             podAssignmentView?.podAssignmentWrappers.forEach((podAssignmentWrapper: PodAssignmentWrapperDto) => {
-                //let userDto = schedulerViewDto.user;
-
                 //let headerDateAsStr = "" + this.datePipe.transform(dayHeaderDto.day, AppConstants.DATE_FORMAT);
                 let headerDateAsStr = DateUtils.formatToISODate(dayHeaderDto.day);
+
                 let podAssignmentDto = podAssignmentWrapper.podAssignments?.find(podAssignmentDto => podAssignmentDto.dayAsStr === headerDateAsStr);
 
                 if (podAssignmentDto) {

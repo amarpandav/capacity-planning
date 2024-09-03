@@ -2,7 +2,7 @@
 import {PodMemberRole} from "../../app/scheduler/models/pod/pom-member-role.enum";
 import {AvailabilityType} from "../../app/scheduler/models/availability/availability.enum";
 
-export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
+export var POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
     currentPod: {
         uuid: 'AURAPodUuid',
         podName: 'AURA',
@@ -85,7 +85,7 @@ export const POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                     }
                 },
                 {
-                    uuid: 'AmarPandavPodAssignmentUuid-13082024',
+                    uuid: 'AmarPandavPodAssignmentUuid-14082024',
                     dayAsStr: '2024-08-14',
                     morning: { //AssignmentDto
                         availabilityType: AvailabilityType.ABSENT

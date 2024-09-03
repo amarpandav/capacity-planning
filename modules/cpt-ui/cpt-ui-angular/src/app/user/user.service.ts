@@ -7,7 +7,7 @@ import {USER_TEST_DATA} from "../../testdata/user/user.test-data";
 import {environment} from '../../environments/environment';
 import {UserSearchParameters} from "./user.search.parameters";
 
-const PRODUCE_UI_TEST_DATA = false;
+const PRODUCE_UI_TEST_DATA = true;
 
 @Injectable({providedIn: 'root'})
 export class UserService {
