@@ -65,7 +65,7 @@ export class SchedulerService {
                 map((resBody) => {
                     //console.log("findMyPodAssignments(): resBody :" + JSON.stringify(resBody))
                     //return resBody.assignments
-                    return resBody.httpResponse
+                    //return resBody.httpResponse
                 }),
                 //map( (resBody) => resBody.places),
                 catchError((error: HttpErrorResponse) => {
