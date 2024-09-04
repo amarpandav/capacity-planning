@@ -63,14 +63,13 @@ public class PodAssignmentTestData {
                 .withMorningAvailabilityType(AvailabilityType.POD_ASSIGNMENT)
                 .withAfternoonAvailabilityType(AvailabilityType.AVAILABLE)
                 .withMorningPod(PodTestdata.suiteSynthetic().AURA)
-                .withAfternoonPod(PodTestdata.suiteSynthetic().AURA)
                 .create());
 
         public PodAssignment AMAR_ASSIGNMENT_2_AURA_GIM = register(new PodAssignmentTestData()
-                .withDay(LocalDate.of(2024, 9, 1))
+                .withDay(LocalDate.of(2024, 9, 2))
                 .withUser(PodMemberTestdata.suiteSynthetic().AMAR_FOR_AURA.getUser())
                 .withMorningAvailabilityType(AvailabilityType.POD_ASSIGNMENT)
-                .withAfternoonAvailabilityType(AvailabilityType.AVAILABLE)
+                .withAfternoonAvailabilityType(AvailabilityType.POD_ASSIGNMENT)
                 .withMorningPod(PodTestdata.suiteSynthetic().AURA)
                 .withAfternoonPod(PodTestdata.suiteSynthetic().GIM)
                 .create());

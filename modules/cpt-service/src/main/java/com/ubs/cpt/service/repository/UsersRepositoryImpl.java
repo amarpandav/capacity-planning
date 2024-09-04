@@ -1,4 +1,4 @@
-package com.ubs.cpt.service.impl;
+package com.ubs.cpt.service.repository;
 
 import com.ubs.cpt.infra.datetime.DateTimeService;
 import com.ubs.cpt.service.dto.UserDto;
