@@ -9,7 +9,8 @@ public enum PodMemberRole {
     SOLUTIONS_ARCHITECT("SA"),
     BUSINESS_ANALYSTS("BA"),
     PRODUCT_OWNER("PO"),
-    UI_UX("UX");
+    UI_UX("UX"),
+    POD_WATCHER("PW");
 
     PodMemberRole(String shortRoleName) {
     }
