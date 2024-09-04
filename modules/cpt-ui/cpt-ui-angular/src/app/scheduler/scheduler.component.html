@@ -52,13 +52,13 @@
     </div>
 
     <div (mouseleave)="destroyPodAllocationCreateRequest()">
-    @for (userAssignment of userAssignments; track userAssignment) {
+    @for (userAssignment of userAssignments; track userAssignment.user.userKey.gpin) {
         <div class='employeeRow' >
             <div class='cell employeeName'>pic: {{ userAssignment.user.name }}
                 ({{ JSON.stringify(userAssignment.podMemberRole) }})
             </div>
 
-            @for (podAssignment of userAssignment.podAssignments; track podAssignment) {
+            @for (podAssignment of userAssignment.podAssignments; track podAssignment.uuid) {
                 <div class='cell day'>
 
                 <div style='height:100%;width:50%;'

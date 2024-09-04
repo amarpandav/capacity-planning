@@ -48,7 +48,7 @@ export class PodService {
         }>(`${environment.apiUrl}/pods/` + podEntityId.uuid + '/related-pods')
             .pipe(
                 map((resBody) => {
-                    console.log("PodService.findRelatedPods().resBody:" + JSON.stringify(resBody))
+                    //console.log("PodService.findRelatedPods().resBody:" + JSON.stringify(resBody))
                     return resBody.pods
                 }),
                 //map( (resBody) => resBody.places),

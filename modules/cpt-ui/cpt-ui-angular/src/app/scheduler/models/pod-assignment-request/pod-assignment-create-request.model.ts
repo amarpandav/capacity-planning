@@ -1,4 +1,3 @@
-import {UserDto} from "../user/user.model";
 import {TimeSlot} from "../pod-assignment/time-slot.enum";
 
 /**
@@ -16,18 +15,17 @@ export class PodAssignmentCreateRequestDto {
 
 }
 
-export class PodAssignmentCreateRequestTemp {
+export class DayToAssign {
 
     isDataValid: boolean = false;
 
-    constructor(public userInAction: UserDto,
-                public dayInAction: Date,
+    constructor(public dayInAction: Date,
                 public timeSlotInAction: TimeSlot) {
-        this.isDataValid = !!(userInAction && timeSlotInAction && dayInAction);
+        this.isDataValid = !!(timeSlotInAction && dayInAction);
     }
 
 }
-
+/*
 export class PodAssignmentCreateRequestDayTemp {
 
     constructor(public day: Date,
@@ -35,4 +33,4 @@ export class PodAssignmentCreateRequestDayTemp {
                 public afternoonTimeSlot: TimeSlot| null) {
     }
 
-}
+}*/

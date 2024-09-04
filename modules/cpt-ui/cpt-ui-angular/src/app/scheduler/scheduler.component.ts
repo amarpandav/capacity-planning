@@ -13,14 +13,13 @@ import {UserPodsDto} from "./models/user/user-pods.model";
 import {UserPodWatchersDto} from "./models/user/user-pod-watchers.model";
 import {USER_POD_WATCHERS_TEST_DATA} from "../../testdata/user/user-pod-watchers.test-data";
 import {AssignmentDto} from "./models/pod-assignment/assignment.model";
-import {isAfternoon, isMorning, TimeSlot} from "./models/pod-assignment/time-slot.enum";
+import {TimeSlot} from "./models/pod-assignment/time-slot.enum";
 import {POD_DETAILS_TEST_DATA} from "../../testdata/pod/pod-details.test-data";
 import {PodDetailsDto} from "./models/pod/pod-details.model";
 import {POD_TEST_DATA} from "../../testdata/pod/pod.test-data";
 import {
-    PodAssignmentCreateRequestDayTemp,
     PodAssignmentCreateRequestDto,
-    PodAssignmentCreateRequestTemp
+    DayToAssign
 } from "./models/pod-assignment-request/pod-assignment-create-request.model";
 import {SchedulerService} from "./scheduler.service";
 import {Subscription} from "rxjs";
@@ -72,14 +71,14 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     private podAssignmentDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
 
     //podAssignmentCreateRequest: PodAssignmentToSave | undefined;
-    podAssignmentCreateRequestTempStart: PodAssignmentCreateRequestTemp | undefined;
-    podAssignmentCreateRequestTempEnd: PodAssignmentCreateRequestTemp | undefined;
     //podAssignmentCreateRequest: PodAssignmentCreateRequestDto | undefined;
 
     //podAssignmentCreateRequestUsers: Set<string>  = new Set();
-    podAssignmentCreateRequestUsers: string[] = [];
+    usersToAssign: string[] = [];
+    startDayToAssign: DayToAssign | undefined;
+    endDayToAssign: DayToAssign | undefined;
     //podAssignmentCreateRequestDays: Date[] = [];
-    podAssignmentCreateRequestDaysTemp: PodAssignmentCreateRequestDayTemp[] = [];
+    //podAssignmentCreateRequestDaysTemp: PodAssignmentCreateRequestDayTemp[] = [];
 
     selectedUser?: UserDto;
 
@@ -180,7 +179,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 podAssignment.afternoon.pod = this.selectedPodToAssign;
             });*/
             // @ts-ignore : dayInAction would never be null
-            this.podAssignmentCreateRequestTempStart = new PodAssignmentCreateRequestTemp(userInAction, dayInAction, timeSlotInAction);
+            this.startDayToAssign = new DayToAssign(dayInAction, timeSlotInAction);
         }
 
     }
@@ -192,7 +191,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     assignmentInAction: AssignmentDto,
                     pod: PodDto | undefined,
                     dayInAction: Date | null | undefined) {
-        if (this.selectedPodToAssign && this.podAssignmentCreateRequestTempStart && !this.podAssignmentCreateRequestTempEnd) {
+        if (this.selectedPodToAssign && this.startDayToAssign && !this.endDayToAssign) {
             console.log("whileDragging...");
             console.log("userInAction:" + JSON.stringify(userInAction));
             console.log("dayInAction:" + JSON.stringify(dayInAction));
@@ -220,7 +219,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             this.allocateUsersToMyPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
 
             // @ts-ignore : dayInAction would never be null
-            this.podAssignmentCreateRequestTempEnd = new PodAssignmentCreateRequestTemp(userInAction, dayInAction, timeSlotInAction);
+            this.endDayToAssign = new DayToAssign(dayInAction, timeSlotInAction);
 
             this.preparePodAssignmentCreateRequest();
         }
@@ -246,9 +245,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             assignmentInAction.availabilityType = AvailabilityType.POD_ASSIGNMENT;
             assignmentInAction.pod = this.selectedPodToAssign;
 
-            if (this.podAssignmentCreateRequestUsers.indexOf(userInAction.entityId.uuid) === -1) {
+            if (this.usersToAssign.indexOf(userInAction.entityId.uuid) === -1) {
                 //this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
-                this.podAssignmentCreateRequestUsers.push(userInAction.entityId.uuid);
+                this.usersToAssign.push(userInAction.entityId.uuid);
             }
 
             /*let listHasDay = this.podAssignmentCreateRequestDays.some( (day) => DateUtils.formatToISODate(day) === DateUtils.formatToISODate(dayInAction));
@@ -262,7 +261,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 }
                 return 1;
             });*/
-            let podAssignmentCreateRequestDayTemp = this.podAssignmentCreateRequestDaysTemp.find((requestDay) => DateUtils.formatToISODate(requestDay.day) === DateUtils.formatToISODate(dayInAction));
+
+            /*let podAssignmentCreateRequestDayTemp = this.podAssignmentCreateRequestDaysTemp.find((requestDay) => DateUtils.formatToISODate(requestDay.day) === DateUtils.formatToISODate(dayInAction));
             if (!podAssignmentCreateRequestDayTemp) {
                 //This is new day
                 this.podAssignmentCreateRequestDaysTemp.push(new PodAssignmentCreateRequestDayTemp(dayInAction, isMorning(timeSlotInAction) ? timeSlotInAction : null, isAfternoon(timeSlotInAction) ? timeSlotInAction : null));
@@ -283,7 +283,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     return a.day > b.day ? 1 : -1;
                 }
                 return 1;
-            });
+            });*/
 
             //console.log("podAssignmentCreateRequestUsersCloned:" + JSON.stringify(podAssignmentCreateRequestUsersCloned));
             //console.log("this.podAssignmentCreateRequestUsers:" + JSON.stringify(this.podAssignmentCreateRequestUsers));
@@ -294,7 +294,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     private preparePodAssignmentCreateRequest() {
-        if (this.selectedPodToAssign && this.podAssignmentCreateRequestTempStart && this.podAssignmentCreateRequestTempStart.isDataValid && this.podAssignmentCreateRequestTempEnd && this.podAssignmentCreateRequestTempEnd.isDataValid) {
+        if (this.selectedPodToAssign && this.startDayToAssign && this.startDayToAssign.isDataValid && this.endDayToAssign && this.endDayToAssign.isDataValid) {
 
             /*this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
             //Is start and end user different, if yes then we need to select all in-between users
@@ -315,11 +315,11 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
             let podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
                 this.selectedPodToAssign.entityId.uuid,
-                this.podAssignmentCreateRequestUsers,
-                this.podAssignmentCreateRequestTempStart.dayInAction,
-                this.podAssignmentCreateRequestTempStart.timeSlotInAction,
-                this.podAssignmentCreateRequestTempEnd.dayInAction,
-                this.podAssignmentCreateRequestTempEnd.timeSlotInAction);
+                this.usersToAssign,
+                this.startDayToAssign.dayInAction,
+                this.startDayToAssign.timeSlotInAction,
+                this.endDayToAssign.dayInAction,
+                this.endDayToAssign.timeSlotInAction);
 
             //this.podAssignmentDialogEl().nativeElement.showModal();
             this.destroyPodAllocationCreateRequest();
@@ -361,14 +361,14 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     destroyPodAllocationCreateRequest() {
         //<div (mouseleave)="destroyPodAllocationCreateRequest()"> is must because in case user drags outside scheduler we want to throw everything and not save anything.
-        if (this.podAssignmentCreateRequestTempStart) {
+        if (this.startDayToAssign) {
             //destroy only when we are inside booking mode.
             console.log("destroyPodAllocationCreateRequest");
             //rest all class level variables after request is sent.
-            this.podAssignmentCreateRequestTempStart = undefined;
-            this.podAssignmentCreateRequestTempEnd = undefined;
-            this.podAssignmentCreateRequestUsers = [];
-            this.podAssignmentCreateRequestDaysTemp = [];
+            this.startDayToAssign = undefined;
+            this.endDayToAssign = undefined;
+            this.usersToAssign = [];
+            //this.podAssignmentCreateRequestDaysTemp = [];
             this.userAssignments = [];
             this.findMyPodAssignments();
         }
