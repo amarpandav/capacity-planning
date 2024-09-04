@@ -63,7 +63,7 @@ export class SchedulerService {
         }>(`${environment.apiUrl}/pods/` + podAssignmentCreateRequestDto.podId + `/assignments`, podAssignmentCreateRequestDto)
             .pipe(
                 map((resBody) => {
-                    //console.log("findMyPodAssignments(): resBody :" + JSON.stringify(resBody))
+                    //console.log("createPodAssignmentRequest(): resBody :" + resBody);
                     //return resBody.assignments
                     //return resBody.httpResponse
                 }),

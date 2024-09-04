@@ -336,7 +336,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         const subscription1 = this.schedulerService.createPodAssignmentRequest(podAssignmentCreateRequest)
             .subscribe({
                     next: (whatever) => {
-                        console.log("whatever:" + JSON.stringify(whatever));
+                        //console.log("whatever:" + JSON.stringify(whatever));
+                        //reload assignments after booking.
+                        this.findMyPodAssignments();
                     }
                 }
             );
