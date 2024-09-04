@@ -35,6 +35,7 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
         public static final String MORNING_POD_UUID = "morning_pod_uuid";
         public static final String AFTERNOON_POD_UUID = "afternoon_pod_uuid";
     }
+
     /**
      * User is booked for this day
      */
@@ -70,6 +71,7 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
     @ManyToOne
     @JoinColumn(name = Columns.AFTERNOON_POD_UUID)
     private Pod afternoonPod;
+
     protected PodAssignment() {// required by JPA
     }
 
@@ -93,11 +95,11 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
             throw new IllegalStateException("You are trying to assign the user to afternoon pod without afternoon_pod_uuid.");
         }
 
-        if ( (morningAvailabilityType.isAbsent() ||  morningAvailabilityType.isPublicHoliday()) && morningPod != null) {
-            throw new IllegalStateException("You are trying to assign the user to morning pod with morningAvailabilityType: "+afternoonAvailabilityType.name() + " which is not allowed!");
+        if ((morningAvailabilityType.isAbsent() || morningAvailabilityType.isPublicHoliday()) && morningPod != null) {
+            throw new IllegalStateException("You are trying to assign the user to morning pod with morningAvailabilityType: " + afternoonAvailabilityType.name() + " which is not allowed!");
         }
-        if ( (afternoonAvailabilityType.isAbsent() ||  afternoonAvailabilityType.isPublicHoliday()) && afternoonPod != null) {
-            throw new IllegalStateException("You are trying to assign the user to afternoon pod with afternoonAvailabilityType: "+afternoonAvailabilityType.name() + " which is not allowed!");
+        if ((afternoonAvailabilityType.isAbsent() || afternoonAvailabilityType.isPublicHoliday()) && afternoonPod != null) {
+            throw new IllegalStateException("You are trying to assign the user to afternoon pod with afternoonAvailabilityType: " + afternoonAvailabilityType.name() + " which is not allowed!");
         }
         if (morningAvailabilityType.isAvailable() && nonNull(morningPod)) {
             throw new IllegalStateException("You are trying to mark the user as available in spite of assigning to morning pod.");
@@ -132,30 +134,22 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
     }
 
     public PodAssignment setMorningAvailabilityType(AvailabilityType morningAvailabilityType) {
-        if (this.morningAvailabilityType.isAvailable()) {
-            this.morningAvailabilityType = morningAvailabilityType;
-        }
+        this.morningAvailabilityType = morningAvailabilityType;
         return this;
     }
 
     public PodAssignment setAfternoonAvailabilityType(AvailabilityType afternoonAvailabilityType) {
-        if (this.afternoonAvailabilityType.isAvailable()) {
-            this.afternoonAvailabilityType = afternoonAvailabilityType;
-        }
+        this.afternoonAvailabilityType = afternoonAvailabilityType;
         return this;
     }
 
     public PodAssignment setMorningPod(Pod morningPod) {
-        if (isNull(this.morningPod)) {
-            this.morningPod = morningPod;
-        }
+        this.morningPod = morningPod;
         return this;
     }
 
     public PodAssignment setAfternoonPod(Pod afternoonPod) {
-        if (isNull(this.afternoonPod)) {
-            this.afternoonPod = afternoonPod;
-        }
+        this.afternoonPod = afternoonPod;
         return this;
     }
 
@@ -166,6 +160,7 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
         }
 
     }
+
     public void assignAfternoonToPod(Pod pod) {
         if (this.afternoonAvailabilityType.isAvailable() && isNull(this.afternoonPod)) {
             this.afternoonAvailabilityType = AvailabilityType.POD_ASSIGNMENT;
