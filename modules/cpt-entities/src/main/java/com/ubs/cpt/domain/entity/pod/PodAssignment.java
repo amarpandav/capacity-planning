@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -107,6 +108,13 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
         if (afternoonAvailabilityType.isAvailable() && nonNull(afternoonPod)) {
             throw new IllegalStateException("You are trying to mark the user as available in spite of assigning to afternoon pod.");
         }
+    }
+
+    public PodAssignment(LocalDate day, User user) {
+        this.day = Objects.requireNonNull(day, "day");
+        this.user = Objects.requireNonNull(user, "user");
+        this.morningAvailabilityType = AvailabilityType.AVAILABLE;
+        this.afternoonAvailabilityType = AvailabilityType.AVAILABLE;
     }
 
     public LocalDate getDay() {

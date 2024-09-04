@@ -55,9 +55,9 @@ public class CreateAssignmentsServiceImpl implements CreateAssignmentsService {
                                 .map(pa -> PodAssignmentUpdater.update(pa).with(request, pod))
                                 .findFirst()
                                 .orElseGet(() -> {
-                                    PodAssignment newPodAssignment = new PodAssignment(day, user, AvailabilityType.POD_ASSIGNMENT, AvailabilityType.POD_ASSIGNMENT, pod, pod);
+                                    PodAssignment newPodAssignment = new PodAssignment(day, user);
                                     newPodAssignment.prePersist();
-                                    return newPodAssignment;
+                                    return PodAssignmentUpdater.update(newPodAssignment).with(request, pod);
                                 })
                         )
                         .toList())
