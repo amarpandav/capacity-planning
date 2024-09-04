@@ -1,4 +1,5 @@
 import {TimeSlot} from "../pod-assignment/time-slot.enum";
+import {AssignmentDto} from "../pod-assignment/assignment.model";
 
 /**
  * Pod lead is trying to assign these Users to these pods for this duration
@@ -25,12 +26,17 @@ export class DayToAssign {
     }
 
 }
-/*
-export class PodAssignmentCreateRequestDayTemp {
+
+export class DayAndSlotToAssign {
 
     constructor(public day: Date,
                 public morningTimeSlot: TimeSlot | null,
-                public afternoonTimeSlot: TimeSlot| null) {
+                public afternoonTimeSlot: TimeSlot| null,
+                public assignmentInAction: AssignmentDto) {
     }
 
-}*/
+    equals (that: DayAndSlotToAssign) {
+        return this.day === that.day && this.morningTimeSlot === that.morningTimeSlot && this.afternoonTimeSlot === that.afternoonTimeSlot;
+    }
+
+}
