@@ -23,6 +23,7 @@ public class UserAssignmentDto {
 
     public UserAssignmentDto(User user, PodMemberRole podMemberRole, LocalDate startDate, LocalDate endDate) {
         this(UserMapper.map(user), podMemberRole);
+
         startDate.datesUntil(endDate.plusDays(1))
                 .map(day -> {
                     if (day.getDayOfWeek() == DayOfWeek.SATURDAY || day.getDayOfWeek() == DayOfWeek.SUNDAY) {

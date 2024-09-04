@@ -3,6 +3,7 @@ package com.ubs.cpt.service.dto;
 import com.ubs.cpt.domain.entity.availability.AvailabilityType;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public record PodAssignmentDto(
@@ -10,12 +11,12 @@ public record PodAssignmentDto(
         LocalDate day,
         AssignmentDto morning,
         AssignmentDto afternoon) {
-    public static PodAssignmentDto available(LocalDate date) {
-        return new PodAssignmentDto("virtual", date, AssignmentDto.available(), AssignmentDto.available());
+    public static PodAssignmentDto available(LocalDate day) {
+        return new PodAssignmentDto("virtual-"+ day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), day, AssignmentDto.available(), AssignmentDto.available());
     }
 
     public static PodAssignmentDto publicHoliday(LocalDate day) {
-        return new PodAssignmentDto("virtual", day, AssignmentDto.publicHoliday(), AssignmentDto.publicHoliday());
+        return new PodAssignmentDto("virtual"+ day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), day, AssignmentDto.publicHoliday(), AssignmentDto.publicHoliday());
     }
 
     @Override
