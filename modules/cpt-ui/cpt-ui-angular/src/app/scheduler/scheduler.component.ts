@@ -180,7 +180,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         console.log("onDragStart...");
 
         // @ts-ignore : dayInAction would never be null
-        this.allocateUsersToCurrentPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
+        this.allocateUsersToMyPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
 
         /*clickedUserAssignment.podAssignments.forEach( (podAssignment: PodAssignmentDto) => {
             podAssignment.morning.pod = this.selectedPodToAssign;
@@ -205,7 +205,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));
 
             // @ts-ignore : dayInAction would never be null
-            this.allocateUsersToCurrentPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
+            this.allocateUsersToMyPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
         }
 
 
@@ -221,7 +221,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         console.log("onDragEnd...");
 
         // @ts-ignore : dayInAction would never be null
-        this.allocateUsersToCurrentPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
+        this.allocateUsersToMyPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
 
         // @ts-ignore : dayInAction would never be null
         this.podAssignmentCreateRequestTempEnd = new PodAssignmentCreateRequestTemp(userInAction, dayInAction, timeSlotInAction);
@@ -229,7 +229,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.preparePodAssignmentCreateRequest();
     }
 
-    private allocateUsersToCurrentPod(userInAction: UserDto, dayInAction: Date, timeSlotInAction: TimeSlot, assignmentInAction: AssignmentDto) {
+    private allocateUsersToMyPod(userInAction: UserDto, dayInAction: Date, timeSlotInAction: TimeSlot, assignmentInAction: AssignmentDto) {
         /*console.log("userInAction:" + JSON.stringify(userInAction));
         console.log("dayAsStrInAction:" + JSON.stringify(dayAsStrInAction));
         console.log("dayInAction:" + JSON.stringify(dayInAction));
