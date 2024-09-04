@@ -7,6 +7,7 @@ import com.ubs.cpt.domain.entity.pod.PodAssignment;
 import com.ubs.cpt.domain.entity.user.User;
 import com.ubs.cpt.infra.exception.PodNotFoundException;
 import com.ubs.cpt.service.CreateAssignmentsService;
+import com.ubs.cpt.service.PodAssignmentService;
 import com.ubs.cpt.service.repository.PodAssignmentRepository;
 import com.ubs.cpt.service.repository.PodRepository;
 import com.ubs.cpt.service.repository.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,6 +40,7 @@ public class CreateAssignmentsServiceImpl implements CreateAssignmentsService {
     @Override
     public void execute(CreateAssignmentsRequest request) {
         log.info("creating pod assignments for request: {}", request);
+        validate(request);
         String podId = request.podId();
         Pod pod = podRepository.findById(new EntityId<>(podId))
                 .orElseThrow(() -> new PodNotFoundException("pod not found by id " + podId));
@@ -66,6 +69,16 @@ public class CreateAssignmentsServiceImpl implements CreateAssignmentsService {
 
         podAssignmentRepository.saveAll(podAssignmentsToSave);
         log.info("updated/created {} pod assignments", podAssignmentsToSave.size());
+    }
+
+    private void validate(CreateAssignmentsRequest request) {
+        LocalDate startDate = request.startDate();
+        LocalDate endDate = request.endDate();
+
+        Period duration = startDate.until(endDate);
+        if (duration.toTotalMonths() > 12) {
+            throw new IllegalArgumentException("duration longer than 12 months between startDate and endDate is not supported");
+        }
     }
 
     private boolean isNotFullyBookedThatDayAlready(List<PodAssignment> existingPodAssignments, User user, LocalDate day) {
