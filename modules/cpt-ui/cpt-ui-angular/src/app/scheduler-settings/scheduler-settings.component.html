@@ -45,18 +45,17 @@
 
     <div class="card" style="min-width: 110px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
-            <h6 class="card-title" style="min-width: 100px; text-align: center">Pods</h6>
+            <h6 class="card-title" style="min-width: 100px; text-align: center">Assigned Pods</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
                     @for (pod of relatedPods; track pod) {
-                        <div style="display:flex;">
-                            <div class="cell day weekDay" style="margin-right: 10px">
+                        <div style="display:flex;cursor: pointer" (click)="onSelectRelatedPod(pod)">
+                            <div class="cell day weekDay" style="margin-right: 10px;" >
                                 <div style='height:100%;width:100%;'
                                      class='{{pod.podStyleClass}}'
                                      title='{{pod.podName}}'></div>
                             </div>
-                            <div style="margin-right: 10px; cursor: pointer"
-                            (click)="onSelectRelatedPod(pod)"
+                            <div style="margin-right: 10px;"
                             >{{ pod.podName }}
                                 @if (pod.podName !== pod.podShortName) {
                                     ({{ pod.podShortName }})
