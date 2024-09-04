@@ -31,8 +31,8 @@ export class UserService {
                         return of(USER_TEST_DATA);
                     } else {
                         //console.log(JSON.stringify(error));
-                        this.errorService.showError(error.status, 'Failed to perform findUsers()', error.error.message)
-                        return throwError(() => new Error('Something went wrong : ' + error.message))
+                        this.errorService.showError(error, 'Failed to perform findUsers()');
+                        return throwError(() => new Error('Something went wrong : ' + error));
                     }
                 })
             );

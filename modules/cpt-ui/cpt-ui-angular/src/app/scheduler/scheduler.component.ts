@@ -289,9 +289,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             });
 
             //console.log("podAssignmentCreateRequestUsersCloned:" + JSON.stringify(podAssignmentCreateRequestUsersCloned));
-            console.log("this.podAssignmentCreateRequestUsers:" + JSON.stringify(this.podAssignmentCreateRequestUsers));
+            //console.log("this.podAssignmentCreateRequestUsers:" + JSON.stringify(this.podAssignmentCreateRequestUsers));
             //console.log("this.podAssignmentCreateRequestDays:" + JSON.stringify(this.podAssignmentCreateRequestDays));
-            console.log("this.podAssignmentCreateRequestDaysTemp:" + JSON.stringify(this.podAssignmentCreateRequestDaysTemp));
+            //console.log("this.podAssignmentCreateRequestDaysTemp:" + JSON.stringify(this.podAssignmentCreateRequestDaysTemp));
 
         }
     }
@@ -318,7 +318,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
             let podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
                 this.selectedPodToAssign.entityId.uuid,
-                new Set(this.podAssignmentCreateRequestUsers),
+                this.podAssignmentCreateRequestUsers,
                 this.podAssignmentCreateRequestTempStart.dayInAction,
                 this.podAssignmentCreateRequestTempStart.timeSlotInAction,
                 this.podAssignmentCreateRequestTempEnd.dayInAction,
@@ -328,11 +328,11 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             this.destroyPodAllocationCreateRequest();
 
             console.log("#####################podAssignmentCreateRequest#####################" + JSON.stringify(podAssignmentCreateRequest));
-            this.createOodAssignmentCreateRequest(podAssignmentCreateRequest)
+            this.createPodAssignmentCreateRequest(podAssignmentCreateRequest)
         }
     }
 
-    private createOodAssignmentCreateRequest(podAssignmentCreateRequest: PodAssignmentCreateRequestDto) {
+    private createPodAssignmentCreateRequest(podAssignmentCreateRequest: PodAssignmentCreateRequestDto) {
         const subscription1 = this.schedulerService.createPodAssignmentRequest(podAssignmentCreateRequest)
             .subscribe({
                     next: (whatever) => {

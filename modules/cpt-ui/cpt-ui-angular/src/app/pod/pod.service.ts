@@ -35,7 +35,7 @@ export class PodService {
                         return of(POD_TEST_DATA);
                     } else {
                         //console.log(JSON.stringify(error));
-                        this.errorService.showError(error.status, 'Failed to perform findUsers()', error.error.message)
+                        this.errorService.showError(error, 'Failed to perform findUsers()')
                         return throwError(() => new Error('Something went wrong : ' + error.message))
                     }
                 })
@@ -60,8 +60,8 @@ export class PodService {
                         return of(POD_TEST_DATA);
                     } else {
                         //console.log(JSON.stringify(error));
-                        this.errorService.showError(error.status, 'Failed to perform findRelatedPods()', error.error.message)
-                        return throwError(() => new Error('Something went wrong : ' + error.message))
+                        this.errorService.showError(error, 'Failed to perform findRelatedPods()')
+                        return throwError(() => new Error('Something went wrong : ' + error))
                     }
                 })
             );

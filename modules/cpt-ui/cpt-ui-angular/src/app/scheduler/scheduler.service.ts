@@ -50,8 +50,8 @@ export class SchedulerService {
                         });
                         return testDataObservable;
                     } else {
-                        this.errorService.showError(error.status, 'Failed to perform findPodAssignments', error.error.message)
-                        return throwError(() => new Error('Something went wrong : ' + error.message))
+                        this.errorService.showError(error, 'Failed to perform findPodAssignments')
+                        return throwError(() => new Error('Something went wrong : ' + error))
                     }
                 })
             );
@@ -69,9 +69,8 @@ export class SchedulerService {
                 }),
                 //map( (resBody) => resBody.places),
                 catchError((error: HttpErrorResponse) => {
-
-                        this.errorService.showError(error.status, 'Failed to perform createPodAssignmentRequest', error.error.message)
-                        return throwError(() => new Error('Something went wrong : ' + error.message))
+                        this.errorService.showError(error, 'Failed to perform createPodAssignmentRequest');
+                        return throwError(() => new Error('Something went wrong : ' + error));
 
                 })
             );

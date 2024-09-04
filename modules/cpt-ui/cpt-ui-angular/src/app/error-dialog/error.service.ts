@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,17 @@ export class ErrorService {
   error = this._error.asReadonly();
   additionalMessage = this._additionalError.asReadonly();
 
-  showError(errorStatus: number, message: string, additionalMessage?: string) {
+
+  showError(error: HttpErrorResponse, message: string) {
+    let additionalMessage = error.error != undefined ? error.error.message: error.message;
+
     /*console.log(message);
     console.log(errorStatus);*/
-    if(errorStatus === 0 && !additionalMessage) {
+    if(error.status === 0 && !additionalMessage) {
       additionalMessage = "Not able to connect to backend. Connection refused!"
     }
     //console.log(additionalMessage);
-    console.log("errorStatus: "+ errorStatus, ", message: "+ message, ", additionalMessage: "+additionalMessage);
+    console.log("errorStatus: "+ error.status, ", message: "+ message, ", additionalMessage: "+additionalMessage);
 
     this._error.set(message);
     if(additionalMessage){
