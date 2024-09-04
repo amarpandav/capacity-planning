@@ -37,6 +37,12 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <phase>generate-resources</phase>
+                        <!-- Use within UBS
+                        <configuration>
+                            <nodeDownloadRoot>https://it4it-nexus-tp-repo.swissbank.com/repository/public-runtime-nodejs/</nodeDownloadRoot>
+                            <npmDownloadRoot>https://nexus-write.ldn.swissbank.com/nexus/content/groups/public-npm/npm/-/</npmDownloadRoot
+                        </configuration>
+                        -->
                     </execution>
                     <execution>
                         <id>npm install</id>
