@@ -313,17 +313,16 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             //this.podAssignmentCreateRequestUsers = [...new Set(this.podAssignmentCreateRequestUsers)]//remove duplicates;
             //console.log("usersToAssignToAPod: "+ JSON.stringify(usersToAssignToAPod));
             //[].concat(this.podAssignmentCreateRequestUsers)
-            let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart}; //lets clone because we are resetting this at the end
-            let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd};
-            let podAssignmentCreateRequestUsersCloned = {...this.podAssignmentCreateRequestUsers};
+            //let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart}; //lets clone because we are resetting this at the end
+            //let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd};
 
             let podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
                 this.selectedPodToAssign.entityId.uuid,
-                new Set(podAssignmentCreateRequestUsersCloned),
-                podAssignmentToSaveTempStartCloned.dayInAction,
-                podAssignmentToSaveTempStartCloned.timeSlotInAction,
-                podAssignmentToSaveTempEndCloned.dayInAction,
-                podAssignmentToSaveTempEndCloned.timeSlotInAction);
+                new Set(this.podAssignmentCreateRequestUsers),
+                this.podAssignmentCreateRequestTempStart.dayInAction,
+                this.podAssignmentCreateRequestTempStart.timeSlotInAction,
+                this.podAssignmentCreateRequestTempEnd.dayInAction,
+                this.podAssignmentCreateRequestTempEnd.timeSlotInAction);
 
             //this.podAssignmentDialogEl().nativeElement.showModal();
             this.destroyPodAllocationCreateRequest();
