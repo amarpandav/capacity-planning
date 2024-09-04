@@ -121,7 +121,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                             //console.log(podAssignmentView);
                             this.userAssignments = userAssignments;
                             // console.log("SchedulerComponent.findPodAssignments(): Data is: "+JSON.stringify(this.userAssignments));
-
                         }/*,Not needed as its handled in the service
                     error: (error) => {
                         this.error.set(error.message);
@@ -161,13 +160,6 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.findMyPodAssignments();
     }
 
-    /*onChangeSchedulerSettings() {
-        //Recalculate the SchedulerDto
-        this.schedulerSettings = SchedulerSettingsDto.newInstance(this.schedulerSettings.yearToView, this.schedulerSettings.startMonthToView, this.schedulerSettings.noOfMonthsToView)
-        this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
-        this.findPodAssignmentView();
-    }*/
-
     protected readonly DateUtils = DateUtils;
 
     onDragStart($event: MouseEvent,
@@ -177,17 +169,20 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 assignmentInAction: AssignmentDto,
                 podInAction?: PodDto,
                 dayInAction?: Date | null) {
-        console.log("onDragStart...");
+        if(this.selectedPodToAssign){
+            console.log("onDragStart...");
 
-        // @ts-ignore : dayInAction would never be null
-        this.allocateUsersToMyPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
+            // @ts-ignore : dayInAction would never be null
+            this.allocateUsersToMyPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
 
-        /*clickedUserAssignment.podAssignments.forEach( (podAssignment: PodAssignmentDto) => {
-            podAssignment.morning.pod = this.selectedPodToAssign;
-            podAssignment.afternoon.pod = this.selectedPodToAssign;
-        });*/
-        // @ts-ignore : dayInAction would never be null
-        this.podAssignmentCreateRequestTempStart = new PodAssignmentCreateRequestTemp(userInAction, dayInAction, timeSlotInAction);
+            /*clickedUserAssignment.podAssignments.forEach( (podAssignment: PodAssignmentDto) => {
+                podAssignment.morning.pod = this.selectedPodToAssign;
+                podAssignment.afternoon.pod = this.selectedPodToAssign;
+            });*/
+            // @ts-ignore : dayInAction would never be null
+            this.podAssignmentCreateRequestTempStart = new PodAssignmentCreateRequestTemp(userInAction, dayInAction, timeSlotInAction);
+        }
+
     }
 
     onWhileDragging($event: MouseEvent,
@@ -197,7 +192,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     assignmentInAction: AssignmentDto,
                     pod: PodDto | undefined,
                     dayInAction: Date | null | undefined) {
-        if (this.podAssignmentCreateRequestTempStart && !this.podAssignmentCreateRequestTempEnd) {
+        if (this.selectedPodToAssign && this.podAssignmentCreateRequestTempStart && !this.podAssignmentCreateRequestTempEnd) {
             console.log("whileDragging...");
             console.log("userInAction:" + JSON.stringify(userInAction));
             console.log("dayInAction:" + JSON.stringify(dayInAction));
@@ -218,24 +213,26 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
               assignmentInAction: AssignmentDto,
               podInAction?: PodDto,
               dayInAction?: Date | null) {
-        console.log("onDragEnd...");
+        if(this.selectedPodToAssign){
+            console.log("onDragEnd...");
 
-        // @ts-ignore : dayInAction would never be null
-        this.allocateUsersToMyPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
+            // @ts-ignore : dayInAction would never be null
+            this.allocateUsersToMyPod(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
 
-        // @ts-ignore : dayInAction would never be null
-        this.podAssignmentCreateRequestTempEnd = new PodAssignmentCreateRequestTemp(userInAction, dayInAction, timeSlotInAction);
+            // @ts-ignore : dayInAction would never be null
+            this.podAssignmentCreateRequestTempEnd = new PodAssignmentCreateRequestTemp(userInAction, dayInAction, timeSlotInAction);
 
-        this.preparePodAssignmentCreateRequest();
+            this.preparePodAssignmentCreateRequest();
+        }
+
     }
 
     private allocateUsersToMyPod(userInAction: UserDto, dayInAction: Date, timeSlotInAction: TimeSlot, assignmentInAction: AssignmentDto) {
-        /*console.log("userInAction:" + JSON.stringify(userInAction));
-        console.log("dayAsStrInAction:" + JSON.stringify(dayAsStrInAction));
+        console.log("userInAction:" + JSON.stringify(userInAction));
         console.log("dayInAction:" + JSON.stringify(dayInAction));
         console.log("timeSlotInAction:" + JSON.stringify(timeSlotInAction));
         console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));
-        console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));*/
+        console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));
 
 
         /*if (this.podAssignmentCreateRequestDays.indexOf(dayInAction) === -1) {
@@ -245,7 +242,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
 
         if (assignmentInAction.availabilityType === AvailabilityType.AVAILABLE) {
-            //We allow to book only AVAILABLE slots otherwise we would allow overriding someone else's bookings which we do not want,.
+            //We allow to book only AVAILABLE slots otherwise we would allow overriding someone else's bookings which we do not want.
             assignmentInAction.availabilityType = AvailabilityType.POD_ASSIGNMENT;
             assignmentInAction.pod = this.selectedPodToAssign;
 
@@ -335,7 +332,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     private createPodAssignmentCreateRequest(podAssignmentCreateRequest: PodAssignmentCreateRequestDto) {
         const subscription1 = this.schedulerService.createPodAssignmentRequest(podAssignmentCreateRequest)
             .subscribe({
-                    next: (whatever) => {
+                    next: () => {
                         //console.log("whatever:" + JSON.stringify(whatever));
                         //reload assignments after booking.
                         this.findMyPodAssignments();
