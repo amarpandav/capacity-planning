@@ -6,6 +6,12 @@ import {PodService} from "../pod/pod.service";
 import {UserDto} from "../scheduler/models/user/user.model";
 import {Subscription} from "rxjs";
 import {PodDto} from "../scheduler/models/pod/pod.model";
+import {AvailabilityType} from "../scheduler/models/availability/availability.enum";
+import {
+    getPodMemberRoleKeys,
+    PodMemberRole,
+    getPodMemberRoleValue
+} from "../scheduler/models/pod/pom-member-role.enum";
 
 @Component({
     selector: 'app-scheduler-settings',
@@ -29,13 +35,17 @@ export class SchedulerSettingsComponent implements OnChanges {
 
     myPods?: PodDto[];
     relatedPods?: PodDto[];
-    selectedPodToAssign?: PodDto;
-
-    selectedMyPodOutput = output<PodDto>();
-
-    selectedPodToAssignOutput = output<PodDto>();
+    availabilityTypes: AvailabilityType[] = [];
+    podMemberRoles: PodMemberRole[] = [];
 
     selectedMyPod?: PodDto;
+    selectedMyPodOutput = output<PodDto>();
+
+    selectedPodToAssign?: PodDto;
+    selectedPodToAssignOutput = output<PodDto | undefined>();
+
+    selectedAvailabilityType?: AvailabilityType;
+    selectedAvailabilityTypeOutput = output<AvailabilityType | undefined>();
 
     constructor(private destroyRef: DestroyRef, private podService: PodService) {
         this.monthShortNames = AppConstants.monthShortNames;
@@ -43,6 +53,12 @@ export class SchedulerSettingsComponent implements OnChanges {
         this.startMonthToView = DateUtils.currentMonth();
 
         this.schedulerSettings = SchedulerSettingsDto.newDefaultInstance();
+
+        this.availabilityTypes.push(AvailabilityType.AVAILABLE);
+        this.availabilityTypes.push(AvailabilityType.PUBLIC_HOLIDAY);
+        this.availabilityTypes.push(AvailabilityType.ABSENT);
+
+        this.podMemberRoles.push(PodMemberRole.JAVA_DEVELOPER);
     }
 
     ngOnChanges(): void {
@@ -124,5 +140,19 @@ export class SchedulerSettingsComponent implements OnChanges {
         this.selectedPodToAssign = pod;
         this.selectedPodToAssignOutput.emit(pod);
 
+        this.selectedAvailabilityType = undefined;
+        this.selectedAvailabilityTypeOutput.emit(undefined);
+
     }
+
+    onSelectAvailabilityType(at: AvailabilityType) {
+        this.selectedAvailabilityType = at;
+        this.selectedAvailabilityTypeOutput.emit(at);
+
+        this.selectedPodToAssign = undefined;
+        this.selectedPodToAssignOutput.emit(undefined);
+    }
+
+    protected readonly getPodMemberRoleKeys = getPodMemberRoleKeys;
+    protected readonly getPodMemberRoleValue = getPodMemberRoleValue;
 }

@@ -28,9 +28,9 @@
         </div>
     </div>
 
-    <div class="card" style="min-width: 110px; margin-right:10px">
+    <div class="card" style="min-width: 200px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
-            <h6 class="card-title" style="min-width: 100px; text-align: center">My Pods</h6>
+            <h6 class="card-title" style="min-width: 190px; text-align: center">My Pods</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
                     <select (change)="onMyPodChanged($event)">
@@ -43,9 +43,9 @@
         </div>
     </div>
 
-    <div class="card" style="min-width: 110px; margin-right:10px">
+    <div class="card" style="min-width: 290px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
-            <h6 class="card-title" style="min-width: 100px; text-align: center">Assigned Pods</h6>
+            <h6 class="card-title" style="min-width: 280px; text-align: center">Assigned Pods</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
                     @for (pod of relatedPods; track pod) {
@@ -65,6 +65,52 @@
                                 <div style="font-style: italic; font-size: 9px">selected</div>
                             }
 
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="min-width: 200px; margin-right:10px">
+        <div class="card-body" style="padding: 5px">
+            <h6 class="card-title" style="min-width: 190px; text-align: center">Availability</h6>
+            <div class="row settingsContainer">
+                <div class="col-12">
+                    @for (at of availabilityTypes; track at) {
+                        <div style="display:flex;cursor: pointer" (click)="onSelectAvailabilityType(at)">
+                            <div class="cell day weekDay" style="margin-right: 10px;" >
+                                <div style='height:100%;width:100%;'
+                                     class='{{at}}'
+                                     title='{{at}}'></div>
+                            </div>
+                            <div style="margin-right: 10px;"
+                            >{{ at }}
+                            </div>
+                            @if (at === selectedAvailabilityType) {
+                                <div style="font-style: italic; font-size: 9px">selected</div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="min-width: 250px; margin-right:10px">
+        <div class="card-body" style="padding: 5px">
+            <h6 class="card-title" style="min-width: 240px; text-align: center">Pod Member Roles</h6>
+            <div class="row settingsContainer">
+                <div class="col-12">
+                    @for (key of getPodMemberRoleKeys(); track key) {
+                        <div style="display:flex;">
+                            <div class="cell day weekDay" style="margin-right: 10px;" >
+                                <div style='height:100%;width:100%;'
+                                     class='{{getPodMemberRoleValue(key)}}'
+                                     title='{{getPodMemberRoleValue(key)}}'></div>
+                            </div>
+                            <div style="margin-right: 10px;">{{ key }}
+                            </div>
                         </div>
                     }
                 </div>

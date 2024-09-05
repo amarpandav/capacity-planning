@@ -70,6 +70,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     selectedPodToAssign?: PodDto;
 
+    selectedAvailabilityType?: AvailabilityType;
+
     private podAssignmentDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
 
     //podAssignmentCreateRequest: PodAssignmentToSave | undefined;
@@ -99,9 +101,13 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.selectedUser = selectedUser;
     }
 
-    onSelectedPodToAssignEventListener(podDto: PodDto) {
+    onSelectedPodToAssignEventListener(podDto: PodDto |undefined) {
         // console.log("I am (SchedulerComponent) consuming emitted selected pod to assign as an Object: " + JSON.stringify(podDto));
         this.selectedPodToAssign = podDto;
+    }
+
+    onSelectedAvailabilityTypeEventListener(selectedAvailabilityType: AvailabilityType | undefined) {
+        this.selectedAvailabilityType = selectedAvailabilityType;
     }
 
     ngOnInit(): void {
@@ -598,6 +604,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         }
 
     }
+
 
 
 }

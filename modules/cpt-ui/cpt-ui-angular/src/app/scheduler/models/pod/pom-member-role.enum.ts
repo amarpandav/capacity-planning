@@ -1,17 +1,28 @@
 export enum PodMemberRole{
-  JAVA_DEVELOPER = 'JAVA_DEVELOPER',
-  NET_DEVELOPER = 'NET_DEVELOPER',
-  LEAD_DEVELOPER = 'LEAD_DEVELOPER',
-  TESTER = 'TESTER',
-  POD_LEAD = 'POD_LEAD',
-  SOLUTIONS_ARCHITECT = 'SOLUTIONS_ARCHITECT',
-  BUSINESS_ALALYSTS = 'BUSINESS_ALALYSTS',
-  PRODUCT_OWNER = 'PRODUCT_OWNER',
-  UI_UX = 'UI_UX'
+  //key - value pair
+  //PodMemberRole prints value on UI
+  JAVA_DEVELOPER = 'JD',
+  NET_DEVELOPER = 'ND',
+  LEAD_DEVELOPER = 'LD',
+  TESTER = 'TE',
+  POD_LEAD = 'PL',
+  SOLUTIONS_ARCHITECT = 'SA',
+  BUSINESS_ALALYSTS = 'BA',
+  PRODUCT_OWNER = 'PO',
+  UI_UX = 'UX'
 }
 
 export function toEnum(roleAsStr: string) {
   return PodMemberRole[roleAsStr as keyof typeof PodMemberRole];
+}
+
+export function getPodMemberRoleKeys(): string[]{
+  return Object.keys(PodMemberRole);
+}
+
+export function getPodMemberRoleValue(key: string): string{
+  // @ts-ignore
+  return PodMemberRole[key];
 }
 
 export function isJavaDeveloper(role: PodMemberRole) {
