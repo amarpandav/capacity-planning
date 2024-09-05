@@ -1,5 +1,5 @@
 import {TimeSlot} from "../pod-assignment/time-slot.enum";
-import {AssignmentDto} from "../pod-assignment/assignment.model";
+import {UserDto} from "../user/user.model";
 
 /**
  * Pod lead is trying to assign these Users to these pods for this duration
@@ -16,27 +16,28 @@ export class PodAssignmentCreateRequestDto {
 
 }
 
-export class DayToAssign {
+export class StartOrEndDayToAssign {
 
     isDataValid: boolean = false;
 
-    constructor(public dayInAction: Date,
+    constructor(public userInAction: UserDto,
+                public dayInAction: Date,
                 public timeSlotInAction: TimeSlot) {
         this.isDataValid = !!(timeSlotInAction && dayInAction);
     }
 
 }
 
-export class DayAndSlotToAssign {
+export class FlexDayToRepaint {
 
     constructor(public day: Date,
-                public morningTimeSlot: TimeSlot | null,
-                public afternoonTimeSlot: TimeSlot| null,
-                public assignmentInAction: AssignmentDto) {
+                public timeSlotInAction: TimeSlot/*,
+                public assignmentInAction: AssignmentDto*/) {
     }
 
-    equals (that: DayAndSlotToAssign) {
-        return this.day === that.day && this.morningTimeSlot === that.morningTimeSlot && this.afternoonTimeSlot === that.afternoonTimeSlot;
+    equals (that: FlexDayToRepaint) {
+        return this.day.toString() === that.day.toString() && this.timeSlotInAction === that.timeSlotInAction;
+        //TODO not working - return this.day.getTime() === that.day.getTime() && this.timeSlotInAction === that.timeSlotInAction;
     }
 
 }

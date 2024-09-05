@@ -9,13 +9,11 @@ export class DateUtils {
         return date.getDay() === 0 || date.getDay() === 6;
     }
 
-    public static parseISODate(dateISO?: string | null) {
+    public static parseISODate(dateISO: string) {
         //expected format is AppConstants.ISO_DATE_FORMAT for e.g. '2024-08-13'
-
-        if (dateISO) {
-            return new Date(dateISO);
-        }
-        return null
+        let date = new Date(dateISO)
+       // date.setHours(0,0,0,0);
+       return date;
     }
 
     public static formatToISODate(date: Date) {
@@ -28,6 +26,41 @@ export class DateUtils {
         //without {day:'2-digit', month:'2-digit', year:'numeric' } -> 13.8.2024
         //with {day:'2-digit', month:'2-digit', year:'numeric' } -> 13.08.2024
         return new Intl.DateTimeFormat("fr-CA", {year: 'numeric', month: '2-digit', day: '2-digit'}).format(date);
+        //return date.toISOString().split('T')[0];
+    }
+
+    public static today(): Date {
+        let date = new Date();
+        //date.setHours(0,0,0,0);
+        return date;
+    }
+
+    public static nextDay(date: Date): Date {
+        let clonedDay =   DateUtils.cloneDay(date);
+        var newDateNumber = clonedDay.setDate(clonedDay.getDate() + 1);
+        let newDate = new Date(newDateNumber);
+        //newDate.setHours(0,0,0,0,);
+        return newDate;
+    }
+
+    public static prevDay(date: Date): Date {
+        let clonedDay =   DateUtils.cloneDay(date);
+        var newDateNumber = clonedDay.setDate(clonedDay.getDate() - 1);
+        let newDate = new Date(newDateNumber);
+        //newDate.setHours(0,0,0,0,);
+        return newDate;
+    }
+
+    public static cloneDay(date: Date): Date {
+        let newDate = new Date(date.getTime())
+        //newDate.setHours(0,0,0,0);
+        return newDate;
+    }
+
+    public static newDate(value: string): Date {
+        let newDate = new Date(value)
+        //newDate.setHours(0,0,0,0);
+        return newDate;
     }
 
     public static currentDay(): number {

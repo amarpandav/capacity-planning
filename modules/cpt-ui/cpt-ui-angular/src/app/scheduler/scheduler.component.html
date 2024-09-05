@@ -63,7 +63,7 @@
 
                 <div style='height:100%;width:50%;'
                          class='daypart morning {{podAssignment.morning.pod?.podStyleClass}} {{podAssignment.morning.availabilityType}}'
-                         title='{{podAssignment.morning.pod?.podName}} {{podAssignment.morning.availabilityType}}'
+                         title="{{podAssignment.day | date: 'dd.MM.yyyy' }} {{podAssignment.morning.pod?.podName}} {{podAssignment.morning.availabilityType}}"
 
                          (mousedown)="onDragStart($event, userAssignment, userAssignment.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.day)"
                          (mouseup)="onDragEnd($event, userAssignment, userAssignment.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.day)"

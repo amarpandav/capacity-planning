@@ -10,6 +10,7 @@ export class PodAssignmentDto {
                 public day: Date,
                 public morning: AssignmentDto,
                 public afternoon: AssignmentDto){
+
         this.isWeekend = DateUtils.isWeekend(day);
         if (!morning && !afternoon) {
             //You can't have an empty capacity day

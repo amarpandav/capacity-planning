@@ -13,13 +13,14 @@ import {UserPodsDto} from "./models/user/user-pods.model";
 import {UserPodWatchersDto} from "./models/user/user-pod-watchers.model";
 import {USER_POD_WATCHERS_TEST_DATA} from "../../testdata/user/user-pod-watchers.test-data";
 import {AssignmentDto} from "./models/pod-assignment/assignment.model";
-import {isAfternoon, isMorning, TimeSlot} from "./models/pod-assignment/time-slot.enum";
+import {TimeSlot} from "./models/pod-assignment/time-slot.enum";
 import {POD_DETAILS_TEST_DATA} from "../../testdata/pod/pod-details.test-data";
 import {PodDetailsDto} from "./models/pod/pod-details.model";
 import {POD_TEST_DATA} from "../../testdata/pod/pod.test-data";
 import {
+    FlexDayToRepaint,
     PodAssignmentCreateRequestDto,
-    DayToAssign, DayAndSlotToAssign
+    StartOrEndDayToAssign
 } from "./models/pod-assignment-request/pod-assignment-create-request.model";
 import {SchedulerService} from "./scheduler.service";
 import {Subscription} from "rxjs";
@@ -75,19 +76,14 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     //podAssignmentCreateRequestUsers: Set<string>  = new Set();
     usersToAssign: string[] = [];
-    dayAndSlotToAssign: DayAndSlotToAssign[] = [];
-    startDayToAssign: DayToAssign | undefined;
-    endDayToAssign: DayToAssign | undefined;
+    flexDaysToRepaint: FlexDayToRepaint[] = [];
+    startDayToAssign: StartOrEndDayToAssign | undefined;
+    endDayToAssign: StartOrEndDayToAssign | undefined;
     //podAssignmentCreateRequestDays: Date[] = [];
     //podAssignmentCreateRequestDaysTemp: PodAssignmentCreateRequestDayTemp[] = [];
+    assignmentToAssign: AssignmentDto[] = [];
 
     selectedUser?: UserDto;
-
-    isWeekEnd(date: string): boolean {
-        let day = new Date(date).getDay();
-        return (day === 0 || day === 6)
-    }
-
 
     constructor(private datePipe: DatePipe,
                 private destroyRef: DestroyRef,
@@ -169,8 +165,11 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 assignmentInAction: AssignmentDto,
                 podInAction?: PodDto,
                 dayInAction?: Date | null) {
-        if(this.selectedPodToAssign){
+        if (this.selectedPodToAssign) {
             //console.log("onDragStart...");
+
+            // @ts-ignore : dayInAction would never be null
+            this.startDayToAssign = new StartOrEndDayToAssign(userInAction, dayInAction, timeSlotInAction);
 
             // @ts-ignore : dayInAction would never be null
             this.addAssignment(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
@@ -179,8 +178,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 podAssignment.morning.pod = this.selectedPodToAssign;
                 podAssignment.afternoon.pod = this.selectedPodToAssign;
             });*/
-            // @ts-ignore : dayInAction would never be null
-            this.startDayToAssign = new DayToAssign(dayInAction, timeSlotInAction);
+
         }
 
     }
@@ -209,14 +207,14 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
               assignmentInAction: AssignmentDto,
               podInAction?: PodDto,
               dayInAction?: Date | null) {
-        if(this.selectedPodToAssign){
+        if (this.selectedPodToAssign) {
             //console.log("onDragEnd...");
 
             // @ts-ignore : dayInAction would never be null
-            this.addAssignment(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
+            this.endDayToAssign = new StartOrEndDayToAssign(userInAction, dayInAction, timeSlotInAction);
 
             // @ts-ignore : dayInAction would never be null
-            this.endDayToAssign = new DayToAssign(dayInAction, timeSlotInAction);
+            this.addAssignment(userInAction, dayInAction, timeSlotInAction, assignmentInAction);
 
             this.preparePodAssignmentCreateRequest();
         }
@@ -224,51 +222,392 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     private addAssignment(userInAction: UserDto, dayInAction: Date, timeSlotInAction: TimeSlot, assignmentInAction: AssignmentDto) {
-       /* console.log("userInAction:" + JSON.stringify(userInAction));
-        console.log("dayInAction:" + JSON.stringify(dayInAction));
-        console.log("timeSlotInAction:" + JSON.stringify(timeSlotInAction));
-        console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));*/
+        console.log("dayInAction as object " + dayInAction);
+        console.log("dayInAction as string " + JSON.stringify(dayInAction));
+        /* console.log("userInAction:" + JSON.stringify(userInAction));
+         console.log("dayInAction:" + JSON.stringify(dayInAction));
+         console.log("timeSlotInAction:" + JSON.stringify(timeSlotInAction));
+         console.log("assignmentInAction:" + JSON.stringify(assignmentInAction));*/
+
+        this.assignmentToAssign.push(assignmentInAction);
+
+        if (this.usersToAssign.indexOf(userInAction.entityId.uuid) === -1) {
+            //this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
+            this.usersToAssign.push(userInAction.entityId.uuid);
+        }
+
+        if (assignmentInAction.availabilityType === AvailabilityType.AVAILABLE) {
+
+
+            let flexDayToRepaint = new FlexDayToRepaint(dayInAction, timeSlotInAction/*, assignmentInAction*/);
+            //console.log("testing with Lukasz: "+dayInAction.get)
+            let existingFlexDayToRepaint = this.flexDaysToRepaint.find((slot) => slot.equals(flexDayToRepaint))
+            if (!existingFlexDayToRepaint) {
+
+                let flexDayToRepaint = new FlexDayToRepaint(dayInAction, timeSlotInAction/*, assignmentInAction*/);
+                //console.log("not existing: "+JSON.stringify(flexDayToRepaint));
+                this.flexDaysToRepaint.push(flexDayToRepaint);
+            }
+        }
+
+        /*let existingFlexDayToRepaint = this.flexDaysToRepaint.find((slot) => slot.equals(flexDayToRepaint));
+        if(!existingFlexDayToRepaint) {
+            this.flexDaysToRepaint.push(flexDayToRepaint);
+        }*/
+
+        //console.log("BEFORE: this.usersToAssign.length: " + this.usersToAssign.length +"; "+JSON.stringify(this.usersToAssign));
+        console.log("BEFORE: this.flexDaysToRepaint.length: " + this.flexDaysToRepaint.length + "; " + JSON.stringify(this.flexDaysToRepaint));
+
+        //1. rest assignmentInAction for all usersToAssign
+        this.flexDaysToRepaint.forEach((fd: FlexDayToRepaint) => {
+            //fd.assignmentInAction.availabilityType = AvailabilityType.AVAILABLE;
+            //fd.assignmentInAction.pod = undefined;
+            this.usersToAssign.forEach((uuid: string) => {
+                let ua = this.userAssignments?.find((ua: UserAssignmentDto) => ua.user.entityId.uuid === uuid);
+                if (ua) {
+                    let pa = ua.podAssignments.find((pa) => {
+                        return pa.day.toString() === fd.day.toString()
+                    });
+                    if (pa && fd.timeSlotInAction === TimeSlot.MORNING) {
+                        pa.morning.availabilityType = AvailabilityType.AVAILABLE;
+                        pa.morning.pod = undefined;
+                    } else if (pa && fd.timeSlotInAction === TimeSlot.AFTERNOON) {
+                        pa.afternoon.availabilityType = AvailabilityType.AVAILABLE;
+                        pa.afternoon.pod = undefined;
+                    }
+                }
+            });
+        });
+
+        //2. remove for all users
+        let oldUsersToAssign = [...this.usersToAssign];
+
+        //this.usersToAssign.slice(1);
+        this.usersToAssign = [];
+        this.flexDaysToRepaint = [];
+
+        //3. re-add all users until current if current > start else or start > current
+        //3.1 if current and start is same
+        if (userInAction.entityId.uuid === this.startDayToAssign?.userInAction.entityId.uuid) {
+            this.usersToAssign.push(userInAction.entityId.uuid);
+        } else {
+            //3.2 top -> bottom : start (small) to current (bigger) - user is dragging the mouse vertically downwards
+            let startAdding = false;
+            for (let uuid of oldUsersToAssign) {
+                //is it start
+                if (uuid === this.startDayToAssign?.userInAction.entityId.uuid) {
+                    //start
+                    startAdding = true;
+                }
+                if (startAdding && uuid !== userInAction.entityId.uuid) {
+                    //middle
+                    this.usersToAssign.push(uuid);
+                }
+                //is it current?
+                if (startAdding && uuid === userInAction.entityId.uuid) {
+                    //end
+                    startAdding = false;
+                    this.usersToAssign.push(uuid);
+                    break;
+                }
+            }
+
+            if (this.usersToAssign.length === 0) {
+                //Still empty
+                //3.3 bottom -> top: current (small) to start (bigger) - user is dragging the mouse vertically upwards
+                startAdding = false;
+                for (let uuid of oldUsersToAssign) {
+                    //is it current
+                    if (uuid === userInAction.entityId.uuid) {
+                        //start
+                        startAdding = true;
+                    }
+                    if (startAdding && uuid !== userInAction.entityId.uuid) {
+                        //middle
+                        this.usersToAssign.push(uuid);
+                    }
+                    //is it start?
+                    if (startAdding && uuid === this.startDayToAssign?.userInAction.entityId.uuid) {
+                        startAdding = false;
+                        this.usersToAssign.push(uuid);
+                        break;
+                    }
+                }
+            }
+        }
+        //console.log("AFTER: this.usersToAssign.length: " + this.usersToAssign.length +"; "+JSON.stringify(this.usersToAssign));
+
+
+        // @ts-ignore
+        let startDate = this.startDayToAssign?.dayInAction;
+        let startTimeSlot = this.startDayToAssign?.timeSlotInAction;
+        //let startAsignment = this.startDayToAssign.
+        let currentDate = dayInAction;
+        let currentTimeSlot = timeSlotInAction;
+        //4. re-paint cells for usersToAssign start to end
+
+        if (startDate && currentDate && startTimeSlot && currentTimeSlot) {
+            if (startDate.getTime() === currentDate.getTime() && startTimeSlot === currentTimeSlot) {
+                //4.1 if current and start is same
+                console.log("start and current are same");
+                let flexDayToRepaint = new FlexDayToRepaint(dayInAction, timeSlotInAction/*, assignmentInAction*/);
+                this.flexDaysToRepaint.push(flexDayToRepaint);
+                //console.log("1");
+            } else {
+                // @ts-ignore
+                if (startDate.getTime() === currentDate.getTime()) {
+                    //4.2 left <-> right but on same day
+                    console.log("dragging left or right but same day");
+
+                    //add start date
+                    let flexDayToRepaint = new FlexDayToRepaint(startDate, startTimeSlot/*, assignmentInAction*/);
+                    this.flexDaysToRepaint.push(flexDayToRepaint);
+
+                    flexDayToRepaint = new FlexDayToRepaint(currentDate, currentTimeSlot/*, assignmentInAction*/);
+                    this.flexDaysToRepaint.push(flexDayToRepaint);
+                } else if (startDate.getTime() < currentDate.getTime()) {
+                    //4.2 left -> right: start (small) to current (bigger) - user is dragging mouse to right hand side without changing the pod member row
+                    console.log("dragging right");
+
+                    //add start date
+                    let flexDayToRepaint = new FlexDayToRepaint(startDate, startTimeSlot);
+                    this.flexDaysToRepaint.push(flexDayToRepaint);
+                    if (startTimeSlot === TimeSlot.MORNING) {
+                        flexDayToRepaint = new FlexDayToRepaint(startDate, TimeSlot.AFTERNOON);
+                        this.flexDaysToRepaint.push(flexDayToRepaint);
+                    }
+                    console.log("flexDaysToRepaint1: " + JSON.stringify(this.flexDaysToRepaint));
+
+                    // @ts-ignore
+                    let loop = startDate;
+                    // @ts-ignoreø
+                    let end = currentDate;
+                    //console.log("loop:"+JSON.stringify(loop) + ";"+startTimeSlot);
+                    //console.log("end:"+JSON.stringify(end) + ";"+currentTimeSlot);
+
+                    while (loop < end) {
+                        //go to next day
+                        loop = DateUtils.nextDay(loop);
+
+                        flexDayToRepaint = new FlexDayToRepaint(loop, TimeSlot.MORNING);
+                        this.flexDaysToRepaint.push(flexDayToRepaint);
+                        // console.log("flexDaysToRepaint2: "+JSON.stringify(this.flexDaysToRepaint));
+
+                        if ( loop.getTime() !== end.getTime()) {
+                            //middle somewhere between start and end hence blindly we can create afternoon
+                            flexDayToRepaint = new FlexDayToRepaint(loop, TimeSlot.AFTERNOON);
+                            this.flexDaysToRepaint.push(flexDayToRepaint);
+                        }
+
+                        console.log("flexDaysToRepaint2: " + JSON.stringify(this.flexDaysToRepaint));
+
+                        if (loop.getTime() == end.getTime() && currentTimeSlot === TimeSlot.AFTERNOON) {
+                            //We reached end, create afternoon only when its end Time Slot
+                            flexDayToRepaint = new FlexDayToRepaint(loop, TimeSlot.AFTERNOON);
+                            this.flexDaysToRepaint.push(flexDayToRepaint);
+                        }
+                    }
+
+                } else {
+                    //4.3 right -> left: current (small) to start (bigger) - user is dragging mouse to left hand side without changing the pod member row
+                    console.log("dragging left");
+
+                    //add start date
+                    let flexDayToRepaint = new FlexDayToRepaint(startDate, startTimeSlot);
+                    this.flexDaysToRepaint.push(flexDayToRepaint);
+                    if (startTimeSlot === TimeSlot.AFTERNOON) {
+                        flexDayToRepaint = new FlexDayToRepaint(startDate, TimeSlot.MORNING);
+                        this.flexDaysToRepaint.push(flexDayToRepaint);
+                    }
+
+                    // @ts-ignore
+                    let loop = DateUtils.cloneDay(startDate)
+                    // @ts-ignore
+                    let end = DateUtils.cloneDay(currentDate);
+
+                    while (loop > end) {
+                        //go to prev day
+                        loop = DateUtils.prevDay(loop);
+
+                        flexDayToRepaint = new FlexDayToRepaint(loop, TimeSlot.AFTERNOON);
+                        this.flexDaysToRepaint.push(flexDayToRepaint);
+
+                        if ( loop.getTime() !== end.getTime()) {
+                            //middle somewhere between start and end hence blindly we can create afternoon
+                            flexDayToRepaint = new FlexDayToRepaint(loop, TimeSlot.MORNING);
+                            this.flexDaysToRepaint.push(flexDayToRepaint);
+                        }
+
+                        if (loop.getTime() == end.getTime() && currentTimeSlot === TimeSlot.MORNING) {
+                            //We reached end, create morning only when its end Time Slot
+                            flexDayToRepaint = new FlexDayToRepaint(loop, TimeSlot.MORNING);
+                            this.flexDaysToRepaint.push(flexDayToRepaint);
+                        }
+                    }
+                }
+            }
+        }
+
+        console.log("AFTER: this.flexDaysToRepaint.length: " + this.flexDaysToRepaint.length + "; " + JSON.stringify(this.flexDaysToRepaint));
+        this.flexDaysToRepaint.forEach((fd: FlexDayToRepaint) => {
+            //fd.assignmentInAction.availabilityType = AvailabilityType.AVAILABLE;
+            //fd.assignmentInAction.pod = undefined;
+            this.usersToAssign.forEach((uuid: string) => {
+                let ua = this.userAssignments?.find((ua: UserAssignmentDto) => ua.user.entityId.uuid === uuid);
+                if (ua) {
+                    let pa = ua.podAssignments.find((pa) => {
+                        /*console.log(pa.day.toString());
+                        console.log("fd is:");
+                        console.log(DateUtils.formatToISODate(fd.day));*/
+                        return pa.day.getTime() === fd.day.getTime()
+                    });
+                    if (pa && fd.timeSlotInAction === TimeSlot.MORNING) {
+                        console.log("199");
+                        pa.morning.availabilityType = AvailabilityType.POD_ASSIGNMENT;
+                        pa.morning.pod = this.selectedPodToAssign;
+                    } else if (pa && fd.timeSlotInAction === TimeSlot.AFTERNOON) {
+                        console.log("200");
+                        pa.afternoon.availabilityType = AvailabilityType.POD_ASSIGNMENT;
+                        pa.afternoon.pod = this.selectedPodToAssign;
+                    }
+                }
+            });
+        });
+        /*if(dayInAction.toString() === this.startDayToAssign?.dayInAction.toString() && timeSlotInAction === this.startDayToAssign?.timeSlotInAction){
+            let flexDayToRepaint = new FlexDayToRepaint(dayInAction, timeSlotInAction, assignmentInAction);
+            this.flexDaysToRepaint.push(flexDayToRepaint);
+            console.log("1");
+        } else {
+            //4.2 left -> right: start (small) to current (bigger) - user is dragging mouse to right hand side without changing the pod member row
+            let startAdding = false;
+            for(let oldFlexDayToRepaint of oldFlexDaysToRepaint) {
+                //is it start
+                //TODO - everywhere oldFlexDayToRepaint.day.getTime() is not working hence using toString (getTime is not a function, problem is none of the getXXX is working)
+                if(oldFlexDayToRepaint.day.toString() === this.startDayToAssign?.dayInAction.toString() && oldFlexDayToRepaint.timeSlotInAction === this.startDayToAssign?.timeSlotInAction){
+                    //start
+                    startAdding = true;
+                    console.log("2");
+                }
+                if(startAdding && oldFlexDayToRepaint.day.toString() !== dayInAction.toString() && oldFlexDayToRepaint.timeSlotInAction !== timeSlotInAction){
+                    //middle
+                    let flexDayToRepaint = new FlexDayToRepaint(oldFlexDayToRepaint.day, oldFlexDayToRepaint.timeSlotInAction, oldFlexDayToRepaint.assignmentInAction);
+                    this.flexDaysToRepaint.push(flexDayToRepaint);
+                    console.log("3");
+                }
+                //is it current?
+                if(startAdding && oldFlexDayToRepaint.day.toString() === dayInAction.toString() && oldFlexDayToRepaint.timeSlotInAction === timeSlotInAction) {
+                    //end
+                    startAdding = false;
+                    let flexDayToRepaint = new FlexDayToRepaint(oldFlexDayToRepaint.day, oldFlexDayToRepaint.timeSlotInAction, oldFlexDayToRepaint.assignmentInAction);
+                    this.flexDaysToRepaint.push(flexDayToRepaint);
+                    console.log("4");
+                    break;
+                }
+            }
+
+            if(this.flexDaysToRepaint.length === 0){
+                console.log("5");
+                //Still empty
+                //4.3 right -> left: current (small) to start (bigger) - user is dragging mouse to left hand side without changing the pod member row
+                startAdding = false;
+                for(let oldFlexDayToRepaint of oldFlexDaysToRepaint) {
+                    //is it current
+                    if(oldFlexDayToRepaint.day.toString() === dayInAction.toString() && oldFlexDayToRepaint.timeSlotInAction === timeSlotInAction){
+                        //start
+                        startAdding = true;
+                    }
+                    if(startAdding && oldFlexDayToRepaint.day.toString() !== dayInAction.toString() && oldFlexDayToRepaint.timeSlotInAction !== timeSlotInAction){
+                        //middle
+                        let flexDayToRepaint = new FlexDayToRepaint(oldFlexDayToRepaint.day, oldFlexDayToRepaint.timeSlotInAction, oldFlexDayToRepaint.assignmentInAction);
+                        this.flexDaysToRepaint.push(flexDayToRepaint);
+                    }
+                    //is it start?
+                    if(oldFlexDayToRepaint.day.toString() === this.startDayToAssign?.dayInAction.toString() && oldFlexDayToRepaint.timeSlotInAction === this.startDayToAssign?.timeSlotInAction) {
+                        startAdding = false;
+                        let flexDayToRepaint = new FlexDayToRepaint(oldFlexDayToRepaint.day, oldFlexDayToRepaint.timeSlotInAction, oldFlexDayToRepaint.assignmentInAction);
+                        this.flexDaysToRepaint.push(flexDayToRepaint);
+                        break;
+                    }
+                }
+            }
+        }*/
+
 
         /*if (this.podAssignmentCreateRequestDays.indexOf(dayInAction) === -1) {
             //this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
             this.podAssignmentCreateRequestDays.push(dayInAction);
         }*/
 
-        let dayAndSlotToAssign = new DayAndSlotToAssign(dayInAction, isMorning(timeSlotInAction) ? timeSlotInAction : null, isAfternoon(timeSlotInAction) ? timeSlotInAction : null, assignmentInAction);
-        let existingDayAndSlotToAssign = this.dayAndSlotToAssign.find( (slot)  =>  slot.equals(dayAndSlotToAssign));
+        //let dayAndSlotToAssign = new DayAndSlotToAssign(dayInAction, isMorning(timeSlotInAction) ? timeSlotInAction : null, isAfternoon(timeSlotInAction) ? timeSlotInAction : null, assignmentInAction);
+        //
 
-        console.log("existingDayAndSlotToAssign:"+JSON.stringify(existingDayAndSlotToAssign))
+        //console.log("existingDayAndSlotToAssign:" + JSON.stringify(existingDayAndSlotToAssign))
 
-        if(existingDayAndSlotToAssign){
+        /*if (existingDayAndSlotToAssign) {
             //revert the last one
-            let previousDayAndSlotThatWasAssigned = this.dayAndSlotToAssign[this.dayAndSlotToAssign.length-1];
-            if(previousDayAndSlotThatWasAssigned){
+            let previousDayAndSlotThatWasAssigned = this.dayAndSlotToAssign[this.dayAndSlotToAssign.length - 1];
+            if (previousDayAndSlotThatWasAssigned) {
                 previousDayAndSlotThatWasAssigned.assignmentInAction.availabilityType = AvailabilityType.AVAILABLE;
                 previousDayAndSlotThatWasAssigned.assignmentInAction.pod = undefined;
             }
-            this.dayAndSlotToAssign.pop();
+            let pop = this.dayAndSlotToAssign.pop();
+            console.log("removed:" + JSON.stringify(pop));
             //console.log("dayAndSlotToAssign after pop:"+JSON.stringify(this.dayAndSlotToAssign))
-        }else if (assignmentInAction.availabilityType === AvailabilityType.AVAILABLE) {
+        } else {
+            this.dayAndSlotToAssign.push(dayAndSlotToAssign);
+        }*/
 
-            //if(!existingDayAndSlotToAssign){
-                // add
-                //We allow to book only AVAILABLE slots otherwise we would allow overriding someone else's bookings which we do not want.
-                assignmentInAction.availabilityType = AvailabilityType.POD_ASSIGNMENT;
-                assignmentInAction.pod = this.selectedPodToAssign;
+        /*else if (assignmentInAction.availabilityType === AvailabilityType.AVAILABLE) {*/
 
-                if (this.usersToAssign.indexOf(userInAction.entityId.uuid) === -1) {
-                    //this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
-                    this.usersToAssign.push(userInAction.entityId.uuid);
+        //if(!existingDayAndSlotToAssign){
+        // add
+        //We allow to book only AVAILABLE slots otherwise we would allow overriding someone else's bookings which we do not want.
+        /*assignmentInAction.availabilityType = AvailabilityType.POD_ASSIGNMENT;
+        assignmentInAction.pod = this.selectedPodToAssign;
 
-                    //if we have more than 1 users and more than 1 dayAndSlotToAssign meaning we need to mark all AVAILABLE slots to POD_ASSIGNMENT for this duration
-                    //if()
+        if (this.usersToAssign.indexOf(userInAction.entityId.uuid) === -1) {
+            //this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
+            this.usersToAssign.push(userInAction.entityId.uuid);
+        }*/
+
+
+        //console.log("assignmentsToAssign after push:"+JSON.stringify(this.assignmentsToAssign))
+
+        //re-run our algo
+
+        //To have excel like drag feeling (increase and reduce cells) this code is must
+        //if we have more than 1 user and more than 1 dayAndSlotToAssign then we need to mark all AVAILABLE slots to POD_ASSIGNMENT for this duration
+        //if (this.usersToAssign.length > 1 && this.dayAndSlotToAssign.length > 1) {
+        //console.log("1");
+        /*this.dayAndSlotToAssign?.forEach((dayAndSlotToAssign1: DayAndSlotToAssign) => {
+            //console.log("2");
+            let ua = this.userAssignments?.find((ua: UserAssignmentDto) => ua.user.entityId.uuid === dayAndSlotToAssign1.userInAction.entityId.uuid);
+            if (ua) {
+               // console.log("3");
+
+                let pa = ua.podAssignments.find((pa) => {return pa.day.toString() === dayAndSlotToAssign1.day.toString()});
+                //console.log("pa:"+pa);console.log("4");
+                if (dayAndSlotToAssign1.morningTimeSlot && pa && pa.morning.availabilityType === AvailabilityType.AVAILABLE) {
+                    pa.morning.availabilityType = AvailabilityType.POD_ASSIGNMENT;
+                    pa.morning.pod = this.selectedPodToAssign;
+                    console.log("4");
+                } else if (dayAndSlotToAssign1.afternoonTimeSlot && pa && pa.afternoon.availabilityType === AvailabilityType.AVAILABLE) {
+                    pa.afternoon.availabilityType = AvailabilityType.POD_ASSIGNMENT;
+                    pa.afternoon.pod = this.selectedPodToAssign;
+                    console.log("5");
                 }
+            }
+        })*/
+        /*this.userAssignments?.forEach( (userAssignment:UserAssignmentDto) => {
 
-                this.dayAndSlotToAssign.push(dayAndSlotToAssign);
-                //console.log("assignmentsToAssign after push:"+JSON.stringify(this.assignmentsToAssign))
-            //}
 
-        }
+        })*/
+        //}
+
+
+        //}
+
+        //}
     }
 
     private preparePodAssignmentCreateRequest() {
@@ -290,19 +629,34 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             //[].concat(this.podAssignmentCreateRequestUsers)
             //let podAssignmentToSaveTempStartCloned = {...this.podAssignmentCreateRequestTempStart}; //lets clone because we are resetting this at the end
             //let podAssignmentToSaveTempEndCloned = {...this.podAssignmentCreateRequestTempEnd};
+            let podAssignmentCreateRequest;
+            if(this.startDayToAssign.dayInAction > this.endDayToAssign.dayInAction){
+                //right to left dragging
+                podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
+                    this.selectedPodToAssign.entityId.uuid,
+                    this.usersToAssign,
+                    this.endDayToAssign.dayInAction,
+                    this.endDayToAssign.timeSlotInAction,
+                    this.startDayToAssign.dayInAction,
+                    this.startDayToAssign.timeSlotInAction);
 
-            let podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
-                this.selectedPodToAssign.entityId.uuid,
-                this.usersToAssign,
-                this.startDayToAssign.dayInAction,
-                this.startDayToAssign.timeSlotInAction,
-                this.endDayToAssign.dayInAction,
-                this.endDayToAssign.timeSlotInAction);
+            }else {
+                //left to right dragging
+                podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
+                    this.selectedPodToAssign.entityId.uuid,
+                    this.usersToAssign,
+                    this.startDayToAssign.dayInAction,
+                    this.startDayToAssign.timeSlotInAction,
+                    this.endDayToAssign.dayInAction,
+                    this.endDayToAssign.timeSlotInAction);
+
+            }
+
 
             //this.podAssignmentDialogEl().nativeElement.showModal();
             this.destroyPodAllocationCreateRequest();
 
-            //console.log("#####################podAssignmentCreateRequest#####################" + JSON.stringify(podAssignmentCreateRequest));
+            console.log("#####################podAssignmentCreateRequest#####################" + JSON.stringify(podAssignmentCreateRequest));
             this.createPodAssignmentCreateRequest(podAssignmentCreateRequest)
         }
     }
@@ -348,7 +702,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             this.usersToAssign = [];
             //this.podAssignmentCreateRequestDaysTemp = [];
             this.userAssignments = [];
-            this.dayAndSlotToAssign = [];
+            this.flexDaysToRepaint = [];
             this.findMyPodAssignments();
         }
 
