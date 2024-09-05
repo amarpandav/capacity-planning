@@ -32,6 +32,7 @@ import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.comp
 import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settings.component";
 import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
+import {getPodMemberRoleValue} from "./models/pod/pom-member-role.enum";
 
 
 @Component({
@@ -606,5 +607,5 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
 
-
+    protected readonly getPodMemberRoleValue = getPodMemberRoleValue;
 }

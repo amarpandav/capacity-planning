@@ -7,7 +7,7 @@ export enum PodMemberRole{
   TESTER = 'TE',
   POD_LEAD = 'PL',
   SOLUTIONS_ARCHITECT = 'SA',
-  BUSINESS_ALALYSTS = 'BA',
+  BUSINESS_ANALYSTS = 'BA',
   PRODUCT_OWNER = 'PO',
   UI_UX = 'UX'
 }
@@ -50,7 +50,7 @@ export function isSA(role: PodMemberRole) {
 }
 
 export function isBA(role: PodMemberRole) {
-  return PodMemberRole.BUSINESS_ALALYSTS === role;
+  return PodMemberRole.BUSINESS_ANALYSTS === role;
 }
 
 export function isPO(role: PodMemberRole) {

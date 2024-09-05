@@ -104,10 +104,8 @@
                 <div class="col-12">
                     @for (key of getPodMemberRoleKeys(); track key) {
                         <div style="display:flex;">
-                            <div class="cell day weekDay" style="margin-right: 10px;" >
-                                <div style='height:100%;width:100%;'
-                                     class='{{getPodMemberRoleValue(key)}}'
-                                     title='{{getPodMemberRoleValue(key)}}'></div>
+                            <div class="cell" style="margin-right: 10px;" >
+                                <div class="podMemberRole {{key}}">{{getPodMemberRoleValue(key)}}</div>
                             </div>
                             <div style="margin-right: 10px;">{{ key }}
                             </div>

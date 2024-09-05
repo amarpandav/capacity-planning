@@ -25,7 +25,7 @@ body {
 }
 
 .podStyleClass2 {
-  background-color: #CDD760;
+  background-color: #a94c4c;
   /*border-left: 1px solid #CDD760;
   border-right: 1px solid #CDD760;*/
 }
@@ -67,4 +67,53 @@ body {
 }
 .AVAILABLE {
   background-color: silver;
+}
+
+.podMemberRole {
+  display:inline-flex;
+  font-size:8px;
+  width:20px;
+  height:16px;
+  border:1px solid;
+  align-items:center;
+  justify-content: center;
+  margin-right:5px;
+}
+
+.podMemberRole.JAVA_DEVELOPER {
+  background-color:palegreen;
+  border-color:springgreen;
+
+}
+.podMemberRole.NET_DEVELOPER {
+  background-color:#FFFF99;
+  border-color:yellow;
+}
+.podMemberRole.POD_LEAD {
+  background-color:#d896ff;
+  border-color:#be29ec;
+}
+.podMemberRole.BUSINESS_ANALYSTS {
+  background-color:#f8f3c2;
+  border-color:#e1d4a2;
+}
+.podMemberRole.SOLUTIONS_ARCHITECT {
+  background-color:#a7b700;
+  border-color:#d8e20c;
+}
+.podMemberRole.LEAD_DEVELOPER {
+  background-color:#d8edfe;
+  border-color:#acbdcb;
+}
+.podMemberRole.TESTER {
+  background-color:#2beac9;
+  border-color:#85f2ff;
+}
+.podMemberRole.PRODUCT_OWNER {
+  background-color:#7fb685;
+  border-color:#426a5a;
+}
+.podMemberRole.UI_UX {
+  background-color:	#827eae;
+  border-color:#d1c7e6;
 }
