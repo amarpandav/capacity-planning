@@ -90,6 +90,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     selectedUser?: UserDto;
     selectedUserPodMemberRole?: PodMemberRole;
+    relatedPodMemberRoles: PodMemberRole[] = [];
     //@Output() selectUserAsOutputEvent = new EventEmitter<UserDto>();
     //selectedUserPodMemberRoleAsOutputEvent = output<PodMemberRole>(); //
 
@@ -123,6 +124,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     private findMyPodAssignments() {
         if (this.mySelectedPod) {
+            this.relatedPodMemberRoles = [];
             this.userAssignments = undefined;
             const subscription1 = this.schedulerService.findMyPodAssignments(this.mySelectedPod.entityId, this.schedulerSettings)
                 .subscribe({
@@ -133,6 +135,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                                 if(this.selectedUser?.entityId.uuid === ua.user.entityId.uuid){
                                     this.selectedUserPodMemberRole = ua.podMemberRole;
                                     //this.selectedUserPodMemberRoleAsOutputEvent.emit(ua.podMemberRole);
+                                    if(this.relatedPodMemberRoles?.indexOf(ua.podMemberRole) < 0){
+                                        this.relatedPodMemberRoles.push(ua.podMemberRole);
+                                    }
                                 }
                                 ua.podAssignments.forEach((pa: PodAssignmentDto) => {
                                     if(pa.morning.availabilityType === AvailabilityType.AVAILABLE) {

@@ -80,7 +80,7 @@
             <h6 class="card-title" style="min-width: 190px; text-align: center">Availability</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
-                    @for (at of availabilityTypes; track at) {
+                    @for (at of availabilityTypes; track $index) {
                         <div style="display:flex;cursor: pointer" (click)="onSelectAvailabilityType(at)">
                             <div class="cell day weekDay" style="margin-right: 10px;" >
                                 <div style='height:100%;width:100%;'
@@ -107,7 +107,16 @@
             <h6 class="card-title" style="min-width: 240px; text-align: center">Pod Member Roles</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
-                    @for (key of getPodMemberRoleKeys(); track key) {
+                    <!--@for (key of relatedPodMemberRoles(); track $index) {
+                        <div style="display:flex;">
+                            <div class="cell" style="margin-right: 10px;" >
+                                <div class="podMemberRole {{key}}">{{getPodMemberRoleValue(key)}}</div>
+                            </div>
+                            <div style="margin-right: 10px;">{{ key }}
+                            </div>
+                        </div>
+                    }-->
+                    @for (key of getPodMemberRoleKeysTemp(); track $index) {
                         <div style="display:flex;">
                             <div class="cell" style="margin-right: 10px;" >
                                 <div class="podMemberRole {{key}}">{{getPodMemberRoleValue(key)}}</div>

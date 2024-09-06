@@ -10,7 +10,7 @@ import {AvailabilityType} from "../scheduler/models/availability/availability.en
 import {
     getPodMemberRoleKeys,
     PodMemberRole,
-    getPodMemberRoleValue
+    getPodMemberRoleValue, getPodMemberRoleKeysTemp
 } from "../scheduler/models/pod/pom-member-role.enum";
 
 @Component({
@@ -23,6 +23,7 @@ import {
 export class SchedulerSettingsComponent implements OnChanges {
 
     selectedUser = input<UserDto>();
+    relatedPodMemberRoles = input<PodMemberRole[]>();
     schedulerSettings: SchedulerSettingsDto;
     monthShortNames: string[] = [];
     monthsToView: number[] = [];
@@ -155,4 +156,5 @@ export class SchedulerSettingsComponent implements OnChanges {
 
     protected readonly getPodMemberRoleKeys = getPodMemberRoleKeys;
     protected readonly getPodMemberRoleValue = getPodMemberRoleValue;
+    protected readonly getPodMemberRoleKeysTemp = getPodMemberRoleKeysTemp;
 }

@@ -19,6 +19,15 @@ export function toEnum(roleAsStr: string) {
 export function getPodMemberRoleKeys(): string[]{
   return Object.keys(PodMemberRole);
 }
+export function getPodMemberRoleKeysTemp(): string[]{
+  let keys: string[] = [];
+  keys.push('BUSINESS_ANALYSTS');
+  keys.push('SOLUTIONS_ARCHITECT');
+  keys.push('POD_LEAD');
+  keys.push('JAVA_DEVELOPER');
+
+  return keys;
+}
 
 export function getPodMemberRoleValue(key: string): string{
   // @ts-ignore
