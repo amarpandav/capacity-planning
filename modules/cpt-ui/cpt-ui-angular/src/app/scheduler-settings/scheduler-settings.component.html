@@ -55,15 +55,18 @@
                                      class='{{pod.podStyleClass}}'
                                      title='{{pod.podName}}'></div>
                             </div>
-                            <div style="margin-right: 10px;"
-                            >{{ pod.podName }}
+                            <div style="margin-right: 10px; position: relative">{{ pod.podName }}
                                 @if (pod.podName !== pod.podShortName) {
                                     ({{ pod.podShortName }})
                                 }
+                                @if (pod.podName === selectedPodToAssign?.podName) {
+                                    <!--div style="font-style: italic; font-size: 9px">selected</div-->
+                                    <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                    <span class="visually-hidden">New alerts</span>
+                                </span>
+                                }
                             </div>
-                            @if (pod.podName === selectedPodToAssign?.podName) {
-                                <div style="font-style: italic; font-size: 9px">selected</div>
-                            }
+
 
                         </div>
                     }
@@ -84,12 +87,14 @@
                                      class='{{at}}'
                                      title='{{at}}'></div>
                             </div>
-                            <div style="margin-right: 10px;"
-                            >{{ at }}
+                            <div style="margin-right: 10px;position: relative">{{ at }}
+                                @if (at === selectedAvailabilityType) {
+                                    <!--div style="font-style: italic; font-size: 9px">selected</div-->
+                                    <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                    <span class="visually-hidden">New alerts</span>
+                                </span>
+                                }
                             </div>
-                            @if (at === selectedAvailabilityType) {
-                                <div style="font-style: italic; font-size: 9px">selected</div>
-                            }
                         </div>
                     }
                 </div>
