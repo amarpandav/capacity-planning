@@ -32,7 +32,7 @@ import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.comp
 import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settings.component";
 import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
-import {getPodMemberRoleValue} from "./models/pod/pom-member-role.enum";
+import {getPodMemberRoleValue, PodMemberRole} from "./models/pod/pom-member-role.enum";
 
 
 @Component({
@@ -67,11 +67,12 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     //protected podAssignmentViewDto?: PodAssignmentViewDto;
     protected userAssignments?: UserAssignmentDto[]
 
-    mySelectedPod?: PodDto
+    mySelectedPod?: PodDto;
 
     selectedPodToAssign?: PodDto;
 
     selectedAvailabilityType?: AvailabilityType;
+
 
     private podAssignmentDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
 
@@ -88,6 +89,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     assignmentToAssign: AssignmentDto[] = [];
 
     selectedUser?: UserDto;
+    selectedUserPodMemberRole?: PodMemberRole;
+    //@Output() selectUserAsOutputEvent = new EventEmitter<UserDto>();
+    //selectedUserPodMemberRoleAsOutputEvent = output<PodMemberRole>(); //
 
     constructor(private datePipe: DatePipe,
                 private destroyRef: DestroyRef,
@@ -111,6 +115,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.selectedAvailabilityType = selectedAvailabilityType;
     }
 
+
     ngOnInit(): void {
         //this.isLoadingPlaces.set(true);
         //this.findMyPodAssignments();
@@ -125,6 +130,10 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                             //console.log(podAssignmentView);
                             this.userAssignments = userAssignments;
                             userAssignments.forEach((ua: UserAssignmentDto) => {
+                                if(this.selectedUser?.entityId.uuid === ua.user.entityId.uuid){
+                                    this.selectedUserPodMemberRole = ua.podMemberRole;
+                                    //this.selectedUserPodMemberRoleAsOutputEvent.emit(ua.podMemberRole);
+                                }
                                 ua.podAssignments.forEach((pa: PodAssignmentDto) => {
                                     if(pa.morning.availabilityType === AvailabilityType.AVAILABLE) {
                                         pa.morning.persisted = false;

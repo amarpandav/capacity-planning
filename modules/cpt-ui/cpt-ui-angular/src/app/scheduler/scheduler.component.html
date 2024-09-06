@@ -14,7 +14,10 @@
     </div>
 </dialog-->
 
-<app-user-viewing-box (selectedUserOutput)="onSelectedUserEventListener($event)"></app-user-viewing-box>
+<app-user-viewing-box
+        (selectedUserOutput)="onSelectedUserEventListener($event)"
+        [selectedUserPodMemberRole]="selectedUserPodMemberRole"
+></app-user-viewing-box>
 
 <app-scheduler-settings [selectedUser]="selectedUser"
                         (schedulerSettingsOutput)="onSchedulerSettingsEventListener($event)"

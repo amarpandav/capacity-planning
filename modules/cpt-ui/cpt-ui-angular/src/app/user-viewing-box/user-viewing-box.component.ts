@@ -1,8 +1,9 @@
-import {Component, ElementRef, OnInit, output, viewChild} from '@angular/core';
+import {Component, ElementRef, input, OnInit, output, viewChild} from '@angular/core';
 import {UserDto} from "../scheduler/models/user/user.model";
 import {UserService} from "../user/user.service";
 import {UserSearchParameters} from "../user/user.search.parameters";
 import {UserKey} from "../scheduler/models/user/userKey.model";
+import {PodMemberRole} from "../scheduler/models/pod/pom-member-role.enum";
 
 @Component({
     selector: 'app-user-viewing-box',
@@ -19,6 +20,7 @@ export class UserViewingBoxComponent implements OnInit {
     selectedUserKey = new UserKey("49008491");//Amar Pandav
 
     selectedUser?: UserDto;
+    selectedUserPodMemberRole =  input<PodMemberRole>();
 
     private avatarEl = viewChild.required<ElementRef<HTMLImageElement>>('avatar');
 
@@ -50,4 +52,10 @@ export class UserViewingBoxComponent implements OnInit {
         this.avatarEl().nativeElement.src =  "./assets/users/default-profile-pic.jpg";
         //return this.defaultAvatar;
     }
+
+    /*onSelectedUserPodMemberRoleEventListener(selectedUserPodMemberRole: PodMemberRole){
+        //console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));
+        this.selectedUserPodMemberRole = selectedUserPodMemberRole;
+    }*/
+
 }

@@ -10,7 +10,11 @@
                  (error)="defaultAvatar()"
                  class="user"
                  [alt]="selectedUser?.name" #avatar>
-            <div><b>{{ selectedUser?.name }}</b><BR>
+            <div style="position: relative">
+                <b>{{ selectedUser?.name }}</b>
+                <div style="margin-left: 15px" class="position-absolute top-0 start-100 translate-middle badge  bg-success">
+                    {{selectedUserPodMemberRole()}}</div>
+                <BR>
                 {{ selectedUser?.userKey?.gpin }}, MDEJ13
             </div>
 
