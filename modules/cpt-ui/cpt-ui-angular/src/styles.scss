@@ -19,21 +19,21 @@ body {
 
 
 .podStyleClass1 {
-  background-color: #00898D;
-  /*border-left: 1px solid #00898D;
-  border-right: 1px solid #00898D;*/
+  background-color: #FF999F;
+  /*border-left: 1px solid #FF999F;
+  border-right: 1px solid #FF999F;*/
 }
 
 .podStyleClass2 {
-  background-color: #a94c4c;
-  /*border-left: 1px solid #CDD760;
-  border-right: 1px solid #CDD760;*/
+  background-color: #A7DBFC;
+  /*border-left: 1px solid #A7DBFC;
+  border-right: 1px solid #A7DBFC;*/
 }
 
 .podStyleClass3 {
-  background-color: #009BD2;
-  /*border-left: 1px solid #009BD2;
-  border-right: 1px solid #009BD2;*/
+  background-color: #F5DFA3;
+  /*border-left: 1px solid #F5DFA3;
+  border-right: 1px solid #F5DFA3;*/
 }
 
 
@@ -50,23 +50,23 @@ body {
 
 
 .weekEnd {
-  background-color: gray;
+  background-color: #919191;
 }
 .weekDay {
-  background-color: silver;
+  background-color: #E6E6E6;
 }
 
 
 .ABSENT {
-  background-color: gray;
-  background-image: linear-gradient(135deg, #ffffff 4.55%, gray 4.55%, gray 50%, #ffffff 50%, #ffffff 54.55%, gray 54.55%, gray 100%);
+  background-color: #646464;
+  background-image: linear-gradient(135deg, #ffffff 4.55%, #646464 4.55%, #646464 50%, #ffffff 50%, #ffffff 54.55%, #646464 54.55%, #646464 100%);
   background-size: 5px 5px;
 }
 .PUBLIC_HOLIDAY {
-  background-color: gray;
+  background-color: #919191;
 }
 .AVAILABLE {
-  background-color: silver;
+  background-color: #E6E6E6;
 }
 
 .podMemberRole {
@@ -87,24 +87,24 @@ body {
 
 }
 .podMemberRole.NET_DEVELOPER {
-  background-color:#FFFF99;
-  border-color:yellow;
+  background-color:#A7DBFC;
+  border-color:#095F95;
 }
 .podMemberRole.POD_LEAD {
-  background-color:#d896ff;
-  border-color:#be29ec;
+  background-color:#AAE3C4;
+  border-color:#367754;
 }
 .podMemberRole.BUSINESS_ANALYSTS {
-  background-color:#f8f3c2;
-  border-color:#e1d4a2;
+  background-color:#ECCAFA;
+  border-color:#633B73;
 }
 .podMemberRole.SOLUTIONS_ARCHITECT {
-  background-color:#a7b700;
-  border-color:#d8e20c;
+  background-color:#F7F3DD;
+  border-color:#86671D;
 }
 .podMemberRole.LEAD_DEVELOPER {
-  background-color:#d8edfe;
-  border-color:#acbdcb;
+  background-color:#B3DCF2;
+  border-color:#497992;
 }
 .podMemberRole.TESTER {
   background-color:#2beac9;
