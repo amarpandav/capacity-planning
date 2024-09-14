@@ -1,13 +1,12 @@
 package com.ubs.cpt.service.impl;
 
 import com.ubs.cpt.domain.EntityId;
-import com.ubs.cpt.domain.entity.availability.AvailabilityType;
 import com.ubs.cpt.domain.entity.pod.Pod;
 import com.ubs.cpt.domain.entity.pod.PodAssignment;
 import com.ubs.cpt.domain.entity.user.User;
 import com.ubs.cpt.infra.exception.PodNotFoundException;
 import com.ubs.cpt.service.CreateAssignmentsService;
-import com.ubs.cpt.service.PodAssignmentService;
+import com.ubs.cpt.service.dto.AssignmentsRequest;
 import com.ubs.cpt.service.repository.PodAssignmentRepository;
 import com.ubs.cpt.service.repository.PodRepository;
 import com.ubs.cpt.service.repository.UserRepository;
@@ -15,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collection;
@@ -38,7 +38,7 @@ public class CreateAssignmentsServiceImpl implements CreateAssignmentsService {
 
     @Transactional
     @Override
-    public void execute(CreateAssignmentsRequest request) {
+    public void execute(AssignmentsRequest request) {
         log.info("creating pod assignments for request: {}", request);
         validate(request);
         String podId = request.podId();
@@ -53,6 +53,7 @@ public class CreateAssignmentsServiceImpl implements CreateAssignmentsService {
         List<PodAssignment> podAssignmentsToSave = getUsers(request).stream()
                 .map(user -> startDate.datesUntil(endDate.plusDays(1))
                         .filter(day -> isNotFullyBookedThatDayAlready(existingPodAssignments, user, day))
+                        .filter(day -> day.getDayOfWeek() != DayOfWeek.SATURDAY && day.getDayOfWeek() != DayOfWeek.SUNDAY)
                         .map(day -> existingPodAssignments.stream()
                                 .filter(pa -> pa.getDay().equals(day) && pa.getUser().getEntityId().equals(user.getEntityId()))
                                 .map(pa -> PodAssignmentUpdater.update(pa).with(request, pod))
@@ -71,7 +72,7 @@ public class CreateAssignmentsServiceImpl implements CreateAssignmentsService {
         log.info("updated/created {} pod assignments", podAssignmentsToSave.size());
     }
 
-    private void validate(CreateAssignmentsRequest request) {
+    private void validate(AssignmentsRequest request) {
         LocalDate startDate = request.startDate();
         LocalDate endDate = request.endDate();
 
@@ -89,7 +90,7 @@ public class CreateAssignmentsServiceImpl implements CreateAssignmentsService {
                         && podAssignment.getAfternoonAvailabilityType().isNotAvailable());
     }
 
-    private List<User> getUsers(CreateAssignmentsRequest request) {
+    private List<User> getUsers(AssignmentsRequest request) {
         return userRepository.findAllById(request.userIds().stream()
                 .distinct()
                 .map(id -> new EntityId<User>(id))

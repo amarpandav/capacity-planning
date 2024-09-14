@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -161,18 +162,45 @@ public class PodAssignment extends BaseEntity<PodAssignment> {
         return this;
     }
 
+    private boolean isWeekend() {
+        DayOfWeek dayOfWeek = day.getDayOfWeek();
+        return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
+    }
+
+    private boolean isNotWeekend() {
+        return !isWeekend();
+    }
+
     public void assignMorningToPod(Pod pod) {
-        if (this.morningAvailabilityType.isAvailable() && isNull(this.morningPod)) {
+        if (isNotWeekend() && this.morningAvailabilityType.isAvailable() && isNull(this.morningPod)) {
             this.morningAvailabilityType = AvailabilityType.POD_ASSIGNMENT;
             this.morningPod = pod;
         }
-
     }
 
     public void assignAfternoonToPod(Pod pod) {
-        if (this.afternoonAvailabilityType.isAvailable() && isNull(this.afternoonPod)) {
+        if (isNotWeekend() && this.afternoonAvailabilityType.isAvailable() && isNull(this.afternoonPod)) {
             this.afternoonAvailabilityType = AvailabilityType.POD_ASSIGNMENT;
             this.afternoonPod = pod;
+        }
+    }
+
+    public void unassignPod(Pod pod) {
+        unassignMorningPod(pod);
+        unassignAfternoonPod(pod);
+    }
+
+    public void unassignMorningPod(Pod pod) {
+        if (nonNull(morningPod) && morningPod.equals(pod)) {
+            morningAvailabilityType = AvailabilityType.AVAILABLE;
+            morningPod = null;
+        }
+    }
+
+    public void unassignAfternoonPod(Pod pod) {
+        if (nonNull(afternoonPod) && afternoonPod.equals(pod)) {
+            afternoonAvailabilityType = AvailabilityType.AVAILABLE;
+            afternoonPod = null;
         }
     }
 }

@@ -2,6 +2,8 @@ package com.ubs.cpt.web.rest;
 
 import com.ubs.cpt.service.CreateAssignmentsService;
 import com.ubs.cpt.service.PodAssignmentService;
+import com.ubs.cpt.service.UnassignPodService;
+import com.ubs.cpt.service.dto.AssignmentsRequest;
 import com.ubs.cpt.service.dto.PodAssignmentsResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +16,14 @@ public class PodAssignmentController {
 
     private final PodAssignmentService podAssignmentService;
     private final CreateAssignmentsService createAssignmentsService;
+    private final UnassignPodService unassignPodService;
 
     public PodAssignmentController(PodAssignmentService podAssignmentService,
-                                   CreateAssignmentsService createAssignmentsService) {
+                                   CreateAssignmentsService createAssignmentsService,
+                                   UnassignPodService unassignPodService) {
         this.podAssignmentService = podAssignmentService;
         this.createAssignmentsService = createAssignmentsService;
+        this.unassignPodService = unassignPodService;
     }
 
     @GetMapping("/{id}/assignments")
@@ -49,8 +54,19 @@ public class PodAssignmentController {
     @PostMapping("/{id}/assignments")
     public ResponseEntity createAssignments(
             @PathVariable("id") String podId,
-            @RequestBody CreateAssignmentsService.CreateAssignmentsRequest request) {
-        createAssignmentsService.execute(new CreateAssignmentsService.CreateAssignmentsRequest(
+            @RequestBody AssignmentsRequest request) {
+        createAssignmentsService.execute(new AssignmentsRequest(
+                podId, request.userIds(), request.startDate(), request.endDate(), request.startTimeSlot(), request.endTimeSlot()
+        ));
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity unassignPod(
+            @PathVariable("id") String podId,
+            @RequestBody AssignmentsRequest request
+    ) {
+        unassignPodService.execute(new AssignmentsRequest(
                 podId, request.userIds(), request.startDate(), request.endDate(), request.startTimeSlot(), request.endTimeSlot()
         ));
         return ResponseEntity.ok().build();
