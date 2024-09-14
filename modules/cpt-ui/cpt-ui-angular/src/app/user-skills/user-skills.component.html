@@ -1,6 +1,6 @@
-<dialog class="myDialog" #userSkillsDialog>
+<dialog class="myDialog" #userSkillsDialog (keydown)="keydown($event)" >
     <div class="myDialogContainer">
-        <h5>Thomas Dobler's skills</h5>
-        {{ JSON.stringify(selectedUserForDetails()) }}
+        <h5>{{ selectedUser()?.name}}'s skills</h5>
+        {{ JSON.stringify(selectedUser()) }}
     </div>
 </dialog>

@@ -80,8 +80,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     private userSkillsDialogElemRef = viewChild.required<ElementRef<HTMLDialogElement>>('userSkillsDialog');
     private userSkillsComponentElemRef = viewChild.required<ComponentRef<UserSkillsComponent>>('userSkillsComponent');
 
-    showUserSkillsComponent = false;
-    //podAssignmentCreateRequest: PodAssignmentToSave | undefined;
+        //podAssignmentCreateRequest: PodAssignmentToSave | undefined;
     //podAssignmentCreateRequest: PodAssignmentCreateRequestDto | undefined;
 
     //podAssignmentCreateRequestUsers: Set<string>  = new Set();
@@ -98,7 +97,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     relatedPodMemberRoles: PodMemberRole[] = [];
     //@Output() selectUserAsOutputEvent = new EventEmitter<UserDto>();
     //selectedUserPodMemberRoleAsOutputEvent = output<PodMemberRole>(); //
-    selectedUserForDetails?: UserDto;
+    selectedPodMember?: UserDto;
 
     constructor(private datePipe: DatePipe,
                 private destroyRef: DestroyRef,
@@ -629,9 +628,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     protected readonly getPodMemberRoleValue = getPodMemberRoleValue;
 
-    onShowUserDetailsPage(user: UserDto) {
-        this.showUserSkillsComponent = true;
-        this.selectedUserForDetails = user;
+    onSelectedPodMember(user: UserDto) {
+        this.selectedPodMember = user;
 
         //console.log(this.userSkillsDialogElemRef());
         //this.userSkillsDialogElemRef().nativeElement.showModal();
@@ -639,8 +637,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         //console.log(this.userSkillsComponentElemRef().location.nativeElement);
         //this.userSkillsComponentElemRef().instance.showModal();
     }
-    onCloseShowUserDetailsPage(user: UserDto) {
-        this.selectedUserForDetails = user;
-        //this.userSkillsComponentElemRef().nativeElement.onCloseModal();
+    onCloseUserSkillsDialogInput($event: UserDto | undefined) {
+        this.selectedPodMember = undefined;
     }
 }

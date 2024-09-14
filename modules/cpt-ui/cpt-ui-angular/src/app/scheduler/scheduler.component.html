@@ -13,9 +13,8 @@
         </div>
     </div>
 </dialog-->
-@if (showUserSkillsComponent) {
-    <app-user-skills [selectedUserForDetails]="selectedUserForDetails"></app-user-skills>
-}
+<app-user-skills [selectedUser]="selectedPodMember" (closeUserSkillsDialogOutput)="onCloseUserSkillsDialogInput($event)"
+></app-user-skills>
 
 <app-user-viewing-box
         (selectedUserOutput)="onSelectedUserInput($event)"
@@ -61,43 +60,43 @@
     </div>
 
     <div (mouseleave)="destroyPodAllocationCreateRequest()">
-    @for (userAssignment of userAssignments; track userAssignment.user.userKey.gpin) {
-        <div class='employeeRow' >
-            <a href="#" (click)="onShowUserDetailsPage(userAssignment.user)" title="Show User's skills">
-                <div class='cell employeeName'>
-                    <div class="podMemberRole {{userAssignment.podMemberRole}}">{{getPodMemberRoleValue(userAssignment.podMemberRole)}}</div>
-                    {{ userAssignment.user.name }}
-                    <!--i class="bi bi-link-45deg" style="cursor: pointer; color: #0d6efd"
-                       (click)="onShowUserDetailsPage(userAssignment.user)" title="Show User's skills"></i-->
-                </div>
-            </a>
-
-            @for (podAssignment of userAssignment.podAssignments; track podAssignment.uuid) {
-                <div class='cell day'>
-
-                <div style='height:100%;width:50%;'
-                         class='daypart morning {{podAssignment.morning.pod?.podStyleClass}} {{podAssignment.morning.availabilityType}}'
-                         title="{{podAssignment.day | date: 'dd.MM.yyyy' }} {{podAssignment.morning.pod?.podName}} {{podAssignment.morning.availabilityType}}"
-
-                         (mousedown)="onDragStart($event, userAssignment, userAssignment.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.day)"
-                         (mouseup)="onDragEnd($event, userAssignment, userAssignment.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.day)"
-                         (mouseover)="onWhileDragging($event, userAssignment, userAssignment.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.day)"
-                    >
-
+        @for (userAssignment of userAssignments; track userAssignment.user.userKey.gpin) {
+            <div class='employeeRow'>
+                <a href="#" (click)="onSelectedPodMember(userAssignment.user)" title="Show User's skills">
+                    <div class='cell employeeName'>
+                        <div class="podMemberRole {{userAssignment.podMemberRole}}">{{ getPodMemberRoleValue(userAssignment.podMemberRole) }}</div>
+                        {{ userAssignment.user.name }}
+                        <!--i class="bi bi-link-45deg" style="cursor: pointer; color: #0d6efd"
+                           (click)="onShowUserDetailsPage(userAssignment.user)" title="Show User's skills"></i-->
                     </div>
-                    <div style='height:100%;width:50%;'
-                         class='daypart afternoon {{podAssignment.afternoon.pod?.podStyleClass}} {{podAssignment.afternoon.availabilityType}}'
-                         title='{{podAssignment.afternoon.pod?.podName}} {{podAssignment.afternoon.availabilityType}}'
+                </a>
 
-                         (mousedown)="onDragStart($event, userAssignment, userAssignment.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.day)"
-                         (mouseup)="onDragEnd($event, userAssignment, userAssignment.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.day)"
-                         (mouseover)="onWhileDragging($event, userAssignment, userAssignment.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.day)"
-                    >
+                @for (podAssignment of userAssignment.podAssignments; track podAssignment.uuid) {
+                    <div class='cell day'>
+
+                        <div style='height:100%;width:50%;'
+                             class='daypart morning {{podAssignment.morning.pod?.podStyleClass}} {{podAssignment.morning.availabilityType}}'
+                             title="{{podAssignment.day | date: 'dd.MM.yyyy' }} {{podAssignment.morning.pod?.podName}} {{podAssignment.morning.availabilityType}}"
+
+                             (mousedown)="onDragStart($event, userAssignment, userAssignment.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.day)"
+                             (mouseup)="onDragEnd($event, userAssignment, userAssignment.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.day)"
+                             (mouseover)="onWhileDragging($event, userAssignment, userAssignment.user, TimeSlot.MORNING, podAssignment.morning, podAssignment.morning.pod, podAssignment.day)"
+                        >
+
+                        </div>
+                        <div style='height:100%;width:50%;'
+                             class='daypart afternoon {{podAssignment.afternoon.pod?.podStyleClass}} {{podAssignment.afternoon.availabilityType}}'
+                             title='{{podAssignment.afternoon.pod?.podName}} {{podAssignment.afternoon.availabilityType}}'
+
+                             (mousedown)="onDragStart($event, userAssignment, userAssignment.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.day)"
+                             (mouseup)="onDragEnd($event, userAssignment, userAssignment.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.day)"
+                             (mouseover)="onWhileDragging($event, userAssignment, userAssignment.user, TimeSlot.AFTERNOON, podAssignment.afternoon, podAssignment.afternoon.pod, podAssignment.day)"
+                        >
+                        </div>
                     </div>
-                </div>
-            }
-        </div>
-    }
+                }
+            </div>
+        }
     </div>
 </table>
 
