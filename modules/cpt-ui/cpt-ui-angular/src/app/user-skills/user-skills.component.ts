@@ -1,4 +1,4 @@
-import {Component, effect, ElementRef, input, OnDestroy, output, viewChild} from '@angular/core';
+import {Component, effect, ElementRef, input, output, viewChild} from '@angular/core';
 import {UserDto} from "../scheduler/models/user/user.model";
 
 @Component({
@@ -8,12 +8,7 @@ import {UserDto} from "../scheduler/models/user/user.model";
     templateUrl: './user-skills.component.html',
     styleUrl: './user-skills.component.scss'
 })
-export class UserSkillsComponent implements OnDestroy {
-
-    ngOnDestroy(): void {
-        this.closeModal();
-        console.log("UserSkillsComponent.ngOnDestroy");
-    }
+export class UserSkillsComponent {
 
     selectedUser = input<UserDto>();
 
@@ -23,7 +18,7 @@ export class UserSkillsComponent implements OnDestroy {
 
     protected readonly JSON = JSON;
 
-    private updater = effect(() => {
+    private selectedUserChanged = effect(() => {
         if (this.selectedUser()) {
             this.showModal();
         }

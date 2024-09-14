@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ComponentRef, DestroyRef, ElementRef, OnInit, viewChild} from '@angular/core';
+import {AfterViewInit, Component, DestroyRef, OnInit} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {DatePipe} from "@angular/common";
 import {SchedulerSettingsDto} from "../scheduler-settings/scheduler.settings.model";
@@ -76,9 +76,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     selectedAvailabilityType?: AvailabilityType;
 
 
-    private podAssignmentDialogElemRef = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
-    private userSkillsDialogElemRef = viewChild.required<ElementRef<HTMLDialogElement>>('userSkillsDialog');
-    private userSkillsComponentElemRef = viewChild.required<ComponentRef<UserSkillsComponent>>('userSkillsComponent');
+    //private podAssignmentDialogElemRef = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
+    //private userSkillsDialogElemRef = viewChild.required<ElementRef<HTMLDialogElement>>('userSkillsDialog');
+    //private userSkillsComponentElemRef = viewChild.required<ComponentRef<UserSkillsComponent>>('userSkillsComponent');
 
         //podAssignmentCreateRequest: PodAssignmentToSave | undefined;
     //podAssignmentCreateRequest: PodAssignmentCreateRequestDto | undefined;
@@ -597,9 +597,9 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         //this.bookingDialogEl().nativeElement.showModal();
     }
 
-    onBookingDialogCancel() {
+    /*onBookingDialogCancel() {
         this.podAssignmentDialogElemRef().nativeElement.close();
-    }
+    }*/
 
     onBookingSave() {
 
@@ -637,6 +637,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         //console.log(this.userSkillsComponentElemRef().location.nativeElement);
         //this.userSkillsComponentElemRef().instance.showModal();
     }
+
     onCloseUserSkillsDialogInput($event: UserDto | undefined) {
         this.selectedPodMember = undefined;
     }
