@@ -12,7 +12,7 @@
                     <!--unique identifier to track each row so i used user.id-->
                     <li>
                         <app-user [user]="user"
-                                  (selectUserAsOutputEvent)="onSelectedUserEventListener($event)"
+                                  (selectUserAsOutputEvent)="onSelectedUserInput($event)"
                                   [selected]="user.entityId.uuid === selectedUser?.entityId?.uuid"/>
                     </li>}
             </ul>

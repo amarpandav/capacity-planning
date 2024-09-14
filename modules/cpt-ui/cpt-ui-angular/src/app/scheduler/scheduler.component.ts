@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, DestroyRef, ElementRef, OnInit, viewChild} from '@angular/core';
+import {AfterViewInit, Component, ComponentRef, DestroyRef, ElementRef, OnInit, viewChild} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {DatePipe} from "@angular/common";
 import {SchedulerSettingsDto} from "../scheduler-settings/scheduler.settings.model";
@@ -33,6 +33,7 @@ import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settin
 import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
 import {PodAssignmentDto} from "./models/pod-assignment/pod-assignment.model";
 import {getPodMemberRoleValue, PodMemberRole} from "./models/pod/pom-member-role.enum";
+import {UserSkillsComponent} from "../user-skills/user-skills.component";
 
 
 @Component({
@@ -44,7 +45,8 @@ import {getPodMemberRoleValue, PodMemberRole} from "./models/pod/pom-member-role
         UserComponent,
         UserListComponent,
         UserViewingBoxComponent,
-        SchedulerSettingsComponent
+        SchedulerSettingsComponent,
+        UserSkillsComponent
     ],
     templateUrl: './scheduler.component.html',
     styleUrl: './scheduler.component.scss'
@@ -74,8 +76,11 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     selectedAvailabilityType?: AvailabilityType;
 
 
-    private podAssignmentDialogEl = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
+    private podAssignmentDialogElemRef = viewChild.required<ElementRef<HTMLDialogElement>>('bookingDialog');
+    private userSkillsDialogElemRef = viewChild.required<ElementRef<HTMLDialogElement>>('userSkillsDialog');
+    private userSkillsComponentElemRef = viewChild.required<ComponentRef<UserSkillsComponent>>('userSkillsComponent');
 
+    showUserSkillsComponent = false;
     //podAssignmentCreateRequest: PodAssignmentToSave | undefined;
     //podAssignmentCreateRequest: PodAssignmentCreateRequestDto | undefined;
 
@@ -93,6 +98,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     relatedPodMemberRoles: PodMemberRole[] = [];
     //@Output() selectUserAsOutputEvent = new EventEmitter<UserDto>();
     //selectedUserPodMemberRoleAsOutputEvent = output<PodMemberRole>(); //
+    selectedUserForDetails?: UserDto;
 
     constructor(private datePipe: DatePipe,
                 private destroyRef: DestroyRef,
@@ -102,17 +108,17 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
     }
 
-    onSelectedUserEventListener(selectedUser: UserDto) {
+    onSelectedUserInput(selectedUser: UserDto) {
         // console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));
         this.selectedUser = selectedUser;
     }
 
-    onSelectedPodToAssignEventListener(podDto: PodDto |undefined) {
+    onSelectedPodToAssignInput(podDto: PodDto |undefined) {
         // console.log("I am (SchedulerComponent) consuming emitted selected pod to assign as an Object: " + JSON.stringify(podDto));
         this.selectedPodToAssign = podDto;
     }
 
-    onSelectedAvailabilityTypeEventListener(selectedAvailabilityType: AvailabilityType | undefined) {
+    onSelectedAvailabilityTypeInput(selectedAvailabilityType: AvailabilityType | undefined) {
         this.selectedAvailabilityType = selectedAvailabilityType;
     }
 
@@ -178,7 +184,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
     protected readonly JSON = JSON;
 
-    onSchedulerSettingsEventListener(schedulerSettings: SchedulerSettingsDto) {
+    onSchedulerSettingsInput(schedulerSettings: SchedulerSettingsDto) {
         this.schedulerSettings = schedulerSettings;
 
         //Recalculate the SchedulerDto
@@ -186,8 +192,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.findMyPodAssignments();
     }
 
-    onSelectedMyPodEventListener(mySelectedPod: PodDto) {
-        //console.log("onSelectedMyPodEntityIdEventListener received: "+ JSON.stringify(mySelectedPod));
+    onSelectedMyPodInput(mySelectedPod: PodDto) {
+        //console.log("onSelectedMyPodEntityIdInput received: "+ JSON.stringify(mySelectedPod));
         this.mySelectedPod = mySelectedPod;
         this.findMyPodAssignments();
     }
@@ -565,7 +571,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             }
 
 
-            //this.podAssignmentDialogEl().nativeElement.showModal();
+            //this.podAssignmentDialogElemRef().nativeElement.showModal();
             this.destroyPodAllocationCreateRequest();
 
             console.log("#####################podAssignmentCreateRequest#####################" + JSON.stringify(podAssignmentCreateRequest));
@@ -593,7 +599,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     onBookingDialogCancel() {
-        this.podAssignmentDialogEl().nativeElement.close();
+        this.podAssignmentDialogElemRef().nativeElement.close();
     }
 
     onBookingSave() {
@@ -622,4 +628,19 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
 
     protected readonly getPodMemberRoleValue = getPodMemberRoleValue;
+
+    onShowUserDetailsPage(user: UserDto) {
+        this.showUserSkillsComponent = true;
+        this.selectedUserForDetails = user;
+
+        //console.log(this.userSkillsDialogElemRef());
+        //this.userSkillsDialogElemRef().nativeElement.showModal();
+
+        //console.log(this.userSkillsComponentElemRef().location.nativeElement);
+        //this.userSkillsComponentElemRef().instance.showModal();
+    }
+    onCloseShowUserDetailsPage(user: UserDto) {
+        this.selectedUserForDetails = user;
+        //this.userSkillsComponentElemRef().nativeElement.onCloseModal();
+    }
 }

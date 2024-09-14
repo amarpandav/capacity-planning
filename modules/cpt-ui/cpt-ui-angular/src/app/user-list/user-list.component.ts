@@ -37,7 +37,7 @@ export class UserListComponent implements OnInit {
     this.findUsers();
   }
 
-  onSelectedUserEventListener(selectedUser: UserDto){
+  onSelectedUserInput(selectedUser: UserDto){
     //console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));
     this.selectedUser = selectedUser;
     this.selectUserAsOutputEvent.emit(this.selectedUser);

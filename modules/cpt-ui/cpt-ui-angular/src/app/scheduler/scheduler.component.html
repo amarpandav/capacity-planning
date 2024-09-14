@@ -1,5 +1,5 @@
-<!--dialog class="bookingDialog" #bookingDialog>
-    <div class="bookingDialogContainer">
+<!--dialog class="myDialog" #bookingDialog>
+    <div class="bmyDialogContainer">
         <h5>Save Booking</h5>
         <ul>
             <li>You can book only available slots.</li>
@@ -13,17 +13,20 @@
         </div>
     </div>
 </dialog-->
+@if (showUserSkillsComponent) {
+    <app-user-skills [selectedUserForDetails]="selectedUserForDetails"></app-user-skills>
+}
 
 <app-user-viewing-box
-        (selectedUserOutput)="onSelectedUserEventListener($event)"
+        (selectedUserOutput)="onSelectedUserInput($event)"
         [selectedUserPodMemberRole]="selectedUserPodMemberRole"
 ></app-user-viewing-box>
 
 <app-scheduler-settings [selectedUser]="selectedUser"
-                        (schedulerSettingsOutput)="onSchedulerSettingsEventListener($event)"
-                        (selectedMyPodOutput)="onSelectedMyPodEventListener($event)"
-                        (selectedPodToAssignOutput)="onSelectedPodToAssignEventListener($event)"
-                        (selectedAvailabilityTypeOutput)="onSelectedAvailabilityTypeEventListener($event)"
+                        (schedulerSettingsOutput)="onSchedulerSettingsInput($event)"
+                        (selectedMyPodOutput)="onSelectedMyPodInput($event)"
+                        (selectedPodToAssignOutput)="onSelectedPodToAssignInput($event)"
+                        (selectedAvailabilityTypeOutput)="onSelectedAvailabilityTypeInput($event)"
 
 ></app-scheduler-settings>
 <!--[relatedPodMemberRoles]="relatedPodMemberRoles"-->
@@ -60,10 +63,14 @@
     <div (mouseleave)="destroyPodAllocationCreateRequest()">
     @for (userAssignment of userAssignments; track userAssignment.user.userKey.gpin) {
         <div class='employeeRow' >
-            <div class='cell employeeName'>
-                <div class="podMemberRole {{userAssignment.podMemberRole}}">{{getPodMemberRoleValue(userAssignment.podMemberRole)}}</div>
-                {{ userAssignment.user.name }}
-            </div>
+            <a href="#" (click)="onShowUserDetailsPage(userAssignment.user)" title="Show User's skills">
+                <div class='cell employeeName'>
+                    <div class="podMemberRole {{userAssignment.podMemberRole}}">{{getPodMemberRoleValue(userAssignment.podMemberRole)}}</div>
+                    {{ userAssignment.user.name }}
+                    <!--i class="bi bi-link-45deg" style="cursor: pointer; color: #0d6efd"
+                       (click)="onShowUserDetailsPage(userAssignment.user)" title="Show User's skills"></i-->
+                </div>
+            </a>
 
             @for (podAssignment of userAssignment.podAssignments; track podAssignment.uuid) {
                 <div class='cell day'>

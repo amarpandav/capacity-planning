@@ -53,7 +53,7 @@ export class UserViewingBoxComponent implements OnInit {
         //return this.defaultAvatar;
     }
 
-    /*onSelectedUserPodMemberRoleEventListener(selectedUserPodMemberRole: PodMemberRole){
+    /*onSelectedUserPodMemberRoleInput(selectedUserPodMemberRole: PodMemberRole){
         //console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));
         this.selectedUserPodMemberRole = selectedUserPodMemberRole;
     }*/
