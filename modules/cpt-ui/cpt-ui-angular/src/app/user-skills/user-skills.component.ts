@@ -25,7 +25,7 @@ export class UserSkillsComponent {
         if (this.selectedUser()) {
             this.showModal();
         }
-   });
+    });
 
     ngOnInit(): void {
 
@@ -39,6 +39,12 @@ export class UserSkillsComponent {
     closeModal() {
         this.userSkillsDialogElemRef().nativeElement.close();
         this.closeUserSkillsDialogOutput.emit(this.selectedUser());
+    }
+
+    onClickOutsideCloseDialog(event: any) {
+        if (event.target instanceof HTMLDialogElement) {
+            this.closeModal()
+        }
     }
 
     protected readonly onkeyup = onkeyup;
