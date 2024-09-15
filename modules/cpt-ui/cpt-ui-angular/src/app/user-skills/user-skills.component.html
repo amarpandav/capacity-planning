@@ -1,13 +1,131 @@
-<dialog class="myDialog" #userSkillsDialog (keydown)="keydown($event)">
+<dialog class="myDialog" #userSkillsDialog (keydown)="keydown($event)" (click)="onClickOutsideCloseDialog($event)">
 
 
     <div class="myDialogContainer">
         <h5>Skills</h5>
-        <div id="viewingUser" style="display:flex;align-items:center;">
-            You are viewing skills of:
-            <app-user [user]="selectedUser()"></app-user>
+        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                You are viewing skills of:
+            </div>
+            <div class="col-md-8">
+                <app-user [user]="selectedUser()"
+                          [userTitle]="selectedUser()?.userKey?.gpin === '49008491' ? 'Certified Engineer' : undefined"
+                ></app-user>
+            </div>
         </div>
+        <!--div id="viewingUser" style="display:flex;align-items:center;">
+        </div-->
+        <p></p>
+        <br>
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="tech-skills-tab" data-bs-toggle="tab" data-bs-target="#tech-skills" type="button" role="tab" aria-controls="tech-skills" aria-selected="true">Technical Skills</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="app-skills-tab" data-bs-toggle="tab" data-bs-target="#app-skills" type="button" role="tab" aria-controls="app-skills" aria-selected="false">Application Skills</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="ubs-arena-tab" data-bs-toggle="tab" data-bs-target="#ubs-arena" type="button" role="tab" aria-controls="ubs-arena" aria-selected="false">UBS Arena Badges</button>
+            </li>
+        </ul>
+        <p></p>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="tech-skills" role="tabpanel" aria-labelledby="tech-skills-tab">
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                    aria-controls="panelsStayOpen-collapseOne">
+                                Core Engineering Skills
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                             aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body">
+                                <strong>This is the first item's accordion body.</strong> It is shown by default, until the
+                                collapse plugin adds the appropriate classes that we use to style each element. These classes
+                                control the overall appearance, as well as the showing and hiding via CSS transitions. You can
+                                modify any of this with custom CSS or overriding our default variables. It's also worth noting
+                                that just about any HTML can go within the <code>.accordion-body</code>, though the transition
+                                does limit overflow.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                    aria-controls="panelsStayOpen-collapseTwo">
+                                Security Domain
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                             aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+                                body 2
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                                    aria-controls="panelsStayOpen-collapseThree">
+                                CISSP discipline
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                             aria-labelledby="panelsStayOpen-headingThree">
+                            <div class="accordion-body">
+                                body 3
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="app-skills" role="tabpanel" aria-labelledby="app-skills-tab">B</div>
+            <div class="tab-pane fade" id="ubs-arena" role="tabpanel" aria-labelledby="ubs-arena-tab">C</div>
+        </div>
+
+        <!--ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Technical Skills</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="#">Application Skills</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">UBS Arena Badges</a>
+            </li>
+        </ul-->
+        <!--ul class="nav ">
+            <li class="nav-item">
+                <a class="nav-link " aria-current="page" href="#">Technical Skills</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Application Skills</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">UBS Arena Badges</a>
+            </li>
+        </ul>
+        <p></p-->
+        <!--div class="card" style="min-width: 200px; border-top: none;border-radius: 0px;">
+            <div class="card-body" style="padding: 5px"-->
+        <!--h6 class="card-title" style="min-width: 190px; text-align: center">Technical Skills</h6-->
+        <!--div class="row settingsContainer">
+            <div class="col-12">
+                as
+            </div>
+        </div-->
+
+
     </div>
+    <!--/div>
+</div-->
 
 
 </dialog>
