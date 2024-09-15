@@ -10,7 +10,7 @@ import {UserDto} from "../scheduler/models/user/user.model";
 })
 export class UserComponent {
     user = input<UserDto>();
-    userRole = input<string>();
+    userTitle = input<string>();
 
     private avatarElemRef = viewChild.required<ElementRef<HTMLImageElement>>('avatar');
 

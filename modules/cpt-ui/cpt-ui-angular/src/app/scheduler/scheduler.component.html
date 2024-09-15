@@ -68,6 +68,11 @@
                         {{ userAssignment.user.name }}
                         <!--i class="bi bi-link-45deg" style="cursor: pointer; color: #0d6efd"
                            (click)="onShowUserDetailsPage(userAssignment.user)" title="Show User's skills"></i-->
+                        @if (userAssignment.user.userKey.gpin === '49008491'){
+                            <!--TODO this must come from DB -->
+                            <i class="bi bi-patch-check-fill" style="cursor: pointer; color: #0d6efd" title="Certified Engineer"></i>
+                        }
+
                     </div>
                 </a>
 

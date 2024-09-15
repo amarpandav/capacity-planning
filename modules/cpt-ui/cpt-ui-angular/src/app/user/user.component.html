@@ -8,9 +8,9 @@
          [alt]="user()?.name" #avatar>
     <div style="position: relative">
         <b>{{ user()?.name }}</b>
-        @if (userRole()) {
+        @if (userTitle()) {
             <div style="margin-left: 15px" class="position-absolute top-0 start-100 translate-middle badge  bg-success">
-                {{userRole()}}</div>
+                {{userTitle()}}</div>
         }
         <BR>
         {{ user()?.userKey?.gpin }}, MDEJ13
