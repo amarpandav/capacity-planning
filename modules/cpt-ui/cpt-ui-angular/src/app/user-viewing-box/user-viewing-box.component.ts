@@ -1,14 +1,17 @@
-import {Component, ElementRef, input, OnInit, output, viewChild} from '@angular/core';
+import {Component, input, OnInit, output} from '@angular/core';
 import {UserDto} from "../scheduler/models/user/user.model";
 import {UserService} from "../user/user.service";
 import {UserSearchParameters} from "../user/user.search.parameters";
 import {UserKey} from "../scheduler/models/user/userKey.model";
 import {PodMemberRole} from "../scheduler/models/pod/pom-member-role.enum";
+import {UserComponent} from "../user/user.component";
 
 @Component({
     selector: 'app-user-viewing-box',
     standalone: true,
-    imports: [],
+    imports: [
+        UserComponent
+    ],
     templateUrl: './user-viewing-box.component.html',
     styleUrl: './user-viewing-box.component.scss'
 })
@@ -22,7 +25,6 @@ export class UserViewingBoxComponent implements OnInit {
     selectedUser?: UserDto;
     selectedUserPodMemberRole =  input<PodMemberRole>();
 
-    private avatarEl = viewChild.required<ElementRef<HTMLImageElement>>('avatar');
 
     selectedUserOutput = output<UserDto>(); //
 
@@ -46,12 +48,6 @@ export class UserViewingBoxComponent implements OnInit {
         });
     }
 
-    //Profile pic not found, so load default profile picture.
-
-    defaultAvatar() {
-        this.avatarEl().nativeElement.src =  "./assets/users/default-profile-pic.jpg";
-        //return this.defaultAvatar;
-    }
 
     /*onSelectedUserPodMemberRoleInput(selectedUserPodMemberRole: PodMemberRole){
         //console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));

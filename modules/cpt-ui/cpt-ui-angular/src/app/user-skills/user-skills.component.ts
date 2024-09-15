@@ -1,10 +1,13 @@
 import {Component, effect, ElementRef, input, output, viewChild} from '@angular/core';
 import {UserDto} from "../scheduler/models/user/user.model";
+import {UserComponent} from "../user/user.component";
 
 @Component({
     selector: 'app-user-skills',
     standalone: true,
-    imports: [],
+    imports: [
+        UserComponent
+    ],
     templateUrl: './user-skills.component.html',
     styleUrl: './user-skills.component.scss'
 })

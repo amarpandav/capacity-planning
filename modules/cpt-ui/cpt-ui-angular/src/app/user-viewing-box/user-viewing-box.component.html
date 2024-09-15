@@ -3,22 +3,7 @@
     <div id="viewingUser" style="display:flex;align-items:center;">
         You are viewing as:
 
-        <div id="viewingUserSelected" style="display:flex;align-items:center;">
-
-
-            <img [src]="'./assets/users/'+selectedUser?.userKey?.gpin+'.jpg'"
-                 (error)="defaultAvatar()"
-                 class="user"
-                 [alt]="selectedUser?.name" #avatar>
-            <div style="position: relative">
-                <b>{{ selectedUser?.name }}</b>
-                <div style="margin-left: 15px" class="position-absolute top-0 start-100 translate-middle badge  bg-success">
-                    {{selectedUserPodMemberRole()}}</div>
-                <BR>
-                {{ selectedUser?.userKey?.gpin }}, MDEJ13
-            </div>
-
-        </div>
+        <app-user [user]="selectedUser" [userRole]="selectedUserPodMemberRole()?.toString()"></app-user>
 
 
     </div>
@@ -26,3 +11,4 @@
     <button type="submit" class="btn btn-primary">Switch User</button>
 
 </div>
+

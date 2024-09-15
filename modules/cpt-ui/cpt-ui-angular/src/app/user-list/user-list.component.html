@@ -11,9 +11,25 @@
                 @for (user of users; track user.entityId) {
                     <!--unique identifier to track each row so i used user.id-->
                     <li>
-                        <app-user [user]="user"
+                        <!--app-user [user]="user"
                                   (selectUserAsOutputEvent)="onSelectedUserInput($event)"
-                                  [selected]="user.entityId.uuid === selectedUser?.entityId?.uuid"/>
+                                  [selected]="user.entityId.uuid === selectedUser?.entityId?.uuid"/-->
+                    <div>
+                        <button (click)="onSelectUser()" [class.active]="user.entityId.uuid === selectedUser?.entityId?.uuid">
+                            <!-- property binding using []  -->
+                            <!-- option 1 -->
+                            <!--img [src]="'assets/users/'+selectedUser.avatar"
+                                 [alt]="selectedUser.name"/-->
+                            <!-- option 2 -->
+                            <img [src]="selectedUserAvatar()"
+                                 [alt]="user.name">
+
+                            <!-- string interpolation using double curly braces-->
+                            <span>{{user.name}}</span>
+
+                        </button>
+
+                    </div>
                     </li>}
             </ul>
 

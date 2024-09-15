@@ -1,4 +1,4 @@
-import {Component, DestroyRef, OnInit, output} from '@angular/core';
+import {Component, computed, DestroyRef, OnInit, output} from '@angular/core';
 import {UserDto} from "../scheduler/models/user/user.model";
 import {DatePipe} from "@angular/common";
 import {UserService} from "../user/user.service";
@@ -41,6 +41,23 @@ export class UserListComponent implements OnInit {
     //console.log("I am (SchedulerComponent) consuming emitted user as an Object: " + JSON.stringify(selectedUser));
     this.selectedUser = selectedUser;
     this.selectUserAsOutputEvent.emit(this.selectedUser);
+  }
+
+  /*get selectedUserAvatar() {
+    return 'assets/users/' + this.user().avatar;
+  }*/
+
+  selectedUserAvatar= computed(() => {
+    //return 'assets/users/' + this.user().avatar;
+    return 'assets/users/user-' + Math.floor( Math.random() * 7 ) +".jpg";
+  });
+
+  onSelectUser() {
+    console.log("UserListComponent.onSelectUser, emitting user as an Object: " + JSON.stringify(this.selectedUser));
+    //this.selectUserIdAsOutput.emit(this.user().id);
+    if(this.selectedUser){
+      this.selectUserAsOutputEvent.emit(this.selectedUser);
+    }
   }
 
   private findUsers() {

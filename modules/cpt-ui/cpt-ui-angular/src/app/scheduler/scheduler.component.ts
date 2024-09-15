@@ -26,8 +26,6 @@ import {SchedulerService} from "./scheduler.service";
 import {Subscription} from "rxjs";
 import {SchedulerHeaderDto} from "../scheduler-header/scheduler-header.model";
 import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
-import {UserComponent} from "../user/user.component";
-import {UserListComponent} from "../user-list/user-list.component";
 import {UserViewingBoxComponent} from "../user-viewing-box/user-viewing-box.component";
 import {SchedulerSettingsComponent} from "../scheduler-settings/scheduler-settings.component";
 import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
@@ -42,8 +40,6 @@ import {UserSkillsComponent} from "../user-skills/user-skills.component";
     imports: [
         FormsModule,
         DatePipe,
-        UserComponent,
-        UserListComponent,
         UserViewingBoxComponent,
         SchedulerSettingsComponent,
         UserSkillsComponent

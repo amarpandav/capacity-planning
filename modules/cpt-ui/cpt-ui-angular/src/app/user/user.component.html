@@ -1,18 +1,20 @@
 
-<div>
-  <button (click)="onSelectUser()" [class.active]="selected()">
-    <!-- property binding using []  -->
-    <!-- option 1 -->
-    <!--img [src]="'assets/users/'+selectedUser.avatar"
-         [alt]="selectedUser.name"/-->
-    <!-- option 2 -->
-    <img [src]="selectedUserAvatar()"
-         [alt]="user().name">
+<div id="viewingUserSelected" style="display:flex;align-items:center;">
 
-    <!-- string interpolation using double curly braces-->
-    <span>{{user().name}}</span>
 
-  </button>
+    <img [src]="'./assets/users/'+user()?.userKey?.gpin+'.jpg'"
+         (error)="defaultAvatar()"
+         class="user"
+         [alt]="user()?.name" #avatar>
+    <div style="position: relative">
+        <b>{{ user()?.name }}</b>
+        @if (userRole()) {
+            <div style="margin-left: 15px" class="position-absolute top-0 start-100 translate-middle badge  bg-success">
+                {{userRole()}}</div>
+        }
+        <BR>
+        {{ user()?.userKey?.gpin }}, MDEJ13
+    </div>
 
 </div>
 

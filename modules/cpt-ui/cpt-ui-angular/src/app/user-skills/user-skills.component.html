@@ -1,6 +1,13 @@
-<dialog class="myDialog" #userSkillsDialog (keydown)="keydown($event)" >
+<dialog class="myDialog" #userSkillsDialog (keydown)="keydown($event)">
+
+
     <div class="myDialogContainer">
-        <h5>{{ selectedUser()?.name}}'s skills</h5>
-        {{ JSON.stringify(selectedUser()) }}
+        <h5>Skills</h5>
+        <div id="viewingUser" style="display:flex;align-items:center;">
+            You are viewing skills of:
+            <app-user [user]="selectedUser()"></app-user>
+        </div>
     </div>
+
+
 </dialog>
