@@ -2,6 +2,7 @@ import {Component, effect, ElementRef, input, output, viewChild} from '@angular/
 import {UserDto} from "../scheduler/models/user/user.model";
 import {UserComponent} from "../user/user.component";
 import {UserSkillsLevel} from "./user-skills-level.enum";
+import {UserSkillsDto} from "./user-skills.model";
 
 @Component({
     selector: 'app-user-skills',
@@ -22,6 +23,10 @@ export class UserSkillsComponent {
 
     userSkillsLevel: UserSkillsLevel[] = [];
 
+    coreEngineeringSkills: UserSkillsDto[] = [];
+
+    securityDomainSkills: UserSkillsDto[] = [];
+
     protected readonly JSON = JSON;
 
     private selectedUserChanged = effect(() => {
@@ -36,6 +41,13 @@ export class UserSkillsComponent {
         this.userSkillsLevel.push(UserSkillsLevel.INTERMEDIATE_WORKING);
         this.userSkillsLevel.push(UserSkillsLevel.ADVANCED_PRACTITIONER);
         this.userSkillsLevel.push(UserSkillsLevel.EXPERT_SME);
+
+        this.coreEngineeringSkills.push(new UserSkillsDto("Java", UserSkillsLevel.ADVANCED_PRACTITIONER));
+        this.coreEngineeringSkills.push(new UserSkillsDto("Angular", UserSkillsLevel.ADVANCED_PRACTITIONER));
+        this.coreEngineeringSkills.push(new UserSkillsDto("React", UserSkillsLevel.BEGINNER));
+        this.coreEngineeringSkills.push(new UserSkillsDto(".NET Framework", UserSkillsLevel.NONE));
+
+        this.securityDomainSkills.push(new UserSkillsDto("Authentication/Authorization/SSo/Federation", UserSkillsLevel.INTERMEDIATE_WORKING));
     }
 
 
@@ -62,3 +74,4 @@ export class UserSkillsComponent {
         }
     }
 }
+

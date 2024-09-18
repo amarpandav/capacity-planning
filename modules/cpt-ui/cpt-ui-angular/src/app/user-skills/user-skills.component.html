@@ -20,9 +20,9 @@
         <br>
 
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-6">
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="card" style="min-width: 200px; margin-right:10px">
                     <div class="card-body" style="padding: 5px">
                         <h6 class="card-title" style="min-width: 190px; text-align: center">Skill Levels</h6>
@@ -77,12 +77,27 @@
                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
                              aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body">
-                                <strong>This is the first item's accordion body.</strong> It is shown by default, until the
-                                collapse plugin adds the appropriate classes that we use to style each element. These classes
-                                control the overall appearance, as well as the showing and hiding via CSS transitions. You can
-                                modify any of this with custom CSS or overriding our default variables. It's also worth noting
-                                that just about any HTML can go within the <code>.accordion-body</code>, though the transition
-                                does limit overflow.
+                                @for (us of coreEngineeringSkills; track $index) {
+                                    <div class="row">
+
+                                        <div class="col-1">
+                                            <div class="cell day weekDay" style="margin-right: 10px;" >
+                                                <div style='height:100%;width:100%;'
+                                                     class='{{us.skillsLevel}}'
+                                                     title='{{us.skillsLevel}}'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div style="margin-right: 10px;position: relative">
+                                                {{ us.skillName }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+
+
                             </div>
                         </div>
                     </div>
@@ -97,7 +112,25 @@
                         <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
                              aria-labelledby="panelsStayOpen-headingTwo">
                             <div class="accordion-body">
-                                body 2
+                                @for (us of securityDomainSkills; track $index) {
+                                    <div class="row">
+
+                                        <div class="col-1">
+                                            <div class="cell day weekDay" style="margin-right: 10px;" >
+                                                <div style='height:100%;width:100%;'
+                                                     class='{{us.skillsLevel}}'
+                                                     title='{{us.skillsLevel}}'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div style="margin-right: 10px;position: relative">
+                                                {{ us.skillName }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
