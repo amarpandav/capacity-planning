@@ -1,7 +1,7 @@
 import {Component, effect, ElementRef, input, output, viewChild} from '@angular/core';
 import {UserDto} from "../scheduler/models/user/user.model";
 import {UserComponent} from "../user/user.component";
-import {UserSkillsLevel} from "./user-skills-level.enum";
+import {getUserSkillsLevelKey, getUserSkillsLevelKeys, UserSkillsLevel} from "./user-skills-level.enum";
 import {UserSkillsDto} from "./user-skills.model";
 
 @Component({
@@ -42,6 +42,7 @@ export class UserSkillsComponent {
         this.userSkillsLevel.push(UserSkillsLevel.ADVANCED_PRACTITIONER);
         this.userSkillsLevel.push(UserSkillsLevel.EXPERT_SME);
 
+
         this.coreEngineeringSkills.push(new UserSkillsDto("Java", UserSkillsLevel.ADVANCED_PRACTITIONER));
         this.coreEngineeringSkills.push(new UserSkillsDto("Angular", UserSkillsLevel.ADVANCED_PRACTITIONER));
         this.coreEngineeringSkills.push(new UserSkillsDto("React", UserSkillsLevel.BEGINNER));
@@ -73,5 +74,8 @@ export class UserSkillsComponent {
             this.closeModal();
         }
     }
+
+    protected readonly getUserSkillsLevelKeys = getUserSkillsLevelKeys;
+    protected readonly getUserSkillsLevelKey = getUserSkillsLevelKey;
 }
 

@@ -1,13 +1,35 @@
+import {subscribeOn} from "rxjs";
+
 export enum UserSkillsLevel{
-  NONE ='NONE',
+  /*NONE ='NONE',
   BEGINNER = 'BEGINNER',
   INTERMEDIATE_WORKING = 'INTERMEDIATE_WORKING',
   ADVANCED_PRACTITIONER = 'ADVANCED_PRACTITIONER',
-  EXPERT_SME = 'EXPERT_SME'
+  EXPERT_SME = 'EXPERT_SME'*/
+  NONE,
+  BEGINNER,
+  INTERMEDIATE_WORKING,
+  ADVANCED_PRACTITIONER,
+  EXPERT_SME
 }
 
 export function toEnum(str: string) {
   return UserSkillsLevel[str as keyof typeof UserSkillsLevel];
+}
+
+export function getUserSkillsLevelKeys(): string[]{
+  console.log(Object.keys(UserSkillsLevel));
+  return Object.keys(UserSkillsLevel);
+}
+
+export function getUserSkillsLevelValue(key: string): string{
+  // @ts-ignore
+  return UserSkillsLevel[key];
+}
+
+export function getUserSkillsLevelKey(value: UserSkillsLevel): string{
+  // @ts-ignore
+  return UserSkillsLevel[value];
 }
 
 export function isNone(availability: UserSkillsLevel) {

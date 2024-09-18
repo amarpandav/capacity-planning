@@ -28,15 +28,15 @@
                         <h6 class="card-title" style="min-width: 190px; text-align: center">Skill Levels</h6>
                         <div class="row settingsContainer">
                             <div class="col-12">
-                                @for (usl of userSkillsLevel; track $index) {
+                                @for (us of userSkillsLevel; track $index) {
                                     <div style="display:flex;cursor: pointer">
-                                        <div class="cell day weekDay" style="margin-right: 10px;" >
+                                        <div class="cell day weekDay" style="margin-right: 10px;text-align: center" >
                                             <div style='height:100%;width:100%;'
-                                                 class='{{usl}}'
-                                                 title='{{usl}}'></div>
+                                                 class='{{getUserSkillsLevelKey(us)}}'
+                                                 title='{{getUserSkillsLevelKey(us)}}'>{{us}}</div>
                                         </div>
                                         <div style="margin-right: 10px;position: relative">
-                                            {{ usl }}
+                                            {{ getUserSkillsLevelKey(us) }}
                                         </div>
                                     </div>
                                 }
@@ -81,10 +81,11 @@
                                     <div class="row">
 
                                         <div class="col-1">
-                                            <div class="cell day weekDay" style="margin-right: 10px;" >
+                                            <div class="cell day weekDay" style="margin-right: 10px;text-align: center" >
                                                 <div style='height:100%;width:100%;'
-                                                     class='{{us.skillsLevel}}'
-                                                     title='{{us.skillsLevel}}'>
+                                                     class='{{getUserSkillsLevelKey(us.skillsLevel)}}'
+                                                     title='{{getUserSkillsLevelKey(us.skillsLevel)}}'>
+                                                    {{us.skillsLevel}}
                                                 </div>
                                             </div>
                                         </div>
@@ -96,8 +97,6 @@
 
                                     </div>
                                 }
-
-
                             </div>
                         </div>
                     </div>
@@ -116,10 +115,11 @@
                                     <div class="row">
 
                                         <div class="col-1">
-                                            <div class="cell day weekDay" style="margin-right: 10px;" >
+                                            <div class="cell day weekDay" style="margin-right: 10px;text-align: center" >
                                                 <div style='height:100%;width:100%;'
-                                                     class='{{us.skillsLevel}}'
-                                                     title='{{us.skillsLevel}}'>
+                                                     class='{{getUserSkillsLevelKey(us.skillsLevel)}}'
+                                                     title='{{getUserSkillsLevelKey(us.skillsLevel)}}'>
+                                                    {{us.skillsLevel}}
                                                 </div>
                                             </div>
                                         </div>
