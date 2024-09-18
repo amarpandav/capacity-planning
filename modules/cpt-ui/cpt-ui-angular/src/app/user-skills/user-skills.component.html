@@ -19,6 +19,38 @@
         <p></p>
         <br>
 
+        <div class="row">
+            <div class="col-md-7">
+            </div>
+            <div class="col-md-5">
+                <div class="card" style="min-width: 200px; margin-right:10px">
+                    <div class="card-body" style="padding: 5px">
+                        <h6 class="card-title" style="min-width: 190px; text-align: center">Skill Levels</h6>
+                        <div class="row settingsContainer">
+                            <div class="col-12">
+                                @for (usl of userSkillsLevel; track $index) {
+                                    <div style="display:flex;cursor: pointer">
+                                        <div class="cell day weekDay" style="margin-right: 10px;" >
+                                            <div style='height:100%;width:100%;'
+                                                 class='{{usl}}'
+                                                 title='{{usl}}'></div>
+                                        </div>
+                                        <div style="margin-right: 10px;position: relative">
+                                            {{ usl }}
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <p></p>
+        <br>
+
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="tech-skills-tab" data-bs-toggle="tab" data-bs-target="#tech-skills" type="button" role="tab" aria-controls="tech-skills" aria-selected="true">Technical Skills</button>
