@@ -27,6 +27,11 @@ export class UserSkillsComponent {
 
     securityDomainSkills: UserSkillsDto[] = [];
 
+    ubsAppSkills: UserSkillsDto[] = [];
+
+    csAppSkills: UserSkillsDto[] = [];
+
+
     protected readonly JSON = JSON;
 
     private selectedUserChanged = effect(() => {
@@ -47,8 +52,18 @@ export class UserSkillsComponent {
         this.coreEngineeringSkills.push(new UserSkillsDto("Angular", UserSkillsLevel.ADVANCED_PRACTITIONER));
         this.coreEngineeringSkills.push(new UserSkillsDto("React", UserSkillsLevel.BEGINNER));
         this.coreEngineeringSkills.push(new UserSkillsDto(".NET Framework", UserSkillsLevel.NONE));
+        this.coreEngineeringSkills.push(new UserSkillsDto("tbd", UserSkillsLevel.NONE));
 
         this.securityDomainSkills.push(new UserSkillsDto("Authentication/Authorization/SSo/Federation", UserSkillsLevel.INTERMEDIATE_WORKING));
+        this.securityDomainSkills.push(new UserSkillsDto("tbd", UserSkillsLevel.INTERMEDIATE_WORKING));
+
+        this.ubsAppSkills.push(new UserSkillsDto("IDM Common Services (SOA)", UserSkillsLevel.BEGINNER));
+        this.ubsAppSkills.push(new UserSkillsDto("ARMRIT", UserSkillsLevel.NONE));
+        this.ubsAppSkills.push(new UserSkillsDto("tbd", UserSkillsLevel.NONE));
+
+        this.csAppSkills.push(new UserSkillsDto("nSphere", UserSkillsLevel.EXPERT_SME));
+        this.csAppSkills.push(new UserSkillsDto("Entitlement Admin", UserSkillsLevel.EXPERT_SME));
+        this.csAppSkills.push(new UserSkillsDto("tbd", UserSkillsLevel.NONE));
     }
 
 

@@ -30,7 +30,7 @@
                             <div class="col-12">
                                 @for (us of userSkillsLevel; track $index) {
                                     <div style="display:flex;cursor: pointer">
-                                        <div class="cell day weekDay" style="margin-right: 10px;text-align: center" >
+                                        <div class="cell day weekDay" style="margin-right: 10px;text-align: center; color:white;" >
                                             <div style='height:100%;width:100%;'
                                                  class='{{getUserSkillsLevelKey(us)}}'
                                                  title='{{getUserSkillsLevelKey(us)}}'>{{us}}</div>
@@ -81,7 +81,7 @@
                                     <div class="row">
 
                                         <div class="col-1">
-                                            <div class="cell day weekDay" style="margin-right: 10px;text-align: center" >
+                                            <div class="cell day weekDay" style="margin-right: 10px;text-align: center; color:white;" >
                                                 <div style='height:100%;width:100%;'
                                                      class='{{getUserSkillsLevelKey(us.skillsLevel)}}'
                                                      title='{{getUserSkillsLevelKey(us.skillsLevel)}}'>
@@ -89,7 +89,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-11">
                                             <div style="margin-right: 10px;position: relative">
                                                 {{ us.skillName }}
                                             </div>
@@ -115,7 +115,7 @@
                                     <div class="row">
 
                                         <div class="col-1">
-                                            <div class="cell day weekDay" style="margin-right: 10px;text-align: center" >
+                                            <div class="cell day weekDay" style="margin-right: 10px;text-align: center; color:white;" >
                                                 <div style='height:100%;width:100%;'
                                                      class='{{getUserSkillsLevelKey(us.skillsLevel)}}'
                                                      title='{{getUserSkillsLevelKey(us.skillsLevel)}}'>
@@ -123,7 +123,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-11">
                                             <div style="margin-right: 10px;position: relative">
                                                 {{ us.skillName }}
                                             </div>
@@ -151,7 +151,81 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="app-skills" role="tabpanel" aria-labelledby="app-skills-tab">B</div>
+            <div class="tab-pane fade" id="app-skills" role="tabpanel" aria-labelledby="app-skills-tab">
+                <div class="tab-pane fade show active" id="tech-skills2" role="tabpanel" aria-labelledby="tech-skills-tab">
+                    <div class="accordion" id="accordionPanelsStayOpenExample2">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingTen">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseTen" aria-expanded="true"
+                                        aria-controls="panelsStayOpen-collapseTen">
+                                    UBS Applications
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseTen" class="accordion-collapse collapse show"
+                                 aria-labelledby="panelsStayOpen-headingTen">
+                                <div class="accordion-body">
+                                    @for (us of ubsAppSkills; track $index) {
+                                        <div class="row">
+
+                                            <div class="col-1">
+                                                <div class="cell day weekDay" style="margin-right: 10px;text-align: center; color:white;" >
+                                                    <div style='height:100%;width:100%;'
+                                                         class='{{getUserSkillsLevelKey(us.skillsLevel)}}'
+                                                         title='{{getUserSkillsLevelKey(us.skillsLevel)}}'>
+                                                        {{us.skillsLevel}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-11">
+                                                <div style="margin-right: 10px;position: relative">
+                                                    {{ us.skillName }}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingEleven">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#panelsStayOpen-collapseEleven" aria-expanded="false"
+                                        aria-controls="panelsStayOpen-collapseEleven">
+                                    CS Applications
+                                </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseEleven" class="accordion-collapse collapse"
+                                 aria-labelledby="panelsStayOpen-headingTen">
+                                <div class="accordion-body">
+                                    @for (us of csAppSkills; track $index) {
+                                        <div class="row">
+
+                                            <div class="col-1">
+                                                <div class="cell day weekDay" style="margin-right: 10px;text-align: center; color:white;" >
+                                                    <div style='height:100%;width:100%;'
+                                                         class='{{getUserSkillsLevelKey(us.skillsLevel)}}'
+                                                         title='{{getUserSkillsLevelKey(us.skillsLevel)}}'>
+                                                        {{us.skillsLevel}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-11">
+                                                <div style="margin-right: 10px;position: relative">
+                                                    {{ us.skillName }}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
             <div class="tab-pane fade" id="ubs-arena" role="tabpanel" aria-labelledby="ubs-arena-tab">C</div>
         </div>
 
