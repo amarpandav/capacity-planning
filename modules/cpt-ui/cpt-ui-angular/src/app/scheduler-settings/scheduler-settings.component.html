@@ -13,12 +13,13 @@
             </div>
         </div>
     </div>
-    <div class="card" style="width: 170px; margin-right:10px">
+
+    <div class="card" style="width: 130px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
             <h6 class="card-title" style="text-align: center">Months to view</h6>
-            <div class="row settingsContainer" style="width: 160px">
+            <div class="row settingsContainer" style="width: 120px">
                 @for (monthsToView of AppConstants.NoOfMonthsToView; track monthsToView) {
-                    <div class="col-2">
+                    <div class="col-3">
                         <button [class.active]="noOfMonthsToView === monthsToView"
                                 (click)="onNoOfMonthsToViewChange(monthsToView)">{{ monthsToView }}
                         </button>
@@ -28,9 +29,9 @@
         </div>
     </div>
 
-    <div class="card" style="min-width: 200px; margin-right:10px">
+    <div class="card" style="min-width: 190px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
-            <h6 class="card-title" style="min-width: 190px; text-align: center">My Pods</h6>
+            <h6 class="card-title" style="min-width: 180px; text-align: center">My Pods</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
                     <select (change)="onMyPodChanged($event)">
@@ -43,9 +44,9 @@
         </div>
     </div>
 
-    <div class="card" style="min-width: 290px; margin-right:10px">
+    <div class="card" style="min-width: 250px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
-            <h6 class="card-title" style="min-width: 280px; text-align: center">Assigned Pods</h6>
+            <h6 class="card-title" style="min-width: 240px; text-align: center">Assigned Pods</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
                     @for (pod of relatedPods; track pod) {
@@ -75,9 +76,9 @@
         </div>
     </div>
 
-    <div class="card" style="min-width: 200px; margin-right:10px">
+    <div class="card" style="min-width: 150px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
-            <h6 class="card-title" style="min-width: 190px; text-align: center">Availability</h6>
+            <h6 class="card-title" style="min-width: 140px; text-align: center">Availability</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
                     @for (at of availabilityTypes; track $index) {
@@ -103,9 +104,9 @@
         </div>
     </div>
 
-    <div class="card" style="min-width: 250px; margin-right:10px">
+    <div class="card" style="min-width: 190px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
-            <h6 class="card-title" style="min-width: 240px; text-align: center">Pod Member Roles</h6>
+            <h6 class="card-title" style="min-width: 180px; text-align: center">Pod Member Roles</h6>
             <div class="row settingsContainer">
                 <div class="col-12">
                     <!--@for (key of relatedPodMemberRoles(); track $index) {
