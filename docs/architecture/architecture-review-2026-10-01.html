@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Architecture review: capacity-planning</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral", securityLevel: "loose" });
+</script>
+<style>
+  .seam { border-style: dashed !important; }
+  .deep { background: linear-gradient(135deg, #0f172a, #1e293b); color: #f8fafc; }
+  .lbl { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; }
+  .faded { opacity: .45; }
+  pre.mermaid { background: transparent; }
+</style>
+</head>
+<body class="bg-stone-50 text-slate-900 font-sans">
+<main class="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-12">
+
+<header class="space-y-4">
+  <h1 class="font-serif text-4xl">capacity-planning: architecture review</h1>
+  <p class="text-sm text-slate-500">2026-10-01 · scope: git hot spots (Angular scheduler, user-skills, cpt-service impl/dto, web rest)</p>
+  <div class="flex flex-wrap gap-4 text-xs text-slate-600">
+    <span class="flex items-center gap-2"><span class="inline-block w-5 h-4 border border-slate-500 bg-white"></span>module</span>
+    <span class="flex items-center gap-2"><span class="inline-block w-6 border-t-2 border-dashed border-slate-500"></span>seam</span>
+    <span class="flex items-center gap-2"><span class="inline-block w-6 border-t-2 border-red-600"></span>leakage / bug</span>
+    <span class="flex items-center gap-2"><span class="inline-block w-5 h-4 deep"></span>deep module</span>
+  </div>
+  <div class="grid grid-cols-3 gap-3 text-center text-sm">
+    <div class="rounded-lg bg-white border border-slate-200 p-3"><div class="text-2xl font-serif">61</div><div class="lbl text-slate-500">commits to scheduler.component.ts</div></div>
+    <div class="rounded-lg bg-white border border-slate-200 p-3"><div class="text-2xl font-serif">0</div><div class="lbl text-slate-500">Angular spec files</div></div>
+    <div class="rounded-lg bg-white border border-slate-200 p-3"><div class="text-2xl font-serif">6</div><div class="lbl text-slate-500">places that know weekends are special</div></div>
+  </div>
+</header>
+
+<section id="candidates" class="space-y-10">
+
+<!-- 1 -->
+<article id="c1" class="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
+  <div class="flex flex-wrap items-center gap-2">
+    <h2 class="font-serif text-2xl mr-2">1 · Extract the half-day selection module out of SchedulerComponent</h2>
+    <span class="rounded-full bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5">Strong</span>
+    <span class="rounded-full bg-slate-100 text-slate-700 text-xs px-2 py-0.5">in-process</span>
+  </div>
+  <ul class="font-mono text-sm text-slate-600 space-y-0.5">
+    <li>cpt-ui-angular/src/app/scheduler/scheduler.component.ts:198-590</li>
+    <li>cpt-ui-angular/src/app/scheduler/scheduler.component.html:82-99</li>
+    <li>scheduler/models/flex-day-to-repaint, start-or-end-day-to-assign, pod-assignment-create-request</li>
+  </ul>
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="rounded-lg border border-slate-200 p-4 space-y-2">
+      <div class="lbl text-slate-500">Before: one component, three jobs</div>
+      <div class="border-2 border-slate-400 rounded p-3 space-y-2">
+        <div class="lbl text-slate-600">SchedulerComponent (640 lines)</div>
+        <div class="text-xs rounded bg-red-50 border border-red-300 p-2">mouse handlers · 7 positional args · 11 @ts-ignore</div>
+        <div class="text-xs rounded bg-red-50 border border-red-300 p-2">addAssignment(): 260-line rectangle walk (up/down/left/right)</div>
+        <div class="text-xs rounded bg-red-50 border border-red-300 p-2">rule: only AVAILABLE is paintable · reset non-persisted</div>
+        <div class="text-xs rounded bg-red-50 border border-red-300 p-2">mutates view cells in place · swaps start/end for request</div>
+        <div class="text-xs rounded bg-slate-50 border border-slate-300 p-2">5 selection fields (1 never read)</div>
+      </div>
+      <p class="text-xs text-red-700">Test surface = DOM events. Tests: none.</p>
+    </div>
+    <div class="rounded-lg border border-slate-200 p-4 space-y-2">
+      <div class="lbl text-slate-500">After: component forwards, module decides</div>
+      <div class="border border-slate-400 rounded p-2 text-xs"><span class="lbl">SchedulerComponent</span>: forward mouse events, render cells</div>
+      <div class="border-t-2 border-dashed border-slate-500 my-2"></div>
+      <div class="deep rounded p-4 space-y-2">
+        <div class="lbl">Half-day selection module</div>
+        <div class="text-xs text-slate-300">in: anchor cell, current cell, ordered users</div>
+        <div class="text-xs text-slate-300">out: selected cells + create request</div>
+        <div class="grid grid-cols-2 gap-1 pt-2 faded">
+          <div class="text-[10px] border border-slate-500 rounded p-1">rectangle walk</div>
+          <div class="text-[10px] border border-slate-500 rounded p-1">slot expansion</div>
+          <div class="text-[10px] border border-slate-500 rounded p-1">paintable rule</div>
+          <div class="text-[10px] border border-slate-500 rounded p-1">drag normalisation</div>
+        </div>
+      </div>
+      <p class="text-xs text-emerald-700">Test surface = plain dates in, cells out.</p>
+    </div>
+  </div>
+  <p><b>Problem:</b> the hottest file holds the drag-selection rules behind a DOM-event interface, so none of it can be tested.</p>
+  <p><b>Solution:</b> move selection, slot expansion, the paintable rule and request normalisation into one framework-free module the component calls.</p>
+  <ul class="text-sm list-disc pl-5 space-y-0.5">
+    <li>Locality: selection bugs live in one module</li>
+    <li>First Angular tests, no TestBed</li>
+    <li>Delete FlexDayToRepaint, StartOrEndDayToAssign</li>
+    <li>Painting ABSENT lands in the module</li>
+    <li>@ts-ignore goes away with nullable args</li>
+  </ul>
+</article>
+
+<!-- 2 -->
+<article id="c2" class="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
+  <div class="flex flex-wrap items-center gap-2">
+    <h2 class="font-serif text-2xl mr-2">2 · One module owns "the schedule of a pod over a date range"</h2>
+    <span class="rounded-full bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5">Strong</span>
+    <span class="rounded-full bg-slate-100 text-slate-700 text-xs px-2 py-0.5">local-substitutable (HSQLDB)</span>
+  </div>
+  <ul class="font-mono text-sm text-slate-600 space-y-0.5">
+    <li>cpt-service/.../dto/UserAssignmentDto.java:24-57 · PodAssignmentDto.java:15,19 · PodAssignmentsResponse.java</li>
+    <li>cpt-service/.../impl/PodAssignmentServiceImpl.java (no test)</li>
+    <li>cpt-ui-angular/src/app/scheduler-settings/scheduler.settings.model.ts:14-25</li>
+    <li>cpt-ui-angular/src/app/scheduler-header/scheduler-header.service.ts:16-55</li>
+    <li>cpt-ui-angular/src/app/scheduler/scheduler.component.ts:143-154 · scheduler.service.ts:84-172</li>
+  </ul>
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="rounded-lg border border-slate-200 p-4">
+      <div class="lbl text-slate-500 mb-2">Before: calendar policy scattered</div>
+      <pre class="mermaid">
+flowchart TB
+  W((weekend rule)):::rule
+  W --- E[PodAssignment entity]
+  W --- C[CreateAssignmentsServiceImpl]
+  W --- D[UserAssignmentDto ctor]
+  W --- U1[DateUtils.ts]
+  W --- U2[scheduler.service.ts]
+  W --- U3[PodAssignmentDto.ts ctor]
+  R((date range)):::rule
+  R --- S[SchedulerSettingsDto]
+  R --- H[SchedulerHeaderService]
+  R --- B[backend datesUntil]
+  P((persisted?)):::rule
+  P --- SC[SchedulerComponent re-derives]
+  classDef rule fill:#fee2e2,stroke:#dc2626;
+      </pre>
+      <p class="text-xs text-red-700 mt-2">Nov + 3 months: header shows Nov–Dec, backend returns Nov–Jan.</p>
+    </div>
+    <div class="rounded-lg border border-slate-200 p-4 space-y-3">
+      <div class="lbl text-slate-500">After: one deep module, one range</div>
+      <div class="deep rounded p-4 space-y-2">
+        <div class="lbl">Pod schedule module</div>
+        <div class="text-xs text-slate-300">schedule(pod, range) → rows of half-days, each persisted | virtual</div>
+        <div class="grid grid-cols-2 gap-1 pt-2 faded">
+          <div class="text-[10px] border border-slate-500 rounded p-1">validated range</div>
+          <div class="text-[10px] border border-slate-500 rounded p-1">weekend / holiday policy</div>
+          <div class="text-[10px] border border-slate-500 rounded p-1">default filling</div>
+          <div class="text-[10px] border border-slate-500 rounded p-1">stored rows (SQL)</div>
+        </div>
+      </div>
+      <div class="border-t-2 border-dashed border-slate-500"></div>
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="border border-slate-400 rounded p-2">Angular header: renders range</div>
+        <div class="border border-slate-400 rounded p-2">Angular grid: renders rows</div>
+      </div>
+    </div>
+  </div>
+  <p><b>Problem:</b> the weekend rule, range maths and the persisted flag are re-derived in about 6 places, and they already disagree.</p>
+  <p><b>Solution:</b> one backend module returns the full schedule for a range with an explicit persisted/virtual flag per half-day; the UI only renders it.</p>
+  <ul class="text-sm list-disc pl-5 space-y-0.5">
+    <li>Locality: calendar policy in one place</li>
+    <li>Leverage: header and grid share one range</li>
+    <li>Real public holidays become one change</li>
+    <li>Tested against HSQLDB via TestBase</li>
+    <li>Delete client-side fill copy</li>
+  </ul>
+</article>
+
+<!-- 3 -->
+<article id="c3" class="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
+  <div class="flex flex-wrap items-center gap-2">
+    <h2 class="font-serif text-2xl mr-2">3 · Collapse the pod assignment write path into the entity + one module</h2>
+    <span class="rounded-full bg-emerald-100 text-emerald-800 text-xs px-2 py-0.5">Strong</span>
+    <span class="rounded-full bg-slate-100 text-slate-700 text-xs px-2 py-0.5">local-substitutable (HSQLDB)</span>
+  </div>
+  <ul class="font-mono text-sm text-slate-600 space-y-0.5">
+    <li>cpt-entities/.../entity/pod/PodAssignment.java:93-163</li>
+    <li>cpt-service/.../impl/PodAssignmentUpdater.java · CreateAssignmentsServiceImpl.java · UnassignPodServiceImpl.java</li>
+    <li>cpt-service/.../CreateAssignmentsService.java · UnassignPodService.java</li>
+    <li>cpt-service/.../repository/PodAssignmentRepository.java:24-30</li>
+    <li>cpt-web-app/.../rest/PodAssignmentController.java:64-67</li>
+  </ul>
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="rounded-lg border border-slate-200 p-4 space-y-1">
+      <div class="lbl text-slate-500 mb-2">Before: a request crosses 5 thin modules</div>
+      <div class="h-10 border-l-4 border-slate-400 bg-slate-50 px-3 flex items-center text-xs">Controller: unassign @PathVariable("id") with no {id} <span class="text-red-600 ml-1">✗</span></div>
+      <div class="h-10 border-l-4 border-slate-400 bg-slate-50 px-3 flex items-center text-xs">Create / Unassign interface: one adapter each</div>
+      <div class="h-10 border-l-4 border-slate-400 bg-slate-50 px-3 flex items-center text-xs">Impl: validate() ×3 copies · weekend check · no @Transactional on unassign</div>
+      <div class="h-10 border-l-4 border-slate-400 bg-slate-50 px-3 flex items-center text-xs">PodAssignmentUpdater: half-day range rule</div>
+      <div class="h-10 border-l-4 border-slate-400 bg-slate-50 px-3 flex items-center text-xs">Entity: invariants in ctor, bypassed by setters</div>
+      <div class="h-10 border-l-4 border-red-600 bg-red-50 px-3 flex items-center text-xs">SQL: <code class="mx-1">… = :podId or afternoon = :podId</code> missing parens</div>
+      <p class="text-xs text-red-700 pt-1">Mockito stubs the repository, so the SQL bug is invisible.</p>
+    </div>
+    <div class="rounded-lg border border-slate-200 p-4 space-y-1">
+      <div class="lbl text-slate-500 mb-2">After: two bands, tested against HSQLDB</div>
+      <div class="h-10 border-l-4 border-slate-400 bg-slate-50 px-3 flex items-center text-xs">Controller</div>
+      <div class="deep rounded p-4 space-y-1">
+        <div class="lbl">Pod assignment module</div>
+        <div class="text-xs text-slate-300">assign(pod, users, half-day range) · unassign(…)</div>
+        <div class="text-[10px] text-slate-400 faded">range validation · weekend rule · transaction · native SQL</div>
+      </div>
+      <div class="deep rounded p-3 space-y-1 opacity-90">
+        <div class="lbl">PodAssignment entity</div>
+        <div class="text-[10px] text-slate-400">owns assign/unassign over a half-day range; no setters</div>
+      </div>
+      <div class="border-t-2 border-dashed border-slate-500 mt-2"></div>
+      <div class="text-xs text-slate-600">seam: repository → HSQLDB in tests, real DB in prod</div>
+    </div>
+  </div>
+  <p><b>Problem:</b> half-day range rules live in three modules, the pass-through interfaces add nothing, and mock-only tests hide a broken query and an unbindable endpoint.</p>
+  <p><b>Solution:</b> the entity owns assign/unassign over a range; Create and Unassign merge into one module tested with its real SQL on HSQLDB.</p>
+  <ul class="text-sm list-disc pl-5 space-y-0.5">
+    <li>Delete PodAssignmentUpdater, 2 interfaces</li>
+    <li>Delete 2 of 3 validate() copies</li>
+    <li>Tests reach the SQL</li>
+    <li>Entity invariants actually hold</li>
+  </ul>
+  <div class="rounded bg-amber-50 border border-amber-300 text-amber-900 text-sm p-3">Three bugs here are worth filing as issues whatever you decide: the SQL precedence, the unassign <code>@PathVariable</code>, and the missing <code>@Transactional</code>.</div>
+</article>
+
+<!-- 4 -->
+<article id="c4" class="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
+  <div class="flex flex-wrap items-center gap-2">
+    <h2 class="font-serif text-2xl mr-2">4 · Merge the pod read services into one pod directory module</h2>
+    <span class="rounded-full bg-amber-100 text-amber-800 text-xs px-2 py-0.5">Worth exploring</span>
+    <span class="rounded-full bg-slate-100 text-slate-700 text-xs px-2 py-0.5">local-substitutable (HSQLDB)</span>
+  </div>
+  <ul class="font-mono text-sm text-slate-600 space-y-0.5">
+    <li>cpt-service/.../impl/GetRelatedPodsServiceImpl.java · MyPodServiceImpl.java · PodServiceImpl.java · UserServiceImpl.java</li>
+    <li>cpt-service/.../dto/UserDto.java:21-31 · impl/mapper/UserMapper.java · dto/PodDto.java</li>
+    <li>unused: AvailabilityMapper, AvailabilityDto</li>
+  </ul>
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="rounded-lg border border-slate-200 p-4 space-y-2">
+      <div class="lbl text-slate-500">Before: mass diagram, 4 shallow modules</div>
+      <div class="flex items-end gap-3 h-40">
+        <div class="flex flex-col items-center gap-1"><div class="w-10 h-14 bg-slate-300"></div><div class="w-10 h-4 bg-slate-600"></div><span class="text-[10px]">PodSvc</span></div>
+        <div class="flex flex-col items-center gap-1"><div class="w-10 h-14 bg-slate-300"></div><div class="w-10 h-4 bg-slate-600"></div><span class="text-[10px]">MyPodSvc</span></div>
+        <div class="flex flex-col items-center gap-1"><div class="w-10 h-14 bg-slate-300"></div><div class="w-10 h-4 bg-slate-600"></div><span class="text-[10px]">RelatedSvc</span></div>
+        <div class="flex flex-col items-center gap-1"><div class="w-10 h-14 bg-slate-300"></div><div class="w-10 h-4 bg-slate-600"></div><span class="text-[10px]">UserSvc</span></div>
+      </div>
+      <p class="text-xs text-slate-500">light = interface, dark = implementation (one-line stream().map())</p>
+    </div>
+    <div class="rounded-lg border border-slate-200 p-4 space-y-2">
+      <div class="lbl text-slate-500">After: one module, small interface</div>
+      <div class="flex items-end gap-3 h-40">
+        <div class="flex flex-col items-center gap-1"><div class="w-24 h-6 bg-slate-300"></div><div class="w-24 h-24 deep"></div><span class="text-[10px]">Pod directory</span></div>
+        <div class="text-xs text-slate-600 pl-2 space-y-1"><div>member pods</div><div>watcher pods</div><div>related pods</div><div>→ wire DTOs, not EntityId</div></div>
+      </div>
+    </div>
+  </div>
+  <p><b>Problem:</b> four pod-facing interfaces wrap one-line repository calls, and UserDto has two construction paths.</p>
+  <p><b>Solution:</b> one pod directory module returns wire DTOs; UserDto gets one construction path; delete the dead Availability mapper and DTO.</p>
+  <ul class="text-sm list-disc pl-5 space-y-0.5">
+    <li>Interface shrinks from 4 to 1</li>
+    <li>EntityId stops leaking to Angular</li>
+    <li>DTOs stop depending on entities</li>
+  </ul>
+</article>
+
+<!-- 5 -->
+<article id="c5" class="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
+  <div class="flex flex-wrap items-center gap-2">
+    <h2 class="font-serif text-2xl mr-2">5 · Put Angular scheduler data access behind a real seam</h2>
+    <span class="rounded-full bg-amber-100 text-amber-800 text-xs px-2 py-0.5">Worth exploring</span>
+    <span class="rounded-full bg-slate-100 text-slate-700 text-xs px-2 py-0.5">ports &amp; adapters</span>
+  </div>
+  <ul class="font-mono text-sm text-slate-600 space-y-0.5">
+    <li>cpt-ui-angular/src/app/scheduler/scheduler.service.ts:19,39-45 · user/user.service.ts:10 · pod/pod.service.ts:10</li>
+    <li>cpt-ui-angular/src/app/utils/JsonDateInterceptor.ts · app.config.ts:31,58-76</li>
+    <li>cpt-ui-angular/src/testdata/**</li>
+  </ul>
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="rounded-lg border border-slate-200 p-4">
+      <div class="lbl text-slate-500 mb-2">Before: fallback per method</div>
+      <pre class="mermaid">
+flowchart LR
+  SC[SchedulerComponent] --> SS[scheduler.service]
+  SS -->|HTTP| API[(backend)]
+  SS -.catchError.-> TD[stale test data<br/>wrong shape]
+  US[user.service] -.catchError.-> TD
+  I[JsonDateInterceptor<br/>mutates every body] --> SS
+  classDef bad stroke:#dc2626,stroke-width:2px,fill:#fef2f2;
+  class TD,I bad
+  linkStyle 1 stroke:#dc2626
+  linkStyle 2 stroke:#dc2626
+      </pre>
+    </div>
+    <div class="rounded-lg border border-slate-200 p-4">
+      <div class="lbl text-slate-500 mb-2">After: two adapters, one seam</div>
+      <pre class="mermaid">
+flowchart LR
+  SC[SchedulerComponent] --> P[Scheduler data module<br/>wire JSON to view model]
+  P -.seam.-> H[HTTP adapter]
+  P -.seam.-> M[in-memory adapter<br/>dev + specs]
+  classDef deep fill:#0f172a,color:#f8fafc,stroke:#0f172a;
+  class P deep
+      </pre>
+    </div>
+  </div>
+  <p><b>Problem:</b> each method has its own test-data fallback (one returns the wrong type), and date parsing happens through a global side effect.</p>
+  <p><b>Solution:</b> one data-access module converts wire JSON to view models; offline mode becomes a second adapter chosen by Angular providers.</p>
+  <ul class="text-sm list-disc pl-5 space-y-0.5">
+    <li>Two adapters justify the seam</li>
+    <li>Date contract in one place</li>
+    <li>Specs get an in-memory adapter</li>
+    <li>Delete 3 catchError branches</li>
+  </ul>
+</article>
+
+<!-- 6 -->
+<article id="c6" class="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
+  <div class="flex flex-wrap items-center gap-2">
+    <h2 class="font-serif text-2xl mr-2">6 · Give user profile (role, certification, skills) a module</h2>
+    <span class="rounded-full bg-slate-200 text-slate-700 text-xs px-2 py-0.5">Speculative</span>
+    <span class="rounded-full bg-slate-100 text-slate-700 text-xs px-2 py-0.5">local-substitutable (once built)</span>
+  </div>
+  <ul class="font-mono text-sm text-slate-600 space-y-0.5">
+    <li>cpt-ui-angular/src/app/scheduler/scheduler.component.html:71-74 (GPIN '49008491')</li>
+    <li>cpt-ui-angular/src/app/user-skills/user-skills.component.ts:51-66 · .html:13</li>
+    <li>cpt-ui-angular/src/app/user-viewing-box/user-viewing-box.component.ts:21-23</li>
+  </ul>
+  <div class="grid md:grid-cols-2 gap-4">
+    <div class="rounded-lg border border-slate-200 p-4 space-y-2">
+      <div class="lbl text-slate-500">Before: smeared across templates</div>
+      <div class="flex flex-wrap gap-2 text-xs">
+        <span class="border border-red-300 bg-red-50 rounded px-2 py-1">scheduler.html: if gpin == '49008491'</span>
+        <span class="border border-red-300 bg-red-50 rounded px-2 py-1">user-skills.html: same GPIN</span>
+        <span class="border border-red-300 bg-red-50 rounded px-2 py-1">viewing-box: hardcoded user</span>
+        <span class="border border-red-300 bg-red-50 rounded px-2 py-1">skills: literal array</span>
+        <span class="border border-red-300 bg-red-50 rounded px-2 py-1">role: reverse-derived from rows</span>
+      </div>
+    </div>
+    <div class="rounded-lg border border-slate-200 p-4 space-y-2">
+      <div class="lbl text-slate-500">After</div>
+      <div class="deep rounded p-4">
+        <div class="lbl">User profile module</div>
+        <div class="text-xs text-slate-300">profile(user, pod) → role, certified, skills</div>
+      </div>
+      <div class="border-t-2 border-dashed border-slate-500"></div>
+      <div class="text-xs text-slate-600">templates render one profile object</div>
+    </div>
+  </div>
+  <p><b>Problem:</b> there is no module at all; the concept is hardcoded data and GPIN comparisons in templates.</p>
+  <p><b>Solution:</b> a backend user profile module answers role, certification and skills for a user in a pod.</p>
+  <ul class="text-sm list-disc pl-5 space-y-0.5">
+    <li>This is new feature work, not deepening</li>
+    <li>Better taken to /grill-with-docs</li>
+  </ul>
+</article>
+
+</section>
+
+<section class="rounded-xl bg-white border border-slate-200 p-6 space-y-3">
+  <h2 class="font-serif text-xl">Domain language to settle first</h2>
+  <p class="text-sm text-slate-600">No CONTEXT.md exists yet. These overloads will shape the names of any deepened module:</p>
+  <ul class="text-sm list-disc pl-5 space-y-1">
+    <li><b>Availability</b> is both a lookup table and the state of a half-day; <b>POD_ASSIGNMENT</b> is a kind of availability.</li>
+    <li><b>Pod assignment</b> means the stored day row, the Angular day cell and the create request.</li>
+    <li><b>Assignment</b> in Angular is a half-day; Java has no name for it.</li>
+    <li><b>PUBLIC_HOLIDAY</b> is used for weekends.</li>
+    <li><b>Pod watcher</b> is both a PodMemberRole value (Java only) and its own entity.</li>
+    <li><b>Related pods</b> / "Assigned Pods" / selectedPodToAssign: three names for one list.</li>
+  </ul>
+</section>
+
+<section id="top-recommendation" class="rounded-xl deep p-8 space-y-3">
+  <div class="lbl text-emerald-300">Top recommendation</div>
+  <h2 class="font-serif text-3xl"><a href="#c1" class="underline decoration-emerald-400">1 · Extract the half-day selection module</a></h2>
+  <p class="text-slate-300">It's the hottest file, the next feature (painting ABSENT) lands in it, and it's pure in-process logic, so it gets the repo's first Angular tests at almost no setup cost. Take #3 next: it's where the real bugs are.</p>
+</section>
+
+</main>
+</body>
+</html>
