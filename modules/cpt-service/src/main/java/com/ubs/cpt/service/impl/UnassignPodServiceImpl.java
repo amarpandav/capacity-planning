@@ -10,6 +10,7 @@ import com.ubs.cpt.service.repository.PodAssignmentRepository;
 import com.ubs.cpt.service.repository.PodRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -30,6 +31,7 @@ public class UnassignPodServiceImpl implements UnassignPodService {
         this.podRepository = podRepository;
     }
 
+    @Transactional
     @Override
     public void execute(AssignmentsRequest request) {
         log.info("delete pod assignments for request: {}", request);
