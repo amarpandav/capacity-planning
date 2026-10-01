@@ -18,7 +18,6 @@
 
 
     <artifactId>cpt-ui</artifactId>
-    <version>${project.project.parent.version}</version>
 
     <build>
         <plugins>
