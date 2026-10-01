@@ -27,7 +27,7 @@ public class User extends BaseEntity<User> {
     private String name;
 
     @Embedded
-    @AttributeOverride(name = Columns.GPIN, column = @Column(name = UserKey.Columns.gpin, length = FieldConstants.NAME, nullable = false))
+    @AttributeOverride(name = Columns.GPIN, column = @Column(name = UserKey.Columns.GPIN, length = FieldConstants.NAME, nullable = false))
     private UserKey key;
 
     @Column(name = Columns.JOB_TITLE, length = FieldConstants.GENERAL_50, nullable = true)

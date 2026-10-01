@@ -16,14 +16,14 @@ import java.io.Serializable;
 public class UserKey implements Comparable<UserKey>, Serializable {
 
     public static final class Columns {
-        public static final String gpin = "gpin"; //Auto
+        public static final String GPIN = "gpin"; //Auto
     }
 
 
     /**
      * id of the user
      */
-    @Column(name = Columns.gpin, length = FieldConstants.UUID_LEN, nullable = false)
+    @Column(name = Columns.GPIN, length = FieldConstants.UUID_LEN, nullable = false)
     private String gpin;
 
     public UserKey(String gpin) {

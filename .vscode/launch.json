@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Backend: CptWebApplication",
+      "type": "java",
+      "request": "launch",
+      "mainClass": "com.ubs.cpt.web.CptWebApplication",
+      "projectName": "cpt-web-app",
+      "vmArgs": "-DshowHSQLConsole=true -Djava.awt.headless=false",
+      "env": {
+        "SPRING_PROFILES_ACTIVE": "HSQLDB"
+      }
+    },
+    {
+      "name": "Frontend: npm start",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm start",
+      "cwd": "${workspaceFolder}/modules/cpt-ui/cpt-ui-angular"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full stack (backend + frontend)",
+      "configurations": ["Backend: CptWebApplication", "Frontend: npm start"],
+      "stopAll": true
+    }
+  ]
+}
