@@ -117,6 +117,20 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         this.selectedAvailabilityType = selectedAvailabilityType;
     }
 
+    /**
+     * AVAILABLE in the settings palette is the unassign brush: dragging clears the viewed pod (mySelectedPod) from the slots.
+     */
+    private isUnassigning(): boolean {
+        return this.selectedAvailabilityType === AvailabilityType.AVAILABLE && !!this.mySelectedPod;
+    }
+
+    /**
+     * The pod a drag acts on: the pod to assign, or the viewed pod when unassigning. Undefined when no brush is selected.
+     */
+    private podInDrag(): PodDto | undefined {
+        return this.isUnassigning() ? this.mySelectedPod : this.selectedPodToAssign;
+    }
+
 
     ngOnInit(): void {
         //this.isLoadingPlaces.set(true);
@@ -202,7 +216,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                 assignmentInAction: AssignmentDto,
                 podInAction?: PodDto,
                 dayInAction?: Date | null) {
-        if (this.selectedPodToAssign) {
+        if (this.podInDrag()) {
             //console.log("onDragStart...");
 
             // @ts-ignore : dayInAction would never be null
@@ -227,7 +241,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                     assignmentInAction: AssignmentDto,
                     pod: PodDto | undefined,
                     dayInAction: Date | null | undefined) {
-        if (this.selectedPodToAssign && this.startDayToAssign && !this.endDayToAssign) {
+        if (this.podInDrag() && this.startDayToAssign && !this.endDayToAssign) {
             //console.log("whileDragging...");
 
             // @ts-ignore : dayInAction would never be null
@@ -244,7 +258,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
               assignmentInAction: AssignmentDto,
               podInAction?: PodDto,
               dayInAction?: Date | null) {
-        if (this.selectedPodToAssign) {
+        if (this.podInDrag()) {
             //console.log("onDragEnd...");
 
             // @ts-ignore : dayInAction would never be null
@@ -485,6 +499,11 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
         }
 
         console.log("AFTER: this.flexDaysToRepaint.length: " + this.flexDaysToRepaint.length + "; " + JSON.stringify(this.flexDaysToRepaint));
+        if (this.isUnassigning()) {
+            // No preview while unassigning: step 1 above only restores unsaved slots, so painting persisted slots
+            // as AVAILABLE couldn't be undone if the user drags back. The grid reloads once the request is sent.
+            return;
+        }
         this.flexDaysToRepaint.forEach((fd: FlexDayToRepaint) => {
             //fd.assignmentInAction.availabilityType = AvailabilityType.AVAILABLE;
             //fd.assignmentInAction.pod = undefined;
@@ -524,7 +543,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     }
 
     private preparePodAssignmentCreateRequest() {
-        if (this.selectedPodToAssign && this.startDayToAssign && this.startDayToAssign.isDataValid && this.endDayToAssign && this.endDayToAssign.isDataValid) {
+        const podInDrag = this.podInDrag();
+        if (podInDrag && this.startDayToAssign && this.startDayToAssign.isDataValid && this.endDayToAssign && this.endDayToAssign.isDataValid) {
 
             /*this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
             //Is start and end user different, if yes then we need to select all in-between users
@@ -546,7 +566,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             if (this.startDayToAssign.dayInAction > this.endDayToAssign.dayInAction) {
                 //right to left dragging
                 podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
-                    this.selectedPodToAssign.entityId.uuid,
+                    podInDrag.entityId.uuid,
                     this.usersToAssign,
                     this.endDayToAssign.dayInAction,
                     this.endDayToAssign.timeSlotInAction,
@@ -556,7 +576,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
             } else {
                 //left to right dragging
                 podAssignmentCreateRequest = new PodAssignmentCreateRequestDto(
-                    this.selectedPodToAssign.entityId.uuid,
+                    podInDrag.entityId.uuid,
                     this.usersToAssign,
                     this.startDayToAssign.dayInAction,
                     this.startDayToAssign.timeSlotInAction,
@@ -567,11 +587,30 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
 
             //this.podAssignmentDialogElemRef().nativeElement.showModal();
+            const unassigning = this.isUnassigning();
             this.destroyPodAllocationCreateRequest();
 
             console.log("#####################podAssignmentCreateRequest#####################" + JSON.stringify(podAssignmentCreateRequest));
-            this.createPodAssignmentCreateRequest(podAssignmentCreateRequest)
+            if (unassigning) {
+                this.unassignPodAssignmentRequest(podAssignmentCreateRequest);
+            } else {
+                this.createPodAssignmentCreateRequest(podAssignmentCreateRequest)
+            }
         }
+    }
+
+    private unassignPodAssignmentRequest(podAssignmentRequest: PodAssignmentCreateRequestDto) {
+        const subscription1 = this.schedulerService.unassignPodAssignmentRequest(podAssignmentRequest)
+            .subscribe({
+                    next: () => {
+                        //reload assignments after unassigning.
+                        this.findMyPodAssignments();
+                    }
+                }
+            );
+
+        //Destroy is optional
+        this.destroySubscription(subscription1);
     }
 
     private createPodAssignmentCreateRequest(podAssignmentCreateRequest: PodAssignmentCreateRequestDto) {

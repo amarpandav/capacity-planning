@@ -77,6 +77,19 @@ export class SchedulerService {
     }
 
     /**
+     * Clears the pod from the given users' half-day slots in the range. Slots assigned to other pods are left untouched.
+     */
+    unassignPodAssignmentRequest(podAssignmentRequestDto: PodAssignmentCreateRequestDto): Observable<any> {
+        return this.httpClient.put(`${environment.apiUrl}/pods/` + podAssignmentRequestDto.podId + `/assignments`, podAssignmentRequestDto)
+            .pipe(
+                catchError((error: HttpErrorResponse) => {
+                    this.errorService.showError(error, 'Failed to perform unassignPodAssignmentRequest');
+                    return throwError(() => new Error('Something went wrong : ' + error));
+                })
+            );
+    }
+
+    /**
      * Workaround: only temporary solution. In reality all this must come from backend.
      * Mark remaining capacity as available or public holiday
      * @private
