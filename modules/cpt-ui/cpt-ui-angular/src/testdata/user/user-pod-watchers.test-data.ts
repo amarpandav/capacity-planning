@@ -3,50 +3,50 @@
 export const USER_POD_WATCHERS_TEST_DATA = [
     {
         user: { //UserDto
-            entityId: {uuid: 'HrishikeshRaghavanUuid'},
-            userKey: {gpin: '43333447'},
-            name: 'Hrishikesh Raghavan',
+            entityId: {uuid: 'HannahReedUuid'},
+            userKey: {employeeId: '10000008'},
+            name: 'Hannah Reed',
             country: 'UK'
         },
         userPodWatcherDetails: [
             {
-                podWatcherUuid: 'podWatcherHrishikeshRaghavanAndAURAPodUuid',
+                podWatcherUuid: 'podWatcherHannahReedAndATLASPodUuid',
                 pod: {////PodDto
-                    entityId: {uuid: 'AURAPodUuid'},
-                    podName: 'AURA',
-                    podShortName: 'AURA',
-                    podDescription: 'This pod is for AURA',
+                    entityId: {uuid: 'ATLASPodUuid'},
+                    podName: 'ATLAS',
+                    podShortName: 'ATLAS',
+                    podDescription: 'This pod is for ATLAS',
                     podStyleClass: 'podStyleClass1'
                 }
             },
             {
-                podWatcherUuid: 'podWatcherHrishikeshRaghavanAndGIMPodUuid',
+                podWatcherUuid: 'podWatcherHannahReedAndORIONPodUuid',
                 pod: {////PodDto
-                    entityId: {uuid: 'GIMPodUuid'},
-                    podName: 'Global Identity Management',
-                    podShortName: 'GIM',
+                    entityId: {uuid: 'ORIONPodUuid'},
+                    podName: 'Orion Platform',
+                    podShortName: 'ORION',
                     podStyleClass: 'podStyleClass2',
-                    podDescription: 'This pod is for Global Identity Management'
+                    podDescription: 'This pod is for Orion Platform'
                 }
             },
         ]
     },
     {
         user: { //UserDto
-            entityId: {uuid: 'NickTuffsUuid'},
-            userKey: {gpin: '43568763'},
-            name: 'Nick Tuffs',
+            entityId: {uuid: 'NinaTorresUuid'},
+            userKey: {employeeId: '10000009'},
+            name: 'Nina Torres',
             country: 'UK'
         },
         userPodWatcherDetails: [
             {
-                podWatcherUuid: 'podWatcherNickTuffsAndGIMPodUuid',
+                podWatcherUuid: 'podWatcherNinaTorresAndORIONPodUuid',
                 pod: {////PodDto
-                    entityId: {uuid: 'GIMPodUuid'},
-                    podName: 'Global Identity Management',
-                    podShortName: 'GIM',
+                    entityId: {uuid: 'ORIONPodUuid'},
+                    podName: 'Orion Platform',
+                    podShortName: 'ORION',
                     podStyleClass: 'podStyleClass2',
-                    podDescription: 'This pod is for Global Identity Management'
+                    podDescription: 'This pod is for Orion Platform'
                 }
             },
         ]

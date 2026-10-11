@@ -2,16 +2,17 @@ import {UserKey} from "../scheduler/models/user/userKey.model";
 
 export class UserSearchParameters {
 
-    constructor(public userKey?: UserKey, //required, cpt_user.gpin
+    constructor(public userKey?: UserKey, //required, cpt_user.employee_id
                 public name?: string, //required, cpt_user.name
                 public jobTitle?: string, //cpt_user.role
-                public country?: string, /*cpt_user.country*/) {
+                public country?: string, //cpt_user.country
+                public orgUnitCode?: string, /*cpt_org_unit.org_unit_code, also matches units below it*/) {
     }
 
     /*toJSON = () => {
 
       const paramsToSet = {
-        gpin: this?.userKey?.gpin,
+        employeeId: this?.userKey?.employeeId,
         name: this?.name,
         jobTitle: this?.jobTitle,
         country: this?.country
@@ -22,7 +23,7 @@ export class UserSearchParameters {
     toHttpParams(): HttpParams {
       let httpParams = new HttpParams();
       const paramsToSet = {
-        gpin: this?.userKey?.gpin,
+        employeeId: this?.userKey?.employeeId,
         name: this?.name,
         jobTitle: this?.jobTitle,
         country: this?.country

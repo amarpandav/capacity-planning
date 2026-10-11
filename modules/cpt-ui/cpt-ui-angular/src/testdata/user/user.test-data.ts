@@ -1,76 +1,98 @@
 export const USER_TEST_DATA = [
   {
     entityId: {uuid: 'AmarPandavUuid'},
-    userKey: {gpin: '49008491'},
+    userKey: {employeeId: '10000001'},
     name: 'Amar Pandav',
-    jobTitle: "AGO-CS Development Lead",
-    country: 'Switzerland'
+    jobTitle: "Development Lead",
+    country: 'Switzerland',
+    orgUnitCode: 'TEC-PLT-01',
+    orgUnitName: 'Identity & Access Services'
   },
   {
-    entityId: {uuid: 'ThomasDoblerUuid'},
-    userKey: {gpin: '49041056'},
-    name: 'Thomas Dobler',
-    jobTitle: "AGO Software Developer",
-    country: 'Switzerland'
+    entityId: {uuid: 'TobiasBergUuid'},
+    userKey: {employeeId: '10000003'},
+    name: 'Tobias Berg',
+    jobTitle: "Software Developer",
+    country: 'Switzerland',
+    orgUnitCode: 'TEC-PLT-02',
+    orgUnitName: 'Core Services'
   },
   {
-    entityId: {uuid: 'KamilLipinskiUuid'},
-    userKey: {gpin: '49063666'},
-    name: 'Kamil Lipinski',
-    jobTitle: "AGO Software Developer",
-    country: 'Poland'
+    entityId: {uuid: 'KevinLangUuid'},
+    userKey: {employeeId: '10000005'},
+    name: 'Kevin Lang',
+    jobTitle: "Software Developer",
+    country: 'Poland',
+    orgUnitCode: 'TEC-PLT-02',
+    orgUnitName: 'Core Services'
   },
   {
-    entityId: {uuid: 'WiktorUuid'},
-    userKey: {gpin: 'KamilLipWiktorGPINinskiGPIN'},
-    name: 'Wiktor Rosinski',
-    jobTitle: "AGO Software Developer",
-    country: 'Poland'
+    entityId: {uuid: 'OliverUuid'},
+    userKey: {employeeId: 'KevinLangEmployeeId'},
+    name: 'Oliver Grant',
+    jobTitle: "Software Developer",
+    country: 'Poland',
+    orgUnitCode: 'TEC-PLT-01',
+    orgUnitName: 'Identity & Access Services'
   },
   {
-    entityId: {uuid: 'NiteshShriyanUuid'},
-    userKey: {gpin: '49053180'},
-    name: 'Nitesh Shriyan',
+    entityId: {uuid: 'NoahShawUuid'},
+    userKey: {employeeId: '10000012'},
+    name: 'Noah Shaw',
     jobTitle: "Delivery Manager",
-    country: 'Switzerland'
+    country: 'Switzerland',
+    orgUnitCode: 'TEC-DLV-01',
+    orgUnitName: 'Project Management Office'
   },
   {
-    entityId: {uuid: 'MichelOrijUuid'},
-    userKey: {gpin: 'MichelOrijGPIN'},
-    name: 'Michel Orij',
+    entityId: {uuid: 'MiaOrtegaUuid'},
+    userKey: {employeeId: 'MiaOrtegaEmployeeId'},
+    name: 'Mia Ortega',
     jobTitle: "Product Owner",
-    country: 'Switzerland'
+    country: 'Switzerland',
+    orgUnitCode: 'TEC-DLV-01',
+    orgUnitName: 'Project Management Office'
   },
   {
     entityId: {uuid: 'TimUuid'},
-    userKey: {gpin: '49013788'},
-    name: 'Timothy Schilling',
+    userKey: {employeeId: '10000007'},
+    name: 'Tara Stone',
     jobTitle: "Delivery Manager",
-    country: 'Switzerland'
+    country: 'Switzerland',
+    orgUnitCode: 'TEC-DLV-01',
+    orgUnitName: 'Project Management Office'
   },
   {
-    entityId: {uuid: 'Bart Uzalowicz Uuid'},
-    userKey: {gpin: '49013938'},
-    name: 'Bart Uzalowicz',
+    entityId: {uuid: 'Ben Ulrich Uuid'},
+    userKey: {employeeId: '10000010'},
+    name: 'Ben Ulrich',
     jobTitle: "Product Owner",
-    country: 'Switzerland'
+    country: 'Switzerland',
+    orgUnitCode: 'TEC-DLV-01',
+    orgUnitName: 'Project Management Office'
   },
   {
-    entityId: {uuid: 'HrishikeshRaghavanUuid'},
-    userKey: {gpin: '43333447'},
-    name: 'Hrishikesh Raghavan',
-    country: 'UK'
+    entityId: {uuid: 'HannahReedUuid'},
+    userKey: {employeeId: '10000008'},
+    name: 'Hannah Reed',
+    country: 'UK',
+    orgUnitCode: 'TEC-PLT',
+    orgUnitName: 'Platform Engineering'
   },
   {
-    entityId: {uuid: 'NickTuffsUuid'},
-    userKey: {gpin: '43568763'},
-    name: 'Nick Tuffs',
-    country: 'UK'
+    entityId: {uuid: 'NinaTorresUuid'},
+    userKey: {employeeId: '10000009'},
+    name: 'Nina Torres',
+    country: 'UK',
+    orgUnitCode: 'TEC-DLV',
+    orgUnitName: 'Delivery & Change'
   },
   {
-    entityId: {uuid: 'BartoszMarciniakUuid'},
-    userKey: {gpin: '49017821'},
-    name: 'Bartosz Marciniak',
-    country: 'Switzerland'
+    entityId: {uuid: 'BellaMartinUuid'},
+    userKey: {employeeId: '10000011'},
+    name: 'Bella Martin',
+    country: 'Switzerland',
+    orgUnitCode: 'TEC-DLV-02',
+    orgUnitName: 'Business Analysis'
   }
 ]

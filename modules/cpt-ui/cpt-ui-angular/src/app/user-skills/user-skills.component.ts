@@ -27,9 +27,9 @@ export class UserSkillsComponent {
 
     securityDomainSkills: UserSkillsDto[] = [];
 
-    ubsAppSkills: UserSkillsDto[] = [];
+    internalAppSkills: UserSkillsDto[] = [];
 
-    csAppSkills: UserSkillsDto[] = [];
+    legacyAppSkills: UserSkillsDto[] = [];
 
 
     protected readonly JSON = JSON;
@@ -57,13 +57,13 @@ export class UserSkillsComponent {
         this.securityDomainSkills.push(new UserSkillsDto("Authentication/Authorization/SSo/Federation", UserSkillsLevel.INTERMEDIATE_WORKING));
         this.securityDomainSkills.push(new UserSkillsDto("tbd", UserSkillsLevel.INTERMEDIATE_WORKING));
 
-        this.ubsAppSkills.push(new UserSkillsDto("IDM Common Services (SOA)", UserSkillsLevel.BEGINNER));
-        this.ubsAppSkills.push(new UserSkillsDto("ARMRIT", UserSkillsLevel.NONE));
-        this.ubsAppSkills.push(new UserSkillsDto("tbd", UserSkillsLevel.NONE));
+        this.internalAppSkills.push(new UserSkillsDto("Identity Services (SOA)", UserSkillsLevel.BEGINNER));
+        this.internalAppSkills.push(new UserSkillsDto("Risk Reporting", UserSkillsLevel.NONE));
+        this.internalAppSkills.push(new UserSkillsDto("tbd", UserSkillsLevel.NONE));
 
-        this.csAppSkills.push(new UserSkillsDto("nSphere", UserSkillsLevel.EXPERT_SME));
-        this.csAppSkills.push(new UserSkillsDto("Entitlement Admin", UserSkillsLevel.EXPERT_SME));
-        this.csAppSkills.push(new UserSkillsDto("tbd", UserSkillsLevel.NONE));
+        this.legacyAppSkills.push(new UserSkillsDto("Access Portal", UserSkillsLevel.EXPERT_SME));
+        this.legacyAppSkills.push(new UserSkillsDto("Entitlement Admin", UserSkillsLevel.EXPERT_SME));
+        this.legacyAppSkills.push(new UserSkillsDto("tbd", UserSkillsLevel.NONE));
     }
 
 

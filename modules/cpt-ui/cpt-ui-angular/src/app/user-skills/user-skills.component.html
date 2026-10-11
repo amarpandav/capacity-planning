@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-8">
                 <app-user [user]="selectedUser()"
-                          [userTitle]="selectedUser()?.userKey?.gpin === '49008491' ? 'Certified Engineer' : undefined"
+                          [userTitle]="selectedUser()?.userKey?.employeeId === '10000001' ? 'Certified Engineer' : undefined"
                 ></app-user>
             </div>
         </div>
@@ -59,7 +59,7 @@
                 <button class="nav-link" id="app-skills-tab" data-bs-toggle="tab" data-bs-target="#app-skills" type="button" role="tab" aria-controls="app-skills" aria-selected="false">Application Skills</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="ubs-arena-tab" data-bs-toggle="tab" data-bs-target="#ubs-arena" type="button" role="tab" aria-controls="ubs-arena" aria-selected="false">UBS Arena Badges</button>
+                <button class="nav-link" id="arena-tab" data-bs-toggle="tab" data-bs-target="#arena" type="button" role="tab" aria-controls="arena" aria-selected="false">Arena Badges</button>
             </li>
         </ul>
         <p></p>
@@ -159,13 +159,13 @@
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#panelsStayOpen-collapseTen" aria-expanded="true"
                                         aria-controls="panelsStayOpen-collapseTen">
-                                    UBS Applications
+                                    Internal Applications
                                 </button>
                             </h2>
                             <div id="panelsStayOpen-collapseTen" class="accordion-collapse collapse show"
                                  aria-labelledby="panelsStayOpen-headingTen">
                                 <div class="accordion-body">
-                                    @for (us of ubsAppSkills; track $index) {
+                                    @for (us of internalAppSkills; track $index) {
                                         <div class="row">
 
                                             <div class="col-1">
@@ -193,13 +193,13 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#panelsStayOpen-collapseEleven" aria-expanded="false"
                                         aria-controls="panelsStayOpen-collapseEleven">
-                                    CS Applications
+                                    Legacy Applications
                                 </button>
                             </h2>
                             <div id="panelsStayOpen-collapseEleven" class="accordion-collapse collapse"
                                  aria-labelledby="panelsStayOpen-headingTen">
                                 <div class="accordion-body">
-                                    @for (us of csAppSkills; track $index) {
+                                    @for (us of legacyAppSkills; track $index) {
                                         <div class="row">
 
                                             <div class="col-1">
@@ -226,7 +226,7 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-pane fade" id="ubs-arena" role="tabpanel" aria-labelledby="ubs-arena-tab">C</div>
+            <div class="tab-pane fade" id="arena" role="tabpanel" aria-labelledby="arena-tab">C</div>
         </div>
 
         <!--ul class="nav">
@@ -237,7 +237,7 @@
                 <a class="nav-link " href="#">Application Skills</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">UBS Arena Badges</a>
+                <a class="nav-link" href="#">Arena Badges</a>
             </li>
         </ul-->
         <!--ul class="nav ">
@@ -248,7 +248,7 @@
                 <a class="nav-link active" href="#">Application Skills</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">UBS Arena Badges</a>
+                <a class="nav-link" href="#">Arena Badges</a>
             </li>
         </ul>
         <p></p-->

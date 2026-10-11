@@ -60,7 +60,7 @@
     </div>
 
     <div (mouseleave)="destroyPodAllocationCreateRequest()">
-        @for (userAssignment of userAssignments; track userAssignment.user.userKey.gpin) {
+        @for (userAssignment of userAssignments; track userAssignment.user.userKey.employeeId) {
             <div class='employeeRow'>
                 <a href="#" (click)="onSelectedPodMember(userAssignment.user)" title="Show User's skills">
                     <div class='cell employeeName'>
@@ -68,7 +68,7 @@
                         {{ userAssignment.user.name }}
                         <!--i class="bi bi-link-45deg" style="cursor: pointer; color: #0d6efd"
                            (click)="onShowUserDetailsPage(userAssignment.user)" title="Show User's skills"></i-->
-                        @if (userAssignment.user.userKey.gpin === '49008491'){
+                        @if (userAssignment.user.userKey.employeeId === '10000001'){
                             <!--TODO this must come from DB -->
                             <i class="bi bi-patch-check-fill" style="cursor: pointer; color: #0d6efd" title="Certified Engineer"></i>
                         }

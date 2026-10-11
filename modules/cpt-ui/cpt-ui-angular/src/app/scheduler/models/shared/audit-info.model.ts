@@ -5,13 +5,13 @@ export class AuditInfoDto {
 
 
   constructor(public createdAt?: Date | null,
-              public createdByGPIN?: string| null,
+              public createdByEmployeeId?: string| null,
               public createdBy?: string| null,
               public lastModifiedAt?: Date | null,
-              public lastModifiedByGPIN?: string | null,
+              public lastModifiedByEmployeeId?: string | null,
               public lastModifiedBy?: string| null,
               public lastCertifiedAt?: Date | null,
-              public lastCertifiedByGPIN?: string| null,
+              public lastCertifiedByEmployeeId?: string| null,
               public lastCertifiedBy?: string| null) {
   }
 

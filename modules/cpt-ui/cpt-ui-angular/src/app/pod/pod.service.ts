@@ -29,9 +29,9 @@ export class PodService {
                 //map( (resBody) => resBody.places),
                 catchError((error: HttpErrorResponse) => {
                     if (PRODUCE_UI_TEST_DATA) {
-                        //return [new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "AURA-test")];
+                        //return [new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "ATLAS-test")];
                         /*let pods: MyPodInfoDto[] = [];
-                        pods.push(new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "AURA-test"))*/
+                        pods.push(new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "ATLAS-test"))*/
                         return of(POD_TEST_DATA);
                     } else {
                         //console.log(JSON.stringify(error));
@@ -54,9 +54,9 @@ export class PodService {
                 //map( (resBody) => resBody.places),
                 catchError((error: HttpErrorResponse) => {
                     if (PRODUCE_UI_TEST_DATA) {
-                        //return [new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "AURA-test")];
+                        //return [new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "ATLAS-test")];
                         /*let pods: MyPodInfoDto[] = [];
-                        pods.push(new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "AURA-test"))*/
+                        pods.push(new MyPodInfoDto(new EntityId<string>("64E34204E10246CFA5BEB12E077ABA11"), "ATLAS-test"))*/
                         return of(POD_TEST_DATA);
                     } else {
                         //console.log(JSON.stringify(error));

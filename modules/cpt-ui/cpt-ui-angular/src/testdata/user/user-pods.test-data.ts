@@ -4,31 +4,31 @@ import {PodMemberRole} from "../../app/scheduler/models/pod/pom-member-role.enum
 export const USER_PODS_TEST_DATA = [
     {
         user: {//UserDto
-            entityId: {uuid: 'NiteshShriyanUuid'},
-            userKey: {gpin: '49053180'},
-            name: 'Nitesh Shriyan'
+            entityId: {uuid: 'NoahShawUuid'},
+            userKey: {employeeId: '10000012'},
+            name: 'Noah Shaw'
         },
         userPodDetails: [
             {
-                podMemberUuid: 'podMemberNiteshShriyanAndAURAPodUuid',
+                podMemberUuid: 'podMemberNoahShawAndATLASPodUuid',
                 podMemberRole: PodMemberRole.POD_LEAD,
                 pod: {
-                    entityId: {uuid: 'AURAPodUuid'},
-                    podName: 'AURA',
-                    podShortName: 'AURA',
+                    entityId: {uuid: 'ATLASPodUuid'},
+                    podName: 'ATLAS',
+                    podShortName: 'ATLAS',
                     podStyleClass: 'podStyleClass1',
-                    podDescription: 'This pod is for AURA'
+                    podDescription: 'This pod is for ATLAS'
                 }
             },
             {
-                podMemberUuid: 'podMemberNiteshShriyanAndGIMPodUuid',
+                podMemberUuid: 'podMemberNoahShawAndORIONPodUuid',
                 podMemberRole: PodMemberRole.POD_LEAD,
                 pod: {
-                    entityId: {uuid: 'GIMPodUuid'},
-                    podName: 'Global Identity Management',
-                    podShortName: 'GIM',
+                    entityId: {uuid: 'ORIONPodUuid'},
+                    podName: 'Orion Platform',
+                    podShortName: 'ORION',
                     podStyleClass: 'podStyleClass2',
-                    podDescription: 'This pod is for Global Identity Management'
+                    podDescription: 'This pod is for Orion Platform'
                 }
             }
         ]
@@ -36,50 +36,50 @@ export const USER_PODS_TEST_DATA = [
     {
         user: {//UserDto
             entityId: {uuid: 'AmarPandavUuid'},
-            userKey: {gpin: '49008491'},
+            userKey: {employeeId: '10000001'},
             name: 'Amar Pandav'
         },
         userPodDetails: [
             {
-                podMemberUuid: 'podMemberAmarPandavAndAURAPodUuid',
+                podMemberUuid: 'podMemberAmarPandavAndATLASPodUuid',
                 podMemberRole: PodMemberRole.SOLUTIONS_ARCHITECT,
                 pod: {
-                    entityId: {uuid: 'AURAPodUuid'},
-                    podName: 'AURA',
-                    podShortName: 'AURA',
+                    entityId: {uuid: 'ATLASPodUuid'},
+                    podName: 'ATLAS',
+                    podShortName: 'ATLAS',
                     podStyleClass: 'podStyleClass1',
-                    podDescription: 'This pod is for AURA'
+                    podDescription: 'This pod is for ATLAS'
                 }
             },
             {
-                podMemberUuid: 'podMemberAmarPandavAndGIMPodUuid',
+                podMemberUuid: 'podMemberAmarPandavAndORIONPodUuid',
                 podMemberRole: PodMemberRole.SOLUTIONS_ARCHITECT,
                 pod: {
-                    entityId: {uuid: 'GIMPodUuid'},
-                    podName: 'Global Identity Management',
-                    podShortName: 'GIM',
+                    entityId: {uuid: 'ORIONPodUuid'},
+                    podName: 'Orion Platform',
+                    podShortName: 'ORION',
                     podStyleClass: 'podStyleClass2',
-                    podDescription: 'This pod is for Global Identity Management'
+                    podDescription: 'This pod is for Orion Platform'
                 }
             }
         ]
     },
     {
         user: {//UserDto
-            entityId: {uuid: 'ThomasDoblerUuid'},
-            userKey: {gpin: '49041056'},
-            name: 'Thomas Dobler'
+            entityId: {uuid: 'TobiasBergUuid'},
+            userKey: {employeeId: '10000003'},
+            name: 'Tobias Berg'
         },
         userPodDetails: [
             {
-                podMemberUuid: 'podMemberThomasDoblerAndAURAPodUuid',
+                podMemberUuid: 'podMemberTobiasBergAndATLASPodUuid',
                 podMemberRole: PodMemberRole.JAVA_DEVELOPER,
                 pod: {
-                    entityId: {uuid: 'AURAPodUuid'},
-                    podName: 'AURA',
-                    podShortName: 'AURA',
+                    entityId: {uuid: 'ATLASPodUuid'},
+                    podName: 'ATLAS',
+                    podShortName: 'ATLAS',
                     podStyleClass: 'podStyleClass1',
-                    podDescription: 'This pod is for AURA'
+                    podDescription: 'This pod is for ATLAS'
                 }
             }
         ]
@@ -87,59 +87,59 @@ export const USER_PODS_TEST_DATA = [
     {
         user: {//UserDto
             entityId: {uuid: 'TimUuid'},
-            userKey: {gpin: '49013788'},
-            name: 'Timothy Schilling'
+            userKey: {employeeId: '10000007'},
+            name: 'Tara Stone'
         },
         userPodDetails: [
             {
-                podMemberUuid: 'podMemberTimAndGIMPodUuid',
+                podMemberUuid: 'podMemberTaraAndORIONPodUuid',
                 podMemberRole: PodMemberRole.POD_LEAD,
                 pod: {
-                    entityId: {uuid: 'GIMPodUuid'},
-                    podName: 'Global Identity Management',
-                    podShortName: 'GIM',
+                    entityId: {uuid: 'ORIONPodUuid'},
+                    podName: 'Orion Platform',
+                    podShortName: 'ORION',
                     podStyleClass: 'podStyleClass2',
-                    podDescription: 'This pod is for Global Identity Management'
+                    podDescription: 'This pod is for Orion Platform'
                 }
             }
         ]
     },
     {
         user: {//UserDto
-            entityId: {uuid: 'KamilLipinskiUuid'},
-            userKey: {gpin: '49063666'},
-            name: 'Kamil Lipinski'
+            entityId: {uuid: 'KevinLangUuid'},
+            userKey: {employeeId: '10000005'},
+            name: 'Kevin Lang'
         },
         userPodDetails: [
             {
-                podMemberUuid: 'podMemberKamilLipinskiAndGIMPodUuid',
+                podMemberUuid: 'podMemberKevinLangAndORIONPodUuid',
                 podMemberRole: PodMemberRole.NET_DEVELOPER,
                 pod: {
-                    entityId: {uuid: 'GIMPodUuid'},
-                    podName: 'Global Identity Management',
-                    podShortName: 'GIM',
+                    entityId: {uuid: 'ORIONPodUuid'},
+                    podName: 'Orion Platform',
+                    podShortName: 'ORION',
                     podStyleClass: 'podStyleClass2',
-                    podDescription: 'This pod is for Global Identity Management'
+                    podDescription: 'This pod is for Orion Platform'
                 }
             }
         ]
     },
     {
         user: {//UserDto
-            entityId: {uuid: 'WiktorUuid'},
-            userKey: {gpin: '49064232'},
-            name: 'Wiktor Rosinski'
+            entityId: {uuid: 'OliverUuid'},
+            userKey: {employeeId: '10000004'},
+            name: 'Oliver Grant'
         },
         userPodDetails: [
             {
-                podMemberUuid: 'podMemberWiktorAndGIMPodUuid',
+                podMemberUuid: 'podMemberOliverAndORIONPodUuid',
                 podMemberRole: PodMemberRole.JAVA_DEVELOPER,
                 pod: {
-                    entityId: {uuid: 'GIMPodUuid'},
-                    podName: 'Global Identity Management',
-                    podShortName: 'GIM',
+                    entityId: {uuid: 'ORIONPodUuid'},
+                    podName: 'Orion Platform',
+                    podShortName: 'ORION',
                     podStyleClass: 'podStyleClass2',
-                    podDescription: 'This pod is for Global Identity Management'
+                    podDescription: 'This pod is for Orion Platform'
                 }
             }
         ]

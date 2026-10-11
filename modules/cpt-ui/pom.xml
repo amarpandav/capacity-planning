@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.ubs.cpt</groupId>
+        <groupId>com.amarpandav.cpt</groupId>
         <artifactId>cpt-master</artifactId>
         <version>1.0.0</version>
         <relativePath>../../pom.xml</relativePath>
@@ -36,12 +36,6 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <phase>generate-resources</phase>
-                        <!-- Use within UBS
-                        <configuration>
-                            <nodeDownloadRoot>https://it4it-nexus-tp-repo.swissbank.com/repository/public-runtime-nodejs/</nodeDownloadRoot>
-                            <npmDownloadRoot>https://nexus-write.ldn.swissbank.com/nexus/content/groups/public-npm/npm/-/</npmDownloadRoot
-                        </configuration>
-                        -->
                     </execution>
                     <execution>
                         <id>npm install</id>

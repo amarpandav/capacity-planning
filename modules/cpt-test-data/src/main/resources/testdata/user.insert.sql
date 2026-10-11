@@ -1,1 +1,1 @@
-INSERT INTO USER(uuid, name, gpin) VALUES ('aaaa', 'USER', '1234');
+INSERT INTO USER(uuid, name, employee_id) VALUES ('aaaa', 'USER', '1234');

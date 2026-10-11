@@ -18,9 +18,9 @@ import {UserComponent} from "../user/user.component";
 export class UserViewingBoxComponent implements OnInit {
 
     //Original logged in user before switching. We need that inorder to switch back
-    loggedInUserKey = new UserKey("49008491");//Amar Pandav
+    loggedInUserKey = new UserKey("10000001");//Amar Pandav
 
-    selectedUserKey = new UserKey("49008491");//Amar Pandav
+    selectedUserKey = new UserKey("10000001");//Amar Pandav
 
     selectedUser?: UserDto;
     selectedUserPodMemberRole =  input<PodMemberRole>();

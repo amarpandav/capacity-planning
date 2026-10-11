@@ -8,7 +8,7 @@ import {PodAssignmentDto} from "./pod-assignment.model";
 export class UserAssignmentDto {
 
   constructor(public user: UserDto,// required, user_uuid<fk>, cascade delete: when user is deleted this entry should also be deleted.
-              public podMemberRole: PodMemberRole, //this user can be part of multiple pods with different roles for e.g. Amar Developer in AURA and SA in GIM.
+              public podMemberRole: PodMemberRole, //this user can be part of multiple pods with different roles for e.g. Amar Developer in ATLAS and SA in ORION.
               public podAssignments: PodAssignmentDto[]) {
   }
 }
