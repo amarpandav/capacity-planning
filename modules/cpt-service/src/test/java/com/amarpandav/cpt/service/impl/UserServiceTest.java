@@ -28,4 +28,33 @@ public class UserServiceTest extends TestBase {
         assertThat(users).isNotNull();
         assertThat(users.size()).isGreaterThan(0);
     }
+
+    @Test
+    public void testFindUsersReturnsOrgUnit() {
+        List<UserDto> users = userService.findUsers(new UserSearchParameters().withName("Amar Pandav"));
+        assertThat(users).singleElement()
+                .satisfies(u -> {
+                    assertThat(u.getOrgUnitCode()).isEqualTo("TEC-PLT-01");
+                    assertThat(u.getOrgUnitName()).isEqualTo("Identity & Access Services");
+                });
+    }
+
+    @Test
+    public void testFindUsersByOrgUnitIncludesUnitsBelow() {
+        List<UserDto> users = userService.findUsers(new UserSearchParameters().withOrgUnitCode("TEC-PLT"));
+        assertThat(users).extracting(UserDto::getName).containsExactlyInAnyOrder(
+                "Amar Pandav", "Liam Parker", "Tobias Berg", "Oliver Grant", "Kevin Lang", "Hannah Reed");
+    }
+
+    @Test
+    public void testFindUsersByTeamOrgUnit() {
+        List<UserDto> users = userService.findUsers(new UserSearchParameters().withOrgUnitCode("TEC-PLT-02"));
+        assertThat(users).extracting(UserDto::getName).containsExactlyInAnyOrder("Tobias Berg", "Kevin Lang");
+    }
+
+    @Test
+    public void testFindUsersByPartialOrgUnitCodeMatchesNothing() {
+        List<UserDto> users = userService.findUsers(new UserSearchParameters().withOrgUnitCode("TEC-P"));
+        assertThat(users).isEmpty();
+    }
 }

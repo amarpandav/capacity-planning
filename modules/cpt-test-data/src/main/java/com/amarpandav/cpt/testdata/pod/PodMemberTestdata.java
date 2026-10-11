@@ -75,7 +75,7 @@ public class PodMemberTestdata {
                 .create());
 
         public PodMember TARA_FOR_ORION = register(new PodMemberTestdata()
-                .withUser(UserTestdata.suiteSynthetic().TIM)
+                .withUser(UserTestdata.suiteSynthetic().TARA)
                 .withPodMemberRole(PodMemberRole.POD_LEAD)
                 .create());
 

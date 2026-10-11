@@ -17,6 +17,8 @@ public class UserDto {
     private UserKey userKey;
     private String jobTitle;
     private String country;
+    private String orgUnitCode;
+    private String orgUnitName;
 
     public static final class UserDtoTransformer implements CollectionUtils.Transformer<TransformationSource, UserDto> {
         @Override
@@ -26,7 +28,9 @@ public class UserDto {
             UserKey userKey = input.next().asUserKey();
             String jobTitle = input.next().asString();
             String country = input.next().asString();
-            return new UserDto(entityId, name, userKey, jobTitle, country);
+            String orgUnitCode = input.next().asString();
+            String orgUnitName = input.next().asString();
+            return new UserDto(entityId, name, userKey, jobTitle, country, orgUnitCode, orgUnitName);
         }
     }
 
@@ -39,12 +43,16 @@ public class UserDto {
                     String name,
                     UserKey userKey,
                    String jobTitle,
-                   String country) {
+                   String country,
+                   String orgUnitCode,
+                   String orgUnitName) {
         this.entityId = entityId;
         this.name = name;
         this.userKey = userKey;
         this.jobTitle = jobTitle;
         this.country = country;
+        this.orgUnitCode = orgUnitCode;
+        this.orgUnitName = orgUnitName;
     }
 
     public EntityId<User> getEntityId() {
@@ -66,5 +74,13 @@ public class UserDto {
 
     public String getCountry() {
         return country;
+    }
+
+    public String getOrgUnitCode() {
+        return orgUnitCode;
+    }
+
+    public String getOrgUnitName() {
+        return orgUnitName;
     }
 }

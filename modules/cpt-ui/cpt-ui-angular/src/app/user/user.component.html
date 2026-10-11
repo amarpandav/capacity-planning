@@ -13,7 +13,7 @@
                 {{userTitle()}}</div>
         }
         <br>
-        {{ user()?.userKey?.employeeId }}
+        {{ user()?.userKey?.employeeId }}@if (user()?.orgUnitCode) {, <span [title]="user()?.orgUnitName">{{ user()?.orgUnitCode }}</span>}
         <br>
     </div>
 

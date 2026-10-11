@@ -18,6 +18,7 @@ import com.amarpandav.cpt.infra.test.base.TestDataCreator;
 import com.amarpandav.cpt.infra.test.util.SqlTestUtils;
 import com.amarpandav.cpt.infra.util.JpaUtils;
 import com.amarpandav.cpt.testdata.availability.AvailabilityTestdata;
+import com.amarpandav.cpt.testdata.org.OrgUnitTestdata;
 import com.amarpandav.cpt.testdata.pod.PodAssignmentTestData;
 import com.amarpandav.cpt.testdata.pod.PodMemberTestdata;
 import com.amarpandav.cpt.testdata.pod.PodTestdata;
@@ -90,6 +91,7 @@ public class CptTestDataCreator implements TestDataCreator, ApplicationListener<
         log.info("Inserting DB test data");
         executeAdditionalSqlScripts(em);
 
+        OrgUnitTestdata.suiteSynthetic().persistTo(em);
         UserTestdata.suiteSynthetic().persistTo(em);
         AvailabilityTestdata.suiteSynthetic().persistTo(em);
         PodTestdata.suiteSynthetic().persistTo(em);

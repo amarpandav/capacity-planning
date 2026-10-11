@@ -21,9 +21,11 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
 
     public UserQuery(EntityManager em, boolean count, DateTimeService dateTimeService) {
         super(em, dateTimeService, !count ?
-                "select u.uuid, u.name, u.employee_id, u.job_title, u.country from cpt_user u "
+                "select u.uuid, u.name, u.employee_id, u.job_title, u.country, ou.org_unit_code, ou.org_unit_name from cpt_user u "
+                        + "left join cpt_org_unit ou on ou.uuid = u.org_unit_uuid "
                 :
                 "select count(u.uuid) from cpt_user u "
+                        + "left join cpt_org_unit ou on ou.uuid = u.org_unit_uuid "
         );
     }
 
@@ -51,6 +53,15 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
         andLike("lower(u.country) like lower(:country)", "country", country);
         return this;
     }
+    /**
+     * Matches the given org unit and every unit below it, e.g. TEC-PLT matches TEC-PLT and TEC-PLT-01.
+     */
+    public UserQuery withOrgUnitCode(String orgUnitCode) {
+        and("(lower(ou.org_unit_code) = lower(:ouCode) or lower(ou.org_unit_code) like lower(:ouCode) || '-%')",
+                "ouCode", orgUnitCode);
+        return this;
+    }
+
     /*public UserQuery withFullTextSearch(String searchCriteria) {
         if (!StringUtils.isBlank(searchCriteria)) {
             newSearchCriteriaBuilder()
@@ -76,12 +87,15 @@ public class UserQuery extends NativeJpaQueryBuilder<UserDto> {
 
         parameters.getCountry().ifPresent(this::withCountry);
 
+        parameters.getOrgUnitCode().ifPresent(this::withOrgUnitCode);
+
         if (sort) {
             for (SortBy sortBy : parameters.getSortBy()) {
                 boolean ascending = sortBy.getDirection() == SortBy.SortDirection.ASCENDING;
                 orderBy("u.name", ascending, ifTrue("name".equals(sortBy.getFieldName())));
                 orderBy("u.job_title", ascending, ifTrue("jobTitle".equals(sortBy.getFieldName())));
                 orderBy("u.country", ascending, ifTrue("country".equals(sortBy.getFieldName())));
+                orderBy("ou.org_unit_code", ascending, ifTrue("orgUnitCode".equals(sortBy.getFieldName())));
 
             }
         }

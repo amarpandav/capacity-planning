@@ -18,6 +18,7 @@ public class UserSearchParameters extends DefaultSearchParameters<User> {
     private String name;
     private String jobTitle;
     private String country;
+    private String orgUnitCode;
 
     public UserSearchParameters() {
         getSortBy().add(new SortBy("name", SortBy.SortDirection.ASCENDING));
@@ -55,6 +56,17 @@ public class UserSearchParameters extends DefaultSearchParameters<User> {
         this.country = country;
     }
 
+    /**
+     * Org unit code; matches that unit and all units below it.
+     */
+    public Optional<String> getOrgUnitCode() {
+        return Optional.ofNullable(orgUnitCode);
+    }
+
+    public void setOrgUnitCode(String orgUnitCode) {
+        this.orgUnitCode = orgUnitCode;
+    }
+
 
     public UserSearchParameters withUserKey(UserKey userKey) {
         setUserKey(userKey);
@@ -73,6 +85,11 @@ public class UserSearchParameters extends DefaultSearchParameters<User> {
 
     public UserSearchParameters withCountry(String country) {
         setCountry(country);
+        return this;
+    }
+
+    public UserSearchParameters withOrgUnitCode(String orgUnitCode) {
+        setOrgUnitCode(orgUnitCode);
         return this;
     }
 }

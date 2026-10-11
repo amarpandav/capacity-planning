@@ -5,7 +5,8 @@ export class UserSearchParameters {
     constructor(public userKey?: UserKey, //required, cpt_user.employee_id
                 public name?: string, //required, cpt_user.name
                 public jobTitle?: string, //cpt_user.role
-                public country?: string, /*cpt_user.country*/) {
+                public country?: string, //cpt_user.country
+                public orgUnitCode?: string, /*cpt_org_unit.org_unit_code, also matches units below it*/) {
     }
 
     /*toJSON = () => {
