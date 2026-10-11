@@ -5,7 +5,7 @@
       "name": "Backend: CptWebApplication",
       "type": "java",
       "request": "launch",
-      "mainClass": "com.ubs.cpt.web.CptWebApplication",
+      "mainClass": "com.amarpandav.cpt.web.CptWebApplication",
       "projectName": "cpt-web-app",
       "vmArgs": "-DshowHSQLConsole=true -Djava.awt.headless=false",
       "env": {

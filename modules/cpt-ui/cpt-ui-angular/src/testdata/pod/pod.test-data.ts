@@ -2,17 +2,17 @@
 
 export const POD_TEST_DATA = [
     {
-        entityId: {uuid: 'AURAPodUuid'},
-        podName: 'AURA',
-        podShortName: 'AURA',
+        entityId: {uuid: 'ATLASPodUuid'},
+        podName: 'ATLAS',
+        podShortName: 'ATLAS',
         podStyleClass: 'podStyleClass1',
-        podDescription: 'This pod is for AURA'
+        podDescription: 'This pod is for ATLAS'
     },
     {
-        entityId: {uuid: 'GIMPodUuid'},
-        podName: 'Global Identity Management',
-        podShortName: 'GIM',
+        entityId: {uuid: 'ORIONPodUuid'},
+        podName: 'Orion Platform',
+        podShortName: 'ORION',
         podStyleClass: 'podStyleClass2',
-        podDescription: 'This pod is for Global Identity Management'
+        podDescription: 'This pod is for Orion Platform'
     },
 ];

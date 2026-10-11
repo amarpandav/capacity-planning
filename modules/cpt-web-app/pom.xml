@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.ubs.cpt</groupId>
+        <groupId>com.amarpandav.cpt</groupId>
         <artifactId>cpt-master</artifactId>
         <version>1.0.0</version>
         <relativePath>../../pom.xml</relativePath>
@@ -17,11 +17,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.ubs.cpt</groupId>
+            <groupId>com.amarpandav.cpt</groupId>
             <artifactId>cpt-service</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ubs.cpt</groupId>
+            <groupId>com.amarpandav.cpt</groupId>
             <artifactId>cpt-test-data</artifactId>
         </dependency>
 
@@ -63,7 +63,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.ubs.cpt.web.CptWebApplication</mainClass>
+                    <mainClass>com.amarpandav.cpt.web.CptWebApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

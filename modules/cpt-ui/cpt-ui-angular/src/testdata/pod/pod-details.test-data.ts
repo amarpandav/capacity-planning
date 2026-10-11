@@ -3,19 +3,19 @@ import {PodMemberRole} from "../../app/scheduler/models/pod/pom-member-role.enum
 
 export const POD_DETAILS_TEST_DATA = [
   {
-    uuid:'AURAPodUuid',
-    podName: 'AURA',
-    podShortName: 'AURA',
+    uuid:'ATLASPodUuid',
+    podName: 'ATLAS',
+    podShortName: 'ATLAS',
     podStyleClass: 'podStyleClass1',
-    podDescription:'This pod is for AURA',
+    podDescription:'This pod is for ATLAS',
     podMembers: [//PodMemberDto
       {
-        uuid: 'podMemberNiteshShriyanUuid1',
+        uuid: 'podMemberNoahShawUuid1',
         podMemberRole: PodMemberRole.POD_LEAD,
         user: {//UserDto
-          entityId: {uuid: 'NiteshShriyanUuid'},
-          userKey: {gpin: '49053180'},
-          name: 'Nitesh Shriyan'
+          entityId: {uuid: 'NoahShawUuid'},
+          userKey: {employeeId: '10000012'},
+          name: 'Noah Shaw'
         },
       },
       {
@@ -23,92 +23,92 @@ export const POD_DETAILS_TEST_DATA = [
         podMemberRole: PodMemberRole.SOLUTIONS_ARCHITECT,
         user: {//UserDto
           entityId: {uuid: 'AmarPandavUuid'},
-          userKey: {gpin: '49008491'},
+          userKey: {employeeId: '10000001'},
           name: 'Amar Pandav'
         }
       },
       {
-        uuid: 'podMemberThomasDoblerUuid1',
+        uuid: 'podMemberTobiasBergUuid1',
         podMemberRole: PodMemberRole.JAVA_DEVELOPER,
         user: {//UserDto
-          entityId: {uuid: 'ThomasDoblerUuid'},
-          userKey: {gpin: '49041056'},
-          name: 'Thomas Dobler'
+          entityId: {uuid: 'TobiasBergUuid'},
+          userKey: {employeeId: '10000003'},
+          name: 'Tobias Berg'
         },
       }
     ],
     podWatchers: [//PodWatcherDto
       {
-        uuid: 'podWatchHrishikeshRaghavanUuid1',
+        uuid: 'podWatchHannahReedUuid1',
         user: { //UserDto
-          entityId: {uuid: 'HrishikeshRaghavanUuid'},
-          userKey: {gpin: '43333447'},
-          name: 'Hrishikesh Raghavan',
+          entityId: {uuid: 'HannahReedUuid'},
+          userKey: {employeeId: '10000008'},
+          name: 'Hannah Reed',
           country: 'UK'
         }
       },
       {
-        uuid: 'podWatchNickTuffsUuid2',
+        uuid: 'podWatchNinaTorresUuid2',
         user: {//UserDto
-          entityId: {uuid: 'NickTuffsUuid'},
-          userKey: {gpin: '43568763'},
-          name: 'Nick Tuffs',
+          entityId: {uuid: 'NinaTorresUuid'},
+          userKey: {employeeId: '10000009'},
+          name: 'Nina Torres',
           country: 'UK'
         }
       }
     ]
   },
   {
-    uuid:'GIMPodUuid',
-    podName: 'Global Identity Management',
-    podShortName: 'GIM',
+    uuid:'ORIONPodUuid',
+    podName: 'Orion Platform',
+    podShortName: 'ORION',
     podStyleClass: 'podStyleClass2',
-    podDescription:'This pod is for Global Identity Management',
+    podDescription:'This pod is for Orion Platform',
     podMembers: [//PodMemberDto
       {
         uuid: 'podMemberTimUuid1',
         user: {//UserDto
           entityId: {uuid: 'TimUuid'},
-          userKey: {gpin: '49013788'},
-          name: 'Timothy Schilling'
+          userKey: {employeeId: '10000007'},
+          name: 'Tara Stone'
         },
         podMemberRole: PodMemberRole.POD_LEAD
       },
       {
-        uuid: 'podMemberKamilUuid1',
+        uuid: 'podMemberKevinUuid1',
         user: {//UserDto
-          entityId: {uuid: 'KamilLipinskiUuid'},
-          userKey: {gpin: '49063666'},
-          name: 'Kamil Lipinski'
+          entityId: {uuid: 'KevinLangUuid'},
+          userKey: {employeeId: '10000005'},
+          name: 'Kevin Lang'
         },
         podMemberRole: PodMemberRole.JAVA_DEVELOPER
       },
       {
-        uuid: 'podMemberWiktorUuid1',
+        uuid: 'podMemberOliverUuid1',
         user: {//UserDto
-          entityId: {uuid: 'WiktorUuid'},
-          userKey: {gpin: '49064232'},
-          name: 'Wiktor Rosinski'
+          entityId: {uuid: 'OliverUuid'},
+          userKey: {employeeId: '10000004'},
+          name: 'Oliver Grant'
         },
         podMemberRole: PodMemberRole.JAVA_DEVELOPER
       }
     ],
     podWatchers: [//PodWatcherDto
       {
-        uuid: 'podBartoszMarciniakUuid1',
+        uuid: 'podBellaMartinUuid1',
         user: {//UserDto
-          entityId: {uuid: 'podWatchBartoszMarciniakUuid'},
-          userKey: {gpin: '49017821'},
-          name: 'Bartosz Marciniak',
+          entityId: {uuid: 'podWatchBellaMartinUuid'},
+          userKey: {employeeId: '10000011'},
+          name: 'Bella Martin',
           country: 'Switzerland'
         }
       },
       {
-        uuid: 'podWatchNickTuffsUuid2',
+        uuid: 'podWatchNinaTorresUuid2',
         user: {//UserDto
-          entityId: {uuid: 'NickTuffsUuid'},
-          userKey: {gpin: '43568763'},
-          name: 'Nick Tuffs',
+          entityId: {uuid: 'NinaTorresUuid'},
+          userKey: {employeeId: '10000009'},
+          name: 'Nina Torres',
           country: 'UK'
         }
       }

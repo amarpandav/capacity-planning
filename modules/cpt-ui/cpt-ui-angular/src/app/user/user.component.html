@@ -2,7 +2,7 @@
 <div id="viewingUserSelected" style="display:flex;align-items:center;">
 
 
-    <img [src]="'./assets/users/'+user()?.userKey?.gpin+'.jpg'"
+    <img [src]="'./assets/users/'+user()?.userKey?.employeeId+'.jpg'"
          (error)="defaultAvatar()"
          class="user"
          [alt]="user()?.name" #avatar>
@@ -13,7 +13,7 @@
                 {{userTitle()}}</div>
         }
         <br>
-        {{ user()?.userKey?.gpin }}, MDEJ13
+        {{ user()?.userKey?.employeeId }}
         <br>
     </div>
 

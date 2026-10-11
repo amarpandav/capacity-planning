@@ -9,7 +9,7 @@ import {UserKey} from "./userKey.model";
 export class UserDto {
 
   constructor(public entityId: EntityId<string>, //required, cpt_user.uuid
-              public userKey: UserKey, //required, cpt_user.gpin
+              public userKey: UserKey, //required, cpt_user.employee_id
               public name: string, //required, cpt_user.name
               public jobTitle?: string, //cpt_user.role
               public country?: string, /*cpt_user.country*/) {

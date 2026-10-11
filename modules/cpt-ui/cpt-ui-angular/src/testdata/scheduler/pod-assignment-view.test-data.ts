@@ -4,17 +4,17 @@ import {AvailabilityType} from "../../app/scheduler/models/availability/availabi
 
 export var POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
     currentPod: {
-        uuid: 'AURAPodUuid',
-        podName: 'AURA',
-        podShortName: 'AURA',
+        uuid: 'ATLASPodUuid',
+        podName: 'ATLAS',
+        podShortName: 'ATLAS',
         podStyleClass: 'podStyleClass1',
-        podDescription: 'This pod is for AURA'
+        podDescription: 'This pod is for ATLAS'
     },
     userAssignments: [//UserAssignmentDto
         {
             user: {//UserDto
                 entityId: {uuid: 'AmarPandavUuid'},
-                userKey: {gpin: '49008491'},
+                userKey: {employeeId: '10000001'},
                 name: 'Amar Pandav'
             },
             podMemberRole:PodMemberRole.SOLUTIONS_ARCHITECT, //FOR current POD
@@ -25,21 +25,21 @@ export var POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                     morning: { //AssignmentDto
                         availabilityType: AvailabilityType.POD_ASSIGNMENT,
                         pod: {//PodDto
-                            uuid: 'AURAPodUuid',
-                            podName: 'AURA',
-                            podShortName: 'AURA',
+                            uuid: 'ATLASPodUuid',
+                            podName: 'ATLAS',
+                            podShortName: 'ATLAS',
                             podStyleClass: 'podStyleClass1',
-                            podDescription: 'This pod is for AURA'
+                            podDescription: 'This pod is for ATLAS'
                         }
                     },
                     afternoon: {//AssignmentDto
                         availabilityType: AvailabilityType.POD_ASSIGNMENT,
                         pod: {//PodDto
-                            uuid: 'AURAPodUuid',
-                            podName: 'AURA',
-                            podShortName: 'AURA',
+                            uuid: 'ATLASPodUuid',
+                            podName: 'ATLAS',
+                            podShortName: 'ATLAS',
                             podStyleClass: 'podStyleClass1',
-                            podDescription: 'This pod is for AURA'
+                            podDescription: 'This pod is for ATLAS'
                         }
                     }
                 },
@@ -49,21 +49,21 @@ export var POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                     morning: { //AssignmentDto
                         availabilityType: AvailabilityType.POD_ASSIGNMENT,
                         pod: {//PodDto
-                            uuid: 'AURAPodUuid',
-                            podName: 'AURA',
-                            podShortName: 'AURA',
+                            uuid: 'ATLASPodUuid',
+                            podName: 'ATLAS',
+                            podShortName: 'ATLAS',
                             podStyleClass: 'podStyleClass1',
-                            podDescription: 'This pod is for AURA'
+                            podDescription: 'This pod is for ATLAS'
                         }
                     },
                     afternoon: {//AssignmentDto
                         availabilityType: AvailabilityType.POD_ASSIGNMENT,
                         pod: {//PodDto
-                            uuid: 'GIMPodUuid',
-                            podName: 'Global Identity Management',
-                            podShortName: 'GIM',
+                            uuid: 'ORIONPodUuid',
+                            podName: 'Orion Platform',
+                            podShortName: 'ORION',
                             podStyleClass: 'podStyleClass2',
-                            podDescription: 'This pod is for Global Identity Management'
+                            podDescription: 'This pod is for Orion Platform'
                         }
                     }
                 },
@@ -73,11 +73,11 @@ export var POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                     morning: { //AssignmentDto
                         availabilityType: AvailabilityType.POD_ASSIGNMENT,
                         pod: {//PodDto
-                            uuid: 'AURAPodUuid',
-                            podName: 'AURA',
-                            podShortName: 'AURA',
+                            uuid: 'ATLASPodUuid',
+                            podName: 'ATLAS',
+                            podShortName: 'ATLAS',
                             podStyleClass: 'podStyleClass1',
-                            podDescription: 'This pod is for AURA'
+                            podDescription: 'This pod is for ATLAS'
                         }
                     },
                     afternoon: {//AssignmentDto
@@ -98,23 +98,23 @@ export var POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
         },
         {
             user: {//UserDto
-                entityId: {uuid: 'ThomasDoblerUuid'},
-                userKey: {gpin: '49041056'},
-                name: 'Thomas Dobler'
+                entityId: {uuid: 'TobiasBergUuid'},
+                userKey: {employeeId: '10000003'},
+                name: 'Tobias Berg'
             },
             podMemberRole: PodMemberRole.JAVA_DEVELOPER, //FOR current POD
             podAssignments: [//PodAssignmentDto
                 {
-                    uuid: 'ThomasDoblerPodAssignmentUuid-09082024',
+                    uuid: 'TobiasBergPodAssignmentUuid-09082024',
                     dayAsStr: '2024-08-02',
                     morning: { //AssignmentDto
                         availabilityType: AvailabilityType.POD_ASSIGNMENT,
                         pod: {//PodDto
-                            uuid: 'GIMPodUuid',
-                            podName: 'Global Identity Management',
-                            podShortName: 'GIM',
+                            uuid: 'ORIONPodUuid',
+                            podName: 'Orion Platform',
+                            podShortName: 'ORION',
                             podStyleClass: 'podStyleClass2',
-                            podDescription: 'This pod is for Global Identity Management'
+                            podDescription: 'This pod is for Orion Platform'
                         }
                     },
                     afternoon: {//AssignmentDto
@@ -122,16 +122,16 @@ export var POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
                     }
                 },
                 {
-                    uuid: 'ThomasDoblerPodAssignmentUuid-09082024',
+                    uuid: 'TobiasBergPodAssignmentUuid-09082024',
                     dayAsStr: '2024-08-09',
                     morning: { //AssignmentDto
                         availabilityType: AvailabilityType.POD_ASSIGNMENT,
                         pod: {//PodDto
-                            uuid: 'GIMPodUuid',
-                            podName: 'Global Identity Management',
-                            podShortName: 'GIM',
+                            uuid: 'ORIONPodUuid',
+                            podName: 'Orion Platform',
+                            podShortName: 'ORION',
                             podStyleClass: 'podStyleClass2',
-                            podDescription: 'This pod is for Global Identity Management'
+                            podDescription: 'This pod is for Orion Platform'
                         }
                     },
                     afternoon: {//AssignmentDto
@@ -142,23 +142,23 @@ export var POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
         },
         {
             user: {//UserDto
-                entityId: {uuid: 'KamilLipinskiUuid'},
-                userKey: {gpin: '49063666'},
-                name: 'Kamil Lipinski'
+                entityId: {uuid: 'KevinLangUuid'},
+                userKey: {employeeId: '10000005'},
+                name: 'Kevin Lang'
             },
             podMemberRole: PodMemberRole.JAVA_DEVELOPER, //FOR current POD
             podAssignments: [//PodAssignmentDto
                 {
-                    uuid: 'KamilLipinskiPodAssignmentUuid-20082024',
+                    uuid: 'KevinLangPodAssignmentUuid-20082024',
                     dayAsStr: '2024-08-20',
                     morning: { //AssignmentDto
                         availabilityType: AvailabilityType.POD_ASSIGNMENT,
                         pod: {//PodDto
-                            uuid: 'AURAPodUuid',
-                            podName: 'AURA',
-                            podShortName: 'AURA',
+                            uuid: 'ATLASPodUuid',
+                            podName: 'ATLAS',
+                            podShortName: 'ATLAS',
                             podStyleClass: 'podStyleClass1',
-                            podDescription: 'This pod is for AURA'
+                            podDescription: 'This pod is for ATLAS'
                         }
                     },
                     afternoon: {//AssignmentDto
@@ -169,23 +169,23 @@ export var POD_ASSIGNMENT_VIEW_TEST_DATA = { //SchedulerViewDto
         },
         {
             user: {//UserDto
-                entityId: {uuid: 'WiktorUuid'},
-                userKey: {gpin: '49064232'},
-                name: 'Wiktor Rosinski',
+                entityId: {uuid: 'OliverUuid'},
+                userKey: {employeeId: '10000004'},
+                name: 'Oliver Grant',
             },
             podMemberRole: PodMemberRole.JAVA_DEVELOPER, //FOR current POD
             podAssignments: [//PodAssignmentDto
                 {
-                    uuid: 'TWiktorPodAssignmentUuid-13082024',
+                    uuid: 'TOliverPodAssignmentUuid-13082024',
                     dayAsStr: '2024-08-13',
                     morning: { //AssignmentDto
                         availabilityType: AvailabilityType.POD_ASSIGNMENT,
                         pod: {//PodDto
-                            uuid: 'AURAPodUuid',
-                            podName: 'AURA',
-                            podShortName: 'AURA',
+                            uuid: 'ATLASPodUuid',
+                            podName: 'ATLAS',
+                            podShortName: 'ATLAS',
                             podStyleClass: 'podStyleClass1',
-                            podDescription: 'This pod is for AURA'
+                            podDescription: 'This pod is for ATLAS'
                         }
                     },
                     afternoon: {//AssignmentDto

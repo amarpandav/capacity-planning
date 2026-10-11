@@ -289,7 +289,7 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
         if (assignmentInAction.availabilityType === AvailabilityType.AVAILABLE) {
             let flexDayToRepaint = new FlexDayToRepaint(dayInAction, timeSlotInAction/*, assignmentInAction*/);
-            //console.log("testing with Lukasz: "+dayInAction.get)
+            //console.log("testing with Liam: "+dayInAction.get)
             let existingFlexDayToRepaint = this.flexDaysToRepaint.find((slot) => slot.equals(flexDayToRepaint))
             if (!existingFlexDayToRepaint) {
                 let flexDayToRepaint = new FlexDayToRepaint(dayInAction, timeSlotInAction/*, assignmentInAction*/);
@@ -548,10 +548,10 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
 
             /*this.podAssignmentCreateRequestUsers.push(this.podAssignmentCreateRequestTempStart.userInAction.uuid);
             //Is start and end user different, if yes then we need to select all in-between users
-            if (this.podAssignmentCreateRequestTempStart.userInAction.gpin !== this.podAssignmentCreateRequestTempEnd.userInAction.gpin) {
+            if (this.podAssignmentCreateRequestTempStart.userInAction.employeeId !== this.podAssignmentCreateRequestTempEnd.userInAction.employeeId) {
                 for (let userAssignment of this.podAssignmentViewDto.userAssignments) {
                     this.podAssignmentCreateRequestUsers.push(userAssignment.user.uuid);
-                    if (userAssignment.user.gpin === this.podAssignmentCreateRequestTempEnd?.userInAction.gpin) {
+                    if (userAssignment.user.employeeId === this.podAssignmentCreateRequestTempEnd?.userInAction.employeeId) {
                         break;
                     }
                 }

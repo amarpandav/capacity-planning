@@ -5,6 +5,6 @@
  */
 export class UserKey {
 
-  constructor(public gpin: string) {
+  constructor(public employeeId: string) {
   }
 }

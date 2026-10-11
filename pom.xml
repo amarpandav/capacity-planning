@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ubs.cpt</groupId>
+    <groupId>com.amarpandav.cpt</groupId>
     <artifactId>cpt-master</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
@@ -73,32 +73,32 @@
         <dependencies>
             <!-- cpt internal  dependencies-->
             <dependency>
-                <groupId>com.ubs.cpt</groupId>
+                <groupId>com.amarpandav.cpt</groupId>
                 <artifactId>cpt-entities</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ubs.cpt</groupId>
+                <groupId>com.amarpandav.cpt</groupId>
                 <artifactId>cpt-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ubs.cpt</groupId>
+                <groupId>com.amarpandav.cpt</groupId>
                 <artifactId>cpt-test-data</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ubs.cpt</groupId>
+                <groupId>com.amarpandav.cpt</groupId>
                 <artifactId>cpt-test-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ubs.cpt</groupId>
+                <groupId>com.amarpandav.cpt</groupId>
                 <artifactId>cpt-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ubs.cpt</groupId>
+                <groupId>com.amarpandav.cpt</groupId>
                 <artifactId>cpt-ui</artifactId>
                 <version>${project.version}</version>
             </dependency>

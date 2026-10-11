@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.ubs.cpt</groupId>
+        <groupId>com.amarpandav.cpt</groupId>
         <artifactId>cpt-master</artifactId>
         <version>1.0.0</version>
         <relativePath>../../pom.xml</relativePath>
@@ -22,7 +22,7 @@
     <dependencies>
         <!-- cpt internal  dependencies-->
         <dependency>
-            <groupId>com.ubs.cpt</groupId>
+            <groupId>com.amarpandav.cpt</groupId>
             <artifactId>cpt-utils</artifactId>
         </dependency>
 
