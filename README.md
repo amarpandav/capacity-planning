@@ -1,57 +1,38 @@
-# capacity-planning .
-capacity-planning
+# capacity-planning
 
-**To run with Docker locally:**
+Capacity Planning Tool (CPT): plan which people work on which pod, by half-day.
+Spring Boot backend (`modules/cpt-web-app`) and Angular UI (`modules/cpt-ui/cpt-ui-angular`).
+
+**Live demo:** https://cpt-ui.lemoncoast-28aa3d0d.centralindia.azurecontainerapps.io
+(in-memory database: data resets when the app restarts or scales to zero; no login yet, see #16)
+
+## Run locally
+
+**In the IDE:**
+- SpringBoot: `CptWebApplication`
+- VM arguments: `-DshowHSQLConsole=true -Djava.awt.headless=false`
+- Active profile: `HSQLDB`
+- UI: `npm start` in `modules/cpt-ui/cpt-ui-angular` (proxies `/api` to http://localhost:8080)
+
+**With Docker:**
 `docker compose up --build`, then open http://localhost:8081
+
+**Tests:** `mvn -B -Pbuild-mvn verify`
+
+## Deployment
+
+CI/CD runs on GitHub Actions ([.github/workflows/ci-cd.yml](.github/workflows/ci-cd.yml)):
+
+- **Pull requests into `main`:** backend tests and the production UI build.
+- **Merge to `main`:** both images are built and pushed to GitHub Container Registry
+  (`ghcr.io/amarpandav/capacity-planning/cpt-web-app` and `.../cpt-ui`, tagged with the commit SHA),
+  then deployed to Azure Container Apps. The run summary shows the app URL.
+  - Backend `cpt-web-app`: internal only, reachable from the UI.
+  - UI `cpt-ui`: public; nginx proxies `/api` to the backend.
+  - Both scale to zero when idle.
+- **Rollback:** redeploy an older image, e.g.
+  `az containerapp update -n cpt-web-app -g cpt-demo-rg --image ghcr.io/amarpandav/capacity-planning/cpt-web-app:<sha>`
 
 **Azure setup (one-time):** `./scripts/azure-setup.sh` walks you through creating the Azure resources and the GitHub deploy identity (see #20).
 run az login and above command and .env.azure file will be re-created. we can't push this file as my repo is public.
-
-**To run locally:**
-SpringBoot: CptWebApplication
-VM arguments: 
--DshowHSQLConsole=true
--Djava.awt.headless=false
-Active Profile:
-HSQLDB
-
-## CD/CD configuration
-
-### Local variables defined in .gtilab-ci.yaml file:
-* **DOCKER_DRIVER**: default value: overlay2 - because of performance
-* **IMAGE_BACKEND_NAME**: image name of backend: <project_name>-backend:<branch_name>
-* **IMAGE_UI_NAME**: image name of ui: <project_name>-ui:<branch_name>
-### Variables comes from CICD:
-* **CI_REGISTRY_IMAGE**: project name
-* **CI_COMMIT_REF_SLUG**: branch name
-### GitLab
-should be added on Gitlab: settings/CICD/Variables. With options:
-- Type: Variable
-- Environments: All
-- Visibility: Masked
-- Flag Protect variable: selected
-- Flag Expand variable reference: selected
-
-
-* **CI_REGISTRY_USER**: username for login to gitlab - used to push/pull docker image on Container Registry (Deploy/Container Registry) 
-* **CI_REGISTRY_PASSWORD**: password for login to gitlab - used to push/pull docker image on Container Registry (Deploy/Container Registry)
-* **GITLAB_USER_EMAIL**: email of user to gitlab - needed to create secret on azure
-* **AZURE_CLIENT_ID**: field 'appId' in response of command: az ad sp create-for-rbac on azure
-* **AZURE_CLIENT_SECRET**: field 'password' in response of command: az ad sp create-for-rbac on azure
-* **AZURE_TENANT_ID**: field 'tenant' in response of command: az ad sp create-for-rbac on azure
-* **AZURE_RESOURCE_GROUP**: name of resource group on azure
-* **AZURE_KUBERNETES_NAME**: name of kubernetes (AKS) on azure
-* **SPRING_PROFILES_ACTIVE**: active spring profiles for cpt-web-app
-
-### AZURE
-- create resource group (ARG)
-- create Kubernetes service (AKS)
-- execute commands:
-  - az ad sp create-for-rbac --name "gitlab-cicd" --role contributor --scopes /subscriptions/<Subscription_ID>/resourceGroups/<ARG_name>
-    - Subscription_ID & ARG_name you can find in resource group details
-    - response has data for gitlab variables: AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_TENANT_ID
-    
-
-If commands throw errors with access denied etc., try to login first:
-- az login
-- az aks get-credentials --resource-group <ARG_name> --name <AKS_name>
+See [.env.azure.example](.env.azure.example) for the values it stores.
