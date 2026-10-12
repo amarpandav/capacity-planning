@@ -1,12 +1,22 @@
-#FROM maven:3.8.4-eclipse-temurin-11-alpine as compiler
-#WORKDIR /app
-#COPY pom.xml pom.xml
-#COPY src ./src
-#RUN mvn clean package
+# syntax=docker/dockerfile:1
 
+# --- Build: compiles the backend modules. The Angular UI has its own image (Dockerfile-ui),
+# so the build-mvn profile leaves out modules/cpt-ui.
+FROM maven:3.9-eclipse-temurin-21 AS build
+WORKDIR /build
+COPY pom.xml .
+COPY modules modules
+RUN --mount=type=cache,target=/root/.m2 \
+    mvn -B -Pbuild-mvn -DskipTests package
 
-FROM openjdk:21-oracle
+# --- Run
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-COPY /modules/cpt-web-app/target/*.jar ./app.jar
+RUN addgroup -S cpt && adduser -S cpt -G cpt
+COPY --from=build /build/modules/cpt-web-app/target/cpt-web-app-*.jar app.jar
+USER cpt
+
+# In-memory database with seeded test data; data is lost on restart (persistent Postgres: #18).
+ENV SPRING_PROFILES_ACTIVE=HSQLDB
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -11,8 +11,11 @@ server {
     }
 
     location /api/ {
-        proxy_pass http://cpt-web-app-service:8080;  # service name in AKS - proxy to backend app
-        proxy_set_header Host $host;
+        # BACKEND_URL is substituted at container start, e.g. http://cpt-web-app:8080 locally or the backend's
+        # internal https URL in Azure Container Apps. Host must be the backend's own host for ingress routing.
+        proxy_pass ${BACKEND_URL};
+        proxy_ssl_server_name on;
+        proxy_set_header Host $proxy_host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;

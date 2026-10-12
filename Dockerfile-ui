@@ -1,6 +1,18 @@
+# syntax=docker/dockerfile:1
+
+# --- Build: production Angular bundle
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY modules/cpt-ui/cpt-ui-angular/package.json modules/cpt-ui/cpt-ui-angular/package-lock.json ./
+RUN npm ci --no-audit --no-fund
+COPY modules/cpt-ui/cpt-ui-angular/ ./
+RUN npx ng build --configuration production
+
+# --- Serve: nginx serves the app and proxies /api to the backend.
+# The nginx image renders /etc/nginx/templates/*.template into conf.d at startup, substituting
+# environment variables such as BACKEND_URL (nginx's own $variables are left alone).
 FROM nginx:alpine
-COPY modules/cpt-ui/cpt-ui-angular/dist/cpt-ui-angular/browser /usr/share/nginx/html
-COPY modules/cpt-ui/cpt-ui-angular/cpt_nginx.conf /etc/nginx/conf.d/
-RUN ls -la /usr/share/nginx/html
+COPY --from=build /app/dist/cpt-ui-angular/browser /usr/share/nginx/html
+COPY modules/cpt-ui/cpt-ui-angular/cpt_nginx.conf.template /etc/nginx/templates/default.conf.template
+ENV BACKEND_URL=http://cpt-web-app:8080
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
