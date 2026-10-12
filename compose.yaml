@@ -1,0 +1,18 @@
+# Runs the production images locally: `docker compose up --build`, then open http://localhost:8081
+services:
+  cpt-web-app:
+    build:
+      context: .
+      dockerfile: Dockerfile-backend
+    # not published: the UI reaches it over the compose network, and 8080 stays free for local development
+
+  cpt-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile-ui
+    environment:
+      BACKEND_URL: http://cpt-web-app:8080
+    ports:
+      - "8081:80"
+    depends_on:
+      - cpt-web-app
