@@ -1,6 +1,8 @@
 # capacity-planning .
 capacity-planning
 
+**Azure setup (one-time):** `./scripts/azure-setup.sh` walks you through creating the Azure resources and the GitHub deploy identity (see #20).
+
 **To run locally:**
 SpringBoot: CptWebApplication
 VM arguments: 
