@@ -16,18 +16,19 @@ export class SchedulerHeaderService {
     findSchedulerHeader(schedulerSettings: SchedulerSettingsDto): SchedulerHeaderDto {
         //populate month header
         let monthHeaders : MonthHeaderDto[] = [];
-        for (let month = schedulerSettings.startMonthToView; month <= schedulerSettings.endMonthToView; month++) {
-            //this.monthsToView.push(SchedulerDto.monthNames[month]);
-            let noOfDays = new Date(schedulerSettings.yearToView, month + 1, 0).getDate();
-            let monthDto = new MonthHeaderDto(month, noOfDays);
-            monthHeaders.push(monthDto);
+        // Walk real dates so a view starting late in the year continues into the next year.
+        for (let i = 0; i < schedulerSettings.noOfMonthsToView; i++) {
+            let firstDay = new Date(schedulerSettings.yearToView, schedulerSettings.startMonthToView + i, 1);
+            let noOfDays = new Date(firstDay.getFullYear(), firstDay.getMonth() + 1, 0).getDate();
+            monthHeaders.push(new MonthHeaderDto(firstDay.getMonth(), firstDay.getFullYear(), noOfDays,
+                firstDay.getFullYear() !== schedulerSettings.yearToView));
         }
 
         //populate days header
         let dayHeaders : DayHeaderDto[] = [];
         monthHeaders.forEach((monthHeaderDto: MonthHeaderDto) => {
             let month = monthHeaderDto.month;
-            var date = new Date(schedulerSettings.yearToView, month, 1);
+            var date = new Date(monthHeaderDto.year, month, 1);
 
             while (date.getMonth() === month) {
                 dayHeaders.push(new DayHeaderDto(new Date(date)));
@@ -40,7 +41,10 @@ export class SchedulerHeaderService {
         
         dayHeaders.forEach((dayHeaderDto: DayHeaderDto) => {
             let weekNumber = parseInt("" + this.datePipe.transform(dayHeaderDto.day, 'w'));
-            let weekHeaderDto = weekHeaders.find(week => week.weekNumber === weekNumber);
+            // days are consecutive, so a day belongs to the last week unless its week number changed
+            // (looking up by number alone would merge e.g. week 1 of two different years)
+            let weekHeaderDto = weekHeaders.length > 0 && weekHeaders[weekHeaders.length - 1].weekNumber === weekNumber
+                ? weekHeaders[weekHeaders.length - 1] : undefined;
             if (weekHeaderDto) {
                 //We already exists
                 weekHeaderDto.increaseNoOfDaysByOne();

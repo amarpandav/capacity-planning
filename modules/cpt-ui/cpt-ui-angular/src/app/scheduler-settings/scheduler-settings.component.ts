@@ -92,6 +92,15 @@ export class SchedulerSettingsComponent implements OnChanges {
         });
     }
 
+    /**
+     * Moves the view one year back (-1) or forward (+1), keeping the selected start month and number of months.
+     */
+    onYearChange(delta: number) {
+        this.selectedYear = this.selectedYear + delta;
+        this.schedulerSettings = SchedulerSettingsDto.newInstance(this.selectedYear, this.startMonthToView, this.noOfMonthsToView);
+        this.schedulerSettingsOutput.emit(this.schedulerSettings);
+    }
+
     onMonthChange(monthNumber: number) {
         this.startMonthToView = monthNumber;
         this.schedulerSettings = SchedulerSettingsDto.newInstance(this.selectedYear, this.startMonthToView, this.noOfMonthsToView);

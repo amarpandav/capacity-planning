@@ -69,6 +69,15 @@ public class PodAssignmentTestData {
         return FIRST_MONDAY_OF_MONTH.plusWeeks(week).with(dayOfWeek);
     }
 
+    /**
+     * Monday of the second week of January, yearsAhead years from now (skips the New Year holidays).
+     * Used for data in later years, e.g. to check the scheduler across the year boundary.
+     */
+    private static LocalDate secondMondayOfJanuary(int yearsAhead) {
+        return LocalDate.now().plusYears(yearsAhead).withDayOfYear(1)
+                .with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY)).plusWeeks(1);
+    }
+
     public static class SuiteSynthetic extends TestDataSuite<PodAssignment> {
         public PodAssignment AMAR_ASSIGNMENT_1_ATLAS_ATLAS = register(new PodAssignmentTestData()
                 .withDay(day(0, DayOfWeek.FRIDAY))
@@ -136,15 +145,44 @@ public class PodAssignmentTestData {
         /**
          * Liam works for both pods in week 5: ATLAS in the mornings, ORION in the afternoons.
          */
-        public List<PodAssignment> LIAM_WEEK_ATLAS_MORNINGS_ORION_AFTERNOONS = registerWorkWeek(5,
+        public List<PodAssignment> LIAM_WEEK_ATLAS_MORNINGS_ORION_AFTERNOONS = registerWorkWeek(day(5, DayOfWeek.MONDAY),
                 PodMemberTestdata.suiteSynthetic().LIAM_FOR_ATLAS.getUser(),
                 PodTestdata.suiteSynthetic().ATLAS, PodTestdata.suiteSynthetic().ORION);
 
-        private List<PodAssignment> registerWorkWeek(int week, User user, Pod morningPod, Pod afternoonPod) {
+        // ── January next year (e.g. January 2027 when run in 2026) ──
+        public List<PodAssignment> JAN_NEXT_YEAR_AMAR_ATLAS_MORNINGS_ORION_AFTERNOONS = registerWorkWeek(secondMondayOfJanuary(1),
+                PodMemberTestdata.suiteSynthetic().AMAR_FOR_ATLAS.getUser(),
+                PodTestdata.suiteSynthetic().ATLAS, PodTestdata.suiteSynthetic().ORION);
+
+        public List<PodAssignment> JAN_NEXT_YEAR_TOBIAS_ATLAS = registerWorkWeek(secondMondayOfJanuary(1),
+                PodMemberTestdata.suiteSynthetic().TOBIAS_FOR_ATLAS.getUser(),
+                PodTestdata.suiteSynthetic().ATLAS, PodTestdata.suiteSynthetic().ATLAS);
+
+        public List<PodAssignment> JAN_NEXT_YEAR_KEVIN_ORION = registerWorkWeek(secondMondayOfJanuary(1),
+                PodMemberTestdata.suiteSynthetic().KEVIN_FOR_ORION.getUser(),
+                PodTestdata.suiteSynthetic().ORION, PodTestdata.suiteSynthetic().ORION);
+
+        // ── January the year after (e.g. January 2028 when run in 2026) ──
+        public List<PodAssignment> JAN_YEAR_AFTER_LIAM_ATLAS_MORNINGS_ORION_AFTERNOONS = registerWorkWeek(secondMondayOfJanuary(2),
+                PodMemberTestdata.suiteSynthetic().LIAM_FOR_ATLAS.getUser(),
+                PodTestdata.suiteSynthetic().ATLAS, PodTestdata.suiteSynthetic().ORION);
+
+        public List<PodAssignment> JAN_YEAR_AFTER_RACHEL_ATLAS = registerWorkWeek(secondMondayOfJanuary(2),
+                PodMemberTestdata.suiteSynthetic().RACHEL_FOR_ATLAS.getUser(),
+                PodTestdata.suiteSynthetic().ATLAS, PodTestdata.suiteSynthetic().ATLAS);
+
+        public List<PodAssignment> JAN_YEAR_AFTER_OLIVER_ORION = registerWorkWeek(secondMondayOfJanuary(2),
+                PodMemberTestdata.suiteSynthetic().OLIVER_FOR_ORION.getUser(),
+                PodTestdata.suiteSynthetic().ORION, PodTestdata.suiteSynthetic().ORION);
+
+        /**
+         * Monday to Friday of the week starting on monday, with the given pods in the mornings and afternoons.
+         */
+        private List<PodAssignment> registerWorkWeek(LocalDate monday, User user, Pod morningPod, Pod afternoonPod) {
             List<PodAssignment> podAssignments = new ArrayList<>();
             for (DayOfWeek dayOfWeek = DayOfWeek.MONDAY; dayOfWeek != DayOfWeek.SATURDAY; dayOfWeek = dayOfWeek.plus(1)) {
                 podAssignments.add(register(new PodAssignmentTestData()
-                        .withDay(day(week, dayOfWeek))
+                        .withDay(monday.with(dayOfWeek))
                         .withUser(user)
                         .withMorningAvailabilityType(AvailabilityType.POD_ASSIGNMENT)
                         .withAfternoonAvailabilityType(AvailabilityType.POD_ASSIGNMENT)
