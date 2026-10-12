@@ -1,7 +1,13 @@
 <div style="display: flex">
     <div class="card" style="width: 130px; margin-right:10px">
         <div class="card-body" style="padding: 5px">
-            <h6 class="card-title" style="text-align: center">{{ selectedYear }}</h6>
+            <h6 class="card-title d-flex justify-content-between align-items-center">
+                <button type="button" class="btn btn-sm btn-link p-0" title="Previous year"
+                        aria-label="Previous year" (click)="onYearChange(-1)"><i class="bi bi-chevron-left"></i></button>
+                {{ selectedYear }}
+                <button type="button" class="btn btn-sm btn-link p-0" title="Next year"
+                        aria-label="Next year" (click)="onYearChange(1)"><i class="bi bi-chevron-right"></i></button>
+            </h6>
             <div class="row settingsContainer" style="width: 120px">
                 @for (monthName of AppConstants.monthShortNames; track $index) {
                     <div class="col-4">

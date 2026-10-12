@@ -5,8 +5,6 @@
  */
 export class SchedulerSettingsDto {
 
-  endMonthToView: number;
-
   startDate: Date;
 
   endDate: Date;
@@ -15,13 +13,10 @@ export class SchedulerSettingsDto {
 
     this.startMonthToView = this.startMonthToView >= 12 ? 11 : this.startMonthToView; //in real app we do not need it as user will not enter number instead they will select month name directly
 
-    let endMonth: number = this.noOfMonthsToView - 1;
-
-    this.endMonthToView = (this.startMonthToView + endMonth) >= 12 ? 12 : (this.startMonthToView + endMonth);
-
-    this.startDate = new Date(yearToView, startMonthToView, 1);
-    this.endDate = new Date(yearToView, this.endMonthToView+1, 1); // go to start of next month
-    this.endDate.setDate(this.endDate.getDate()-1); //go back 1 day which would be end of that month
+    this.startDate = new Date(yearToView, this.startMonthToView, 1);
+    // Day 0 of the month after the last viewed month is the last viewed day; Date rolls over into the next year,
+    // e.g. December + 3 months ends on the last day of February next year.
+    this.endDate = new Date(yearToView, this.startMonthToView + this.noOfMonthsToView, 0);
 
   }
 
