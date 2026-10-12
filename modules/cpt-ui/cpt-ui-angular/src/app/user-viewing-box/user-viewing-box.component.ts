@@ -6,6 +6,7 @@ import {UserKey} from "../scheduler/models/user/userKey.model";
 import {PodMemberRole} from "../scheduler/models/pod/pom-member-role.enum";
 import {UserComponent} from "../user/user.component";
 
+import {LOGGED_IN_EMPLOYEE_ID} from "../auth/acting-user";
 @Component({
     selector: 'app-user-viewing-box',
     standalone: true,
@@ -18,9 +19,9 @@ import {UserComponent} from "../user/user.component";
 export class UserViewingBoxComponent implements OnInit {
 
     //Original logged in user before switching. We need that inorder to switch back
-    loggedInUserKey = new UserKey("10000001");//Amar Pandav
+    loggedInUserKey = new UserKey(LOGGED_IN_EMPLOYEE_ID);
 
-    selectedUserKey = new UserKey("10000001");//Amar Pandav
+    selectedUserKey = new UserKey(LOGGED_IN_EMPLOYEE_ID);
 
     selectedUser?: UserDto;
     selectedUserPodMemberRole =  input<PodMemberRole>();

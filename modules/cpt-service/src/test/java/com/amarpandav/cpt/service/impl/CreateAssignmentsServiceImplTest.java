@@ -6,6 +6,7 @@ import com.amarpandav.cpt.domain.entity.pod.Pod;
 import com.amarpandav.cpt.domain.entity.pod.PodAssignment;
 import com.amarpandav.cpt.domain.entity.user.User;
 import com.amarpandav.cpt.domain.entity.user.UserKey;
+import com.amarpandav.cpt.infra.exception.NotPodLeadException;
 import com.amarpandav.cpt.infra.exception.PodNotFoundException;
 import com.amarpandav.cpt.service.dto.AssignmentsRequest;
 import com.amarpandav.cpt.service.dto.TimeSlot;
@@ -13,6 +14,7 @@ import com.amarpandav.cpt.service.repository.PodAssignmentRepository;
 import com.amarpandav.cpt.service.repository.PodRepository;
 import com.amarpandav.cpt.service.repository.UserRepository;
 import com.amarpandav.cpt.testdata.pod.PodTestdata;
+import com.amarpandav.cpt.testdata.user.UserTestdata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -38,6 +40,10 @@ class CreateAssignmentsServiceImplTest {
             END_DATE = LocalDate.of(2024, 9, 3);
     public static final User USER_1 = new User("Liam", new UserKey("456123"));
     public static final User USER_2 = new User("Amar", new UserKey("123456"));
+    // ORION's pod lead
+    private static final UserKey TARA = UserTestdata.suiteSynthetic().TARA.getKey();
+    // member of ORION, but not its pod lead
+    private static final UserKey AMAR = UserTestdata.suiteSynthetic().AMAR.getKey();
 
     private CreateAssignmentsServiceImpl service;
     private PodAssignmentRepository podAssignmentRepositoryMock;
@@ -58,7 +64,7 @@ class CreateAssignmentsServiceImplTest {
         when(podRepositoryMock.findById(eq(podId))).thenReturn(Optional.empty());
         assertThrows(PodNotFoundException.class,
                 () -> service.execute(new AssignmentsRequest(podId.getUuid(),
-                        Collections.emptySet(), START_DATE, END_DATE, TimeSlot.MORNING, TimeSlot.AFTERNOON)));
+                        Collections.emptySet(), START_DATE, END_DATE, TimeSlot.MORNING, TimeSlot.AFTERNOON), TARA));
     }
 
     @Test
@@ -66,7 +72,7 @@ class CreateAssignmentsServiceImplTest {
         EntityId<Pod> podId = EntityId.create();
         assertThrows(IllegalArgumentException.class,
                 () -> service.execute(new AssignmentsRequest(podId.getUuid(),
-                        Collections.emptySet(), START_DATE, START_DATE.plusMonths(13), TimeSlot.MORNING, TimeSlot.AFTERNOON)));
+                        Collections.emptySet(), START_DATE, START_DATE.plusMonths(13), TimeSlot.MORNING, TimeSlot.AFTERNOON), TARA));
     }
 
     @Test
@@ -130,8 +136,21 @@ class CreateAssignmentsServiceImplTest {
         assertEquals(0, argumentCaptor.getValue().size());
     }
 
+    @Test
+    void whenActingUserIsNotPodLead_thenThrowsAndSavesNothing() {
+        Pod orion = PodTestdata.suiteSynthetic().ORION;
+        when(podRepositoryMock.findById(eq(orion.getEntityId()))).thenReturn(Optional.of(orion));
+
+        NotPodLeadException ex = assertThrows(NotPodLeadException.class, () -> service.execute(new AssignmentsRequest(
+                orion.getEntityId().getUuid(), USER_IDS, START_DATE, END_DATE, TimeSlot.MORNING, TimeSlot.AFTERNOON), AMAR));
+
+        assertEquals("ORION", ex.getPodShortName());
+        assertEquals(List.of("Tara Stone"), ex.getPodLeadNames());
+        verify(podAssignmentRepositoryMock, never()).saveAll(any());
+    }
+
     private void executeService(EntityId<Pod> podId) {
         service.execute(new AssignmentsRequest(podId.getUuid(),
-                USER_IDS, START_DATE, END_DATE, TimeSlot.MORNING, TimeSlot.AFTERNOON));
+                USER_IDS, START_DATE, END_DATE, TimeSlot.MORNING, TimeSlot.AFTERNOON), TARA);
     }
 }

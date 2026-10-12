@@ -4,6 +4,7 @@ import com.amarpandav.cpt.domain.EntityId;
 import com.amarpandav.cpt.domain.entity.pod.Pod;
 import com.amarpandav.cpt.domain.entity.pod.PodAssignment;
 import com.amarpandav.cpt.domain.entity.user.User;
+import com.amarpandav.cpt.domain.entity.user.UserKey;
 import com.amarpandav.cpt.infra.exception.PodNotFoundException;
 import com.amarpandav.cpt.service.CreateAssignmentsService;
 import com.amarpandav.cpt.service.dto.AssignmentsRequest;
@@ -38,12 +39,13 @@ public class CreateAssignmentsServiceImpl implements CreateAssignmentsService {
 
     @Transactional
     @Override
-    public void execute(AssignmentsRequest request) {
+    public void execute(AssignmentsRequest request, UserKey actingUser) {
         log.info("creating pod assignments for request: {}", request);
         validate(request);
         String podId = request.podId();
         Pod pod = podRepository.findById(new EntityId<>(podId))
                 .orElseThrow(() -> new PodNotFoundException("pod not found by id " + podId));
+        PodLeadCheck.requirePodLead(pod, actingUser);
 
         LocalDate startDate = request.startDate();
         LocalDate endDate = request.endDate();

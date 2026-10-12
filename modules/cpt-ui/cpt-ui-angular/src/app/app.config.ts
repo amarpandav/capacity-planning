@@ -8,6 +8,7 @@ import {provideToastr} from "ngx-toastr";
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {DatePipe} from "@angular/common";
 import {JsonDateInterceptor} from "./utils/JsonDateInterceptor";
+import {actingUserInterceptor} from "./auth/acting-user";
 //import {TaskService} from "./section1/service-samples/sample1/task.service";
 
 export const appConfig: ApplicationConfig = {
@@ -28,7 +29,7 @@ export const appConfig: ApplicationConfig = {
           useClass: JsonDateInterceptor,
           multi: true // Allow multiple interceptors
         }*/
-        provideHttpClient(withInterceptors([DateInterceptor])),
+        provideHttpClient(withInterceptors([DateInterceptor, actingUserInterceptor])),
     ]
 
     //providers: [TaskService, provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]

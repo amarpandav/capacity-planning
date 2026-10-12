@@ -23,6 +23,13 @@ import {
     StartOrEndDayToAssign
 } from "./models/pod-assignment-request/pod-assignment-create-request.model";
 import {SchedulerService} from "./scheduler.service";
+import {ToastrService} from "ngx-toastr";
+import {
+    isNotPodLead,
+    NotPodLeadDto,
+    SkippedPodDto,
+    UnassignPodResultDto
+} from "./models/pod-assignment-request/unassign-pod-result.model";
 import {Subscription} from "rxjs";
 import {SchedulerHeaderDto} from "../scheduler-header/scheduler-header.model";
 import {SchedulerHeaderService} from "../scheduler-header/scheduler-header.service";
@@ -98,7 +105,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     constructor(private datePipe: DatePipe,
                 private destroyRef: DestroyRef,
                 private schedulerService: SchedulerService,
-                private schedulerHeaderService: SchedulerHeaderService) {
+                private schedulerHeaderService: SchedulerHeaderService,
+                private toastrService: ToastrService) {
         this.schedulerSettings = SchedulerSettingsDto.newDefaultInstance();
         this.schedulerHeader = this.schedulerHeaderService.findSchedulerHeader(this.schedulerSettings);
     }
@@ -602,15 +610,65 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
     private unassignPodAssignmentRequest(podAssignmentRequest: PodAssignmentCreateRequestDto) {
         const subscription1 = this.schedulerService.unassignPodAssignmentRequest(podAssignmentRequest)
             .subscribe({
-                    next: () => {
+                    next: (result: UnassignPodResultDto) => {
                         //reload assignments after unassigning.
                         this.findMyPodAssignments();
-                    }
+                        this.warnAboutSkippedPods(result?.skippedPods ?? []);
+                    },
+                    error: (error) => this.onAssignmentChangeRejected(error)
                 }
             );
 
         //Destroy is optional
         this.destroySubscription(subscription1);
+    }
+
+    /**
+     * Only a pod's own pod leads may remove its assignments, so slots of other pods in the dragged range are kept.
+     * Tell the user which pods those were and whom to talk to.
+     */
+    private warnAboutSkippedPods(skippedPods: SkippedPodDto[]) {
+        if (skippedPods.length === 0) {
+            return;
+        }
+        const podLines = skippedPods
+            .map((skippedPod) => `<li>${this.podWithLeadsHtml(skippedPod.podShortName, skippedPod.podName, skippedPod.podLeadNames)}</li>`)
+            .join('');
+        this.showPodLeadToast(
+            `Some slots belong to other pods. Please ask their pod lead to adjust them:<ul class="mb-0 ps-3">${podLines}</ul>`,
+            'Assignments of other pods kept');
+    }
+
+    /**
+     * The backend refuses assigning to or unassigning from a pod unless the acting user is one of its pod leads.
+     * Reload so slots painted during the drag are reverted.
+     */
+    private onAssignmentChangeRejected(error: unknown) {
+        this.findMyPodAssignments();
+        if (isNotPodLead(error)) {
+            const notPodLead: NotPodLeadDto = error;
+            this.showPodLeadToast(
+                `Only its pod lead can change these assignments. Please ask them to adjust it:<ul class="mb-0 ps-3"><li>${this.podWithLeadsHtml(notPodLead.podShortName, notPodLead.podName, notPodLead.podLeadNames)}</li></ul>`,
+                'You are not a pod lead of ' + notPodLead.podShortName,
+                true);
+        }
+    }
+
+    private podWithLeadsHtml(podShortName: string, podName: string, podLeadNames: string[]): string {
+        const escape = (text: string) => text
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        const podLeads = podLeadNames.length > 0 ? podLeadNames.map(escape).join(', ') : 'no pod lead assigned';
+        return `<b>${escape(podShortName)}</b> (${escape(podName)}): ${podLeads}`;
+    }
+
+    private showPodLeadToast(htmlMessage: string, title: string, isError = false) {
+        const options = {enableHtml: true, timeOut: 10000, closeButton: true, progressBar: true,
+            positionClass: 'toast-bottom-center', toastClass: 'ngx-toastr toast-wide'};
+        if (isError) {
+            this.toastrService.error(htmlMessage, title, options);
+        } else {
+            this.toastrService.warning(htmlMessage, title, options);
+        }
     }
 
     private createPodAssignmentCreateRequest(podAssignmentCreateRequest: PodAssignmentCreateRequestDto) {
@@ -620,7 +678,8 @@ export class SchedulerComponent implements OnInit, AfterViewInit {
                         //console.log("whatever:" + JSON.stringify(whatever));
                         //reload assignments after booking.
                         this.findMyPodAssignments();
-                    }
+                    },
+                    error: (error) => this.onAssignmentChangeRejected(error)
                 }
             );
 
