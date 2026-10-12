@@ -79,3 +79,7 @@ fabric.properties
 
 # macOS
 .DS_Store
+
+# Local env files (e.g. written by scripts/azure-setup.sh)
+.env
+.env.*
