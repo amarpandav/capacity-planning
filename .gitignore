@@ -83,3 +83,4 @@ fabric.properties
 # Local env files (e.g. written by scripts/azure-setup.sh)
 .env
 .env.*
+!.env*.example
