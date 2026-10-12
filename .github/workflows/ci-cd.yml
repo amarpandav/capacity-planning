@@ -1,0 +1,148 @@
+# Tests every pull request; builds, pushes and deploys every push to main (#21).
+# Azure resources and the GitHub secrets/variables used below come from scripts/azure-setup.sh (#20).
+name: CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  IMAGE_PREFIX: ghcr.io/${{ github.repository }}
+
+jobs:
+  backend-tests:
+    name: Backend tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      # build-mvn leaves out the Angular module; the UI is checked by the job below
+      - run: mvn -B -Pbuild-mvn verify
+
+  ui-build:
+    name: UI build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: modules/cpt-ui/cpt-ui-angular
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: modules/cpt-ui/cpt-ui-angular/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npx ng build --configuration production
+
+  images:
+    name: Build and push images
+    needs: [backend-tests, ui-build]
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        include:
+          - name: cpt-web-app
+            dockerfile: Dockerfile-backend
+          - name: cpt-ui
+            dockerfile: Dockerfile-ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          push: true
+          tags: |
+            ${{ env.IMAGE_PREFIX }}/${{ matrix.name }}:${{ github.sha }}
+            ${{ env.IMAGE_PREFIX }}/${{ matrix.name }}:latest
+          labels: org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}
+
+  deploy:
+    name: Deploy to Azure Container Apps
+    needs: images
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write   # OIDC sign-in to Azure, no stored password
+    env:
+      RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+      ENVIRONMENT: ${{ vars.AZURE_CONTAINERAPPS_ENV }}
+      BACKEND_APP: ${{ vars.AZURE_BACKEND_APP }}
+      UI_APP: ${{ vars.AZURE_UI_APP }}
+      BACKEND_IMAGE: ghcr.io/${{ github.repository }}/cpt-web-app:${{ github.sha }}
+      UI_IMAGE: ghcr.io/${{ github.repository }}/cpt-ui:${{ github.sha }}
+    steps:
+      # Container Apps pulls the images without credentials, so the packages must be public.
+      - name: Check images are publicly pullable
+        run: |
+          for name in cpt-web-app cpt-ui; do
+            repo="${GITHUB_REPOSITORY,,}/$name"
+            if ! curl -fsS "https://ghcr.io/token?scope=repository:${repo}:pull" -o /dev/null; then
+              echo "::error::ghcr.io/${repo} is private. Make it public once: GitHub → your profile → Packages → ${GITHUB_REPOSITORY#*/}/${name} → Package settings → Change visibility → Public. Then re-run this job."
+              exit 1
+            fi
+          done
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy backend (internal ingress, scale to zero)
+        run: |
+          az config set extension.use_dynamic_install=yes_without_prompt --only-show-errors
+          if az containerapp show -n "$BACKEND_APP" -g "$RESOURCE_GROUP" -o none 2>/dev/null; then
+            az containerapp update -n "$BACKEND_APP" -g "$RESOURCE_GROUP" --image "$BACKEND_IMAGE" -o none
+          else
+            az containerapp create -n "$BACKEND_APP" -g "$RESOURCE_GROUP" --environment "$ENVIRONMENT" \
+              --image "$BACKEND_IMAGE" --ingress internal --target-port 8080 \
+              --cpu 0.5 --memory 1.0Gi --min-replicas 0 --max-replicas 1 -o none
+          fi
+
+      - name: Deploy UI (public ingress, scale to zero)
+        run: |
+          backend_fqdn=$(az containerapp show -n "$BACKEND_APP" -g "$RESOURCE_GROUP" \
+            --query properties.configuration.ingress.fqdn -o tsv)
+          backend_url="https://${backend_fqdn}"
+          if az containerapp show -n "$UI_APP" -g "$RESOURCE_GROUP" -o none 2>/dev/null; then
+            az containerapp update -n "$UI_APP" -g "$RESOURCE_GROUP" --image "$UI_IMAGE" \
+              --set-env-vars "BACKEND_URL=${backend_url}" -o none
+          else
+            az containerapp create -n "$UI_APP" -g "$RESOURCE_GROUP" --environment "$ENVIRONMENT" \
+              --image "$UI_IMAGE" --ingress external --target-port 80 \
+              --env-vars "BACKEND_URL=${backend_url}" \
+              --cpu 0.25 --memory 0.5Gi --min-replicas 0 --max-replicas 1 -o none
+          fi
+          ui_url="https://$(az containerapp show -n "$UI_APP" -g "$RESOURCE_GROUP" \
+            --query properties.configuration.ingress.fqdn -o tsv)"
+          echo "App: ${ui_url}"
+          echo "### Deployed :rocket:" >> "$GITHUB_STEP_SUMMARY"
+          echo "${ui_url}" >> "$GITHUB_STEP_SUMMARY"
