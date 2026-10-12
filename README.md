@@ -2,6 +2,7 @@
 capacity-planning
 
 **Azure setup (one-time):** `./scripts/azure-setup.sh` walks you through creating the Azure resources and the GitHub deploy identity (see #20).
+run az login and above command and .env.azure file will be re-created. we can't push this file as my repo is public.
 
 **To run locally:**
 SpringBoot: CptWebApplication
