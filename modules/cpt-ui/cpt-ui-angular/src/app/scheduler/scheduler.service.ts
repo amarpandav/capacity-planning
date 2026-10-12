@@ -15,6 +15,7 @@ import {PodAssignmentViewDto} from "./models/pod-assignment/pod-assignment-view.
 import {EntityId} from "./models/entityId.model";
 import {UserAssignmentDto} from "./models/pod-assignment/user-assignment.model";
 import {PodAssignmentCreateRequestDto} from "./models/pod-assignment-request/pod-assignment-create-request.model";
+import {isNotPodLead, UnassignPodResultDto} from "./models/pod-assignment-request/unassign-pod-result.model";
 
 const PRODUCE_UI_TEST_DATA = true;
 
@@ -69,6 +70,9 @@ export class SchedulerService {
                 }),
                 //map( (resBody) => resBody.places),
                 catchError((error: HttpErrorResponse) => {
+                        if (isNotPodLead(error.error)) {
+                            return throwError(() => error.error); // shown as a toast by the caller
+                        }
                         this.errorService.showError(error, 'Failed to perform createPodAssignmentRequest');
                         return throwError(() => new Error('Something went wrong : ' + error));
 
@@ -77,12 +81,16 @@ export class SchedulerService {
     }
 
     /**
-     * Clears the pod from the given users' half-day slots in the range. Slots assigned to other pods are left untouched.
+     * Clears the pod from the given users' half-day slots in the range. Slots assigned to other pods are left untouched
+     * and returned as skipped pods, with their pod leads.
      */
-    unassignPodAssignmentRequest(podAssignmentRequestDto: PodAssignmentCreateRequestDto): Observable<any> {
-        return this.httpClient.put(`${environment.apiUrl}/pods/` + podAssignmentRequestDto.podId + `/assignments`, podAssignmentRequestDto)
+    unassignPodAssignmentRequest(podAssignmentRequestDto: PodAssignmentCreateRequestDto): Observable<UnassignPodResultDto> {
+        return this.httpClient.put<UnassignPodResultDto>(`${environment.apiUrl}/pods/` + podAssignmentRequestDto.podId + `/assignments`, podAssignmentRequestDto)
             .pipe(
                 catchError((error: HttpErrorResponse) => {
+                    if (isNotPodLead(error.error)) {
+                        return throwError(() => error.error); // shown as a toast by the caller
+                    }
                     this.errorService.showError(error, 'Failed to perform unassignPodAssignmentRequest');
                     return throwError(() => new Error('Something went wrong : ' + error));
                 })

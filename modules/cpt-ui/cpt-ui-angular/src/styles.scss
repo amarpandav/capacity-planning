@@ -160,3 +160,8 @@ dialog.myDialog::backdrop {
   justify-content: flex-end;
   gap: 1rem;
 }
+/* Wider toast for messages that list several items, e.g. pods kept while unassigning. */
+.toast-container .ngx-toastr.toast-wide {
+  width: 560px;
+  max-width: calc(100vw - 32px);
+}

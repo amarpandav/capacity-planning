@@ -2,12 +2,16 @@ package com.amarpandav.cpt.domain.entity.pod;
 
 import com.amarpandav.cpt.domain.BaseEntity;
 import com.amarpandav.cpt.domain.base.FieldConstants;
+import com.amarpandav.cpt.domain.entity.user.User;
+import com.amarpandav.cpt.domain.entity.user.UserKey;
 import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -74,6 +78,21 @@ public class Pod extends BaseEntity<Pod> {
 
     public Set<PodMember> getPodMembers() {
         return Collections.unmodifiableSet(podMembers);
+    }
+
+    /**
+     * Users holding the POD_LEAD role in this pod, sorted by name. Only they may change the pod's assignments.
+     */
+    public List<User> getPodLeads() {
+        return podMembers.stream()
+                .filter(pm -> pm.getPodMemberRole().isPodLead())
+                .map(PodMember::getUser)
+                .sorted(Comparator.comparing(User::getName))
+                .toList();
+    }
+
+    public boolean isPodLead(UserKey userKey) {
+        return getPodLeads().stream().anyMatch(user -> user.getKey().equals(userKey));
     }
 
     public void addPodWatcher(PodWatcher pw) {
